@@ -1,0 +1,5 @@
+{"check": "S1 idle bet completes", "ok": true, "finish": "length"}
+{"check": "S2 non-streaming bet rejected", "ok": true, "finish": "abort", "stop": "sptc_bet_rejected", "text": ""}
+{"check": "S2 streaming bet ends without finish_reason (documented vLLM behaviour)", "ok": true, "finish": null, "stop": null, "text": ""}
+{"check": "S3 early call completes", "ok": true, "finishes": ["length", "length", "length", "length", "length", "length"]}
+{"check": "S3 allowance shortens the concurrent stream's longest stall", "ok": true, "median_max_gap_ms": {"untagged": 892.3, "tagged": 468.07}, "passes": {"untagged": [{"max_gap_ms": 892.3, "gaps_over_3x_median": 2, "median_gap_ms": 32.95}, {"max_gap_ms": 906.73, "gaps_over_3x_median": 2, "median_gap_ms": 33.05}, {"max_gap_ms": 878.85, "gaps_over_3x_median": 2, "median_gap_ms": 32.98}], "tagged": [{"max_gap_ms": 478.64, "gaps_over_3x_median": 5, "median_gap_ms": 33.58}, {"max_gap_ms": 468.07, "gaps_over_3x_median": 5, "median_gap_ms": 32.79}, {"max_gap_ms": 466.74, "gaps_over_3x_median": 5, "median_gap_ms": 33.21}]}}

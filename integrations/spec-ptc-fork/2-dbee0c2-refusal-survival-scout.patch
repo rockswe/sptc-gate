@@ -1,0 +1,1670 @@
+diff --git a/benchmark/suite/patterns_v7.py b/benchmark/suite/patterns_v7.py
+new file mode 100644
+index 0000000..4dea588
+--- /dev/null
++++ b/benchmark/suite/patterns_v7.py
+@@ -0,0 +1,107 @@
++"""V7: loop shapes recorded from real RLM runs (OOLONG, Qwen3-30B-A3B, 2026-11-09).
++
++In the earlier waves a call's result is used after the loop, so the shadow launches a
++loop's calls together. A model writing its own RLM code uses each result inside the
++loop: it parses it, counts it, extends a list with it. The shadow then stalls at every
++call, and calls that need nothing from each other go out one after another. In the
++recorded streaming runs that was 73% of the time still spent waiting after the stream.
++
++The three programs are the model's own, shortened and pointed at the suite's corpus.
++With the scout pass (SpecSession(scout=True)) every call should be in flight before the
++first one answers."""
++
++from benchmark.suite.patterns import PATTERNS, Pattern
++
++
++def _p(**kw):
++    PATTERNS.append(Pattern(**kw))
++
++
++def _answered(ns, n):
++    ans = ns.get("answer") or {}
++    return 1.0 if ans.get("ready") and str(ans.get("content")) == str(n) else 0.0
++
++
++_p(
++    name="rec_helper_loop",
++    category="hard",
++    n_expected_calls=16,
++    sub_max_tokens=24,
++    hypothesis=(
++        "A helper with a loop that splits each answer as soon as it has it. As shipped: "
++        "one call in flight at a time, no better than the baseline. With the scout: all "
++        "16 in flight before the first answer."
++    ),
++    code=(
++        "lines = context.split('\\n')\n"
++        "def create_prompt(batch):\n"
++        "    return 'In at most six words, what do these reports share? ' + ' / '.join(batch)\n"
++        "def classify_all(lines, batch_size=2):\n"
++        "    results = []\n"
++        "    for i in range(0, len(lines), batch_size):\n"
++        "        batch = lines[i:i + batch_size]\n"
++        "        prompt = create_prompt(batch)\n"
++        "        batch_results = llm_query(prompt).strip().split('\\n')\n"
++        "        results.extend(batch_results[:1])\n"
++        "        print(f'Processed batch {i//batch_size + 1}')\n"
++        "    return results\n"
++        "all_c = classify_all(lines, batch_size=2)\n"
++        "answer['content'] = str(len(all_c))\nanswer['ready'] = True"
++    ),
++    check=lambda ns: _answered(ns, 16),
++)
++
++_p(
++    name="rec_batched_counter",
++    category="hard",
++    n_expected_calls=32,
++    sub_max_tokens=8,
++    hypothesis=(
++        "Batches of four in a loop, each result counted before the next batch. As "
++        "shipped: one batch at a time. With the scout: all 32 calls in flight at once."
++    ),
++    code=(
++        "from collections import Counter\n"
++        "lines = context.split('\\n')\n"
++        "label_counts = Counter()\n"
++        "batch_size = 4\n"
++        "for i in range(0, len(lines), batch_size):\n"
++        "    batch = lines[i:i+batch_size]\n"
++        "    prompts = [f'One word, revenue, safety, latency or quality. Topic of: {q}' for q in batch]\n"
++        "    results = llm_query_batched(prompts)\n"
++        "    for r in results:\n"
++        "        label_counts[r] += 1\n"
++        "answer['content'] = str(sum(label_counts.values()))\nanswer['ready'] = True"
++    ),
++    check=lambda ns: _answered(ns, 32),
++)
++
++_p(
++    name="rec_try_loop",
++    category="hard",
++    n_expected_calls=8,
++    sub_max_tokens=48,
++    hypothesis=(
++        "A loop with the call inside try, the answer parsed right away, and a per-line "
++        "fallback in except. As shipped: one call at a time. With the scout: the 8 calls "
++        "at once, and none of the fallback's."
++    ),
++    code=(
++        "lines = context.split('\\n')\n"
++        "labels = []\n"
++        "for i in range(0, len(lines), 4):\n"
++        "    batch = lines[i:i + 4]\n"
++        "    prompt = ('For each report, one word for its topic, one per line:\\n' + '\\n'.join(batch))\n"
++        "    try:\n"
++        "        response = llm_query(prompt)\n"
++        "        batch_labels = [ln.strip() for ln in response.strip().split('\\n') if ln.strip()]\n"
++        "        labels.append(len(batch_labels))\n"
++        "        print(f'Processed batch {i//4 + 1}, first: {batch_labels[:1]}')\n"
++        "    except Exception as e:\n"
++        "        print(f'Error in batch: {e}')\n"
++        "        for q in batch:\n"
++        "            labels.append(llm_query(f'One word for the topic of: {q}').strip())\n"
++        "answer['content'] = str(len(labels))\nanswer['ready'] = True"
++    ),
++    check=lambda ns: _answered(ns, 8),
++)
+diff --git a/demo/rlm.py b/demo/rlm.py
+index 5401b76..58a9b16 100644
+--- a/demo/rlm.py
++++ b/demo/rlm.py
+@@ -20,8 +20,18 @@ class SpeculativeLocalREPL(LocalREPL):
+         spec_max_inflight: int = 16,
+         subcall_override: Callable[..., str] | None = None,
+         auto_speculate: bool = True,
++        spec_scout: bool = False,
++        spec_rlm_query: bool = False,
+         **kwargs: Any,
+     ) -> None:
++        """spec_scout: run the scout pass ahead of the shadow, so a loop's independent
++        calls go out together (spec_ptc.engine.shadow, ShadowRunner._scout_one).
++
++        spec_rlm_query: speculate rlm_query / rlm_query_batched too, when this REPL has no
++        recursion (no subcall_fn, rlms' default depth of 1). rlms itself then runs them
++        as llm_query / llm_query_batched, so they are the same plain sub-calls. Off by
++        default: as shipped they are never speculated, and using their result stops the
++        shadow for the turn."""
+         self._auto_speculate = auto_speculate
+         super().__init__(*args, **kwargs)
+         self.bus = spec_bus or EventBus()
+@@ -43,20 +53,44 @@ class SpeculativeLocalREPL(LocalREPL):
+             batched=True,
+             latency_hint_ms=2000,
+         )
+-        # unmarked (never speculated): the shadow returns an inert marker
+-        # instead of NameError-aborting or recursing into a real sub-RLM
+-        self.reg.register("rlm_query", LocalREPL._rlm_query.__get__(self))
+-        self.reg.register("rlm_query_batched", LocalREPL._rlm_query_batched.__get__(self))
++        self._spec_rlm = spec_rlm_query and getattr(self, "subcall_fn", None) is None
++        if self._spec_rlm:  # no recursion: rlm_query is llm_query under another name
++            self.reg.register(
++                "rlm_query", base_single, speculatable=True, pure=True, latency_hint_ms=2000
++            )
++            self.reg.register(
++                "rlm_query_batched",
++                base_batched,
++                speculatable=True,
++                pure=True,
++                batched=True,
++                latency_hint_ms=2000,
++            )
++        else:
++            # unmarked (never speculated): the shadow returns an inert marker
++            # instead of NameError-aborting or recursing into a real sub-RLM
++            self.reg.register("rlm_query", LocalREPL._rlm_query.__get__(self))
++            self.reg.register("rlm_query_batched", LocalREPL._rlm_query_batched.__get__(self))
+         self.session = SpecSession(
+-            self.reg, self.bus, max_inflight=spec_max_inflight, max_dispatches_per_turn=4096
++            self.reg,
++            self.bus,
++            max_inflight=spec_max_inflight,
++            max_dispatches_per_turn=4096,
++            scout=spec_scout,
+         )
+         self.spec_store = self.session.store
+         self.spec_launcher = self.session.launcher
+         self._real_hooks = self.session.real_hooks()
+         self._turn: StreamTurn | None = None
+-        # rebind the REPL-visible hooks to the claiming versions
++        self._bind_claiming_hooks()
++
++    def _bind_claiming_hooks(self) -> None:
++        """Point the REPL-visible tool names at the claiming versions."""
+         self.globals["llm_query"] = self._spec_llm_query
+         self.globals["llm_query_batched"] = self._spec_llm_query_batched
++        if self._spec_rlm:
++            self.globals["rlm_query"] = self._spec_rlm_query
++            self.globals["rlm_query_batched"] = self._spec_rlm_query_batched
+ 
+     # ---- the REPL-visible hooks (waiting mode) -------------------------------
+     def _spec_llm_query(self, prompt: str, model: str | None = None) -> str:
+@@ -67,12 +101,19 @@ class SpeculativeLocalREPL(LocalREPL):
+     ) -> list[str]:
+         return self._real_hooks["llm_query_batched"](prompts)
+ 
++    def _spec_rlm_query(self, prompt: str, model: str | None = None) -> str:
++        return self._real_hooks["rlm_query"](prompt)
++
++    def _spec_rlm_query_batched(
++        self, prompts: list[str], model: str | None = None
++    ) -> list[str]:
++        return self._real_hooks["rlm_query_batched"](prompts)
++
+     # keep scaffold restoration pointing at the claiming hooks
+     def _restore_scaffold(self) -> None:  # type: ignore[override]
+         super()._restore_scaffold()
+         if hasattr(self, "_real_hooks"):
+-            self.globals["llm_query"] = self._spec_llm_query
+-            self.globals["llm_query_batched"] = self._spec_llm_query_batched
++            self._bind_claiming_hooks()
+ 
+     # ---- streaming side (speculative mode) ------------------------------------
+     def begin_stream_turn(self) -> None:
+diff --git a/src/engine/shadow.py b/src/engine/shadow.py
+index c296ff1..ca1e087 100644
+--- a/src/engine/shadow.py
++++ b/src/engine/shadow.py
+@@ -15,6 +15,7 @@ from spec_ptc.contracts.events import NULL_BUS, EventBus
+ from spec_ptc.contracts.tools import NonSpeculated, contains_nonspec
+ from spec_ptc.engine.speculation import (
+     ForceTracker,
++    ScoutStop,
+     SpecStore,
+     SpecValue,
+     force_ctx,
+@@ -160,7 +161,11 @@ class ShadowRunner:
+         launcher=None,
+         registry=None,
+         taint_skip: bool = True,
++        scout: bool = False,
+     ) -> None:
++        # scout: this runner is the scout pass. It gets make_scout_hooks, never waits for
++        # a result, and only launches calls (see _scout_one).
++        self.scout = scout
+         self.launcher = launcher  # needed only for peeks
+         self.registry = registry
+         self.taint_skip = taint_skip
+@@ -186,6 +191,8 @@ class ShadowRunner:
+ 
+     # -- producer side --------------------------------------------------------
+     def feed(self, seg: Segment) -> None:
++        if self.scout and self._done.is_set() and getattr(seg, "scouted", None) is not None:
++            seg.scouted.set()  # the scout is gone: the shadow must not wait for it
+         self._q.put(seg)
+ 
+     def feed_peek(self, tail: str) -> None:
+@@ -210,16 +217,86 @@ class ShadowRunner:
+                 seg = self._q.get()
+                 if seg is None:
+                     break
++                if self.scout:
++                    if not isinstance(seg, tuple):
++                        try:
++                            self._scout_one(seg)
++                        except BaseException:  # noqa: BLE001 - a late watchdog exception
++                            if seg.scouted is not None:
++                                seg.scouted.set()
++                    continue
+                 if self.aborted:
+                     continue
+                 if isinstance(seg, tuple) and seg[0] == "peek":
+-                    self._peek(seg[1])
++                    try:
++                        self._peek(seg[1])
++                    except Exception as e:
++                        # A peek is optional work. If it raised out of here, this thread
++                        # would end, and the turn's speculation with it.
++                        self.bus.emit("note", msg=f"peek failed: {type(e).__name__}: {e}"[:200])
+                 else:
+                     self._exec_one(seg)
+         finally:
+             self._done.set()
++            if self.scout:  # nothing still queued may keep the shadow waiting
++                while True:
++                    try:
++                        left = self._q.get_nowait()
++                    except queue.Empty:
++                        break
++                    if left is not None and getattr(left, "scouted", None) is not None:
++                        left.scouted.set()
++
++    def _scout_one(self, seg: Segment) -> None:
++        """Run one closed statement in the scout's own copy of the variables, with hooks
++        that launch what they can and return Unknown at once. Nothing here waits for a
++        sub-call, so a statement that uses a result does not hold back the calls after
++        it: a loop's independent calls all go out before the first one answers.
++
++        A statement the scout cannot finish (it needs a real value, or it raises) is
++        left half-done in the scout's copy. Later statements that needed it then fail
++        the same way, and the shadow and the real run handle them as they always have."""
++        try:
++            if self.aborted:
++                return
++            try:
++                tree = ast.parse(seg.source)
++            except SyntaxError:
++                self.aborted = "syntax"
++                return
++            if any(name in self.hooks for name in _bound_names(tree)):
++                self.aborted = "rebind"  # a tool name was rebound: stop launching
++                return
++            tid = threading.get_ident()
++            armed = {"on": True}
++
++            def watchdog() -> None:  # the scout never waits, so wall time is its compute
++                if armed["on"]:
++                    ctypes.pythonapi.PyThreadState_SetAsyncExc(
++                        ctypes.c_long(tid), ctypes.py_object(ShadowAborted))
++
++            timer = threading.Timer(STMT_WALL_BUDGET_S, watchdog)
++            timer.daemon = True
++            timer.start()
++            why = None
++            try:
++                exec(compile(tree, "<scout>", "exec"), self.ns, self.ns)
++            except ScoutStop:
++                why = "needs a value"
++            except BaseException as e:  # noqa: BLE001 - model code may raise anything
++                why = type(e).__name__
++            finally:
++                armed["on"] = False
++                timer.cancel()
++            self.bus.emit("scout_exec" if why is None else "scout_skip", block=seg.block_id,
++                          index=seg.index, **({} if why is None else {"reason": why}))
++        finally:
++            if seg.scouted is not None:
++                seg.scouted.set()
+ 
+     def _exec_one(self, seg: Segment) -> None:
++        if seg.scouted is not None:  # let the scout launch this statement's calls first,
++            seg.scouted.wait(STMT_WALL_BUDGET_S + 1.0)  # so the hooks below adopt them
+         try:
+             tree = ast.parse(seg.source)
+         except SyntaxError:
+@@ -308,19 +385,27 @@ class ShadowRunner:
+             plans = plan_peeks(tail, spec_names, self.ns)
+         except Exception:
+             return
+-        # multiplicity-safe dedup: top each distinct call up to its tally
++        # multiplicity-safe dedup: top each distinct call up to its tally. Calls are
++        # counted by their claim key, which hashes any argument: the arguments themselves
++        # need not be hashable (llm_query_batched takes a list of prompts).
+         from spec_ptc.contracts.tools import spec_key as _key
+ 
+-        tally = Counter((p.tool, p.args) for p in plans)
+-        new_tally: dict = {}
+-        for (tool_name, args), needed in tally.items():
+-            tool = self.registry.get(tool_name) if self.registry else None
++        tally: Counter = Counter()
++        call_of: dict = {}
++        for p in plans:
++            tool = self.registry.get(p.tool) if self.registry else None
+             if tool is None or tool.batched or not tool.speculatable:
+                 continue
+-            if tool.gate_fn and not tool.gate_fn(args, {}):
++            if tool.gate_fn and not tool.gate_fn(p.args, {}):
+                 continue
++            key = _key(tool, p.args, {})
++            tally[key] += 1
++            call_of[key] = (tool, p.args)
++        new_tally: dict = {}
++        for key, needed in tally.items():
++            tool, args = call_of[key]
+             self.launcher.ensure_peeked(tool, args, needed)
+-            new_tally[_key(tool, args, {})] = needed
++            new_tally[key] = needed
+         # BET RETRACTION: a key the previous plan justified but this one
+         # doesn't means new tokens invalidated the bet (e.g. a just-streamed
+         # body line mutates the loop's iterable) — evict the stale peeks now,
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index 28263ce..80e7981 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -45,6 +45,10 @@ class Speculation:
+     t_ready: float = 0.0
+     t_claim: float = 0.0
+     args_preview: str = ""
++    # a refused speculation whose value is needed: relaunch() runs its call as normal work
++    # (Launcher.reissue) and returns that run, which is also kept here
++    relaunch: Callable[[], Speculation] | None = None
++    reissued: Speculation | None = None
+ 
+     def wait(self, timeout: float | None = None) -> Any:
+         if not self.done.wait(timeout):
+@@ -54,6 +58,14 @@ class Speculation:
+         return self.result
+ 
+ 
++_LIVE = ("pending", "running", "ready")
++
++
++def _refused(spec: Speculation) -> bool:
++    """The server refused or dropped this speculation: no result, and not a tool failure."""
++    return spec.state == "failed" and isinstance(spec.error, SpeculationRejected)
++
++
+ _UNSET = object()
+ 
+ # The shadow thread registers a ForceTracker here so its runaway watchdog can
+@@ -91,6 +103,123 @@ async def _identity(v: Any) -> Any:
+     return v
+ 
+ 
++# --------------------------------------------------------------------------- the scout
++UNKNOWN_TEXT = "\x00spec-ptc:unknown\x00"  # what an Unknown looks like inside a string
++
++
++class ScoutStop(BaseException):
++    """The scout met something only a real value can decide: a test, a length, a number,
++    a comparison. Not an Exception, so model-written `except Exception` cannot catch it
++    and wander into its fallback path."""
++
++
++class Unknown:
++    """What a tool call returns in the scout pass: a result that is not there yet.
++
++    It absorbs what code usually does with a result (attribute access, calls, indexing,
++    arithmetic), iterates as empty, and turns into UNKNOWN_TEXT inside a string, so a
++    prompt built from it is recognisable. Anything that needs the real value to decide
++    (bool, int, a comparison, `in`) raises ScoutStop: the scout places no bets.
++
++    It has no __len__ on purpose. list(), extend() and join() ask an iterable for its
++    length first and must get "none" (a TypeError they swallow), not a stop. A direct
++    len() therefore raises TypeError, which ends the scout's statement like any error."""
++
++    __slots__ = ()
++
++    def _stop(self, *a, **k):
++        raise ScoutStop()
++
++    def _same(self, *a, **k):
++        return Unknown()
++
++    __bool__ = __int__ = __float__ = __index__ = __contains__ = _stop
++    __eq__ = __ne__ = __lt__ = __le__ = __gt__ = __ge__ = _stop
++    __call__ = __getitem__ = _same
++    __add__ = __radd__ = __sub__ = __rsub__ = __mul__ = __rmul__ = __mod__ = __rmod__ = _same
++    __truediv__ = __rtruediv__ = __floordiv__ = __rfloordiv__ = _same
++    __or__ = __ror__ = __and__ = __rand__ = _same
++
++    def __hash__(self):
++        return id(self)
++
++    def __str__(self):
++        return UnknownStr()
++
++    __repr__ = __str__
++
++    def __format__(self, spec):
++        return UNKNOWN_TEXT  # inside an f-string the text is all that survives
++
++    def __iter__(self):
++        return iter(())
++
++    def __length_hint__(self):
++        return 0
++
++    def __setitem__(self, k, v):
++        pass
++
++    def __getattr__(self, name):
++        if name.startswith("__") and name.endswith("__"):
++            raise AttributeError(name)
++        return Unknown()
++
++    def __await__(self):
++        return _identity(self).__await__()
++
++
++class UnknownStr(str):
++    """str() of an Unknown: text that is not there yet. It holds UNKNOWN_TEXT, so it
++    stays recognisable when pasted into a prompt, and a test on it stops the scout
++    (`'yes' in str(r)`, `str(r) == 'ok'`). Its methods return Unknown.
++
++    One gap: text assembled around it (an f-string, a join, a concatenation) is a plain
++    string. A test on such text is decided on the placeholder, so the scout may then
++    launch calls the real run does not make. That costs a wasted call, never a wrong
++    result: a call is only ever claimed by its exact arguments."""
++
++    __slots__ = ()
++
++    def __new__(cls):
++        return super().__new__(cls, UNKNOWN_TEXT)
++
++    def _stop(self, *a, **k):
++        raise ScoutStop()
++
++    __bool__ = __contains__ = __eq__ = __ne__ = __lt__ = __le__ = __gt__ = __ge__ = _stop
++
++    def __hash__(self):
++        return id(self)
++
++    def __iter__(self):
++        return iter(())
++
++    def __getitem__(self, k):
++        return Unknown()
++
++    def __getattribute__(self, name):
++        if name.startswith("__") and name.endswith("__"):
++            return str.__getattribute__(self, name)
++        return Unknown()  # .strip(), .lower(), .split(...): still not there
++
++
++def has_unknown(obj: Any, depth: int = 4) -> bool:
++    """Is an Unknown, or text made from one, anywhere in these arguments?"""
++    if isinstance(obj, (Unknown, UnknownStr)):
++        return True
++    if isinstance(obj, str):
++        return UNKNOWN_TEXT in obj
++    if depth <= 0:
++        return False
++    if isinstance(obj, (list, tuple, set, frozenset)):
++        return any(has_unknown(x, depth - 1) for x in obj)
++    if isinstance(obj, dict):
++        return any(has_unknown(k, depth - 1) or has_unknown(v, depth - 1)
++                   for k, v in obj.items())
++    return False
++
++
+ class SpecValue:
+     __slots__ = ("_spec", "_val")
+ 
+@@ -106,7 +235,17 @@ class SpecValue:
+             if tracker is not None:
+                 tracker.begin()
+             try:
+-                val = spec.wait(timeout=600)
++                try:
++                    val = spec.wait(timeout=600)
++                except SpeculationRejected:
++                    # The server said no, and the program needs this value now. Run the
++                    # call as normal work and keep going: stopping here would lose every
++                    # speculation after it in the turn.
++                    if spec.relaunch is None:
++                        raise
++                    spec = spec.relaunch()
++                    object.__setattr__(self, "_spec", spec)
++                    val = spec.wait(timeout=600)
+             finally:
+                 if tracker is not None:
+                     tracker.end()
+@@ -254,36 +393,54 @@ class SpecStore:
+                     return spec
+             return None
+ 
++    def replace(self, old: Speculation, new: Speculation) -> bool:
++        """Put `new` where `old` stands in the claim order (a refused speculation's call,
++        re-run as normal work). False if `old` is no longer queued: it was claimed or
++        dropped, so nobody is left to claim `new`, which then stays out of the queue."""
++        with self._lock:
++            self.all.append(new)
++            q = self._q.get(old.key)
++            at = next((i for i, s in enumerate(q or ()) if s is old), None)
++            if at is None:
++                return False
++            q[at] = new
++            return True
++
+     def existing(self, key: SpecKey) -> Speculation | None:
++        """A deterministic tool's one run for this key. A refused one counts: its call is
++        not bet on again, and whoever needs the value re-runs it as normal work."""
+         with self._lock:
+             for spec in self._q.get(key, ()):
+-                if spec.state in ("pending", "running", "ready", "claimed"):
++                if spec.state in (*_LIVE, "claimed") or _refused(spec):
+                     return spec
+             return None
+ 
+     def adopt(self, key: SpecKey):
+         """Shadow-side twin of claim(): take ownership of the oldest un-adopted
+         PEEK speculation for this key without removing it from the claim FIFO
+-        (the real run must still claim it later, in the same order)."""
++        (the real run must still claim it later, in the same order).
++
++        A peek the server refused is adopted too. Otherwise the statement would
++        send the same bet a second time."""
+         with self._lock:
+             for spec in self._q.get(key, ()):
+                 if (
+                     spec.source == "peek"
+                     and not spec.adopted
+-                    and spec.state in ("pending", "running", "ready")
++                    and (spec.state in _LIVE or _refused(spec))
+                 ):
+                     spec.adopted = True
+                     return spec
+             return None
+ 
+     def unadopted_peeks(self, key: SpecKey) -> int:
++        """Un-adopted peeks for this key, refused ones included (a later peek pass must
++        not top the store up with the same bet again)."""
+         with self._lock:
+             return sum(
+                 1
+                 for s in self._q.get(key, ())
+-                if s.source == "peek"
+-                and not s.adopted
+-                and s.state in ("pending", "running", "ready")
++                if s.source == "peek" and not s.adopted and (s.state in _LIVE or _refused(s))
+             )
+ 
+     def evict_unadopted_peeks(self, key: SpecKey, keep: int, reason: str) -> int:
+@@ -297,11 +454,13 @@ class SpecStore:
+                 return 0
+             seen = 0
+             for spec in list(q):
+-                if (
+-                    spec.source == "peek"
+-                    and not spec.adopted
+-                    and spec.state in ("pending", "running", "ready")
+-                ):
++                if spec.source != "peek" or spec.adopted:
++                    continue
++                if _refused(spec):  # counted by unadopted_peeks; nothing runs, so no evict
++                    seen += 1
++                    if seen > keep:
++                        _drop(q, spec)
++                elif spec.state in _LIVE:
+                     seen += 1
+                     if seen > keep:
+                         spec.state = "evicted"
+@@ -310,7 +469,7 @@ class SpecStore:
+                                 spec.cancel()
+                             except Exception:
+                                 pass
+-                        q.remove(spec)
++                        _drop(q, spec)
+                         n += 1
+                         self.bus.emit("evict", key=key, seq=spec.seq, reason=reason)
+         return n
+@@ -326,19 +485,31 @@ class SpecStore:
+         with self._lock:
+             for q in self._q.values():
+                 for spec in list(q):
+-                    if pred(spec) and spec.state in ("pending", "running", "ready"):
++                    if not pred(spec):
++                        continue
++                    if _refused(spec):  # nothing runs: leave the queue without an evict
++                        _drop(q, spec)
++                    elif spec.state in _LIVE:
+                         spec.state = "evicted"
+                         if spec.cancel:
+                             try:
+                                 spec.cancel()
+                             except Exception:
+                                 pass
+-                        q.remove(spec)
++                        _drop(q, spec)
+                         n += 1
+                         self.bus.emit("evict", key=spec.key, seq=spec.seq, reason=reason)
+         return n
+ 
+ 
++def _drop(q: deque, spec: Speculation) -> None:
++    """Remove this very speculation from a claim queue (by identity, not by value)."""
++    for i, s in enumerate(q):
++        if s is spec:
++            del q[i]
++            return
++
++
+ class Budget:
+     """Caps on speculative spend. max_inflight bounds concurrent executions;
+     max_dispatches_per_turn bounds total dispatches (hard deny);
+@@ -403,6 +574,7 @@ class Launcher:
+         )
+         self._aloop: asyncio.AbstractEventLoop | None = None
+         self._aloop_lock = threading.Lock()
++        self._reissue_lock = threading.Lock()
+ 
+     def loop(self) -> asyncio.AbstractEventLoop:
+         """One shared background event loop for every async tool. Coroutines
+@@ -479,6 +651,7 @@ class Launcher:
+         spec.t_dispatch = time.perf_counter()
+         if tool.cancel_fn is not None:
+             spec.cancel = lambda _t=tool, _s=spec: _t.cancel_fn(_s)
++        spec.relaunch = lambda _t=tool, _s=spec: self.reissue(_s, _t)
+         self.store.put(spec)
+         self.bus.emit(
+             "dispatch",
+@@ -528,6 +701,69 @@ class Launcher:
+         self._pool.submit(run)
+         return spec
+ 
++    def reissue(self, spec: Speculation, tool: ToolSpec) -> Speculation:
++        """The call of a refused speculation, run as normal work, once.
++
++        Called when the shadow needs the value of a speculation the server refused. The
++        call goes through the real tool (no `_spec`, so no speculative tag) on its own
++        thread, not behind the speculative pool. It takes the refused speculation's place
++        in the claim order, so the real run claims it and does not call again.
++
++        It counts against the per-turn dispatch cap, which stays the bound on what one
++        turn's shadow can launch. With the cap used up the refusal propagates and the
++        shadow stops, as before."""
++        with self._reissue_lock:
++            if spec.reissued is not None:
++                return spec.reissued
++            if not self.budget.admit():
++                self.bus.emit("note", msg=f"budget denied reissue of {tool.name}")
++                raise spec.error or SpeculationRejected("budget")
++            new = Speculation(
++                key=spec.key,
++                seq=self.next_seq(),
++                args=spec.args,
++                kwargs=spec.kwargs,
++                source="reissue",  # type: ignore[arg-type]
++                state="running",
++                adopted=True,
++                args_preview=spec.args_preview,
++            )
++            new.t_dispatch = time.perf_counter()
++            spec.reissued = new
++            self.store.replace(spec, new)
++        self.bus.emit(
++            "spec_reissue",
++            key=spec.key,
++            seq=new.seq,
++            of=spec.seq,
++            tool=tool.name,
++            reason=getattr(spec.error, "reason", None),
++        )
++
++        def run() -> None:
++            try:
++                out = tool.fn(*new.args, **new.kwargs)
++                if inspect.isawaitable(out):
++                    out = self.run_awaitable(out)
++                new.result = out
++                if new.state != "evicted":
++                    new.state = "ready"
++            except BaseException as e:  # surfaced at the force or claim point
++                new.error = e
++                new.state = "failed" if new.state != "evicted" else "evicted"
++            new.t_ready = time.perf_counter()
++            new.done.set()
++            if new.state == "ready":
++                self.bus.emit(
++                    "ready",
++                    key=new.key,
++                    seq=new.seq,
++                    ms=(new.t_ready - new.t_dispatch) * 1000,
++                )
++
++        threading.Thread(target=run, daemon=True, name="spec-reissue").start()
++        return new
++
+     def shutdown(self) -> None:
+         with self._aloop_lock:
+             loop, self._aloop = self._aloop, None
+@@ -609,6 +845,42 @@ def make_shadow_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callab
+     return hooks
+ 
+ 
++def make_scout_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callable]:
++    """Tool hooks for the scout pass (shadow.py, ShadowRunner(scout=True)): launch the
++    call if every argument is known, and return at once with an Unknown either way.
++
++    The launch is a peek: the shadow adopts it when it reaches the same call, the real
++    run claims it, and one nobody claims is evicted at turn end. A batched call is
++    launched per element, as the shadow hook does, and returns one Unknown per element,
++    so its length is known."""
++    hooks: dict[str, Callable] = {}
++
++    def launch(tool: ToolSpec, args: tuple, kwargs: dict) -> None:
++        if not tool.speculatable or has_unknown(args) or has_unknown(kwargs):
++            return
++        if tool.gate_fn and not tool.gate_fn(args, kwargs):
++            return
++        if tool.deterministic and launcher.store.existing(spec_key(tool, args, kwargs)):
++            return
++        launcher.dispatch(tool, args, kwargs, "peek")  # None if the turn's cap is used up
++
++    for name in reg.names():
++        tool = reg.get(name)
++        assert tool is not None
++
++        def hook(*args: Any, _tool=tool, **kwargs: Any):
++            if _tool.batched and args and isinstance(args[0], (list, tuple)):
++                single = _single_of(_tool, reg)
++                for p in args[0]:
++                    launch(single, (p,) + tuple(args[1:]), kwargs)
++                return [Unknown() for _ in args[0]]
++            launch(_tool, tuple(args), kwargs)
++            return Unknown()
++
++        hooks[name] = hook
++    return hooks
++
++
+ def make_real_hooks(
+     reg: ToolRegistry, store: SpecStore, launcher: Launcher, bus: EventBus = NULL_BUS
+ ) -> dict[str, Callable]:
+diff --git a/src/engine/streaming.py b/src/engine/streaming.py
+index 8e88ba0..ac3c5a2 100644
+--- a/src/engine/streaming.py
++++ b/src/engine/streaming.py
+@@ -34,6 +34,7 @@ class Segment:
+     index: int
+     source: str
+     has_call: bool = False  # any ast.Call — decides whether real exec waits on shadow
++    scouted: Any = None  # threading.Event set once the scout has been over the statement
+ 
+ 
+ @dataclass
+diff --git a/src/runtime/harness.py b/src/runtime/harness.py
+index bbc608d..0a7dd46 100644
+--- a/src/runtime/harness.py
++++ b/src/runtime/harness.py
+@@ -5,6 +5,7 @@ from __future__ import annotations
+ 
+ import builtins as _builtins
+ import io
++import threading
+ import time
+ from collections.abc import Callable, Iterator
+ from contextlib import redirect_stderr, redirect_stdout
+@@ -19,6 +20,7 @@ from spec_ptc.engine.speculation import (
+     SpecStore,
+     make_baseline_hooks,
+     make_real_hooks,
++    make_scout_hooks,
+     make_shadow_hooks,
+ )
+ from spec_ptc.engine.streaming import Segment, StreamSegmenter
+@@ -157,6 +159,7 @@ class TurnMetrics:
+     saved_ms_total: float = 0.0  # per-claim head start actually banked
+     wasted_calls: int = 0  # dispatched but never claimed
+     fallbacks: int = 0  # claims of a server-rejected speculation that re-ran the call
++    reissues: int = 0  # refused speculations the shadow needed, re-run as normal work
+ 
+     def row(self) -> dict:
+         return {
+@@ -187,6 +190,8 @@ def collect(events: list[SpecEvent], store: SpecStore, mode: str) -> TurnMetrics
+         elif ev.kind == "spec_fallback":  # claimed, then rejected: no hit after all
+             m.hits -= 1
+             m.fallbacks += 1
++        elif ev.kind == "spec_reissue":
++            m.reissues += 1
+         elif ev.kind == "claim_miss":
+             m.misses += 1
+         elif ev.kind == "claim_done":
+@@ -232,8 +237,12 @@ class Harness:
+         max_inflight: int = 16,
+         peek: bool = True,
+         taint_skip: bool = True,
++        scout: bool = False,
+     ):
+-        self.peek = peek
++        # scout: the non-blocking pass ahead of the shadow (ShadowRunner._scout_one);
++        # it replaces the tail peeks
++        self.scout = scout
++        self.peek = peek and not scout
+         self.taint_skip = taint_skip
+         assert mode in MODES
+         self.mode = mode
+@@ -249,6 +258,7 @@ class Harness:
+         else:
+             self.exec_hooks = make_real_hooks(self.reg, self.store, self.launcher, self.bus)
+         self.shadow_hooks = make_shadow_hooks(self.reg, self.launcher)
++        self.scout_hooks = make_scout_hooks(self.reg, self.launcher)
+ 
+     # ------------------------------------------------------------------ turn
+     def run_turn(
+@@ -275,6 +285,26 @@ class Harness:
+                 )
+             return shadow
+ 
++        scout: ShadowRunner | None = None
++
++        def to_runners(s: Segment) -> None:
++            nonlocal scout
++            if self.scout:
++                if scout is None:
++                    scout = ShadowRunner(
++                        self.repl.locals,
++                        self.scout_hooks,
++                        self.store,
++                        REAL_BUILTINS,
++                        bus,
++                        launcher=self.launcher,
++                        registry=self.reg,
++                        scout=True,
++                    )
++                s.scouted = threading.Event()
++                scout.feed(s)
++            ensure_shadow().feed(s)
++
+         # ---- stream
+         bus.emit("stream_begin")
+         parts: list[str] = []
+@@ -288,7 +318,7 @@ class Harness:
+                 segments.append(s)
+                 bus.emit("stmt_closed", block=s.block_id, index=s.index, src=s.source)
+                 if self.mode == "spec":
+-                    ensure_shadow().feed(s)
++                    to_runners(s)
+             # streaming-level peek: each completed LINE inside an open block
+             # re-plans speculation over the unclosed tail (see peek.py); the
+             # throttle logic lives in StreamTurn._peek_worthwhile
+@@ -301,18 +331,19 @@ class Harness:
+             segments.append(s)
+             bus.emit("stmt_closed", block=s.block_id, index=s.index, src=s.source)
+             if self.mode == "spec":
+-                ensure_shadow().feed(s)
++                to_runners(s)
+         bus.emit("stream_end")
+         response = "".join(parts)
+ 
+         # ---- lazy mode: shadow pre-pass now, over the complete blocks
+         if self.mode == "lazy" and segments:
+-            sh = ensure_shadow()
+             for s in segments:
+-                sh.feed(s)
++                to_runners(s)
+ 
+         # ---- wait for shadow only when it can produce claims (Invariant N:
+         # a pure-compute turn must not pay for the shadow's duplicate work)
++        if scout is not None:
++            scout.finish()
+         if shadow is not None:
+             shadow.finish()
+             if any(s.has_call for s in segments):
+@@ -344,6 +375,8 @@ class Harness:
+         # ---- cleanup: stop a straggling shadow, evict anything unclaimed
+         if shadow is not None:
+             shadow.abort("turn_end")
++        if scout is not None:
++            scout.abort("turn_end")
+         self.store.evict_unclaimed("turn_end")
+         self.launcher.budget.reset()
+         outcome.metrics = collect(bus.history, self.store, self.mode)
+diff --git a/src/speculator.py b/src/speculator.py
+index b5402b4..c1a303f 100644
+--- a/src/speculator.py
++++ b/src/speculator.py
+@@ -9,6 +9,7 @@ Tools are ID'd by their inputs, and a unique ID for identical inputs.
+ 
+ from __future__ import annotations
+ 
++import threading
+ from collections.abc import Callable
+ from contextlib import contextmanager
+ from dataclasses import dataclass
+@@ -23,6 +24,7 @@ from spec_ptc.engine.speculation import (
+     SpecStore,
+     make_baseline_hooks,
+     make_real_hooks,
++    make_scout_hooks,
+     make_shadow_hooks,
+ )
+ from spec_ptc.engine.streaming import StreamSegmenter
+@@ -51,10 +53,17 @@ class StreamTurn:
+     shadow: ShadowRunner
+     peek: bool = True
+     _last_tail: str = ""
++    scout: ShadowRunner | None = None  # the scout pass, ahead of the shadow (or None)
++
++    def _to_runners(self, seg) -> None:
++        if self.scout is not None:
++            seg.scouted = threading.Event()
++            self.scout.feed(seg)
++        self.shadow.feed(seg)
+ 
+     def feed(self, delta: str) -> None:
+         for seg in self.segmenter.feed(delta):
+-            self.shadow.feed(seg)
++            self._to_runners(seg)
+         if self.peek and "\n" in delta:
+             tail = self.segmenter.pending_tail()
+             if tail.strip() and tail != self._last_tail and self._peek_worthwhile(tail):
+@@ -77,10 +86,14 @@ class StreamTurn:
+ 
+     def end(self, timeout: float = 600) -> None:
+         for seg in self.segmenter.finish():
+-            self.shadow.feed(seg)
++            self._to_runners(seg)
++        if self.scout is not None:
++            self.scout.finish()
+         self.shadow.finish()
+         self.shadow.join(timeout)
+         self.shadow.abort("turn_end")
++        if self.scout is not None:
++            self.scout.abort("turn_end")
+ 
+ 
+ class SpecSession:
+@@ -93,10 +106,15 @@ class SpecSession:
+         max_inflight: int = 16,
+         max_dispatches_per_turn: int = 2048,
+         taint_skip: bool = True,
++        scout: bool = False,
+     ) -> None:
+         self.reg = registry
+         self.bus = bus or EventBus()
+         self.taint_skip = taint_skip
++        # scout: run each closed statement once more, ahead of the shadow, without ever
++        # waiting for a result, to launch every call whose arguments are known
++        # (ShadowRunner._scout_one). It replaces the tail peeks.
++        self.scout = scout
+         self.store = SpecStore(self.bus)
+         self.launcher = Launcher(
+             self.store,
+@@ -123,7 +141,19 @@ class SpecSession:
+             registry=self.reg,
+             taint_skip=self.taint_skip,
+         )
+-        return StreamTurn(StreamSegmenter(), shadow, peek=peek)
++        scout = None
++        if self.scout:
++            scout = ShadowRunner(
++                host_locals,
++                make_scout_hooks(self.reg, self.launcher),
++                self.store,
++                safe_builtins,
++                self.bus,
++                launcher=self.launcher,
++                registry=self.reg,
++                scout=True,
++            )
++        return StreamTurn(StreamSegmenter(), shadow, peek=peek and scout is None, scout=scout)
+ 
+     def end_turn(self) -> None:
+         self.store.evict_unclaimed("turn_end")
+diff --git a/tests/test_refusal_survival.py b/tests/test_refusal_survival.py
+new file mode 100644
+index 0000000..57e3d31
+--- /dev/null
++++ b/tests/test_refusal_survival.py
+@@ -0,0 +1,250 @@
++"""A refused speculation must not end the turn's speculation.
++
++When the server refuses a speculative sub-call (SpeculationRejected) and the shadow needs
++its value, the call is re-run as normal work and the shadow keeps going. The real run then
++claims that re-run. A refused call is never sent as a bet a second time. All mock: no
++network, no model."""
++
++import re
++import string
++import threading
++import time
++
++import pytest
++
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.hints import SpeculationRejected
++from spec_ptc.contracts.tools import ToolRegistry
++from spec_ptc.engine.speculation import (
++    Budget,
++    Launcher,
++    SpecStore,
++    SpecValue,
++    make_real_hooks,
++)
++from spec_ptc.runtime.engines import MockLM, MockTiming
++from spec_ptc.runtime.harness import Harness
++
++FAST = MockTiming(main_tok_per_s=2000, sub_base_s=0.15, sub_jitter_s=0.1, sub_tokens=3)
++SLOW_STREAM = MockTiming(main_tok_per_s=50, sub_base_s=0.15, sub_jitter_s=0.1, sub_tokens=3)
++CONTEXT = string.ascii_lowercase * 12
++
++
++class Refuser(MockLM):
++    """A server that refuses speculative sub-calls (all, or those `refuse` picks) after
++    `after` seconds. Records every call it receives."""
++
++    def __init__(self, timing=FAST, refuse=lambda prompt: True, after=0.05):
++        super().__init__(timing)
++        self.refuse, self.after = refuse, after
++        self.spec: list[str] = []  # speculative attempts, by prompt
++        self.real: list[str] = []  # normal calls, by prompt
++        self._rec = threading.Lock()
++
++    def sub_call(self, prompt, _spec=None):
++        with self._rec:
++            (self.real if _spec is None else self.spec).append(prompt)
++        if _spec is not None and self.refuse(prompt):
++            time.sleep(self.after)
++            raise SpeculationRejected("sptc_bet_rejected")
++        return super().sub_call(prompt, _spec=_spec)
++
++
++def norm(s):
++    return re.sub(r"\[\w+#\d+\] ", "", s or "")
++
++
++def run_turn(eng, mode, code):
++    bus = EventBus()
++    h = Harness(eng, mode, bus=bus, context=CONTEXT)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    h.launcher.shutdown()
++    return out, [e.kind for e in bus.history], bus
++
++
++CHAIN = (
++    "a = llm_query('first: ' + context[:20])\n"
++    "b = llm_query('second: ' + str(a))\n"  # needs a: the shadow forces it here
++    "c = llm_query('third: ' + context[:10])\n"
++    "answer['content'] = str(a) + '|' + str(b) + '|' + str(c)\n"
++    "answer['ready'] = True"
++)
++
++
++# ------------------------------------------------------------------------- end to end
++def test_shadow_keeps_going_when_the_server_refuses_a_call_it_needs():
++    eng = Refuser()
++    out, kinds, _ = run_turn(eng, "spec", CHAIN)
++    base, _, _ = run_turn(MockLM(FAST), "baseline", CHAIN)
++    assert out.final_answer and norm(out.final_answer) == norm(base.final_answer)
++    assert "shadow_stop" not in kinds
++    assert kinds.count("shadow_exec") == 5  # every statement ran in the shadow
++    # each call was bet once, refused, and then run for real exactly once
++    assert sorted(eng.spec) == sorted(eng.real) and len(eng.real) == 3
++    assert kinds.count("spec_reissue") == 3
++    # the real run claimed those re-runs: it neither missed nor called again
++    assert kinds.count("claim_hit") == 3 and kinds.count("claim_miss") == 0
++    assert kinds.count("spec_fallback") == 0
++    assert out.metrics.reissues == 3 and out.metrics.hits == 3
++
++
++def test_calls_after_a_refused_one_are_still_speculated():
++    eng = Refuser(refuse=lambda p: p.startswith("first"))
++    out, kinds, _ = run_turn(eng, "spec", CHAIN)
++    base, _, _ = run_turn(MockLM(FAST), "baseline", CHAIN)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert "shadow_stop" not in kinds and kinds.count("spec_reissue") == 1
++    # only the refused call ran as normal work; the two after it ran as speculations
++    assert [p.split(":")[0] for p in eng.real] == ["first"]
++    assert sorted(p.split(":")[0] for p in eng.spec) == ["first", "second", "third"]
++    assert kinds.count("claim_hit") == 3 and kinds.count("claim_miss") == 0
++
++
++LOOP = (
++    "parts = [context[i:i+10] for i in range(0, 40, 10)]\n"
++    "outs = []\n"
++    "for p in parts:\n"
++    "    outs.append(llm_query('label: ' + p))\n"
++    "answer['content'] = '|'.join(str(o) for o in outs)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_refused_peek_is_not_bet_again():
++    """The loop's calls are peeked while the model still writes the next line, and refused
++    at once. Neither a later peek pass nor the loop statement may send them again."""
++    eng = Refuser(SLOW_STREAM, after=0.0)
++    out, kinds, bus = run_turn(eng, "spec", LOOP)
++    base, _, _ = run_turn(MockLM(SLOW_STREAM), "baseline", LOOP)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert "shadow_stop" not in kinds
++    peeks = [e for e in bus.history if e.kind == "dispatch" and e.data["source"] == "peek"]
++    assert len(peeks) == 4  # the peek did fire, before the statement closed
++    assert len(eng.spec) == 4 and len(set(eng.spec)) == 4  # one bet per call
++    assert kinds.count("adopt") == 4  # the statement took the refused peeks over
++    assert sorted(eng.real) == sorted(eng.spec)  # each call ran for real once
++    assert kinds.count("claim_hit") == 4 and kinds.count("claim_miss") == 0
++
++
++# ------------------------------------------------------------------------- launcher
++def _launcher(max_dispatches=64):
++    """One tool whose first speculative call is refused; later ones succeed."""
++    reg = ToolRegistry()
++    calls: list[str] = []
++    lock = threading.Lock()
++
++    def fn(p, _spec=None):
++        with lock:
++            calls.append("real" if _spec is None else "spec")
++        if _spec is not None and _spec.seq == 1:
++            raise SpeculationRejected("sptc_bet_rejected")
++        return f"real({p})" if _spec is None else f"spec{_spec.seq}({p})"
++
++    fn.wants_spec = True
++    reg.register("llm_query", fn, speculatable=True, pure=True)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus, Budget(max_dispatches_per_turn=max_dispatches))
++    return reg, bus, store, launcher, calls
++
++
++def test_reissue_takes_the_refused_calls_place_in_the_claim_order():
++    reg, bus, store, launcher, calls = _launcher()
++    tool = reg.get("llm_query")
++    s1 = launcher.dispatch(tool, ("p",), {}, "shadow")
++    s2 = launcher.dispatch(tool, ("p",), {}, "shadow")  # an identical call
++    assert s1.done.wait(2) and s2.done.wait(2)
++    assert str(SpecValue(s1)) == "real(p)"  # the shadow forces the refused one
++    assert s1.reissued is not None and s1.reissued.source == "reissue"
++    assert launcher.reissue(s1, tool) is s1.reissued  # once, whoever asks again
++    hooks = make_real_hooks(reg, store, launcher, bus)
++    assert hooks["llm_query"]("p") == "real(p)"  # first claim: the re-run, in s1's place
++    assert hooks["llm_query"]("p") == "spec2(p)"  # second claim: the second speculation
++    assert sorted(calls) == ["real", "spec", "spec"]  # nothing ran twice
++    kinds = [e.kind for e in bus.history]
++    assert kinds.count("spec_reissue") == 1 and kinds.count("claim_hit") == 2
++    launcher.shutdown()
++
++
++def test_reissue_counts_against_the_turns_dispatch_cap():
++    reg, bus, store, launcher, calls = _launcher(max_dispatches=1)
++    tool = reg.get("llm_query")
++    s1 = launcher.dispatch(tool, ("p",), {}, "shadow")  # uses the whole cap
++    assert s1.done.wait(2)
++    with pytest.raises(SpeculationRejected):  # so the shadow stops, as it did before
++        str(SpecValue(s1))
++    assert s1.reissued is None and calls == ["spec"]
++    launcher.shutdown()
++
++
++def test_a_refused_speculation_nobody_needed_is_a_plain_miss_and_leaves_at_turn_end():
++    reg, bus, store, launcher, calls = _launcher()
++    tool = reg.get("llm_query")
++    s1 = launcher.dispatch(tool, ("p",), {}, "shadow")
++    s2 = launcher.dispatch(tool, ("q",), {}, "shadow")
++    assert s1.done.wait(2) and s2.done.wait(2)
++    hooks = make_real_hooks(reg, store, launcher, bus)
++    assert hooks["llm_query"]("p") == "real(p)"  # never forced: the real run just calls
++    assert [e.kind for e in bus.history if e.kind.startswith(("claim", "spec_re"))] == [
++        "spec_rejected", "claim_miss"]
++    # a refused speculation left in the store goes at turn end, without an evict event
++    s3 = launcher.dispatch(tool, ("r",), {}, "shadow")
++    s3.error, s3.state = SpeculationRejected("x"), "failed"
++    assert store.evict_unclaimed("turn_end") == 1  # only q's finished speculation
++    assert all(len(q) == 0 for q in store._q.values())
++    assert [e.data["seq"] for e in bus.history if e.kind == "evict"] == [s2.seq]
++    launcher.shutdown()
++
++
++def test_deterministic_tool_reuses_the_reissued_run():
++    reg = ToolRegistry()
++    calls: list[str] = []
++
++    def lookup(k, _spec=None):
++        calls.append("real" if _spec is None else "spec")
++        if _spec is not None:
++            raise SpeculationRejected("sptc_bet_rejected")
++        return f"value({k})"
++
++    lookup.wants_spec = True
++    reg.register("lookup", lookup, speculatable=True, pure=True, deterministic=True)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus)
++    tool = reg.get("lookup")
++    s1 = launcher.dispatch_or_adopt(tool, ("k",), {}, "shadow")
++    assert s1.done.wait(2)
++    assert launcher.dispatch_or_adopt(tool, ("k",), {}, "shadow") is s1  # no second bet
++    assert str(SpecValue(s1)) == "value(k)"
++    hooks = make_real_hooks(reg, store, launcher, bus)
++    assert hooks["lookup"]("k") == "value(k)" and hooks["lookup"]("k") == "value(k)"
++    assert calls == ["spec", "real"]  # one refused bet, one real run, shared by every use
++    launcher.shutdown()
++
++
++# ------------------------------------------------------------------------- peeks
++BATCHED_LOOP = (
++    "groups = [['a1: ' + context[:5], 'a2: ' + context[5:10]],"
++    " ['b1: ' + context[10:15], 'b2: ' + context[15:20]]]\n"
++    "outs = []\n"
++    "for group in groups:\n"
++    "    outs.extend(llm_query_batched(group))\n"
++    "answer['content'] = '|'.join(str(o) for o in outs)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_peek_of_a_call_with_a_list_argument_does_not_end_the_shadow():
++    """While the model writes the line after the loop, the loop sits in the tail and the
++    peek unrolls it: one `llm_query_batched(group)` per group, each with a list argument.
++    Counting plans by their arguments raised TypeError there, which ended the shadow
++    thread, so the turn ran with no speculation at all. Seen on real RLM runs
++    (2026-11-09): a turn's 787 sub-calls all missed."""
++    eng = MockLM(SLOW_STREAM)
++    out, kinds, bus = run_turn(eng, "spec", BATCHED_LOOP)
++    base, _, _ = run_turn(MockLM(SLOW_STREAM), "baseline", BATCHED_LOOP)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert not [e.data for e in bus.history if e.kind == "note"]  # no failed peek either
++    assert kinds.count("shadow_exec") == 5  # the shadow ran every statement
++    assert kinds.count("dispatch") == 4 and kinds.count("claim_hit") == 4
++    assert kinds.count("claim_miss") == 0
+diff --git a/tests/test_rlm_adapter.py b/tests/test_rlm_adapter.py
+index ec0abff..f95e27a 100644
+--- a/tests/test_rlm_adapter.py
++++ b/tests/test_rlm_adapter.py
+@@ -103,3 +103,79 @@ def test_helper_defined_in_earlier_turn_still_speculates():
+     assert len(calls) - n_after_define == 8, "block executed twice (shadow + real)"
+     assert hits == 16, f"cross-turn helper did not speculate: {hits} hits"
+     assert wall < 8 * 0.05, f"no fan-out on reused helper: {wall:.2f}s"
++
++
++# ---------------------------------------------------------------- scout and rlm_query
++LOOP_CODE = (
++    "chunks = [context[i:i+12] for i in range(0, 96, 12)]\n"
++    "def label_all(chunks):\n"
++    "    out = []\n"
++    "    for c in chunks:\n"
++    "        prompt = 'label: ' + c\n"
++    "        out.extend(llm_query(prompt).strip().split('\\n'))\n"  # uses each result
++    "    return out\n"
++    "labels = label_all(chunks)\n"
++    "answer['content'] = '|'.join(labels)\n"
++    "answer['ready'] = True"
++)
++
++
++def _drive(repl, code):
++    """A streamed turn, then the real run, as a streaming RLM client drives the REPL."""
++    response = "Working.\n```repl\n" + code + "\n```\nDone."
++    t0 = time.perf_counter()
++    repl.begin_stream_turn()
++    for i in range(0, len(response), 9):
++        repl.feed(response[i : i + 9])
++        time.sleep(0.002)
++    repl.end_stream_turn()
++    result = repl.execute_code(code)
++    return result, time.perf_counter() - t0
++
++
++def test_adapter_scout_turns_a_serial_loop_into_a_fan_out():
++    """Eight calls of 0.4 s in a helper loop that uses each result. As shipped the shadow
++    launches them one after another; with the scout they all go out at once."""
++    from demo.rlm import SpeculativeLocalREPL
++
++    ctx = "abcdefghijkl" * 8
++    # auto_speculate off: the stream feeds the shadow, as a streaming client does
++    kw = {"context_payload": ctx, "subcall_override": slow_mock_llm, "auto_speculate": False}
++    plain = SpeculativeLocalREPL(**kw)
++    r0, wall0 = _drive(plain, LOOP_CODE)
++    scout = SpeculativeLocalREPL(spec_scout=True, **kw)
++    r1, wall1 = _drive(scout, LOOP_CODE)
++    assert r1.final_answer == r0.final_answer and r1.final_answer.count("|") == 7
++    assert sum(e.kind == "claim_hit" for e in scout.bus.history) == 8
++    assert not any(e.kind in ("claim_miss", "evict") for e in scout.bus.history)
++    assert wall0 > 8 * 0.4 * 0.9  # one after another
++    assert wall1 < 4 * 0.4  # together
++
++
++RLM_QUERY_CODE = (
++    "parts = rlm_query_batched(['part ' + str(i) + ': ' + context[:10] for i in range(4)])\n"
++    "head = rlm_query('headline for: ' + context[:10])\n"
++    "answer['content'] = '|'.join(parts) + '||' + head\n"
++    "answer['ready'] = True"
++)
++
++
++def test_rlm_query_without_recursion_can_be_speculated():
++    from demo.rlm import SpeculativeLocalREPL
++
++    kw = {"context_payload": "hello world", "subcall_override": slow_mock_llm,
++          "auto_speculate": False}
++    # as shipped: never speculated, and the statements that use the result are skipped
++    plain = SpeculativeLocalREPL(**kw)
++    _drive(plain, RLM_QUERY_CODE)
++    assert not any(e.kind == "dispatch" for e in plain.bus.history)
++    assert any(e.kind in ("shadow_skip", "shadow_stop") for e in plain.bus.history)
++    # asked for: the five calls run early and are claimed
++    spec = SpeculativeLocalREPL(spec_rlm_query=True, **kw)
++    r1, wall = _drive(spec, RLM_QUERY_CODE)
++    assert r1.final_answer == (
++        "|".join(f"ans(part {i}: hello worl)" for i in range(4))
++        + "||ans(headline for: hello worl)")
++    assert sum(e.kind == "claim_hit" for e in spec.bus.history) == 5
++    assert not any(e.kind in ("claim_miss", "shadow_stop") for e in spec.bus.history)
++    assert wall < 5 * 0.4  # not one after another
+diff --git a/tests/test_scout.py b/tests/test_scout.py
+new file mode 100644
+index 0000000..e0495c7
+--- /dev/null
++++ b/tests/test_scout.py
+@@ -0,0 +1,276 @@
++"""The scout pass: a loop's independent calls go out together.
++
++The shadow runs a statement as the program would, so it waits wherever a result is used.
++In real RLM code that is inside the loop that made the call: the calls then go out one
++after another, each after the one before has answered, although none needs another.
++(Measured on OOLONG runs, 2026-11-09: 73% of what the streaming mode still waited for.)
++
++The scout runs each closed statement once more, ahead of the shadow, with tool calls that
++return at once. It launches every call whose arguments are known and never waits. The
++programs below are the shapes the model wrote in those runs, shortened. All mock: no
++network, no model."""
++
++import re
++
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.runtime.engines import MockLM, MockTiming
++from spec_ptc.runtime.harness import Harness
++
++TIMING = MockTiming(main_tok_per_s=2000, sub_base_s=0.25, sub_jitter_s=0.1, sub_tokens=3)
++CONTEXT = "\n".join(f"Q{i}: what is item number {i} ?" for i in range(24))
++
++
++def norm(s):
++    return re.sub(r"\[\w+#\d+\] ", "", s or "")
++
++
++def run_turn(code, mode="spec", scout=True, eng=None):
++    eng = eng or MockLM(TIMING)
++    bus = EventBus()
++    h = Harness(eng, mode, bus=bus, context=CONTEXT, scout=scout and mode == "spec")
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    h.launcher.shutdown()
++    return out, bus.history, h
++
++
++def kinds(history):
++    return [e.kind for e in history]
++
++
++def launched_before_first_answer(history) -> int:
++    """Calls dispatched before any speculative call had answered."""
++    n = 0
++    for e in history:
++        if e.kind == "ready":
++            break
++        n += e.kind == "dispatch"
++    return n
++
++
++def check_all_claimed(out, history, n, base):
++    k = kinds(history)
++    assert out.final_answer is not None and norm(out.final_answer) == norm(base.final_answer)
++    assert k.count("dispatch") == n and k.count("claim_hit") == n
++    assert k.count("claim_miss") == 0 and k.count("evict") == 0  # nothing missed or wasted
++
++
++# --------------------------------------------------------- the three recorded shapes
++HELPER_LOOP = (
++    "questions = context.split('\\n')\n"
++    "def create_prompt(batch):\n"
++    "    return 'Classify each of these: ' + ' | '.join(batch)\n"
++    "def classify_all(questions, batch_size=2):\n"
++    "    results = []\n"
++    "    for i in range(0, len(questions), batch_size):\n"
++    "        batch = questions[i:i + batch_size]\n"
++    "        prompt = create_prompt(batch)\n"
++    "        batch_results = llm_query(prompt).strip().split('\\n')\n"  # the result is used
++    "        results.extend(batch_results)\n"
++    "        print(f'Processed batch {i//batch_size + 1}')\n"
++    "    return results\n"
++    "all_c = classify_all(questions, batch_size=2)\n"
++    "answer['content'] = str(len(all_c))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_helper_loop_that_uses_each_result_launches_all_its_calls_at_once():
++    base, _, _ = run_turn(HELPER_LOOP, mode="baseline")
++    out, hist, _ = run_turn(HELPER_LOOP)
++    check_all_claimed(out, hist, 12, base)
++    assert launched_before_first_answer(hist) == 12
++    assert {e.data["source"] for e in hist if e.kind == "dispatch"} == {"peek"}
++    assert kinds(hist).count("adopt") == 12  # the shadow took each one over as it got there
++    # the same turn without the scout: the shadow stalls at every call
++    out2, hist2, _ = run_turn(HELPER_LOOP, scout=False)
++    assert norm(out2.final_answer) == norm(base.final_answer)
++    assert launched_before_first_answer(hist2) == 1
++    # twelve calls of at least 0.25 s: one after another they need 3 s
++    assert out.metrics.t_turn < 1.5 < out2.metrics.t_turn
++
++
++BATCHED_LOOP_WITH_COUNTER = (
++    "from collections import Counter\n"
++    "questions = context.split('\\n')\n"
++    "label_counts = Counter()\n"
++    "batch_size = 4\n"
++    "for i in range(0, len(questions), batch_size):\n"
++    "    batch = questions[i:i+batch_size]\n"
++    "    prompts = [f'Classify. Question: {q}' for q in batch]\n"
++    "    results = llm_query_batched(prompts)\n"
++    "    for r in results:\n"
++    "        label_counts[r] += 1\n"  # hashing r needs its value
++    "answer['content'] = str(sum(label_counts.values()))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_batches_in_a_loop_all_go_out_before_the_first_answer():
++    base, _, _ = run_turn(BATCHED_LOOP_WITH_COUNTER, mode="baseline")
++    out, hist, _ = run_turn(BATCHED_LOOP_WITH_COUNTER)
++    check_all_claimed(out, hist, 24, base)
++    assert out.final_answer == "24"
++    assert launched_before_first_answer(hist) == 24
++    _, hist2, _ = run_turn(BATCHED_LOOP_WITH_COUNTER, scout=False)
++    assert launched_before_first_answer(hist2) == 4  # one batch, then it waits
++
++
++TRY_LOOP = (
++    "questions = context.split('\\n')\n"
++    "labels = []\n"
++    "for i in range(0, len(questions), 3):\n"
++    "    batch = questions[i:i + 3]\n"
++    "    prompt = ('Classify each, one per line:\\n' + '\\n'.join(batch))\n"
++    "    try:\n"
++    "        response = llm_query(prompt)\n"
++    "        batch_labels = [ln.strip() for ln in response.strip().split('\\n') if ln.strip()]\n"
++    "        labels.extend(batch_labels)\n"
++    "        print(f'Processed batch {i//3 + 1}, first: {batch_labels[:1]}')\n"
++    "    except Exception as e:\n"
++    "        print(f'Error in batch: {e}')\n"
++    "        for q in batch:\n"
++    "            labels.append(llm_query(f'Classify: {q}').strip())\n"
++    "answer['content'] = str(len(labels))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_loop_with_try_launches_its_calls_and_not_its_fallback():
++    base, _, _ = run_turn(TRY_LOOP, mode="baseline")
++    out, hist, _ = run_turn(TRY_LOOP)
++    check_all_claimed(out, hist, 8, base)  # 8 batches; none of the 24 fallback calls
++    assert launched_before_first_answer(hist) == 8
++
++
++# --------------------------------------------------------- what the scout must not do
++CHAIN = (
++    "a = llm_query('first: ' + context[:20])\n"
++    "b = llm_query('second: ' + str(a))\n"  # needs a
++    "c = llm_query('third: ' + context[20:40])\n"  # needs nothing
++    "answer['content'] = str(a) + '|' + str(b) + '|' + str(c)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_dependent_call_waits_and_the_call_after_it_does_not():
++    base, _, _ = run_turn(CHAIN, mode="baseline")
++    out, hist, _ = run_turn(CHAIN)
++    check_all_claimed(out, hist, 3, base)
++    at = {}
++    for i, e in enumerate(hist):
++        if e.kind == "dispatch":
++            at[e.data["preview"].strip("'").split(":")[0]] = i
++    first_ready = kinds(hist).index("ready")
++    assert at["first"] < first_ready and at["third"] < first_ready  # no stall behind b
++    assert at["second"] > first_ready  # b only once a had answered
++    # without the scout, c waits behind b, which waits for a
++    _, hist2, _ = run_turn(CHAIN, scout=False)
++    assert launched_before_first_answer(hist2) == 1
++
++
++SCAN_UNTIL_FOUND = (
++    "chunks = [context[i:i+30] for i in range(0, 120, 30)]\n"
++    "found = None\n"
++    "for c in chunks:\n"
++    "    r = llm_query('scan: ' + c)\n"
++    "    if 'no-answer-says-this' in str(r):\n"
++    "        found = c\n"
++    "        break\n"
++    "answer['content'] = str(found)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_the_scout_does_not_guess_past_a_test_on_a_result():
++    """Whether the loop goes on depends on the first answer. Launching the later
++    iterations would be a bet, and the scout places none."""
++    base, _, _ = run_turn(SCAN_UNTIL_FOUND, mode="baseline")
++    out, hist, _ = run_turn(SCAN_UNTIL_FOUND)
++    check_all_claimed(out, hist, 4, base)
++    assert launched_before_first_answer(hist) == 1
++    assert [e.data["reason"] for e in hist if e.kind == "scout_skip"][0] == "needs a value"
++
++
++MUTATING = (
++    "seen = []\n"
++    "for q in context.split('\\n')[:4]:\n"
++    "    seen.append(llm_query('note: ' + q))\n"
++    "answer['content'] = str(len(seen))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_the_scout_works_on_its_own_copy_of_the_variables():
++    out, hist, h = run_turn(MUTATING)
++    assert out.final_answer == "4" and len(h.repl.locals["seen"]) == 4
++    assert all(isinstance(x, str) for x in h.repl.locals["seen"])
++    assert kinds(hist).count("dispatch") == 4 and kinds(hist).count("evict") == 0
++
++
++SHADOW_STOPS = (
++    "lines = context.split('\\n')[:4]\n"
++    "a = [llm_query('Noun in: ' + lines[0]), llm_query('Noun in: ' + lines[1])]\n"
++    "import socket\n"  # not on the shadow's import list: the shadow stops here
++    "b = [llm_query('Verb in: ' + lines[2]), llm_query('Verb in: ' + lines[3])]\n"
++    "answer['content'] = str(len(a) + len(b)) + socket.__name__\n"
++    "answer['ready'] = True"
++)
++
++
++def test_calls_after_the_shadow_stops_are_still_launched():
++    base, _, _ = run_turn(SHADOW_STOPS, mode="baseline")
++    out, hist, _ = run_turn(SHADOW_STOPS)
++    assert "shadow_stop" in kinds(hist)  # the shadow did stop at the import
++    check_all_claimed(out, hist, 4, base)
++    # without the scout the two calls after the import are made by the real run itself
++    _, hist2, _ = run_turn(SHADOW_STOPS, scout=False)
++    assert kinds(hist2).count("claim_miss") == 2
++
++
++def test_the_scout_is_off_unless_asked_for():
++    out, hist, _ = run_turn(HELPER_LOOP, scout=False)
++    assert not [e for e in hist if e.kind.startswith("scout_")]
++    assert {e.data["source"] for e in hist if e.kind == "dispatch"} <= {"shadow", "peek"}
++
++
++RUNAWAY = (
++    "n = 0\n"
++    "while True:\n"  # never ends: the scout's watchdog and the shadow's must both cut it
++    "    n += 1\n"
++    "    if n > 10**12:\n"
++    "        break\n"
++)
++
++
++def test_a_statement_that_spins_is_cut_and_the_calls_after_it_still_go_out():
++    """The scout gives a statement the shadow's compute budget, then moves on."""
++    import threading
++
++    from spec_ptc.contracts.tools import ToolRegistry
++    from spec_ptc.engine.shadow import ShadowRunner
++    from spec_ptc.engine.speculation import Launcher, SpecStore, make_scout_hooks
++    from spec_ptc.engine.streaming import Segment
++    from spec_ptc.runtime.harness import REAL_BUILTINS
++
++    reg = ToolRegistry()
++    reg.register("llm_query", lambda p: f"ans({p})", speculatable=True, pure=True)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus)
++    scout = ShadowRunner({}, make_scout_hooks(reg, launcher), store, REAL_BUILTINS, bus,
++                         launcher=launcher, registry=reg, scout=True)
++    segs = [Segment(0, 0, RUNAWAY), Segment(0, 1, "x = llm_query('after the loop')")]
++    for s in segs:
++        s.scouted = threading.Event()
++        scout.feed(s)
++    scout.finish()
++    assert scout.join(10) and all(s.scouted.is_set() for s in segs)
++    skips = [e.data["reason"] for e in bus.history if e.kind == "scout_skip"]
++    assert skips == ["ShadowAborted"]
++    assert [e.data["preview"] for e in bus.history if e.kind == "dispatch"] == ["'after the loop'"]
++    # a segment fed after the scout has ended is released at once
++    late = Segment(0, 2, "y = 1")
++    late.scouted = threading.Event()
++    scout.feed(late)
++    assert late.scouted.is_set()
++    launcher.shutdown()
+diff --git a/tests/test_sptc_hints.py b/tests/test_sptc_hints.py
+index 07fc959..51a1ded 100644
+--- a/tests/test_sptc_hints.py
++++ b/tests/test_sptc_hints.py
+@@ -436,14 +436,16 @@ def test_harness_answer_matches_baseline_when_server_rejects_speculation():
+     out, bus = run_turn(RejectingMock(FAST), "spec", CODE)
+     base, _ = run_turn(MockLM(FAST), "baseline", CODE)
+     assert out.final_answer and norm(out.final_answer) == norm(base.final_answer)
+-    assert out.metrics.hits == 0  # fallbacks saved nothing: not reported as hits
+-    assert out.metrics.fallbacks == sum(e.kind == "spec_fallback" for e in bus.history)
+     kinds = [e.kind for e in bus.history]
+     assert kinds.count("dispatch") >= 1
+-    # every speculative dispatch was refused; each real call either claimed it and fell
+-    # back, or missed it outright
+-    assert kinds.count("spec_fallback") + kinds.count("claim_miss") == 3, kinds
+-    assert kinds.count("claim_done") == 0
++    # Every speculative dispatch was refused. The answer line needs all three values, so
++    # the shadow re-ran each call as normal work (tests/test_refusal_survival.py) and the
++    # real run claimed those runs: no fallback at claim time, no miss, no stopped shadow.
++    assert "shadow_stop" not in kinds
++    assert kinds.count("spec_reissue") == 3 and out.metrics.reissues == 3
++    assert kinds.count("claim_hit") == 3 and out.metrics.hits == 3
++    assert kinds.count("spec_fallback") + kinds.count("claim_miss") == 0, kinds
++    assert out.metrics.fallbacks == 0
+ 
+ 
+ def test_harness_claims_inflight_speculation_then_falls_back():

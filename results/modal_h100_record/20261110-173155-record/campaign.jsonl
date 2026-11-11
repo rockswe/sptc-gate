@@ -1,0 +1,32 @@
+{"t": 1794331917.697, "kind": "begin", "tasks": ["trec132k-17000232", "trec132k-17000241", "trec132k-17000222", "trec132k-17000237", "pairs32k-16", "pairs32k-20", "pairs32k-1", "pairs32k-15"], "arms": ["nospec"], "conc": [8], "repeats": 2, "model": "Qwen/Qwen3-30B-A3B-Instruct-2507", "base_url": "http://localhost:8210/v1", "max_minutes": 50.0, "repl_fix": true, "serve_extra": ["--max-model-len", "65536"], "warmup_passes": 2, "root_max_deltas": 3000, "files": {"GATE.md": "f5182144e43cf6a932bd24be827332ead44fbf006650a790998241a9f3b54015", "GATE_ADDENDUM.md": "13ec7df5e9deda3a3bc9c92e3bce5b31df07137ef62bb0bc9f8ea9764e8138d3", "rlm_campaign.py": "a7abd296037610192cf9a2d253097a2dd9d2b5053cdfda33d90dd8b7f8099bc7", "rlm_stream.py": "3a04d8e9f1d12c8c9b031e7db28860190bc8c83994849b5dc8ce33b6f42b7673", "repl_fix.py": "e8108229dce2110442d646471e2c040fa609ed6d27560c5f807273fcdfc56c80", "app.py": "687b3c231355eec4c2b274f4e3b511339171b59f189c178c2c6ddd5bd549bcc0", "PREREG_RECORD.md": "77de92714cc4571520af48736f4d6ebc0fc757001f520e7179e3179774f625ca", "batch_fix.py": "4316beb6d81bf0397e97569c987c9cc3a010ee88519c864e2bf9036f91bbd575", "rlm_record.py": "994003146d2227c145551f06ada217bb081599fa4b5eff3ed12af8e8b5486130", "record_app.py": "0fc4c2954f6f88065e1b388af49c18dd8ba5405a84fc0aa3d138967dea23c1e3"}, "spec_ptc_py_tree": "7443213069ac0b5634bebb4dcf453145c9df679c53c9ebd07ef29d873e124b2e", "spec_ptc_py_files": 74}
+{"t": 1794332029.566, "kind": "server_ready", "ready_s": 100.0, "kernel_config_dropped": []}
+{"t": 1794332034.835, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "short", "errors": 0, "wall_s": 5.268, "stream_max_gap_ms": 595.0}
+{"t": 1794332037.241, "kind": "warmup_wave", "pass": 1, "n": 2, "prompt": "short", "errors": 0, "wall_s": 2.405, "stream_max_gap_ms": 515.9}
+{"t": 1794332039.743, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "short", "errors": 0, "wall_s": 2.5, "stream_max_gap_ms": 543.7}
+{"t": 1794332042.8, "kind": "warmup_wave", "pass": 1, "n": 8, "prompt": "short", "errors": 0, "wall_s": 3.056, "stream_max_gap_ms": 47.9}
+{"t": 1794332046.328, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "short", "errors": 0, "wall_s": 3.528, "stream_max_gap_ms": 901.3}
+{"t": 1794332048.348, "kind": "warmup_wave", "pass": 1, "n": 32, "prompt": "short", "errors": 0, "wall_s": 2.019, "stream_max_gap_ms": 58.0}
+{"t": 1794332051.459, "kind": "warmup_wave", "pass": 1, "n": 64, "prompt": "short", "errors": 0, "wall_s": 3.111, "stream_max_gap_ms": 589.2}
+{"t": 1794332054.337, "kind": "warmup_wave", "pass": 1, "n": 128, "prompt": "short", "errors": 0, "wall_s": 2.877, "stream_max_gap_ms": 726.8}
+{"t": 1794332056.402, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.064, "stream_max_gap_ms": 60.9}
+{"t": 1794332058.567, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.164, "stream_max_gap_ms": 149.2}
+{"t": 1794332061.268, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "long", "errors": 0, "wall_s": 2.701, "stream_max_gap_ms": 193.0}
+{"t": 1794332063.663, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "short", "errors": 0, "wall_s": 2.395, "stream_max_gap_ms": 57.6}
+{"t": 1794332065.893, "kind": "warmup_wave", "pass": 2, "n": 2, "prompt": "short", "errors": 0, "wall_s": 2.229, "stream_max_gap_ms": 56.3}
+{"t": 1794332067.974, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "short", "errors": 0, "wall_s": 2.08, "stream_max_gap_ms": 48.7}
+{"t": 1794332069.991, "kind": "warmup_wave", "pass": 2, "n": 8, "prompt": "short", "errors": 0, "wall_s": 2.016, "stream_max_gap_ms": 49.7}
+{"t": 1794332072.062, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "short", "errors": 0, "wall_s": 2.071, "stream_max_gap_ms": 57.7}
+{"t": 1794332074.176, "kind": "warmup_wave", "pass": 2, "n": 32, "prompt": "short", "errors": 0, "wall_s": 2.113, "stream_max_gap_ms": 119.3}
+{"t": 1794332076.212, "kind": "warmup_wave", "pass": 2, "n": 64, "prompt": "short", "errors": 0, "wall_s": 2.036, "stream_max_gap_ms": 66.3}
+{"t": 1794332078.431, "kind": "warmup_wave", "pass": 2, "n": 128, "prompt": "short", "errors": 0, "wall_s": 2.219, "stream_max_gap_ms": 75.4}
+{"t": 1794332080.474, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.042, "stream_max_gap_ms": 47.6}
+{"t": 1794332082.597, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.122, "stream_max_gap_ms": 95.8}
+{"t": 1794332085.152, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "long", "errors": 0, "wall_s": 2.554, "stream_max_gap_ms": 186.7}
+{"t": 1794332100.201, "kind": "batch_probe", "fixed": false, "prompts": 80, "batches": [{"batch": 1, "size": 20, "errors": 0, "loop_errors": 0, "wall_s": 0.441, "first_error": null}, {"batch": 2, "size": 20, "errors": 16, "loop_errors": 16, "wall_s": 0.231, "first_error": "Error: llm() call failed - Event loop is closed"}, {"batch": 3, "size": 20, "errors": 4, "loop_errors": 4, "wall_s": 0.226, "first_error": "Error: llm() call failed - Event loop is closed"}, {"batch": 4, "size": 20, "errors": 1, "loop_errors": 1, "wall_s": 0.402, "first_error": "Error: llm() call failed - Event loop is closed"}], "errors": 21, "loop_errors": 21}
+{"t": 1794332100.203, "kind": "batch_probe", "fixed": true, "prompts": 80, "batches": [{"batch": 1, "size": 20, "errors": 0, "loop_errors": 0, "wall_s": 0.393, "first_error": null}, {"batch": 2, "size": 20, "errors": 0, "loop_errors": 0, "wall_s": 0.36, "first_error": null}, {"batch": 3, "size": 20, "errors": 0, "loop_errors": 0, "wall_s": 0.386, "first_error": null}, {"batch": 4, "size": 20, "errors": 0, "loop_errors": 0, "wall_s": 0.395, "first_error": null}], "errors": 0, "loop_errors": 0}
+{"t": 1794332100.203, "kind": "warmup_done", "passes": 2, "waves": 22, "wall_s": 70.6, "errors": 0}
+{"t": 1794332100.216, "kind": "unit_begin", "unit": "nospec_c8_r1"}
+{"t": 1794332999.716, "kind": "unit_end", "unit": "nospec_c8_r1", "wall_s": 899.1, "errors": 0, "score": 0.124}
+{"t": 1794333005.178, "kind": "unit_begin", "unit": "nospec_c8_r2"}
+{"t": 1794334346.249, "kind": "unit_end", "unit": "nospec_c8_r2", "wall_s": 1339.7, "errors": 2, "score": 0.272}
+{"t": 1794334354.101, "kind": "end", "spent_s": 2436}

@@ -1,0 +1,1461 @@
+diff --git a/demo/rlm.py b/demo/rlm.py
+index 58a9b16..96f6b59 100644
+--- a/demo/rlm.py
++++ b/demo/rlm.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++import inspect
+ from collections.abc import Callable
+ from typing import Any
+ 
+@@ -12,6 +13,17 @@ from spec_ptc.contracts.tools import ToolRegistry
+ from spec_ptc.speculator import SpecSession, StreamTurn
+ 
+ 
++def rlms_batch_width() -> int:
++    """How many prompts of one llm_query_batched rlms' LM handler keeps in flight
++    (LMHandler.batch_max_concurrent: 16 in rlms 0.1.3, and RLM() has no argument for it)."""
++    try:
++        from rlm.core.lm_handler import LMHandler
++
++        return int(inspect.signature(LMHandler.__init__).parameters["batch_max_concurrent"].default)
++    except Exception:  # noqa: BLE001 - another rlms: assume what 0.1.3 does
++        return 16
++
++
+ class SpeculativeLocalREPL(LocalREPL):
+     def __init__(
+         self,
+@@ -19,29 +31,45 @@ class SpeculativeLocalREPL(LocalREPL):
+         spec_bus: EventBus | None = None,
+         spec_max_inflight: int = 16,
+         subcall_override: Callable[..., str] | None = None,
++        subcall_batched_override: Callable[[list[str]], list[str]] | None = None,
+         auto_speculate: bool = True,
+         spec_scout: bool = False,
+         spec_rlm_query: bool = False,
++        spec_batch_launch: bool = False,
+         **kwargs: Any,
+     ) -> None:
+-        """spec_scout: run the scout pass ahead of the shadow, so a loop's independent
++        """spec_max_inflight: the window, speculative sub-calls in flight at once. 16 as
++        shipped. It is this REPL's own: tasks running side by side each have one.
++
++        spec_scout: run the scout pass ahead of the shadow, so a loop's independent
+         calls go out together (spec_ptc.engine.shadow, ShadowRunner._scout_one).
+ 
+         spec_rlm_query: speculate rlm_query / rlm_query_batched too, when this REPL has no
+         recursion (no subcall_fn, rlms' default depth of 1). rlms itself then runs them
+         as llm_query / llm_query_batched, so they are the same plain sub-calls. Off by
+         default: as shipped they are never speculated, and using their result stops the
+-        shadow for the turn."""
++        shadow for the turn.
++
++        spec_batch_launch: launch a model-written llm_query_batched as one batched request
++        to the LM handler, as the program itself would send it, in place of one thread and
++        one handler connection per prompt. rlms runs 16 prompts of a batch at a time; see
++        follow_window for a wider batch."""
+         self._auto_speculate = auto_speculate
+         super().__init__(*args, **kwargs)
+         self.bus = spec_bus or EventBus()
+         self.reg = ToolRegistry()
+         base_single = subcall_override or LocalREPL._llm_query.__get__(self)
+-        base_batched = (
+-            (lambda prompts, model=None: [subcall_override(p) for p in prompts])
+-            if subcall_override
+-            else LocalREPL._llm_query_batched.__get__(self)
+-        )
++        if subcall_batched_override is not None:
++            base_batched = lambda prompts, model=None: subcall_batched_override(prompts)  # noqa: E731
++            width = getattr(subcall_batched_override, "batch_width", None)
++        elif subcall_override is not None:  # one prompt after another
++            base_batched = lambda prompts, model=None: [subcall_override(p) for p in prompts]  # noqa: E731
++            width = 1
++        else:
++            base_batched = LocalREPL._llm_query_batched.__get__(self)
++            width = rlms_batch_width()
++        self._rlms_batches = subcall_override is None and subcall_batched_override is None
++        self._batch_launch = spec_batch_launch
+         self.reg.register(
+             "llm_query", base_single, speculatable=True, pure=True, latency_hint_ms=2000
+         )
+@@ -51,6 +79,7 @@ class SpeculativeLocalREPL(LocalREPL):
+             speculatable=True,
+             pure=True,
+             batched=True,
++            batch_width=width,
+             latency_hint_ms=2000,
+         )
+         self._spec_rlm = spec_rlm_query and getattr(self, "subcall_fn", None) is None
+@@ -64,6 +93,7 @@ class SpeculativeLocalREPL(LocalREPL):
+                 speculatable=True,
+                 pure=True,
+                 batched=True,
++                batch_width=width,
+                 latency_hint_ms=2000,
+             )
+         else:
+@@ -77,6 +107,7 @@ class SpeculativeLocalREPL(LocalREPL):
+             max_inflight=spec_max_inflight,
+             max_dispatches_per_turn=4096,
+             scout=spec_scout,
++            batch_launch=spec_batch_launch,
+         )
+         self.spec_store = self.session.store
+         self.spec_launcher = self.session.launcher
+@@ -92,6 +123,39 @@ class SpeculativeLocalREPL(LocalREPL):
+             self.globals["rlm_query"] = self._spec_rlm_query
+             self.globals["rlm_query_batched"] = self._spec_rlm_query_batched
+ 
++    def follow_window(self, lm_handler: Any) -> None:
++        """Fit rlms' LM handler to this REPL's window. The REPL only holds the handler's
++        address; a client that holds the handler itself (a streaming RLM's turn) calls
++        this once per turn. Two of the handler's limits are sized for 16 calls:
++
++        - Its socket listens with a backlog of 5 (Python's default). Every single call is
++          its own connection, so a window of 128 opens 128 at once: the surplus is
++          dropped by the kernel, and rlms returns 'Error: Request failed: ...' as the
++          call's answer. The backlog is raised to twice the window.
++        - It keeps 16 prompts of a batch in flight (batch_max_concurrent), whatever the
++          engine could take. With spec_batch_launch on, it is raised to the window, for
++          the batches this REPL launches and for the ones the program sends itself, and
++          a batch launched as a batch then holds that many places."""
++        window = self.session.launcher.budget.max_inflight
++        sock = getattr(getattr(lm_handler, "_server", None), "socket", None)
++        if sock is not None and window > 5 and getattr(self, "_backlog_for", None) is not sock:
++            try:
++                sock.listen(max(128, 2 * window))  # listen() again resizes the queue
++                self._backlog_for = sock
++            except OSError:
++                pass
++        if not (self._batch_launch and self._rlms_batches):
++            return
++        current = getattr(lm_handler, "batch_max_concurrent", None)
++        if not isinstance(current, int):
++            return
++        if current < window:
++            lm_handler.batch_max_concurrent = current = window
++        for name in ("llm_query_batched", "rlm_query_batched"):
++            tool = self.reg.get(name)
++            if tool is not None and tool.batched:
++                tool.batch_width = current
++
+     # ---- the REPL-visible hooks (waiting mode) -------------------------------
+     def _spec_llm_query(self, prompt: str, model: str | None = None) -> str:
+         return self._real_hooks["llm_query"](prompt)
+diff --git a/src/contracts/tools.py b/src/contracts/tools.py
+index fded3b4..8469cbf 100644
+--- a/src/contracts/tools.py
++++ b/src/contracts/tools.py
+@@ -33,6 +33,9 @@ class ToolSpec:
+     deterministic: bool = False
+     latency_hint_ms: float = 1000.0
+     batched: bool = False
++    # a batched tool: how many of one batch's calls it keeps in flight (None: all of them).
++    # A batch launched as a batch holds that many places of the window (Launcher.dispatch_batch).
++    batch_width: int | None = None
+     spec_fn: Callable[..., Any] | None = None  # how to RUN speculatively
+     cancel_fn: Callable[..., None] | None = None  # abort in-flight on evict
+     key_fn: Callable[..., Any] | None = None  # canonical claim identity
+@@ -52,6 +55,7 @@ class Tool:
+     deterministic: bool = False
+     latency_hint_ms: float = 1000.0
+     batched: bool = False
++    batch_width: int | None = None
+ 
+     # -- required ---------------------------------------------------------
+     def execute(self, *args: Any, **kwargs: Any) -> Any:
+@@ -170,6 +174,7 @@ class ToolRegistry:
+         deterministic: bool = False,
+         latency_hint_ms: float = 1000.0,
+         batched: bool = False,
++        batch_width: int | None = None,
+         spec_fn: Callable[..., Any] | None = None,
+         cancel_fn: Callable[..., None] | None = None,
+         key_fn: Callable[..., Any] | None = None,
+@@ -189,6 +194,7 @@ class ToolRegistry:
+             deterministic=deterministic,
+             latency_hint_ms=latency_hint_ms,
+             batched=batched,
++            batch_width=batch_width,
+             spec_fn=spec_fn,
+             cancel_fn=cancel_fn,
+             key_fn=key_fn,
+@@ -213,6 +219,7 @@ class ToolRegistry:
+             deterministic=tool.deterministic,
+             latency_hint_ms=tool.latency_hint_ms,
+             batched=tool.batched,
++            batch_width=getattr(tool, "batch_width", None),
+             cancel_fn=getattr(tool, "cancel", None),
+             key_fn=getattr(tool, "claim_key", None),
+             gate_fn=getattr(tool, "speculatable_call", None),
+diff --git a/src/engine/shadow.py b/src/engine/shadow.py
+index ca1e087..0726d08 100644
+--- a/src/engine/shadow.py
++++ b/src/engine/shadow.py
+@@ -6,6 +6,7 @@ import ast
+ import copy
+ import ctypes
+ import queue
++import re
+ import threading
+ import time
+ from collections import Counter
+@@ -14,14 +15,17 @@ from types import FunctionType
+ from spec_ptc.contracts.events import NULL_BUS, EventBus
+ from spec_ptc.contracts.tools import NonSpeculated, contains_nonspec
+ from spec_ptc.engine.speculation import (
++    UNKNOWN_TEXT,
+     ForceTracker,
+     ScoutStop,
+     SpecStore,
+     SpecValue,
++    Unknown,
++    UnknownStr,
+     force_ctx,
+     force_in_place,
+ )
+-from spec_ptc.engine.streaming import Segment, plan_peeks
++from spec_ptc.engine.streaming import Segment, _assigned_names, plan_peeks
+ 
+ STMT_WALL_BUDGET_S = 2.0  # runaway guard: max wall time per shadow statement
+ 
+@@ -185,6 +189,7 @@ class ShadowRunner:
+         self.aborted: str | None = None
+         self.executed = 0
+         self._last_peek_tally: dict = {}  # spec_key -> count from the last plan
++        self._dead_block: int | None = None  # scout: a block the program leaves by an error
+         self._thread = threading.Thread(target=self._run, daemon=True, name="shadow")
+         self._done = threading.Event()
+         self._thread.start()
+@@ -253,12 +258,23 @@ class ShadowRunner:
+         sub-call, so a statement that uses a result does not hold back the calls after
+         it: a loop's independent calls all go out before the first one answers.
+ 
+-        A statement the scout cannot finish (it needs a real value, or it raises) is
+-        left half-done in the scout's copy. Later statements that needed it then fail
+-        the same way, and the shadow and the real run handle them as they always have."""
++        A statement the scout cannot finish leaves the scout's copy half-done, and what
++        it would have set must not be read by the statements after it: the names it
++        assigns or changes in place become Unknown. A later call built from one of them
++        is then not launched, instead of being launched with the value the name had
++        before. (Recorded on OOLONG: `prompt = f"...{chunks[4]}"` raised, `prompt` still
++        held the last turn's 36,000-token prompt, and the next statement sent it again.)
++
++        If the statement raised for a reason that is not the scout's own doing (not an
++        Unknown, not the sandbox), the program raises there too and leaves the block: the
++        scout skips the rest of that block. The next block runs on its own, as in rlms."""
+         try:
+             if self.aborted:
+                 return
++            if seg.block_id == self._dead_block:
++                self.bus.emit("scout_skip", block=seg.block_id, index=seg.index,
++                              reason="after an error")
++                return
+             try:
+                 tree = ast.parse(seg.source)
+             except SyntaxError:
+@@ -279,15 +295,25 @@ class ShadowRunner:
+             timer.daemon = True
+             timer.start()
+             why = None
++            scouts_own = True
+             try:
+                 exec(compile(tree, "<scout>", "exec"), self.ns, self.ns)
+             except ScoutStop:
+                 why = "needs a value"
+             except BaseException as e:  # noqa: BLE001 - model code may raise anything
+                 why = type(e).__name__
++                scouts_own = _scouts_own_failure(e)
+             finally:
+                 armed["on"] = False
+                 timer.cancel()
++            if why is not None:
++                unset = _bound_names(tree)
++                for stmt in tree.body:
++                    unset |= _assigned_names(stmt)
++                for name in unset - set(self.hooks):
++                    self.ns[name] = Unknown()
++                if not scouts_own:
++                    self._dead_block = seg.block_id
+             self.bus.emit("scout_exec" if why is None else "scout_skip", block=seg.block_id,
+                           index=seg.index, **({} if why is None else {"reason": why}))
+         finally:
+@@ -421,6 +447,25 @@ class ShadowRunner:
+         self.bus.emit("shadow_stop", reason=why, block=seg.block_id, index=seg.index)
+ 
+ 
++_UNKNOWN_IN_MESSAGE = re.compile(r"\bUnknown(Str)?\b")
++
++
++def _scouts_own_failure(e: BaseException) -> bool:
++    """Did a scout statement fail because of the scout itself: an Unknown where a value
++    was needed (len(), a dict key, a str method), the sandbox (a blocked import, an
++    opaque value), or the watchdog? The program does not fail there. Anything else
++    (a NameError, an IndexError on real data) it raises too."""
++    if isinstance(e, ShadowAborted):
++        return True
++    if any(isinstance(a, (Unknown, UnknownStr)) for a in e.args):
++        return True
++    msg = str(e)
++    if UNKNOWN_TEXT in msg or "in shadow" in msg:
++        return True
++    return isinstance(e, (TypeError, AttributeError, ValueError, KeyError)) and bool(
++        _UNKNOWN_IN_MESSAGE.search(msg))
++
++
+ def _read_names(tree: ast.AST) -> set[str]:
+     return {
+         n.id for n in ast.walk(tree) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index 80e7981..368c2ff 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -511,12 +511,14 @@ def _drop(q: deque, spec: Speculation) -> None:
+ 
+ 
+ class Budget:
+-    """Caps on speculative spend. max_inflight bounds concurrent executions;
++    """Caps on speculative spend. max_inflight bounds concurrent executions (the
++    window): one place per single call, and per batch launched as a batch the number of
++    calls its tool keeps in flight;
+     max_dispatches_per_turn bounds total dispatches (hard deny);
+     max_inflight_chars bounds total argument characters being executed at
+     once — the prefill-pressure control. Char-budget
+     excess WAITS in its worker (delayed dispatch) rather than denying, so it
+-    can never abort the shadow or cause a miss."""
++    can never abort the shadow or cause a miss. The window waits the same way."""
+ 
+     def __init__(
+         self,
+@@ -531,6 +533,34 @@ class Budget:
+         self._chars = 0
+         self._lock = threading.Lock()
+         self._chars_freed = threading.Condition(self._lock)
++        self._slots = 0  # places of the window in use
++        self._slot_queue: deque = deque()  # who waits for a place, in arrival order
++        self._slots_freed = threading.Condition(threading.Lock())
++
++    def acquire_slots(self, n: int = 1, timeout: float = 600.0) -> int:
++        """Take `n` places of the window (at most all of it) and return how many were
++        taken. Waits for room, in arrival order: a batch that needs many places is not
++        overtaken by the single calls that arrive behind it. With single calls alone the
++        pool's size already is the window, and this never waits."""
++        n = max(1, min(n, self.max_inflight))
++        me = object()
++        with self._slots_freed:
++            self._slot_queue.append(me)
++            deadline = time.monotonic() + timeout
++            while self._slot_queue[0] is not me or self._slots + n > self.max_inflight:
++                remaining = deadline - time.monotonic()
++                if remaining <= 0:
++                    break  # degrade: run anyway, as the char budget does
++                self._slots_freed.wait(remaining)
++            self._slot_queue.remove(me)
++            self._slots += n
++            self._slots_freed.notify_all()
++        return n
++
++    def release_slots(self, n: int) -> None:
++        with self._slots_freed:
++            self._slots -= n
++            self._slots_freed.notify_all()
+ 
+     def acquire_chars(self, n: int, timeout: float = 600.0) -> None:
+         n = min(n, self.max_inflight_chars)  # one huge call may still run
+@@ -562,11 +592,18 @@ class Budget:
+ 
+ class Launcher:
+     def __init__(
+-        self, store: SpecStore, bus: EventBus = NULL_BUS, budget: Budget | None = None
++        self,
++        store: SpecStore,
++        bus: EventBus = NULL_BUS,
++        budget: Budget | None = None,
++        batch_launch: bool = False,
+     ) -> None:
+         self.store = store
+         self.bus = bus
+         self.budget = budget or Budget()
++        # batch_launch: the shadow and scout hooks launch a model-written batch as one
++        # call of the batched tool (dispatch_batch), not as one single call per prompt
++        self.batch_launch = batch_launch
+         self._seq = 0
+         self._seq_lock = threading.Lock()
+         self._pool = ThreadPoolExecutor(
+@@ -632,10 +669,11 @@ class Launcher:
+             new += 1
+         return new
+ 
+-    def dispatch(
+-        self, tool: ToolSpec, args: tuple, kwargs: dict, source: str
++    def _create(
++        self, tool: ToolSpec, args: tuple, kwargs: dict, source: str, **event: Any
+     ) -> Speculation | None:
+-        """Fire the tool now; returns the Speculation, or None if budget-denied."""
++        """A new speculation in the store, announced on the bus, not yet running.
++        None if the turn's dispatch cap is used up."""
+         if not self.budget.admit():
+             self.bus.emit("note", msg=f"budget denied dispatch of {tool.name}")
+             return None
+@@ -660,7 +698,18 @@ class Launcher:
+             tool=tool.name,
+             source=source,
+             preview=spec.args_preview,
++            **event,
+         )
++        return spec
++
++    def dispatch(
++        self, tool: ToolSpec, args: tuple, kwargs: dict, source: str
++    ) -> Speculation | None:
++        """Fire the tool now; returns the Speculation, or None if budget-denied."""
++        spec = self._create(tool, args, kwargs, source)
++        if spec is None:
++            return None
++        key = spec.key
+ 
+         def run() -> None:
+             if spec.state == "evicted":
+@@ -668,6 +717,7 @@ class Launcher:
+                 return
+             spec.state = "running"
+             nchars = sum(len(a) for a in args if isinstance(a, str))
++            slots = self.budget.acquire_slots(1)  # the window; free with single calls alone
+             self.budget.acquire_chars(nchars)  # prefill-pressure gate (EXP-2)
+             run_fn = tool.spec_fn or tool.fn  # speculative-mode variant
+             try:
+@@ -691,6 +741,7 @@ class Launcher:
+                     # server refused/dropped it (sptc scheduler): a claim re-runs it for real
+                     self.bus.emit("spec_rejected", key=key, seq=spec.seq, reason=e.reason)
+             self.budget.release_chars(nchars)
++            self.budget.release_slots(slots)
+             spec.t_ready = time.perf_counter()
+             spec.done.set()
+             if spec.state == "ready":
+@@ -701,6 +752,116 @@ class Launcher:
+         self._pool.submit(run)
+         return spec
+ 
++    def dispatch_batch(
++        self,
++        batched: ToolSpec,
++        single: ToolSpec,
++        prompts: list,
++        rest: tuple,
++        kwargs: dict,
++        source: str,
++        adopt: bool = False,
++    ) -> list[Speculation | None]:
++        """A model-written batch, launched as a batch: one call of the batched tool for
++        the prompts nobody has launched yet.
++
++        Each prompt still gets its own speculation under the single tool's key, so
++        adoption, claims and eviction work per prompt exactly as with one thread per
++        prompt, and the real run can claim them from a batch of another shape.
++
++        adopt: the shadow's side. A prompt the scout or a peek already launched is taken
++        over, not launched again. Returns one speculation per prompt, in order; None
++        where the turn's dispatch cap refused a new one.
++
++        The batch holds as many places of the window as the tool keeps calls in flight
++        (ToolSpec.batch_width; all of the batch if the tool does not say), and never more
++        than the window."""
++        out: list[Speculation | None] = [None] * len(prompts)
++        fresh: list[Speculation] = []
++        for i, p in enumerate(prompts):
++            args = (p, *rest)
++            key = spec_key(single, args, kwargs)
++            if single.deterministic:
++                spec = self.store.existing(key)
++                if spec is not None:
++                    if adopt:
++                        spec.adopted = True  # shield from peek retraction
++                    out[i] = spec
++                    continue
++            if adopt:
++                spec = self.store.adopt(key)
++                if spec is not None:
++                    self.bus.emit("adopt", key=key, seq=spec.seq, tool=single.name)
++                    out[i] = spec
++                    continue
++            spec = self._create(single, args, kwargs, source, batch=len(prompts))
++            if spec is not None:
++                out[i] = spec
++                fresh.append(spec)
++        if fresh:
++            self._pool.submit(self._run_batch, batched, fresh, rest, kwargs)
++        return out
++
++    def _run_batch(
++        self, batched: ToolSpec, specs: list[Speculation], rest: tuple, kwargs: dict
++    ) -> None:
++        live: list[Speculation] = []
++        for spec in specs:
++            if spec.state == "evicted":
++                spec.done.set()
++            else:
++                spec.state = "running"
++                live.append(spec)
++        if not live:
++            return
++        prompts = [s.args[0] for s in live]
++        slots = self.budget.acquire_slots(min(len(live), batched.batch_width or len(live)))
++        # the characters in flight at once: the batch's, in proportion to its places
++        total = sum(len(p) for p in prompts if isinstance(p, str))
++        nchars = total * slots // len(live)
++        self.budget.acquire_chars(nchars)
++        run_fn = batched.spec_fn or batched.fn  # speculative-mode variant
++        results: list = []
++        failure: BaseException | None = None
++        try:
++            if getattr(run_fn, "wants_spec", False):
++                out = run_fn(prompts, *rest, _spec=live, **kwargs)
++            else:
++                out = run_fn(prompts, *rest, **kwargs)
++            if inspect.isawaitable(out):
++                out = self.run_awaitable(out)
++            results = list(out)
++            if len(results) != len(live):
++                raise RuntimeError(
++                    f"{batched.name} returned {len(results)} results for {len(live)} prompts"
++                )
++        except BaseException as e:  # surfaced at each element's claim/force point
++            failure = e
++        self.budget.release_chars(nchars)
++        self.budget.release_slots(slots)
++        now = time.perf_counter()
++        for i, spec in enumerate(live):
++            # a batched tool may hand back an exception in place of one element's result
++            err = failure if failure is not None else results[i]
++            if isinstance(err, BaseException):
++                spec.error = err
++                if spec.state != "evicted":
++                    spec.state = "failed"
++                    if isinstance(err, SpeculationRejected):
++                        self.bus.emit(
++                            "spec_rejected", key=spec.key, seq=spec.seq, reason=err.reason
++                        )
++            else:
++                spec.result = results[i]
++                if spec.state != "evicted":
++                    spec.state = "ready"
++            spec.t_ready = now
++            spec.done.set()
++            if spec.state == "ready":
++                self.bus.emit(
++                    "ready", key=spec.key, seq=spec.seq, ms=(now - spec.t_dispatch) * 1000
++                )
++
+     def reissue(self, spec: Speculation, tool: ToolSpec) -> Speculation:
+         """The call of a refused speculation, run as normal work, once.
+ 
+@@ -829,12 +990,16 @@ def make_shadow_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callab
+                 # llm_query_batched: dispatch per element so the real run can claim
+                 # elementwise; return list of SpecValues.
+                 prompts = list(args[0])
+-                specs = [
+-                    launcher.dispatch_or_adopt(
+-                        _single_of(_tool, reg), (p,) + args[1:], kwargs, "shadow"
++                single = _single_of(_tool, reg)
++                if launcher.batch_launch:  # one call of the batched tool for the new ones
++                    specs = launcher.dispatch_batch(
++                        _tool, single, prompts, tuple(args[1:]), kwargs, "shadow", adopt=True
+                     )
+-                    for p in prompts
+-                ]
++                else:
++                    specs = [
++                        launcher.dispatch_or_adopt(single, (p,) + args[1:], kwargs, "shadow")
++                        for p in prompts
++                    ]
+                 return [SpecValue(s) if s else None for s in specs]
+             spec = launcher.dispatch_or_adopt(_tool, args, kwargs, "shadow")
+             if spec is None:  # budget denied
+@@ -851,14 +1016,18 @@ def make_scout_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callabl
+ 
+     The launch is a peek: the shadow adopts it when it reaches the same call, the real
+     run claims it, and one nobody claims is evicted at turn end. A batched call is
+-    launched per element, as the shadow hook does, and returns one Unknown per element,
+-    so its length is known."""
++    launched per element, as the shadow hook does (or as one call of the batched tool,
++    with Launcher(batch_launch=True)), and returns one Unknown per element, so its
++    length is known."""
+     hooks: dict[str, Callable] = {}
+ 
+-    def launch(tool: ToolSpec, args: tuple, kwargs: dict) -> None:
++    def known(tool: ToolSpec, args: tuple, kwargs: dict) -> bool:
+         if not tool.speculatable or has_unknown(args) or has_unknown(kwargs):
+-            return
+-        if tool.gate_fn and not tool.gate_fn(args, kwargs):
++            return False
++        return not (tool.gate_fn and not tool.gate_fn(args, kwargs))
++
++    def launch(tool: ToolSpec, args: tuple, kwargs: dict) -> None:
++        if not known(tool, args, kwargs):
+             return
+         if tool.deterministic and launcher.store.existing(spec_key(tool, args, kwargs)):
+             return
+@@ -871,8 +1040,14 @@ def make_scout_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callabl
+         def hook(*args: Any, _tool=tool, **kwargs: Any):
+             if _tool.batched and args and isinstance(args[0], (list, tuple)):
+                 single = _single_of(_tool, reg)
+-                for p in args[0]:
+-                    launch(single, (p,) + tuple(args[1:]), kwargs)
++                rest = tuple(args[1:])
++                if launcher.batch_launch:  # the known prompts, as one call of the tool
++                    ok = [p for p in args[0] if known(single, (p, *rest), kwargs)]
++                    if ok:
++                        launcher.dispatch_batch(_tool, single, ok, rest, kwargs, "peek")
++                else:
++                    for p in args[0]:
++                        launch(single, (p, *rest), kwargs)
+                 return [Unknown() for _ in args[0]]
+             launch(_tool, tuple(args), kwargs)
+             return Unknown()
+diff --git a/src/runtime/engines.py b/src/runtime/engines.py
+index 62d48f2..00a4253 100644
+--- a/src/runtime/engines.py
++++ b/src/runtime/engines.py
+@@ -15,6 +15,34 @@ from spec_ptc.contracts.events import NULL_BUS, EventBus
+ from spec_ptc.contracts.hints import extra_body, raise_if_rejected, stop_reason
+ from spec_ptc.contracts.tools import ToolRegistry
+ 
++BATCH_WIDTH = 8  # calls of one batch these engines' batched tool keeps in flight
++
++
++def _batched_tool(sub_call):
++    """llm_query_batched over `sub_call`, BATCH_WIDTH prompts at a time.
++
++    Called by the program it gets no `_spec` and behaves as before. Launched as a batch
++    (Launcher.dispatch_batch) it gets one speculation per prompt: each call is then made
++    as that speculation's (tagged for the scheduler, cut if evicted), and a call that
++    fails hands back its exception in its own slot, so one refused or evicted element
++    does not fail the others."""
++
++    def one(prompt, spec):
++        if spec is None:
++            return sub_call(prompt)
++        try:
++            return sub_call(prompt, _spec=spec)
++        except Exception as e:  # noqa: BLE001 - this element's failure only
++            return e
++
++    def batched(prompts, _spec=None, **kw):
++        specs = _spec if _spec is not None else [None] * len(prompts)
++        with ThreadPoolExecutor(max_workers=BATCH_WIDTH) as pool:
++            return list(pool.map(one, prompts, specs))
++
++    batched.wants_spec = True  # type: ignore[attr-defined]
++    return batched
++
+ 
+ # --------------------------------------------------------------------------- mock
+ @dataclass
+@@ -79,16 +107,13 @@ class MockLM:
+         single.wants_spec = True  # type: ignore[attr-defined]
+         reg.register("llm_query", single, speculatable=True, pure=True, latency_hint_ms=1200)
+ 
+-        def batched(prompts, **kw):
+-            with ThreadPoolExecutor(max_workers=8) as pool:
+-                return list(pool.map(lambda p: self.sub_call(p), prompts))
+-
+         reg.register(
+             "llm_query_batched",
+-            batched,
++            _batched_tool(self.sub_call),
+             speculatable=True,
+             pure=True,
+             batched=True,
++            batch_width=BATCH_WIDTH,
+             latency_hint_ms=1200,
+         )
+ 
+@@ -183,16 +208,13 @@ class VLLMEngine:
+         single.wants_spec = True  # type: ignore[attr-defined]
+         reg.register("llm_query", single, speculatable=True, pure=True, latency_hint_ms=2500)
+ 
+-        def batched(prompts, **kw):
+-            with ThreadPoolExecutor(max_workers=8) as pool:
+-                return list(pool.map(lambda p: self.sub_call(p), prompts))
+-
+         reg.register(
+             "llm_query_batched",
+-            batched,
++            _batched_tool(self.sub_call),
+             speculatable=True,
+             pure=True,
+             batched=True,
++            batch_width=BATCH_WIDTH,
+             latency_hint_ms=2500,
+         )
+ 
+diff --git a/src/runtime/harness.py b/src/runtime/harness.py
+index 0a7dd46..639aa1e 100644
+--- a/src/runtime/harness.py
++++ b/src/runtime/harness.py
+@@ -238,9 +238,12 @@ class Harness:
+         peek: bool = True,
+         taint_skip: bool = True,
+         scout: bool = False,
++        batch_launch: bool = False,
+     ):
+         # scout: the non-blocking pass ahead of the shadow (ShadowRunner._scout_one);
+         # it replaces the tail peeks
++        # batch_launch: a model-written batch goes out as one call of the batched tool
++        # (Launcher.dispatch_batch); max_inflight is the window either way
+         self.scout = scout
+         self.peek = peek and not scout
+         self.taint_skip = taint_skip
+@@ -251,7 +254,9 @@ class Harness:
+         self.reg = ToolRegistry()
+         engine.make_tools(self.reg, self.bus)
+         self.store = SpecStore(self.bus)
+-        self.launcher = Launcher(self.store, self.bus, Budget(max_inflight=max_inflight))
++        self.launcher = Launcher(
++            self.store, self.bus, Budget(max_inflight=max_inflight), batch_launch=batch_launch
++        )
+         self.repl = SpecREPL(context=context)
+         if mode == "baseline":
+             self.exec_hooks = make_baseline_hooks(self.reg)
+diff --git a/src/speculator.py b/src/speculator.py
+index c1a303f..b796ac5 100644
+--- a/src/speculator.py
++++ b/src/speculator.py
+@@ -107,6 +107,7 @@ class SpecSession:
+         max_dispatches_per_turn: int = 2048,
+         taint_skip: bool = True,
+         scout: bool = False,
++        batch_launch: bool = False,
+     ) -> None:
+         self.reg = registry
+         self.bus = bus or EventBus()
+@@ -115,11 +116,15 @@ class SpecSession:
+         # waiting for a result, to launch every call whose arguments are known
+         # (ShadowRunner._scout_one). It replaces the tail peeks.
+         self.scout = scout
++        # max_inflight: the window, speculative calls in flight at once.
++        # batch_launch: launch a model-written batch as one call of the batched tool
++        # (Launcher.dispatch_batch), not as one single call per prompt.
+         self.store = SpecStore(self.bus)
+         self.launcher = Launcher(
+             self.store,
+             self.bus,
+             Budget(max_inflight=max_inflight, max_dispatches_per_turn=max_dispatches_per_turn),
++            batch_launch=batch_launch,
+         )
+ 
+     def real_hooks(self) -> dict:
+@@ -165,13 +170,20 @@ class SpecSession:
+ 
+ class Speculator:
+     def __init__(
+-        self, max_inflight: int = 16, bus: EventBus | None = None, taint_skip: bool = True
++        self,
++        max_inflight: int = 16,
++        bus: EventBus | None = None,
++        taint_skip: bool = True,
++        scout: bool = False,
++        batch_launch: bool = False,
+     ) -> None:
+         self.registry = ToolRegistry()
+         self.bus = bus or EventBus()
+         self._session: SpecSession | None = None
+         self.max_inflight = max_inflight
+         self.taint_skip = taint_skip
++        self.scout = scout
++        self.batch_launch = batch_launch
+ 
+     # ---------------------------------------------------------- registration
+     def tool(
+@@ -182,6 +194,7 @@ class Speculator:
+         deterministic: bool = False,
+         latency_hint_ms: float = 1000.0,
+         batched: bool = False,
++        batch_width: int | None = None,
+         name: str | None = None,
+         cancel: Callable | None = None,
+         claim_key: Callable | None = None,
+@@ -199,6 +212,7 @@ class Speculator:
+                 deterministic=deterministic,
+                 latency_hint_ms=latency_hint_ms,
+                 batched=batched,
++                batch_width=batch_width,
+                 cancel_fn=cancel,
+                 key_fn=claim_key,
+                 gate_fn=gate,
+@@ -220,6 +234,8 @@ class Speculator:
+                 self.bus,
+                 max_inflight=self.max_inflight,
+                 taint_skip=self.taint_skip,
++                scout=self.scout,
++                batch_launch=self.batch_launch,
+             )
+         return self._session
+ 
+diff --git a/tests/test_rlm_adapter.py b/tests/test_rlm_adapter.py
+index f95e27a..0551a39 100644
+--- a/tests/test_rlm_adapter.py
++++ b/tests/test_rlm_adapter.py
+@@ -179,3 +179,127 @@ def test_rlm_query_without_recursion_can_be_speculated():
+     assert sum(e.kind == "claim_hit" for e in spec.bus.history) == 5
+     assert not any(e.kind in ("claim_miss", "shadow_stop") for e in spec.bus.history)
+     assert wall < 5 * 0.4  # not one after another
++
++
++# ---------------------------------------------------------------- window and batch launch
++BATCH_LOOP_CODE = (
++    "chunks = [context[i:i+6] for i in range(0, 96, 6)]\n"
++    "labels = []\n"
++    "for i in range(0, len(chunks), 4):\n"
++    "    out = llm_query_batched(['label: ' + c for c in chunks[i:i+4]])\n"
++    "    labels.extend(o.strip() for o in out)\n"  # uses each result: the shadow waits
++    "answer['content'] = '|'.join(labels)\n"
++    "answer['ready'] = True"
++)
++
++
++class BatchBackend:
++    """Stands in for rlms' batched path: every prompt of a batch at once, 0.3 s."""
++
++    batch_width = None
++
++    def __init__(self):
++        self.batches = []
++
++    def __call__(self, prompts):
++        self.batches.append(list(prompts))
++        time.sleep(0.3)
++        return [f"ans({p})" for p in prompts]
++
++
++def test_adapter_launches_a_batch_as_one_batched_request():
++    from demo.rlm import SpeculativeLocalREPL
++
++    ctx = "abcdefghijkl" * 8
++    backend = BatchBackend()
++    repl = SpeculativeLocalREPL(
++        context_payload=ctx, subcall_override=slow_mock_llm,
++        subcall_batched_override=backend, auto_speculate=False,
++        spec_scout=True, spec_batch_launch=True, spec_max_inflight=32)
++    r, wall = _drive(repl, BATCH_LOOP_CODE)
++    assert r.final_answer.count("|") == 15
++    assert [len(b) for b in backend.batches] == [4, 4, 4, 4]  # four batched requests
++    assert sum(e.kind == "claim_hit" for e in repl.bus.history) == 16
++    assert not any(e.kind in ("claim_miss", "evict") for e in repl.bus.history)
++    assert wall < 2 * 0.3  # the four batches together, not one after another
++
++
++def test_adapter_window_is_a_parameter():
++    from demo.rlm import SpeculativeLocalREPL
++
++    inflight = {"now": 0, "peak": 0}
++    lock = __import__("threading").Lock()
++
++    def counting(prompt, model=None):
++        with lock:
++            inflight["now"] += 1
++            inflight["peak"] = max(inflight["peak"], inflight["now"])
++        time.sleep(0.2)
++        with lock:
++            inflight["now"] -= 1
++        return "x"
++
++    code = (
++        "out = []\n"
++        "for i in range(40):\n"
++        "    out.append(llm_query('q' + str(i)).strip())\n"
++        "answer['content'] = str(len(out))\n"
++        "answer['ready'] = True"
++    )
++    kw = {"context_payload": "ctx", "subcall_override": counting, "auto_speculate": False,
++          "spec_scout": True}
++    narrow = SpeculativeLocalREPL(**kw)
++    _drive(narrow, code)
++    assert inflight["peak"] == 16  # as shipped
++    inflight["peak"] = 0
++    wide = SpeculativeLocalREPL(spec_max_inflight=40, **kw)
++    r, wall = _drive(wide, code)
++    assert r.final_answer == "40" and inflight["peak"] == 40 and wall < 3 * 0.2
++
++
++def test_follow_window_widens_rlms_batches_only_when_batches_are_launched_as_batches():
++    from demo.rlm import SpeculativeLocalREPL, rlms_batch_width
++
++    class Handler:
++        batch_max_concurrent = 16
++
++    assert rlms_batch_width() == 16  # rlms 0.1.3
++    plain = SpeculativeLocalREPL(context_payload="ctx", spec_max_inflight=64)
++    h = Handler()
++    plain.follow_window(h)
++    assert h.batch_max_concurrent == 16 and plain.reg.get("llm_query_batched").batch_width == 16
++    wide = SpeculativeLocalREPL(context_payload="ctx", spec_max_inflight=64,
++                                spec_batch_launch=True, spec_rlm_query=True)
++    wide.follow_window(h)
++    assert h.batch_max_concurrent == 64
++    assert wide.reg.get("llm_query_batched").batch_width == 64
++    assert wide.reg.get("rlm_query_batched").batch_width == 64
++    # a handler already wider than the window is left alone
++    h.batch_max_concurrent = 256
++    wide.follow_window(h)
++    assert h.batch_max_concurrent == 256
++
++
++def test_follow_window_resizes_the_handlers_listen_queue():
++    """One connection per single call: a window of 128 needs more than a backlog of 5."""
++    from demo.rlm import SpeculativeLocalREPL
++
++    class Sock:
++        def __init__(self):
++            self.backlogs = []
++
++        def listen(self, n):
++            self.backlogs.append(n)
++
++    class Handler:
++        batch_max_concurrent = 16
++
++        def __init__(self):
++            self._server = type("S", (), {"socket": Sock()})()
++
++    h = Handler()
++    repl = SpeculativeLocalREPL(context_payload="ctx", spec_max_inflight=128)
++    repl.follow_window(h)
++    repl.follow_window(h)  # once per turn: the queue is resized once per handler
++    assert h._server.socket.backlogs == [256]
++    assert h.batch_max_concurrent == 16  # batches stay as rlms runs them without batch launch
+diff --git a/tests/test_scout.py b/tests/test_scout.py
+index e0495c7..af85c52 100644
+--- a/tests/test_scout.py
++++ b/tests/test_scout.py
+@@ -274,3 +274,89 @@ def test_a_statement_that_spins_is_cut_and_the_calls_after_it_still_go_out():
+     scout.feed(late)
+     assert late.scouted.is_set()
+     launcher.shutdown()
++
++
++# --------------------------------------------------------- after a statement it cannot finish
++STALE_AFTER_ERROR = (
++    "chunks = [context[i:i+30] for i in range(0, 60, 30)]\n"  # two chunks
++    "prompt = 'label: ' + chunks[1]\n"
++    "a = llm_query(prompt)\n"
++    "prompt = 'label: ' + chunks[2]\n"  # IndexError, in the scout and in the program
++    "b = llm_query(prompt)\n"  # the program never gets here
++    "answer['content'] = 'unreachable'\n"
++)
++
++
++def test_after_a_statement_that_raises_the_scout_does_not_go_on_with_the_old_value():
++    """Recorded on OOLONG (2026-11-10, replay): a turn asked for a fifth chunk of four.
++    The assignment raised, `prompt` still held the fourth chunk's prompt, and the scout
++    launched it again: 36,000 tokens for a call the program never makes."""
++    out, hist, eng = run_turn(STALE_AFTER_ERROR)
++    k = kinds(hist)
++    assert "IndexError" in out.results[0].stderr
++    assert k.count("dispatch") == 1 and k.count("claim_hit") == 1
++    assert k.count("evict") == 0  # nothing launched for nobody
++    skips = [e.data["reason"] for e in hist if e.kind == "scout_skip"]
++    assert skips[0] == "IndexError" and "after an error" in skips[1:]
++
++
++STALE_AFTER_TEST = (
++    "tag = 'none'\n"
++    "r = llm_query('first: ' + context[:20])\n"
++    "if 'mock' in str(r):\n"  # needs r: the scout stops here, and `tag` is not set
++    "    tag = 'A'\n"
++    "x = llm_query('second, tagged ' + tag)\n"  # the program sends 'tagged A'
++    "y = llm_query('third: ' + context[20:40])\n"  # needs nothing
++    "answer['content'] = str(x)[:0] + tag\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_name_the_scout_could_not_set_is_unknown_to_the_statements_after_it():
++    base, _, _ = run_turn(STALE_AFTER_TEST, mode="baseline")
++    out, hist, _ = run_turn(STALE_AFTER_TEST)
++    assert out.final_answer == base.final_answer == "A"
++    previews = [e.data["preview"] for e in hist if e.kind == "dispatch"]
++    assert not any("tagged none" in p for p in previews)  # not sent with the old value
++    k = kinds(hist)
++    assert k.count("dispatch") == 3 and k.count("claim_hit") == 3 and k.count("evict") == 0
++    # the independent call still went out before the first answer; the tagged one after it
++    first_ready = k.index("ready")
++    at = {e.data["preview"].split(":")[0].split(",")[0].strip("'"): i
++          for i, e in enumerate(hist) if e.kind == "dispatch"}
++    assert at["first"] < first_ready and at["third"] < first_ready < at["second"]
++
++
++STALE_AFTER_MUTATION = (
++    "seen = []\n"
++    "r = llm_query('first: ' + context[:20])\n"
++    "if 'mock' in str(r):\n"  # the scout stops before the append
++    "    seen.append('hit')\n"
++    "z = llm_query('report on ' + str(seen))\n"  # the program sends \"['hit']\"
++    "answer['content'] = str(len(seen))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_list_the_scout_could_not_fill_is_unknown_too():
++    out, hist, _ = run_turn(STALE_AFTER_MUTATION)
++    assert out.final_answer == "1"
++    previews = [e.data["preview"] for e in hist if e.kind == "dispatch"]
++    assert not any("report on []" in p for p in previews)
++    assert kinds(hist).count("evict") == 0 and kinds(hist).count("claim_hit") == 2
++
++
++def test_an_error_ends_the_scout_for_its_block_only():
++    """rlms runs a reply's blocks one by one: an error ends its block, not the next."""
++    eng = MockLM(TIMING)
++    bus = EventBus()
++    h = Harness(eng, "spec", bus=bus, context=CONTEXT, scout=True)
++    reply = ("go\n```repl\nx = undefined_name + 1\na = llm_query('never: ' + context[:10])\n```\n"
++             "and\n```repl\nb = llm_query('second block: ' + context[:10])\n"
++             "answer['content'] = str(b)[:0] + 'ok'\nanswer['ready'] = True\n```\ndone")
++    out = h.run_turn(eng.stream_main(reply))
++    h.launcher.shutdown()
++    previews = [e.data["preview"] for e in bus.history if e.kind == "dispatch"]
++    assert out.final_answer == "ok" and len(previews) == 1 and "second block" in previews[0]
++    assert kinds(bus.history).count("evict") == 0
++
+diff --git a/tests/test_window.py b/tests/test_window.py
+new file mode 100644
+index 0000000..420d9fc
+--- /dev/null
++++ b/tests/test_window.py
+@@ -0,0 +1,432 @@
++"""How wide speculation goes, and how a model-written batch is launched.
++
++The window (`max_inflight`) is the number of speculative calls in flight at once. As
++shipped it is 16, and a batch is launched as one thread per prompt. Two options, both off
++unless asked for:
++
++- a wider window: `max_inflight` is what the engine takes, not a constant;
++- a batch launched as a batch (`batch_launch=True`): one call of the batched tool for the
++  prompts nobody has launched yet. Each prompt keeps its own speculation, so the real run
++  claims them one by one as before. The batch counts against the window with the number
++  of calls the tool keeps in flight (`batch_width`), not as one.
++
++All mock: no network, no model."""
++
++import threading
++import time
++
++import pytest
++
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.hints import SpeculationRejected
++from spec_ptc.contracts.tools import ToolRegistry
++from spec_ptc.engine.speculation import (
++    Budget,
++    Launcher,
++    SpecStore,
++    make_real_hooks,
++    make_scout_hooks,
++    make_shadow_hooks,
++)
++from spec_ptc.runtime.engines import MockLM, MockTiming
++from spec_ptc.runtime.harness import Harness
++
++TIMING = MockTiming(main_tok_per_s=2000, sub_base_s=0.2, sub_jitter_s=0.0, sub_tokens=2)
++CONTEXT = "\n".join(f"Q{i}: what is item number {i} ?" for i in range(48))
++
++
++class Counting(MockLM):
++    """Counts the calls in flight, and records how the batched tool was called."""
++
++    def __init__(self, timing=TIMING):
++        super().__init__(timing)
++        self.inflight = self.peak = 0
++        self.calls: list[tuple[str, bool]] = []  # (prompt, speculative)
++        self.batches: list[list[str]] = []  # one entry per call of the batched tool
++        self._rec = threading.Lock()
++
++    def sub_call(self, prompt, _spec=None):
++        with self._rec:
++            self.inflight += 1
++            self.peak = max(self.peak, self.inflight)
++            self.calls.append((prompt, _spec is not None))
++        try:
++            return super().sub_call(prompt, _spec=_spec)
++        finally:
++            with self._rec:
++                self.inflight -= 1
++
++    def make_tools(self, reg, bus):
++        super().make_tools(reg, bus)
++        tool = reg.get("llm_query_batched")
++        inner = tool.fn
++
++        def batched(prompts, **kw):
++            with self._rec:
++                self.batches.append(list(prompts))
++            return inner(prompts, **kw)
++
++        batched.wants_spec = getattr(inner, "wants_spec", False)
++        tool.fn = batched
++
++
++def run_turn(code, eng=None, mode="spec", **kw):
++    eng = eng or Counting()
++    bus = EventBus()
++    h = Harness(eng, mode, bus=bus, context=CONTEXT, **kw)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    h.launcher.shutdown()
++    return out, bus.history, eng
++
++
++def kinds(history):
++    return [e.kind for e in history]
++
++
++# ------------------------------------------------------------------ the window
++LOOP_48 = (
++    "questions = context.split('\\n')\n"
++    "labels = []\n"
++    "for q in questions:\n"
++    "    labels.append(llm_query('Classify: ' + q).strip())\n"  # each result is used
++    "answer['content'] = str(len(labels))\n"
++    "answer['ready'] = True"
++)
++
++
++@pytest.mark.parametrize("window", [4, 16, 48])
++def test_the_window_is_the_number_of_calls_in_flight(window):
++    """48 independent calls of 0.2 s, launched by the scout: `window` of them run at once,
++    and the turn takes about 48 / window rounds."""
++    out, hist, eng = run_turn(LOOP_48, scout=True, max_inflight=window)
++    assert out.final_answer == "48"
++    assert kinds(hist).count("claim_hit") == 48 and kinds(hist).count("claim_miss") == 0
++    assert eng.peak == window
++    rounds = 48 / window
++    assert 0.2 * rounds * 0.9 < out.metrics.t_turn < 0.2 * rounds * 1.5 + 0.6
++
++
++# ------------------------------------------------------------------ a batch as a batch
++ONE_BATCH = (
++    "questions = context.split('\\n')[:24]\n"
++    "prompts = ['Classify: ' + q for q in questions]\n"
++    "labels = llm_query_batched(prompts)\n"
++    "answer['content'] = '|'.join(labels)\n"
++    "answer['ready'] = True"
++)
++
++
++def norm(s):
++    import re
++
++    return re.sub(r"\[\w+#\d+\] ", "", s or "")
++
++
++def test_as_shipped_a_batch_is_one_single_call_per_prompt():
++    base, _, _ = run_turn(ONE_BATCH, mode="baseline")
++    out, hist, eng = run_turn(ONE_BATCH)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert eng.batches == []  # the batched tool itself was never called
++    assert kinds(hist).count("dispatch") == 24 and kinds(hist).count("claim_hit") == 24
++
++
++def test_a_batch_is_launched_as_one_call_of_the_batched_tool():
++    base, _, _ = run_turn(ONE_BATCH, mode="baseline")
++    out, hist, eng = run_turn(ONE_BATCH, batch_launch=True)
++    assert norm(out.final_answer) == norm(base.final_answer)  # same answers, same order
++    assert len(eng.batches) == 1 and len(eng.batches[0]) == 24
++    assert all(spec for _, spec in eng.calls)  # every element ran as a speculative call
++    # each prompt is still its own speculation, claimed by the real run one by one
++    k = kinds(hist)
++    assert k.count("dispatch") == 24 and k.count("claim_hit") == 24
++    assert k.count("claim_miss") == 0 and k.count("evict") == 0
++    assert {e.data.get("batch") for e in hist if e.kind == "dispatch"} == {24}
++
++
++BATCHES_IN_A_LOOP = (
++    "from collections import Counter\n"
++    "questions = context.split('\\n')\n"
++    "label_counts = Counter()\n"
++    "for i in range(0, len(questions), 8):\n"
++    "    prompts = [f'Classify. Question: {q}' for q in questions[i:i+8]]\n"
++    "    results = llm_query_batched(prompts)\n"
++    "    for r in results:\n"
++    "        label_counts[r] += 1\n"  # hashing r needs its value: the shadow waits here
++    "answer['content'] = str(sum(label_counts.values()))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_with_the_scout_every_batch_of_a_loop_goes_out_as_a_batch_at_once():
++    out, hist, eng = run_turn(BATCHES_IN_A_LOOP, scout=True, batch_launch=True, max_inflight=48)
++    assert out.final_answer == "48"
++    assert [len(b) for b in eng.batches] == [8] * 6  # six calls of the batched tool
++    k = kinds(hist)
++    assert k.count("dispatch") == 48 and k.count("claim_hit") == 48
++    assert k.count("claim_miss") == 0 and k.count("evict") == 0
++    assert k.count("adopt") == 48  # the shadow took over what the scout had launched
++    first_ready = k.index("ready")
++    assert k[:first_ready].count("dispatch") == 48  # all out before the first answer
++    assert eng.peak == 48
++
++
++def test_a_batch_counts_against_the_window_with_its_calls_in_flight():
++    """Six batches of 8 and a window of 16: the mock's batched tool runs 8 of a batch at
++    a time, so two batches fit the window, not six."""
++    out, hist, eng = run_turn(BATCHES_IN_A_LOOP, scout=True, batch_launch=True, max_inflight=16)
++    assert out.final_answer == "48"
++    assert eng.peak == 16
++    assert 0.2 * 3 * 0.9 < out.metrics.t_turn < 0.2 * 3 * 1.5 + 0.6  # three rounds of two
++
++
++def test_a_batch_wider_than_the_tools_own_width_does_not_hold_the_whole_window():
++    """A batch of 24 through a tool that runs 8 at a time holds 8 places of the window.
++    The single calls launched next to it use the rest."""
++    code = (
++        "questions = context.split('\\n')\n"
++        "labels = llm_query_batched(['Classify: ' + q for q in questions[:24]])\n"
++        "extra = [llm_query('Check: ' + q) for q in questions[24:32]]\n"
++        "answer['content'] = str(len(labels) + len(extra))\n"
++        "answer['ready'] = True"
++    )
++    out, hist, eng = run_turn(code, batch_launch=True, max_inflight=16)
++    assert out.final_answer == "32"
++    assert eng.peak == 16  # 8 of the batch and the 8 single calls
++    # the 8 single calls did not wait for the batch's three rounds
++    assert out.metrics.t_turn < 0.2 * 3 * 1.5 + 0.6
++
++
++def test_the_shadow_launches_as_a_batch_what_the_scout_did_not():
++    """No scout: the shadow meets the batch first and launches it, as one call."""
++    out, hist, eng = run_turn(BATCHES_IN_A_LOOP, scout=False, batch_launch=True)
++    assert out.final_answer == "48"
++    assert [len(b) for b in eng.batches] == [8] * 6
++    assert {e.data["source"] for e in hist if e.kind == "dispatch"} == {"shadow"}
++    assert kinds(hist).count("claim_hit") == 48 and kinds(hist).count("claim_miss") == 0
++
++
++# ------------------------------------------------------------------ the launcher alone
++def launcher_with(batched_fn, single_fn=None, max_inflight=16, batch_width=None, **kw):
++    reg = ToolRegistry()
++    reg.register("llm_query", single_fn or (lambda p: f"one({p})"), speculatable=True, pure=True)
++    reg.register("llm_query_batched", batched_fn, speculatable=True, pure=True, batched=True,
++                 batch_width=batch_width)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus, Budget(max_inflight=max_inflight, **kw), batch_launch=True)
++    return reg, bus, store, launcher
++
++
++def test_an_element_the_scout_launched_is_adopted_and_the_rest_go_out_as_one_batch():
++    seen = []
++
++    def batched(prompts):
++        seen.append(list(prompts))
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched)
++    scout = make_scout_hooks(reg, launcher)
++    shadow = make_shadow_hooks(reg, launcher)
++    real = make_real_hooks(reg, store, launcher, bus)
++    scout["llm_query_batched"](["a", "b"])  # the scout saw only the first two
++    vals = shadow["llm_query_batched"](["a", "b", "c", "d"])
++    assert [str(v) for v in vals] == ["many(a)", "many(b)", "many(c)", "many(d)"]
++    assert seen == [["a", "b"], ["c", "d"]]  # two calls of the tool, no prompt twice
++    assert real["llm_query_batched"](["a", "b", "c", "d"]) == [
++        "many(a)", "many(b)", "many(c)", "many(d)"]
++    k = kinds(bus.history)
++    assert k.count("dispatch") == 4 and k.count("adopt") == 2 and k.count("claim_hit") == 4
++    launcher.shutdown()
++
++
++def test_the_scout_leaves_out_prompts_built_from_a_result_that_is_not_there_yet():
++    seen = []
++
++    def batched(prompts):
++        seen.append(list(prompts))
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched)
++    scout = make_scout_hooks(reg, launcher)
++    r = scout["llm_query"]("first")  # an Unknown
++    out = scout["llm_query_batched"](["known 1", f"needs {r}", "known 2"])
++    assert len(out) == 3
++    time.sleep(0.1)
++    assert seen == [["known 1", "known 2"]]
++    launcher.shutdown()
++
++
++def test_a_failed_batch_fails_each_of_its_elements_at_the_claim():
++    def batched(prompts):
++        raise ValueError("backend down")
++
++    reg, bus, store, launcher = launcher_with(batched)
++    shadow = make_shadow_hooks(reg, launcher)
++    real = make_real_hooks(reg, store, launcher, bus)
++    shadow["llm_query_batched"](["a", "b"])
++    with pytest.raises(ValueError, match="backend down"):  # what the tool itself raises
++        real["llm_query_batched"](["a", "b"])
++    launcher.shutdown()
++
++
++def test_a_refused_batch_is_re_run_for_real_as_one_batch():
++    calls = []
++
++    def batched(prompts, _spec=None):
++        calls.append((list(prompts), _spec is not None))
++        if _spec is not None:
++            raise SpeculationRejected("sptc_bet_rejected")
++        return [f"real({p})" for p in prompts]
++
++    batched.wants_spec = True
++    reg, bus, store, launcher = launcher_with(batched)
++    shadow = make_shadow_hooks(reg, launcher)
++    real = make_real_hooks(reg, store, launcher, bus)
++    shadow["llm_query_batched"](["a", "b", "c"])
++    assert real["llm_query_batched"](["a", "b", "c"]) == ["real(a)", "real(b)", "real(c)"]
++    assert calls == [(["a", "b", "c"], True), (["a", "b", "c"], False)]
++    assert kinds(bus.history).count("spec_rejected") == 3
++    # refused before the real run got there: its claims find nothing, and it calls itself
++    assert kinds(bus.history).count("claim_miss") == 3
++    launcher.shutdown()
++
++
++def test_a_batch_refused_after_it_was_claimed_is_re_run_as_one_batch():
++    calls = []
++    refuse = threading.Event()
++
++    def batched(prompts, _spec=None):
++        calls.append((list(prompts), _spec is not None))
++        if _spec is not None:
++            refuse.wait(5)
++            raise SpeculationRejected("sptc_bet_dropped")
++        return [f"real({p})" for p in prompts]
++
++    batched.wants_spec = True
++    reg, bus, store, launcher = launcher_with(batched)
++    shadow = make_shadow_hooks(reg, launcher)
++    real = make_real_hooks(reg, store, launcher, bus)
++    shadow["llm_query_batched"](["a", "b", "c"])
++    threading.Timer(0.1, refuse.set).start()  # the real run is already waiting by then
++    assert real["llm_query_batched"](["a", "b", "c"]) == ["real(a)", "real(b)", "real(c)"]
++    assert calls == [(["a", "b", "c"], True), (["a", "b", "c"], False)]
++    assert kinds(bus.history).count("claim_hit") == 3
++    assert kinds(bus.history).count("spec_fallback") == 3
++    launcher.shutdown()
++
++
++def test_one_refused_element_does_not_fail_the_others():
++    """A batched tool may hand back an exception in place of one element's result."""
++
++    def batched(prompts, _spec=None):
++        if _spec is None:
++            return [f"real({p})" for p in prompts]
++        return [SpeculationRejected("dropped") if p == "b" else f"spec({p})" for p in prompts]
++
++    batched.wants_spec = True
++    reg, bus, store, launcher = launcher_with(batched)
++    shadow = make_shadow_hooks(reg, launcher)
++    real = make_real_hooks(reg, store, launcher, bus)
++    shadow["llm_query_batched"](["a", "b", "c"])
++    assert real["llm_query_batched"](["a", "b", "c"]) == ["spec(a)", "real(b)", "spec(c)"]
++    launcher.shutdown()
++
++
++def test_a_batch_nobody_claims_is_evicted_element_by_element():
++    started = threading.Event()
++    release = threading.Event()
++
++    def batched(prompts):
++        started.set()
++        release.wait(5)
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched)
++    scout = make_scout_hooks(reg, launcher)
++    scout["llm_query_batched"](["a", "b", "c"])
++    assert started.wait(2)
++    assert store.evict_unclaimed("turn_end") == 3
++    release.set()
++    time.sleep(0.1)
++    assert [s.state for s in store.all] == ["evicted"] * 3
++    assert kinds(bus.history).count("ready") == 0
++    launcher.shutdown()
++
++
++def test_a_batch_evicted_before_it_starts_never_calls_the_tool():
++    gate = threading.Event()
++    seen = []
++
++    def single(p):
++        gate.wait(5)
++        return f"one({p})"
++
++    def batched(prompts):
++        seen.append(list(prompts))
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched, single_fn=single, max_inflight=1)
++    scout = make_scout_hooks(reg, launcher)
++    scout["llm_query"]("holds the only place")
++    scout["llm_query_batched"](["a", "b"])  # queued behind it
++    store.evict_unclaimed("turn_end")
++    gate.set()
++    time.sleep(0.2)
++    assert seen == []
++    assert all(s.done.is_set() for s in store.all)
++    launcher.shutdown()
++
++
++def test_the_turn_cap_counts_each_element_of_a_batch():
++    seen = []
++
++    def batched(prompts):
++        seen.append(list(prompts))
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched, max_dispatches_per_turn=3)
++    scout = make_scout_hooks(reg, launcher)
++    scout["llm_query_batched"](["a", "b", "c", "d", "e"])
++    time.sleep(0.1)
++    assert seen == [["a", "b", "c"]]  # the cap's three; the rest are left to the real run
++    launcher.shutdown()
++
++
++def test_launches_keep_their_order_at_the_window():
++    """A batch that needs the whole window is not overtaken by the single calls behind it."""
++    order = []
++    lock = threading.Lock()
++
++    def single(p):
++        with lock:
++            order.append(p)
++        time.sleep(0.05)
++        return p
++
++    def batched(prompts):
++        with lock:
++            order.append("batch")
++        time.sleep(0.05)
++        return list(prompts)
++
++    reg, bus, store, launcher = launcher_with(batched, single_fn=single, max_inflight=4)
++    scout = make_scout_hooks(reg, launcher)
++    for i in range(4):
++        scout["llm_query"](f"before {i}")
++    scout["llm_query_batched"]([f"b{i}" for i in range(8)])  # needs all four places
++    for i in range(8):
++        scout["llm_query"](f"after {i}")
++    deadline = time.time() + 5
++    while time.time() < deadline and not all(s.done.is_set() for s in store.all):
++        time.sleep(0.02)
++    at = order.index("batch")
++    assert sorted(order[:at]) == [f"before {i}" for i in range(4)]
++    launcher.shutdown()
++
++
++def test_batch_launch_is_off_unless_asked_for():
++    reg = ToolRegistry()
++    reg.register("llm_query", lambda p: p, speculatable=True, pure=True)
++    launcher = Launcher(SpecStore(), budget=Budget())
++    assert launcher.batch_launch is False and launcher.budget.max_inflight == 16
++    launcher.shutdown()

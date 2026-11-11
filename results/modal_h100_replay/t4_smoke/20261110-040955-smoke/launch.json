@@ -1,0 +1,43 @@
+{
+ "stock": {
+  "path": "spec-ptc",
+  "commit": "9b78b7d6ceeaf8afd1557c4e3a999ce653fc0e17",
+  "branch": "main",
+  "dirty": []
+ },
+ "fork": {
+  "path": "spec-ptc-sptc-hints",
+  "commit": "dbee0c266aa80e6a9db40ca9bd234e777c320440",
+  "branch": "sptc-hints",
+  "dirty": [
+   "M demo/rlm.py",
+   " M src/contracts/tools.py",
+   " M src/engine/shadow.py",
+   " M src/engine/speculation.py",
+   " M src/runtime/engines.py",
+   " M src/runtime/harness.py",
+   " M src/speculator.py",
+   " M tests/test_rlm_adapter.py",
+   " M tests/test_scout.py",
+   "?? tests/test_window.py"
+  ]
+ },
+ "cloud": {
+  "path": "sptc-sim-next",
+  "commit": "0842e71b459b47661c1018498f89da1e7d63c4d8",
+  "branch": "next",
+  "dirty": [
+   "M cloud/README.md",
+   " M cloud/rlm_stream.py",
+   " M results/modal_h100_rlm/RESULTS.md",
+   "?? cloud/PREREG_REPLAY.md",
+   "?? cloud/replay.py",
+   "?? cloud/replay_app.py",
+   "?? cloud/replay_campaign.py",
+   "?? cloud/replay_corpus.py",
+   "?? cloud/replay_report.py",
+   "?? cloud/tests/fake_engine.py",
+   "?? cloud/tests/test_replay.py"
+  ]
+ }
+}

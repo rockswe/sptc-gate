@@ -1,0 +1,53 @@
+{
+ "note": "replay_app.py::probe_handler on Modal, 2026-11-10: 2,000 single calls of 150 ms through rlms' LM handler. Rows as the function printed them; it then failed reading a sysctl that Modal's sandbox does not have, so it wrote no file of its own.",
+ "rows": [
+  {
+   "backlog": 5,
+   "width": 16,
+   "calls": 2000,
+   "errors": 0,
+   "wall_s": 19.29,
+   "ideal_s": 18.75,
+   "over_ms_p50": 2.6,
+   "over_ms_p99": 7.3,
+   "over_ms_max": 1003.7,
+   "slower_than_1s": 1
+  },
+  {
+   "backlog": 5,
+   "width": 128,
+   "calls": 2000,
+   "errors": 0,
+   "wall_s": 4.47,
+   "ideal_s": 2.34,
+   "over_ms_p50": 3.9,
+   "over_ms_p99": 1005.9,
+   "over_ms_max": 3003.7,
+   "slower_than_1s": 76
+  },
+  {
+   "backlog": 1024,
+   "width": 16,
+   "calls": 2000,
+   "errors": 0,
+   "wall_s": 19.21,
+   "ideal_s": 18.75,
+   "over_ms_p50": 2.4,
+   "over_ms_p99": 7.2,
+   "over_ms_max": 74.8,
+   "slower_than_1s": 0
+  },
+  {
+   "backlog": 1024,
+   "width": 128,
+   "calls": 2000,
+   "errors": 0,
+   "wall_s": 3.32,
+   "ideal_s": 2.34,
+   "over_ms_p50": 63.8,
+   "over_ms_p99": 108.5,
+   "over_ms_max": 130.8,
+   "slower_than_1s": 0
+  }
+ ]
+}

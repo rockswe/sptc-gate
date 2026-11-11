@@ -1,0 +1,28 @@
+{
+ "arm": "nospec",
+ "conc": 8,
+ "rep": 2,
+ "t0": 1794287197.7385726,
+ "t1": 1794287716.908317,
+ "tasks": [
+  "pairs32k-15",
+  "pairs32k-1",
+  "pairs32k-20",
+  "trec132k-17000222",
+  "trec132k-17000232",
+  "trec132k-17000241",
+  "trec132k-17000222.w8k-c8",
+  "trec132k-17000232.w8k-c1"
+ ],
+ "arm_config": {
+  "tree": "stock",
+  "repl": "stock"
+ },
+ "salt": "8c1cc8fa07",
+ "spec_ptc": "/opt/spec-ptc",
+ "spec_ptc_file": "/opt/spec-ptc/src/__init__.py",
+ "spec_ptc_py_tree": "f46414b0553b245901cef0ad79d6d8f2014843be8ccab8456bc8b13751fbf278",
+ "spec_ptc_py_files": 61,
+ "hash_seed": "0",
+ "exact": true
+}

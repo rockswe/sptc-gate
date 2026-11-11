@@ -1,0 +1,36 @@
+{
+ "arm": "wide",
+ "conc": 8,
+ "rep": 1,
+ "t0": 1794339254.9765127,
+ "t1": 1794339489.0045104,
+ "tasks": [
+  "trec132k-17000232.fix1",
+  "trec132k-17000241.fix1",
+  "trec132k-17000237.fix1",
+  "pairs32k-16.fix1",
+  "pairs32k-1.fix1",
+  "pairs32k-15.fix1",
+  "trec132k-17000241.fix2",
+  "trec132k-17000237.fix2",
+  "pairs32k-16.fix2",
+  "pairs32k-1.fix2"
+ ],
+ "arm_config": {
+  "tree": "fork",
+  "repl": "stream",
+  "kwargs": {
+   "spec_scout": true,
+   "spec_rlm_query": true,
+   "spec_max_inflight": 128,
+   "spec_batch_launch": true
+  }
+ },
+ "salt": "d1749075b2",
+ "spec_ptc": "/opt/spec-ptc-fork",
+ "spec_ptc_file": "/opt/spec-ptc-fork/src/__init__.py",
+ "spec_ptc_py_tree": "7aa23f0706f747daba79c827b5a18baf177ef38cf86d32920688e94b1d272b1b",
+ "spec_ptc_py_files": 63,
+ "hash_seed": "0",
+ "exact": true
+}

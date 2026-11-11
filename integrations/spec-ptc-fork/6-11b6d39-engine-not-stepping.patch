@@ -1,0 +1,109 @@
+diff --git a/src/engine/load.py b/src/engine/load.py
+index 8db52a2..3c282b7 100644
+--- a/src/engine/load.py
++++ b/src/engine/load.py
+@@ -52,6 +52,10 @@ class EngineLoad:
+     preemptions: float | None = None  # running total
+     itl_ms: float | None = None  # mean time between two tokens since the last sample
+     tax: float | None = None  # itl_ms over the quietest pace seen lately, minus 1
++    # Did the engine write a token since the last sample? Its numbers only change when it
++    # steps. An engine in one long step (a kernel it compiles, a long prefill) shows the
++    # same numbers sample after sample, and they say nothing about what was sent meanwhile.
++    stepped: bool | None = None
+ 
+ 
+ _LABEL = re.compile(r'(\w+)="([^"]*)"')
+@@ -62,6 +66,7 @@ _GAUGES = {
+ }
+ _COUNTERS = {
+     "preemptions": ("num_preemptions_total", "num_preemptions"),
++    "gen_tokens": ("generation_tokens_total", "generation_tokens"),
+     "itl_sum": ("inter_token_latency_seconds_sum", "time_per_output_token_seconds_sum"),
+     "itl_count": ("inter_token_latency_seconds_count", "time_per_output_token_seconds_count"),
+ }
+@@ -154,6 +159,7 @@ class EngineProbe:
+         self._lock = threading.Lock()
+         self._latest: EngineLoad | None = None
+         self._itl_prev: tuple[float, float] | None = None
++        self._tokens_prev: float | None = None
+         self._meter = TaxMeter()
+         self._listeners: list[Callable[[EngineLoad], None]] = []
+         self._stop = threading.Event()
+@@ -179,10 +185,16 @@ class EngineProbe:
+             if prev is not None and m["itl_count"] - prev[1] >= self.MIN_TOKENS:
+                 itl = 1000.0 * (m["itl_sum"] - prev[0]) / (m["itl_count"] - prev[1])
+                 self._meter.add(itl)
++        tokens = m.get("gen_tokens", m.get("itl_count"))
++        stepped = None
++        if tokens is not None:
++            if self._tokens_prev is not None:
++                stepped = tokens > self._tokens_prev
++            self._tokens_prev = tokens
+         load = EngineLoad(
+             t=self._clock(), running=m.get("running"), waiting=m.get("waiting"),
+             kv=m.get("kv"), kv_tokens=m.get("kv_tokens"), preemptions=m.get("preemptions"),
+-            itl_ms=itl, tax=self._meter.tax() if itl is not None else None)
++            itl_ms=itl, tax=self._meter.tax() if itl is not None else None, stepped=stepped)
+         with self._lock:
+             self._latest = load
+             self.samples += 1
+@@ -429,8 +441,9 @@ class Governor:
+        Both cuts apply to a session with calls in flight only: one that has none is not
+        what loads the engine, and keeps its window for when it has.
+     3. Otherwise, if calls waited for a place since the last tick and nothing holds it
+-       (a request waiting, KV above kv_high, tokens slower than tax_hold allows), the
+-       window grows: by `grow` until the first cut, by `grow_add` of itself after it, as
++       (the engine wrote no token since the last sample although it has requests in its
++       batch, a request waiting, KV above kv_high, tokens slower than tax_hold allows),
++       the window grows: by `grow` until the first cut, by `grow_add` of itself after it, as
+        a TCP window does. After clear_samples samples in a row with nothing waiting the
+        cut is forgotten and growth is by `grow` again: the engine has room now.
+     4. With no call waiting for a place and none in flight for idle_s, the window goes
+@@ -521,6 +534,8 @@ class Governor:
+         hold = None  # what stops growth in this sample, if anything
+         if preempted:
+             hold = "preempted"
++        elif load is not None and load.stepped is False and (load.running or 0) >= 1:
++            hold = "stalled"  # requests in its batch and no token since the last sample
+         elif (waiting or 0) >= 1:
+             hold = "queue"
+         elif kv is not None and kv >= cfg.kv_high:
+diff --git a/tests/test_load.py b/tests/test_load.py
+index 5610201..9bc486c 100644
+--- a/tests/test_load.py
++++ b/tests/test_load.py
+@@ -44,9 +44,11 @@ vllm:cache_config_info{block_size="16",cache_dtype="auto",engine="0",num_gpu_blo
+ 
+ 
+ def metrics(running=0, waiting=0, kv=0.0, preempt=0, itl_sum=0.0, itl_count=0,
+-            blocks=9676) -> str:
++            blocks=9676, tokens=None) -> str:
+     cache = (f'vllm:cache_config_info{{block_size="16",num_gpu_blocks="{blocks}"}} 1.0\n'
+              if blocks else "")
++    if tokens is not None:
++        cache += f'vllm:generation_tokens_total{{model_name="m"}} {tokens}\n'
+     return (f'vllm:num_requests_running{{model_name="m"}} {running}\n'
+             f'vllm:num_requests_waiting{{model_name="m"}} {waiting}\n'
+             f'vllm:kv_cache_usage_perc{{model_name="m"}} {kv}\n'
+@@ -483,6 +485,21 @@ def test_one_sample_with_a_request_waiting_only_stops_growth():
+     assert r.tick(waiting=0) == 54
+ 
+ 
++def test_an_engine_that_is_not_stepping_stops_growth():
++    """Measured on a T4 on November 11: a cold engine spent two seconds in one step. Its
++    numbers did not change (4 running, none waiting), eight samples in a row said so, and
++    the window went from 16 to 256 on them. Then 240 requests were waiting."""
++    r = Rig()
++    assert r.tick(running=4, tokens=1040) == 24  # it writes tokens: it steps
++    assert r.tick(8, running=4, tokens=1040) == 24  # in one long step: no growth
++    assert r.tick(running=4, tokens=1041) == 36
++    assert r.why == ["grow", "grow"]
++    # an engine with nothing in its batch is idle, not stalled
++    r2 = Rig()
++    r2.tick(running=0, tokens=500)
++    assert r2.tick(running=0, tokens=500) == 36
++
++
+ def test_a_request_or_two_waiting_is_an_engine_with_its_places_full_not_a_queue():
+     """Cutting until nothing waits would leave places of the engine empty. A standing
+     queue is a quarter of what the engine runs, waiting."""

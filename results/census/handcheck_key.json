@@ -1,0 +1,1122 @@
+{
+ "codeact:0": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:1": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:2": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:3": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:4": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:5": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:6": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:7": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:8": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:9": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "codeact"
+ },
+ "codeact:10": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:11": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:12": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:13": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:14": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:15": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:16": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:17": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "codeact"
+ },
+ "codeact:18": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:19": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:20": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:21": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:22": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:23": {
+  "literal": true,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:24": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:25": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:26": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:27": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "C under a condition on a tool result",
+  "corpus": "codeact"
+ },
+ "codeact:28": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:29": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:30": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:31": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:32": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:33": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:34": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:35": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:36": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:37": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "codeact"
+ },
+ "codeact:38": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:39": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:40": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:41": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:42": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:43": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:44": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:45": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:46": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:47": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "codeact"
+ },
+ "codeact:48": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "codeact"
+ },
+ "codeact:49": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "codeact"
+ },
+ "smolagents:50": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:51": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:52": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:53": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:54": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:55": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:56": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:57": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:58": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:59": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": true,
+  "case": "A argument depends on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:60": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:61": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:62": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:63": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:64": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:65": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:66": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:67": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:68": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": true,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:69": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "B in a loop/helper/comprehension",
+  "corpus": "smolagents"
+ },
+ "smolagents:70": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "smolagents"
+ },
+ "smolagents:71": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "C under a condition (not on a tool result)",
+  "corpus": "smolagents"
+ },
+ "smolagents:72": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:73": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:74": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:75": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:76": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:77": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:78": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:79": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:80": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:81": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": false,
+  "case": "C under a condition on a tool result",
+  "corpus": "smolagents"
+ },
+ "smolagents:82": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:83": {
+  "literal": false,
+  "in_loop": true,
+  "in_helper": false,
+  "in_branch": true,
+  "cond_on_tool": true,
+  "dep_on_tool": true,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:84": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:85": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:86": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:87": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:88": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:89": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:90": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:91": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "D side effect",
+  "corpus": "smolagents"
+ },
+ "smolagents:92": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:93": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:94": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:95": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:96": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:97": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:98": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:99": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:100": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:101": {
+  "literal": true,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "literal or local-only argument, straight-line",
+  "corpus": "smolagents"
+ },
+ "smolagents:102": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:103": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:104": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:105": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:106": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:107": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:108": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:109": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:110": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ },
+ "smolagents:111": {
+  "literal": false,
+  "in_loop": false,
+  "in_helper": false,
+  "in_branch": false,
+  "cond_on_tool": false,
+  "dep_on_tool": false,
+  "case": "straight-line, argument from local values",
+  "corpus": "smolagents"
+ }
+}

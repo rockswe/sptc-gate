@@ -1,0 +1,35 @@
+{
+ "cmd": [
+  "/usr/local/bin/python",
+  "-m",
+  "vllm.entrypoints.openai.api_server",
+  "--model",
+  "Qwen/Qwen3-1.7B",
+  "--port",
+  "8210",
+  "--gpu-memory-utilization",
+  "0.90",
+  "--enforce-eager",
+  "--kernel-config",
+  "{\"enable_flashinfer_autotune\": false, \"enable_cutedsl_warmup\": false, \"enable_jit_warmup\": false}",
+  "--max-model-len",
+  "32768",
+  "--dtype",
+  "half"
+ ],
+ "env": {},
+ "kernel_config": {
+  "enable_flashinfer_autotune": false,
+  "enable_cutedsl_warmup": false,
+  "enable_jit_warmup": false
+ },
+ "kernel_config_dropped": [],
+ "t_start": 1794331443.160884,
+ "ready_s": 55.0,
+ "log_facts": [
+  "(EngineCore pid=59) INFO 11-10 17:24:41 [cuda.py:506] Using TRITON_ATTN attention backend out of potential backends: ['TRITON_ATTN', 'FLEX_ATTENTION'].",
+  "(EngineCore pid=59) INFO 11-10 17:24:49 [model_runner.py:424] Model loading took 3.22 GiB memory and 11.163455 seconds",
+  "(EngineCore pid=59) INFO 11-10 17:24:54 [gpu_worker.py:759] Available KV cache memory: 9.51 GiB",
+  "(EngineCore pid=59) INFO 11-10 17:24:54 [kv_cache_utils.py:2327] GPU KV cache size: 89,072 tokens, Maximum concurrency for 32,768 tokens per request: 2.72x"
+ ]
+}

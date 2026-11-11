@@ -1,0 +1,33 @@
+{
+ "config": "fallback",
+ "probe_chosen": {
+  "fcfs-p/spec": {
+   "preemptions": 0,
+   "max_waiting": 0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.398
+  },
+  "fcfs-p/spec+bad": {
+   "preemptions": 2,
+   "max_waiting": 0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.836
+  }
+ },
+ "probe_fallback": {
+  "fcfs-p/spec": {
+   "preemptions": 0,
+   "max_waiting": 0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.75
+  },
+  "fcfs-p/spec+bad": {
+   "preemptions": 204,
+   "max_waiting": 39,
+   "waiting_frac": 0.441,
+   "max_kv": 1.0
+  }
+ },
+ "deviation": "the probe rule said chosen (2 preemptions, no queue on fcfs-p/spec+bad), far below the decision rule's pressure check (>= 16 per run or a queue >= 25%); switched to the pre-registered fallback, decided on stock FCFS arms only, before any other arm ran",
+ "lost": "a Kaggle session restart deleted sptc_out_v4: both probes' files and a first full pressure sweep on the fallback config (all 27 runs ok; plugin vs cap 0.980 decoys, 0.974 both; pressure check passed). The probe values above are copied from that session's output. Section C was rerun unchanged."
+}

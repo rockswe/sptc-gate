@@ -1,0 +1,506 @@
+[
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 4,
+  "wall_p50": 6.163292262999676,
+  "wall_p99": 9.467849597999702,
+  "root_tpot_p50_ms": 15.653169255559382,
+  "root_tpot_p99_ms": 15.735915536585553,
+  "sim": {
+   "wall_p50": 6.615127999993663,
+   "wall_p99": 10.157497431990148,
+   "root_tpot_p50_ms": 15.827266666650159,
+   "root_tpot_p99_ms": 15.830850666650162,
+   "steps": 1428,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 4,
+  "wall_p50": 2.7325795759998073,
+  "wall_p99": 3.047318830000222,
+  "root_tpot_p50_ms": 16.779316977777448,
+  "root_tpot_p99_ms": 17.099304568969742,
+  "sim": {
+   "wall_p50": 2.7597542530667623,
+   "wall_p99": 2.989182835027329,
+   "root_tpot_p50_ms": 16.81459587856401,
+   "root_tpot_p99_ms": 18.279617131847598,
+   "steps": 563,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 4,
+  "wall_p50": 3.3847389639995527,
+  "wall_p99": 3.4839597350000986,
+  "root_tpot_p50_ms": 19.204605905552953,
+  "root_tpot_p99_ms": 19.5831010000018,
+  "sim": {
+   "wall_p50": 3.326687488123058,
+   "wall_p99": 3.4660221505393713,
+   "root_tpot_p50_ms": 19.188385608242317,
+   "root_tpot_p99_ms": 22.182405305651866,
+   "steps": 566,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 16,
+  "wall_p50": 7.20386920799956,
+  "wall_p99": 11.706570665000072,
+  "root_tpot_p50_ms": 17.987442527778008,
+  "root_tpot_p99_ms": 18.192722128050285,
+  "sim": {
+   "wall_p50": 7.137466539727645,
+   "wall_p99": 10.976217263968714,
+   "root_tpot_p50_ms": 17.116368632426006,
+   "root_tpot_p99_ms": 17.179494861207573,
+   "steps": 1606,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 16,
+  "wall_p50": 3.548179803000494,
+  "wall_p99": 4.472032230999503,
+  "root_tpot_p50_ms": 21.12123688888864,
+  "root_tpot_p99_ms": 22.639984724139204,
+  "sim": {
+   "wall_p50": 3.425415028201678,
+   "wall_p99": 3.8687067060095552,
+   "root_tpot_p50_ms": 20.999371730832195,
+   "root_tpot_p99_ms": 22.528986862832376,
+   "steps": 567,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 16,
+  "wall_p50": 5.037299464000171,
+  "wall_p99": 5.948473534000186,
+  "root_tpot_p50_ms": 29.621374894446085,
+  "root_tpot_p99_ms": 33.04579349999366,
+  "sim": {
+   "wall_p50": 5.224917752375942,
+   "wall_p99": 5.942375770044053,
+   "root_tpot_p50_ms": 31.406115221508635,
+   "root_tpot_p99_ms": 36.248959242223435,
+   "steps": 567,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 32,
+  "wall_p50": 8.007515735999732,
+  "wall_p99": 13.624815701999978,
+  "root_tpot_p50_ms": 19.871128188889188,
+  "root_tpot_p99_ms": 20.24069259999932,
+  "sim": {
+   "wall_p50": 7.839107007222275,
+   "wall_p99": 12.121388059241754,
+   "root_tpot_p50_ms": 18.90131053771832,
+   "root_tpot_p99_ms": 19.01412445395076,
+   "steps": 1606,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 32,
+  "wall_p50": 4.363683436999963,
+  "wall_p99": 5.877870424000321,
+  "root_tpot_p50_ms": 25.567805884149006,
+  "root_tpot_p99_ms": 29.319177879313365,
+  "sim": {
+   "wall_p50": 4.475847243665711,
+   "wall_p99": 5.023881428590505,
+   "root_tpot_p50_ms": 27.278778335552264,
+   "root_tpot_p99_ms": 29.96795526191345,
+   "steps": 567,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": false,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 32,
+  "wall_p50": 6.623924359000739,
+  "wall_p99": 8.373206405000019,
+  "root_tpot_p50_ms": 38.98113470000276,
+  "root_tpot_p99_ms": 45.33299625861751,
+  "sim": {
+   "wall_p50": 8.206110185177577,
+   "wall_p99": 9.323216042926013,
+   "root_tpot_p50_ms": 48.6233525994201,
+   "root_tpot_p99_ms": 59.04674749202581,
+   "steps": 566,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 4,
+  "wall_p50": 6.409175316000983,
+  "wall_p99": 10.67928295299862,
+  "root_tpot_p50_ms": 16.219888307694838,
+  "root_tpot_p99_ms": 17.830614109753675,
+  "sim": {
+   "wall_p50": 6.615127999993663,
+   "wall_p99": 10.157497431990148,
+   "root_tpot_p50_ms": 15.827266666650159,
+   "root_tpot_p99_ms": 15.830850666650162,
+   "steps": 1428,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 4,
+  "wall_p50": 3.101398116001292,
+  "wall_p99": 3.30114063900146,
+  "root_tpot_p50_ms": 19.49013355169882,
+  "root_tpot_p99_ms": 19.89300674358674,
+  "sim": {
+   "wall_p50": 2.7597542530667623,
+   "wall_p99": 2.9891828350273295,
+   "root_tpot_p50_ms": 16.81459587856401,
+   "root_tpot_p99_ms": 18.0938711752187,
+   "steps": 563,
+   "allowance_steps": 1,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 4
+  },
+  "sub_finish": {
+   "stop": 44,
+   "length": 1
+  },
+  "sub_refused": 0,
+  "agents": 1,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 4,
+  "wall_p50": 3.382515121000324,
+  "wall_p99": 3.750211582999327,
+  "root_tpot_p50_ms": 20.90302164101442,
+  "root_tpot_p99_ms": 23.21131886206974,
+  "sim": {
+   "wall_p50": 3.072016251083988,
+   "wall_p99": 3.356241220259691,
+   "root_tpot_p50_ms": 18.452501272994947,
+   "root_tpot_p99_ms": 18.595949117397893,
+   "steps": 567,
+   "allowance_steps": 1,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 16,
+  "wall_p50": 7.36763695099944,
+  "wall_p99": 12.04693648600005,
+  "root_tpot_p50_ms": 18.319872538894643,
+  "root_tpot_p99_ms": 18.6200413048848,
+  "sim": {
+   "wall_p50": 7.137466539727645,
+   "wall_p99": 10.976217263968714,
+   "root_tpot_p50_ms": 17.116368632426006,
+   "root_tpot_p99_ms": 17.179494861207573,
+   "steps": 1606,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 16,
+  "wall_p50": 3.5331876189993636,
+  "wall_p99": 4.464014770999711,
+  "root_tpot_p50_ms": 21.03392293888141,
+  "root_tpot_p99_ms": 22.495605982777338,
+  "sim": {
+   "wall_p50": 3.4152285990958,
+   "wall_p99": 3.8592758039555166,
+   "root_tpot_p50_ms": 20.93725935823538,
+   "root_tpot_p99_ms": 22.36638510327999,
+   "steps": 567,
+   "allowance_steps": 4,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 16
+  },
+  "sub_finish": {
+   "stop": 176,
+   "length": 4
+  },
+  "sub_refused": 0,
+  "agents": 4,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 16,
+  "wall_p50": 3.680894305000038,
+  "wall_p99": 4.598744278000595,
+  "root_tpot_p50_ms": 21.830095411102473,
+  "root_tpot_p99_ms": 23.57065261537336,
+  "sim": {
+   "wall_p50": 3.557954630627555,
+   "wall_p99": 3.952294163175204,
+   "root_tpot_p50_ms": 21.75663226229708,
+   "root_tpot_p99_ms": 22.693551772020395,
+   "steps": 567,
+   "allowance_steps": 4,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 0,
+  "mode": "baseline",
+  "turns": 32,
+  "wall_p50": 8.048748536999483,
+  "wall_p99": 13.708602575999976,
+  "root_tpot_p50_ms": 19.91358099443864,
+  "root_tpot_p99_ms": 20.425587661116474,
+  "sim": {
+   "wall_p50": 7.839107007222275,
+   "wall_p99": 12.121388059241754,
+   "root_tpot_p50_ms": 18.90131053771832,
+   "root_tpot_p99_ms": 19.01412445395076,
+   "steps": 1606,
+   "allowance_steps": 0,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 0,
+  "mode": "spec",
+  "turns": 32,
+  "wall_p50": 4.407080257000416,
+  "wall_p99": 6.078455213999405,
+  "root_tpot_p50_ms": 25.83423416462676,
+  "root_tpot_p99_ms": 29.011355379319365,
+  "sim": {
+   "wall_p50": 4.450897909474452,
+   "wall_p99": 5.0019483408523095,
+   "root_tpot_p50_ms": 27.086203990498362,
+   "root_tpot_p99_ms": 29.72955424155565,
+   "steps": 567,
+   "allowance_steps": 12,
+   "bets_rejected": 0
+  }
+ },
+ {
+  "tagged": true,
+  "root_finish": {
+   "length": 32
+  },
+  "sub_finish": {
+   "stop": 352,
+   "length": 8
+  },
+  "sub_refused": 0,
+  "agents": 8,
+  "decoys": 1,
+  "mode": "spec",
+  "turns": 32,
+  "wall_p50": 4.405097943999863,
+  "wall_p99": 6.221663599999374,
+  "root_tpot_p50_ms": 25.932126377776715,
+  "root_tpot_p99_ms": 29.531549551738234,
+  "sim": {
+   "wall_p50": 4.450897909474452,
+   "wall_p99": 5.0019483408523095,
+   "root_tpot_p50_ms": 27.086203990498362,
+   "root_tpot_p99_ms": 29.72955424155565,
+   "steps": 567,
+   "allowance_steps": 12,
+   "bets_rejected": 0
+  }
+ }
+]

@@ -1,0 +1,2345 @@
+{
+ "arms": [
+  {
+   "arm": "nospec",
+   "units": 1,
+   "wall_s": 1728.42,
+   "stream_s": 1149.7152,
+   "after_s": 572.3100000000001,
+   "unit_wall_s": 486.39190649986267,
+   "after_share": 0.33111743673412714,
+   "exact_units": 1,
+   "wall_vs_stream": 1.1238832173743416,
+   "after_vs_stream": 1.5600845587583876,
+   "session_ratio_vs_stream": {
+    "geo": 1.0850991424524579,
+    "ci": [
+     1.0110660711845272,
+     1.1835789510874297
+    ],
+    "sessions": 10
+   }
+  },
+  {
+   "arm": "stream",
+   "units": 1,
+   "wall_s": 1537.9,
+   "stream_s": 1164.4149,
+   "after_s": 366.8455,
+   "unit_wall_s": 332.7512295246124,
+   "after_share": 0.238536640873919,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.8897721618588075,
+   "after_vs_nospec": 0.6409908965420837,
+   "session_ratio_vs_nospec": {
+    "geo": 0.9215747767894062,
+    "ci": [
+     0.8448950524857137,
+     0.9890550464505623
+    ],
+    "sessions": 10
+   }
+  },
+  {
+   "arm": "scout",
+   "units": 1,
+   "wall_s": 1541.8600000000001,
+   "stream_s": 1171.3653,
+   "after_s": 363.1127,
+   "unit_wall_s": 332.35242986679077,
+   "after_share": 0.2355030288093601,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.892063271658509,
+   "after_vs_nospec": 0.6344685572504412,
+   "session_ratio_vs_nospec": {
+    "geo": 0.9250046309218031,
+    "ci": [
+     0.8473393826548475,
+     0.995966980156739
+    ],
+    "sessions": 10
+   },
+   "wall_vs_stream": 1.0025749398530464,
+   "after_vs_stream": 0.9898245991841252,
+   "session_ratio_vs_stream": {
+    "geo": 1.0037217317778009,
+    "ci": [
+     0.9963076674794688,
+     1.0110957758141008
+    ],
+    "sessions": 10
+   }
+  },
+  {
+   "arm": "wide",
+   "units": 1,
+   "wall_s": 1344.85,
+   "stream_s": 1195.6667,
+   "after_s": 142.907,
+   "unit_wall_s": 234.02799773216248,
+   "after_share": 0.10626240844703871,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.7780805591233612,
+   "after_vs_nospec": 0.24970208453460535,
+   "session_ratio_vs_nospec": {
+    "geo": 0.8454030542106675,
+    "ci": [
+     0.672951474564866,
+     0.9888151369929568
+    ],
+    "sessions": 10
+   },
+   "wall_vs_stream": 0.8744716821639897,
+   "after_vs_stream": 0.38955636637221935,
+   "session_ratio_vs_stream": {
+    "geo": 0.9173461291506841,
+    "ci": [
+     0.7861068020463444,
+     1.0162287590405332
+    ],
+    "sessions": 10
+   }
+  },
+  {
+   "arm": "nospec-wide",
+   "units": 1,
+   "wall_s": 1592.79,
+   "stream_s": 1159.712,
+   "after_s": 426.05129999999997,
+   "unit_wall_s": 398.3271675109863,
+   "after_share": 0.2674874277211685,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.9215294893602249,
+   "after_vs_nospec": 0.7444414740263143,
+   "session_ratio_vs_nospec": {
+    "geo": 0.9453250889199446,
+    "ci": [
+     0.9034091090178824,
+     0.986318167506275
+    ],
+    "sessions": 10
+   },
+   "wall_vs_stream": 1.0356915274075036,
+   "after_vs_stream": 1.161391648527786,
+   "session_ratio_vs_stream": {
+    "geo": 1.0257714433258254,
+    "ci": [
+     0.9723626658606724,
+     1.0911718058065656
+    ],
+    "sessions": 10
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "stream_c8_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794338577.7492785,
+   "unit_wall_s": 332.7512295246124,
+   "sessions": 10,
+   "ok": 10,
+   "exact": true,
+   "wall_s": 1537.9,
+   "stream_s": 1164.4149,
+   "after_s": 366.8455,
+   "turns": 101,
+   "prompt_matches": 103,
+   "prompts": 103,
+   "answer_matches": 10,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12771,
+   "call_errors": 1,
+   "call_ms_p50": 246.0,
+   "call_ms_p90": 1069.3,
+   "call_ms_max": 8447.6,
+   "gap_p50": 43.600000000000364,
+   "gap_p99": 57.80000000000129,
+   "gap_max": 441.39999999999964,
+   "stall_s": 23.444500000000005,
+   "ttft_p50": 0.126,
+   "ttft_p99": 0.2061,
+   "ttft_max": 0.2076,
+   "spec": {
+    "shadow_exec": 436,
+    "shadow_stop": 3,
+    "dispatch": 12772,
+    "ready": 12772,
+    "claim_hit": 12772,
+    "claim_done": 5
+   },
+   "dispatch_source": {
+    "shadow": 12772
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ]
+   ],
+   "scout_skips": [],
+   "running_mean": 16.91578947368421,
+   "running_max": 44.0,
+   "waiting_max": 5.0,
+   "queue_share": 0.009022556390977444,
+   "kv_peak": 0.3737467700258398,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "scout_c8_r1",
+   "arm": "scout",
+   "rep": 1,
+   "t0": 1794338916.6475177,
+   "unit_wall_s": 332.35242986679077,
+   "sessions": 10,
+   "ok": 10,
+   "exact": true,
+   "wall_s": 1541.8600000000001,
+   "stream_s": 1171.3653,
+   "after_s": 363.1127,
+   "turns": 101,
+   "prompt_matches": 103,
+   "prompts": 103,
+   "answer_matches": 10,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12771,
+   "call_errors": 1,
+   "call_ms_p50": 242.6,
+   "call_ms_p90": 1062.6,
+   "call_ms_max": 8688.6,
+   "gap_p50": 44.09999999999991,
+   "gap_p99": 57.599999999999504,
+   "gap_max": 442.8000000000011,
+   "stall_s": 23.493399999999983,
+   "ttft_p50": 0.1366,
+   "ttft_p99": 0.2205,
+   "ttft_max": 0.2278,
+   "spec": {
+    "scout_exec": 431,
+    "shadow_exec": 436,
+    "scout_skip": 9,
+    "shadow_stop": 3,
+    "dispatch": 12772,
+    "adopt": 9607,
+    "ready": 12772,
+    "claim_hit": 12772,
+    "claim_done": 5
+   },
+   "dispatch_source": {
+    "peek": 9607,
+    "shadow": 3165
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "needs a value",
+     2
+    ]
+   ],
+   "running_mean": 16.89457831325301,
+   "running_max": 48.0,
+   "waiting_max": 6.0,
+   "queue_share": 0.010542168674698794,
+   "kv_peak": 0.3800516795865633,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c8_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794339254.9765127,
+   "unit_wall_s": 234.02799773216248,
+   "sessions": 10,
+   "ok": 10,
+   "exact": true,
+   "wall_s": 1344.85,
+   "stream_s": 1195.6667,
+   "after_s": 142.907,
+   "turns": 101,
+   "prompt_matches": 103,
+   "prompts": 103,
+   "answer_matches": 10,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12771,
+   "call_errors": 1,
+   "call_ms_p50": 487.6,
+   "call_ms_p90": 1244.2,
+   "call_ms_max": 11036.9,
+   "gap_p50": 43.0,
+   "gap_p99": 68.79999999999927,
+   "gap_max": 3461.6000000000004,
+   "stall_s": 52.02245,
+   "ttft_p50": 0.1401,
+   "ttft_p99": 0.2203,
+   "ttft_max": 0.2215,
+   "spec": {
+    "scout_exec": 431,
+    "shadow_exec": 436,
+    "scout_skip": 9,
+    "shadow_stop": 3,
+    "dispatch": 12772,
+    "adopt": 9607,
+    "ready": 12772,
+    "claim_hit": 12772,
+    "claim_done": 5
+   },
+   "dispatch_source": {
+    "peek": 9607,
+    "shadow": 3165
+   },
+   "batch_dispatches": 12767,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "needs a value",
+     2
+    ]
+   ],
+   "running_mean": 26.576923076923077,
+   "running_max": 128.0,
+   "waiting_max": 40.0,
+   "queue_share": 0.008547008547008548,
+   "kv_peak": 0.39917312661498705,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec_c8_r1",
+   "arm": "nospec",
+   "rep": 1,
+   "t0": 1794339495.8522005,
+   "unit_wall_s": 486.39190649986267,
+   "sessions": 10,
+   "ok": 10,
+   "exact": true,
+   "wall_s": 1728.42,
+   "stream_s": 1149.7152,
+   "after_s": 572.3100000000001,
+   "turns": 101,
+   "prompt_matches": 103,
+   "prompts": 103,
+   "answer_matches": 10,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12771,
+   "call_errors": 1,
+   "call_ms_p50": 262.1,
+   "call_ms_p90": 1046.4,
+   "call_ms_max": 9239.6,
+   "gap_p50": 43.19999999999709,
+   "gap_p99": 56.600000000000364,
+   "gap_max": 442.7000000000007,
+   "stall_s": 16.70130000000001,
+   "ttft_p50": 0.1286,
+   "ttft_p99": 0.2187,
+   "ttft_max": 0.2289,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 11.216049382716049,
+   "running_max": 45.0,
+   "waiting_max": 4.0,
+   "queue_share": 0.0030864197530864196,
+   "kv_peak": 0.3368475452196382,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec-wide_c8_r1",
+   "arm": "nospec-wide",
+   "rep": 1,
+   "t0": 1794339989.554341,
+   "unit_wall_s": 398.3271675109863,
+   "sessions": 10,
+   "ok": 10,
+   "exact": true,
+   "wall_s": 1592.79,
+   "stream_s": 1159.712,
+   "after_s": 426.05129999999997,
+   "turns": 101,
+   "prompt_matches": 103,
+   "prompts": 103,
+   "answer_matches": 10,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12771,
+   "call_errors": 1,
+   "call_ms_p50": 315.4,
+   "call_ms_p90": 1069.9,
+   "call_ms_max": 8996.2,
+   "gap_p50": 43.600000000000364,
+   "gap_p99": 58.099999999998545,
+   "gap_max": 441.6999999999998,
+   "stall_s": 18.962800000000012,
+   "ttft_p50": 0.1317,
+   "ttft_p99": 0.2243,
+   "ttft_max": 0.2285,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 14.297738693467336,
+   "running_max": 140.0,
+   "waiting_max": 20.0,
+   "queue_share": 0.001256281407035176,
+   "kv_peak": 0.3539018087855297,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-1.fix1",
+   "wall": {
+    "nospec": 98.73,
+    "stream": 74.9,
+    "scout": 76.4,
+    "wide": 77.58,
+    "nospec-wide": 92.06
+   },
+   "after": {
+    "nospec": 28.654300000000003,
+    "stream": 1.3018,
+    "scout": 1.5537999999999998,
+    "wide": 0.1215,
+    "nospec-wide": 19.080900000000003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "wall": {
+    "nospec": 90.21,
+    "stream": 81.86,
+    "scout": 80.62,
+    "wide": 75.02,
+    "nospec-wide": 84.83
+   },
+   "after": {
+    "nospec": 19.352800000000002,
+    "stream": 10.5601,
+    "scout": 10.445,
+    "wide": 4.5771999999999995,
+    "nospec-wide": 15.7713
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "wall": {
+    "nospec": 232.32,
+    "stream": 234.79,
+    "scout": 234.93,
+    "wide": 234.01,
+    "nospec-wide": 233.43
+   },
+   "after": {
+    "nospec": 0.0177,
+    "stream": 0.0376,
+    "scout": 0.0484,
+    "wide": 0.0627,
+    "nospec-wide": 0.0189
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "wall": {
+    "nospec": 155.08,
+    "stream": 155.04,
+    "scout": 155.87,
+    "wide": 155.22,
+    "nospec-wide": 151.83
+   },
+   "after": {
+    "nospec": 8.3009,
+    "stream": 6.975499999999999,
+    "scout": 7.127000000000001,
+    "wide": 1.9831,
+    "nospec-wide": 3.3499
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "wall": {
+    "nospec": 115.46,
+    "stream": 107.22,
+    "scout": 105.42,
+    "wide": 93.64,
+    "nospec-wide": 97.99
+   },
+   "after": {
+    "nospec": 24.3837,
+    "stream": 14.2232,
+    "scout": 13.8975,
+    "wide": 0.2515,
+    "nospec-wide": 7.0787
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "wall": {
+    "nospec": 100.99,
+    "stream": 101.16,
+    "scout": 102.28,
+    "wide": 105.45,
+    "nospec-wide": 102.5
+   },
+   "after": {
+    "nospec": 0.4011,
+    "stream": 0.0235,
+    "scout": 0.0271,
+    "wide": 0.0192,
+    "nospec-wide": 0.4159
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "wall": {
+    "nospec": 486.36,
+    "stream": 332.73,
+    "scout": 332.33,
+    "wide": 158.72,
+    "nospec-wide": 398.3
+   },
+   "after": {
+    "nospec": 405.7208,
+    "stream": 253.42309999999998,
+    "scout": 251.5305,
+    "wide": 72.8151,
+    "nospec-wide": 317.8323
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "wall": {
+    "nospec": 232.9,
+    "stream": 234.97,
+    "scout": 235.24,
+    "wide": 219.81,
+    "nospec-wide": 212.75
+   },
+   "after": {
+    "nospec": 80.50349999999999,
+    "stream": 80.25760000000001,
+    "scout": 78.43240000000002,
+    "wide": 63.0183,
+    "nospec-wide": 57.4922
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "wall": {
+    "nospec": 107.62,
+    "stream": 107.63,
+    "scout": 109.64,
+    "wide": 112.7,
+    "nospec-wide": 108.68
+   },
+   "after": {
+    "nospec": 0.0104,
+    "stream": 0.0199,
+    "scout": 0.0203,
+    "wide": 0.024399999999999998,
+    "nospec-wide": 0.0105
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "wall": {
+    "nospec": 108.75,
+    "stream": 107.6,
+    "scout": 109.13,
+    "wide": 112.7,
+    "nospec-wide": 110.42
+   },
+   "after": {
+    "nospec": 4.9648,
+    "stream": 0.0232,
+    "scout": 0.0307,
+    "wide": 0.034,
+    "nospec-wide": 5.0007
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "nospec": 28.6489,
+    "stream": 1.2257,
+    "scout": 1.5423999999999998,
+    "wide": 0.11,
+    "nospec-wide": 19.0755
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 786,
+   "call_errors": 0,
+   "after": {
+    "nospec": 19.3442,
+    "stream": 10.5304,
+    "scout": 10.4009,
+    "wide": 4.5402,
+    "nospec-wide": 15.7621
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 40,
+   "call_errors": 0,
+   "after": {
+    "nospec": 8.2955,
+    "stream": 6.9498999999999995,
+    "scout": 7.0642000000000005,
+    "wide": 1.951,
+    "nospec-wide": 3.3447
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "nospec": 12.2428,
+    "stream": 6.9187,
+    "scout": 6.9552000000000005,
+    "wide": 0.10110000000000001,
+    "nospec-wide": 3.1478
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "nospec": 12.1375,
+    "stream": 7.2953,
+    "scout": 6.9329,
+    "wide": 0.142,
+    "nospec-wide": 3.9275
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 3181,
+   "call_errors": 0,
+   "after": {
+    "nospec": 334.3788,
+    "stream": 208.045,
+    "scout": 206.4342,
+    "wide": 52.7256,
+    "nospec-wide": 269.7469
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 3181,
+   "call_errors": 0,
+   "after": {
+    "nospec": 71.3356,
+    "stream": 45.368199999999995,
+    "scout": 45.0853,
+    "wide": 20.0764,
+    "nospec-wide": 48.0782
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "cause": "serial launches",
+   "causes": {
+    "serial launches": 1
+   },
+   "calls": 3185,
+   "call_errors": 0,
+   "after": {
+    "nospec": 79.8992,
+    "stream": 80.16380000000001,
+    "scout": 78.31970000000001,
+    "wide": 62.9129,
+    "nospec-wide": 57.0473
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "serial launches",
+   "turns": 1,
+   "stream_s": 80.16380000000001,
+   "arms": {
+    "nospec": {
+     "after_s": 79.8992,
+     "recovered_s": 0.2646000000000157,
+     "recovered_share": 0.003300741731305348
+    },
+    "stream": {
+     "after_s": 80.16380000000001,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 78.31970000000001,
+     "recovered_s": 1.8440999999999974,
+     "recovered_share": 0.023004149004912405
+    },
+    "wide": {
+     "after_s": 62.9129,
+     "recovered_s": 17.25090000000001,
+     "recovered_share": 0.21519563693337898
+    },
+    "nospec-wide": {
+     "after_s": 57.0473,
+     "recovered_s": 23.11650000000001,
+     "recovered_share": 0.2883658209815404
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 7,
+   "stream_s": 286.3332,
+   "arms": {
+    "nospec": {
+     "after_s": 486.3833,
+     "recovered_s": -200.05010000000004,
+     "recovered_share": -0.698661908573648
+    },
+    "stream": {
+     "after_s": 286.3332,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 284.4151,
+     "recovered_s": 1.9180999999999813,
+     "recovered_share": 0.006698838975012263
+    },
+    "wide": {
+     "after_s": 79.6463,
+     "recovered_s": 206.68689999999998,
+     "recovered_share": 0.7218404991108262
+    },
+    "nospec-wide": {
+     "after_s": 363.0827,
+     "recovered_s": -76.74950000000001,
+     "recovered_share": -0.26804261608503666
+    }
+   }
+  }
+ ],
+ "noise": [],
+ "arm_names": [
+  "nospec",
+  "stream",
+  "scout",
+  "wide",
+  "nospec-wide"
+ ],
+ "all_turns": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.00030000000000000003,
+    "scout": 0.0012000000000000001,
+    "wide": 0.0007999999999999999,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0009000000000000001,
+    "scout": 0.0006000000000000001,
+    "wide": 0.00030000000000000003,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0012,
+    "stream": 0.0017000000000000001,
+    "scout": 0.0023,
+    "wide": 0.0026,
+    "nospec-wide": 0.0012
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "calls": 787,
+   "after": {
+    "nospec": 28.6489,
+    "stream": 1.2257,
+    "scout": 1.5423999999999998,
+    "wide": 0.11,
+    "nospec-wide": 19.0755
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0004,
+    "stream": 0.0008,
+    "scout": 0.0012000000000000001,
+    "wide": 0.0017,
+    "nospec-wide": 0.0004
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0017,
+    "stream": 0.0704,
+    "scout": 0.004,
+    "wide": 0.0026,
+    "nospec-wide": 0.0019
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0017,
+    "stream": 0.002,
+    "scout": 0.0021000000000000003,
+    "wide": 0.0035,
+    "nospec-wide": 0.0016
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.00030000000000000003,
+    "scout": 0.0016,
+    "wide": 0.0014,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.0029,
+    "scout": 0.0102,
+    "wide": 0.006200000000000001,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0009,
+    "stream": 0.0063,
+    "scout": 0.0108,
+    "wide": 0.0114,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "calls": 786,
+   "after": {
+    "nospec": 19.3442,
+    "stream": 10.5304,
+    "scout": 10.4009,
+    "wide": 4.5402,
+    "nospec-wide": 15.7621
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0006,
+    "stream": 0.0011,
+    "scout": 0.0011,
+    "wide": 0.0009,
+    "nospec-wide": 0.0007
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0051,
+    "stream": 0.0169,
+    "scout": 0.0182,
+    "wide": 0.015200000000000002,
+    "nospec-wide": 0.0055
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0016,
+    "stream": 0.0022,
+    "scout": 0.0022,
+    "wide": 0.0019,
+    "nospec-wide": 0.0015
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0007,
+    "scout": 0.0017000000000000001,
+    "wide": 0.0005,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0012,
+    "stream": 0.001,
+    "scout": 0.0031999999999999997,
+    "wide": 0.0025,
+    "nospec-wide": 0.0013
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0023,
+    "stream": 0.0034,
+    "scout": 0.0033,
+    "wide": 0.003,
+    "nospec-wide": 0.0023
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0022,
+    "stream": 0.0032,
+    "scout": 0.0031999999999999997,
+    "wide": 0.0043,
+    "nospec-wide": 0.0025
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0023,
+    "stream": 0.005,
+    "scout": 0.0079,
+    "wide": 0.0075,
+    "nospec-wide": 0.0027
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0023,
+    "stream": 0.0059,
+    "scout": 0.0054,
+    "wide": 0.007299999999999999,
+    "nospec-wide": 0.0024
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0007,
+    "stream": 0.0032,
+    "scout": 0.0076,
+    "wide": 0.0173,
+    "nospec-wide": 0.0007
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0028,
+    "stream": 0.006,
+    "scout": 0.0056,
+    "wide": 0.0066,
+    "nospec-wide": 0.003
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.0031,
+    "scout": 0.0033,
+    "wide": 0.005,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0008,
+    "stream": 0.003,
+    "scout": 0.0031999999999999997,
+    "wide": 0.0033,
+    "nospec-wide": 0.0009
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0004,
+    "stream": 0.0007,
+    "scout": 0.001,
+    "wide": 0.003,
+    "nospec-wide": 0.0005
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0023,
+    "stream": 0.0024,
+    "scout": 0.003,
+    "wide": 0.0024000000000000002,
+    "nospec-wide": 0.0022
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0005,
+    "scout": 0.0011,
+    "wide": 0.0005,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.0028,
+    "scout": 0.0038,
+    "wide": 0.0035,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0023,
+    "scout": 0.014,
+    "wide": 0.0026,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0052,
+    "scout": 0.012100000000000001,
+    "wide": 0.0032,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0011,
+    "stream": 0.004399999999999999,
+    "scout": 0.0048000000000000004,
+    "wide": 0.006,
+    "nospec-wide": 0.0011
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0005,
+    "stream": 0.0018,
+    "scout": 0.0031,
+    "wide": 0.0009,
+    "nospec-wide": 0.0006
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0005,
+    "stream": 0.0006000000000000001,
+    "scout": 0.0015,
+    "wide": 0.0021,
+    "nospec-wide": 0.0006
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "calls": 40,
+   "after": {
+    "nospec": 8.2955,
+    "stream": 6.9498999999999995,
+    "scout": 7.0642000000000005,
+    "wide": 1.951,
+    "nospec-wide": 3.3447
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0007,
+    "stream": 0.0045000000000000005,
+    "scout": 0.0111,
+    "wide": 0.0054,
+    "nospec-wide": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0013,
+    "stream": 0.0015999999999999999,
+    "scout": 0.0015,
+    "wide": 0.0019,
+    "nospec-wide": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.0014,
+    "scout": 0.0079,
+    "wide": 0.0053,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0005,
+    "scout": 0.0019,
+    "wide": 0.0007,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0027,
+    "scout": 0.001,
+    "wide": 0.0007999999999999999,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0011,
+    "scout": 0.00030000000000000003,
+    "wide": 0.0005,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0002,
+    "scout": 0.00030000000000000003,
+    "wide": 0.00039999999999999996,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0016,
+    "stream": 0.0015999999999999999,
+    "scout": 0.0027,
+    "wide": 0.0015,
+    "nospec-wide": 0.0016
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "calls": 787,
+   "after": {
+    "nospec": 12.2428,
+    "stream": 6.9187,
+    "scout": 6.9552000000000005,
+    "wide": 0.10110000000000001,
+    "nospec-wide": 3.1478
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "calls": 787,
+   "after": {
+    "nospec": 12.1375,
+    "stream": 7.2953,
+    "scout": 6.9329,
+    "wide": 0.142,
+    "nospec-wide": 3.9275
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0006,
+    "stream": 0.0011,
+    "scout": 0.0019,
+    "wide": 0.0018,
+    "nospec-wide": 0.0006
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0004,
+    "stream": 0.0009,
+    "scout": 0.0012000000000000001,
+    "wide": 0.0013,
+    "nospec-wide": 0.0004
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.001,
+    "scout": 0.0013,
+    "wide": 0.0012,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0006000000000000001,
+    "scout": 0.0007,
+    "wide": 0.0009,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0008,
+    "scout": 0.0019,
+    "wide": 0.0011,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0009,
+    "stream": 0.0024000000000000002,
+    "scout": 0.0019,
+    "wide": 0.0013,
+    "nospec-wide": 0.0009
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0002,
+    "scout": 0.0016,
+    "wide": 0.00039999999999999996,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0016,
+    "stream": 0.0014,
+    "scout": 0.004399999999999999,
+    "wide": 0.0024999999999999996,
+    "nospec-wide": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.00030000000000000003,
+    "scout": 0.0014,
+    "wide": 0.001,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0027,
+    "stream": 0.0056,
+    "scout": 0.0039,
+    "wide": 0.0037,
+    "nospec-wide": 0.0028
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 7,
+   "calls": 13,
+   "after": {
+    "nospec": 0.3952,
+    "stream": 0.0121,
+    "scout": 0.0091,
+    "wide": 0.006999999999999999,
+    "nospec-wide": 0.4099
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.00039999999999999996,
+    "scout": 0.0023,
+    "wide": 0.0015,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.00030000000000000003,
+    "scout": 0.0006000000000000001,
+    "wide": 0.0007,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0002,
+    "scout": 0.0007,
+    "wide": 0.00030000000000000003,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0008,
+    "stream": 0.0010999999999999998,
+    "scout": 0.001,
+    "wide": 0.0009,
+    "nospec-wide": 0.0009
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.00030000000000000003,
+    "scout": 0.001,
+    "wide": 0.0018000000000000002,
+    "nospec-wide": 0.0003
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 4,
+   "calls": 3181,
+   "after": {
+    "nospec": 334.3788,
+    "stream": 208.045,
+    "scout": 206.4342,
+    "wide": 52.7256,
+    "nospec-wide": 269.7469
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0041,
+    "stream": 0.0045000000000000005,
+    "scout": 0.004699999999999999,
+    "wide": 0.0062,
+    "nospec-wide": 0.0043
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 6,
+   "calls": 3181,
+   "after": {
+    "nospec": 71.3356,
+    "stream": 45.368199999999995,
+    "scout": 45.0853,
+    "wide": 20.0764,
+    "nospec-wide": 48.0782
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0009,
+    "stream": 0.0023,
+    "scout": 0.0021,
+    "wide": 0.0022,
+    "nospec-wide": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0015,
+    "scout": 0.0015,
+    "wide": 0.0017,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0009000000000000001,
+    "scout": 0.001,
+    "wide": 0.0019,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0027,
+    "scout": 0.0011,
+    "wide": 0.0016,
+    "nospec-wide": 0.0012
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0012,
+    "stream": 0.0027,
+    "scout": 0.004,
+    "wide": 0.0035,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0017,
+    "stream": 0.0054,
+    "scout": 0.0055,
+    "wide": 0.0066,
+    "nospec-wide": 0.0018
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0007999999999999999,
+    "scout": 0.0017000000000000001,
+    "wide": 0.0024000000000000002,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0007,
+    "stream": 0.0058000000000000005,
+    "scout": 0.01,
+    "wide": 0.0083,
+    "nospec-wide": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0054,
+    "stream": 0.0046,
+    "scout": 0.0051,
+    "wide": 0.0058,
+    "nospec-wide": 0.0054
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "calls": 20,
+   "after": {
+    "nospec": 0.593,
+    "stream": 0.0631,
+    "scout": 0.0743,
+    "wide": 0.0662,
+    "nospec-wide": 0.4335
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "calls": 3185,
+   "after": {
+    "nospec": 79.8992,
+    "stream": 80.16380000000001,
+    "scout": 78.31970000000001,
+    "wide": 62.9129,
+    "nospec-wide": 57.0473
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0004,
+    "stream": 0.0013000000000000002,
+    "scout": 0.0021000000000000003,
+    "wide": 0.0016,
+    "nospec-wide": 0.0004
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0004,
+    "stream": 0.0050999999999999995,
+    "scout": 0.0068,
+    "wide": 0.0063,
+    "nospec-wide": 0.0004
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0014,
+    "scout": 0.0011,
+    "wide": 0.0012000000000000001,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0011,
+    "scout": 0.00030000000000000003,
+    "wide": 0.0024999999999999996,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0013,
+    "stream": 0.0026,
+    "scout": 0.0015,
+    "wide": 0.0017,
+    "nospec-wide": 0.0013
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0009,
+    "stream": 0.0011,
+    "scout": 0.001,
+    "wide": 0.001,
+    "nospec-wide": 0.0009
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.00039999999999999996,
+    "scout": 0.0005,
+    "wide": 0.0017000000000000001,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0031000000000000003,
+    "scout": 0.0018,
+    "wide": 0.0028,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0018,
+    "scout": 0.0027,
+    "wide": 0.0018,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0011,
+    "scout": 0.0021999999999999997,
+    "wide": 0.0021999999999999997,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0023,
+    "scout": 0.0029,
+    "wide": 0.0031999999999999997,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.002,
+    "scout": 0.0014,
+    "wide": 0.0015,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0011,
+    "scout": 0.0015999999999999999,
+    "wide": 0.002,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0018,
+    "scout": 0.0031999999999999997,
+    "wide": 0.002,
+    "nospec-wide": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "nospec": 0.001,
+    "stream": 0.0015,
+    "scout": 0.0012000000000000001,
+    "wide": 0.002,
+    "nospec-wide": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.001,
+    "scout": 0.0021,
+    "wide": 0.0016,
+    "nospec-wide": 0.0001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0007,
+    "stream": 0.0014,
+    "scout": 0.001,
+    "wide": 0.0016,
+    "nospec-wide": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0006,
+    "stream": 0.0031,
+    "scout": 0.0041,
+    "wide": 0.0018999999999999998,
+    "nospec-wide": 0.0006
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0011,
+    "stream": 0.0024999999999999996,
+    "scout": 0.0012000000000000001,
+    "wide": 0.0027,
+    "nospec-wide": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 5,
+   "calls": 1,
+   "after": {
+    "nospec": 1.585,
+    "stream": 0.0011,
+    "scout": 0.0013000000000000002,
+    "wide": 0.0039,
+    "nospec-wide": 1.5917
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 6,
+   "calls": 1,
+   "after": {
+    "nospec": 1.5848,
+    "stream": 0.0021,
+    "scout": 0.0023,
+    "wide": 0.003,
+    "nospec-wide": 1.6063
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 7,
+   "calls": 1,
+   "after": {
+    "nospec": 1.6206,
+    "stream": 0.0012000000000000001,
+    "scout": 0.0023,
+    "wide": 0.0025,
+    "nospec-wide": 1.6245
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 8,
+   "calls": 1,
+   "after": {
+    "nospec": 0.1712,
+    "stream": 0.0015,
+    "scout": 0.003,
+    "wide": 0.0013,
+    "nospec-wide": 0.175
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.0019,
+    "scout": 0.0016,
+    "wide": 0.0019,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0002,
+    "stream": 0.0024000000000000002,
+    "scout": 0.0073,
+    "wide": 0.0082,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0003,
+    "stream": 0.004,
+    "scout": 0.0042,
+    "wide": 0.0036,
+    "nospec-wide": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "nospec": 0.0001,
+    "stream": 0.001,
+    "scout": 0.00030000000000000003,
+    "wide": 0.0018,
+    "nospec-wide": 0.0001
+   }
+  }
+ ],
+ "design": {
+  "name": "fix",
+  "run": "20261110-173155-record",
+  "sessions": [
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1",
+   "trec132k-17000237.fix1",
+   "pairs32k-16.fix1",
+   "pairs32k-1.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000241.fix2",
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix2"
+  ],
+  "left_out": {},
+  "dropped": {},
+  "single_loops": [],
+  "batch_loops": [
+   {
+    "session": "trec132k-17000237.fix1",
+    "turn": 4,
+    "batches": 159,
+    "prompts": 3180
+   },
+   {
+    "session": "trec132k-17000237.fix1",
+    "turn": 6,
+    "batches": 159,
+    "prompts": 3180
+   },
+   {
+    "session": "pairs32k-1.fix1",
+    "turn": 4,
+    "batches": 40,
+    "prompts": 787
+   },
+   {
+    "session": "trec132k-17000237.fix2",
+    "turn": 9,
+    "batches": 160,
+    "prompts": 3185
+   },
+   {
+    "session": "pairs32k-1.fix2",
+    "turn": 4,
+    "batches": 40,
+    "prompts": 786
+   }
+  ],
+  "checks": [
+   {
+    "id": "D1",
+    "claim": "session time: `stream` at 0.83 to 0.95 of `nospec` (dry run: 0.888)",
+    "ratio": [
+     "stream",
+     "nospec",
+     "wall_s"
+    ],
+    "min": 0.83,
+    "max": 0.95
+   },
+   {
+    "id": "D2",
+    "claim": "the number reported first, `scout` over `stream`, is 0.97 to 1.03 (dry run: 1.000)",
+    "first": "all",
+    "min": 0.97,
+    "max": 1.03
+   },
+   {
+    "id": "D3",
+    "claim": "session time: `wide` at 0.84 to 0.96 of `stream` (dry run: 0.892)",
+    "ratio": [
+     "wide",
+     "stream",
+     "wall_s"
+    ],
+    "min": 0.84,
+    "max": 0.96
+   },
+   {
+    "id": "D4",
+    "claim": "root stream seconds: `scout` within 5% of `stream` (dry run: 1.000)",
+    "ratio": [
+     "scout",
+     "stream",
+     "stream_s"
+    ],
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "id": "D5",
+    "claim": "root stream seconds: `wide` within 10% of `stream` (dry run: 1.033)",
+    "ratio": [
+     "wide",
+     "stream",
+     "stream_s"
+    ],
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "id": "D6",
+    "claim": "the largest loop of batches (`trec132k-17000237.fix1` turn 4, 159 batches of 20): `stream` at most 0.80 of `nospec` (dry run: 0.605)",
+    "turn": [
+     "trec132k-17000237.fix1",
+     4,
+     "stream",
+     "nospec"
+    ],
+    "max": 0.8
+   },
+   {
+    "id": "D7",
+    "claim": "the same turn: `wide` at most 0.50 of `stream` (dry run: 0.260)",
+    "turn": [
+     "trec132k-17000237.fix1",
+     4,
+     "wide",
+     "stream"
+    ],
+    "max": 0.5
+   },
+   {
+    "id": "D8",
+    "claim": "the loop of batches that tests each result (`trec132k-17000237.fix2` turn 9): `stream` at least 0.85 of `nospec` (dry run: 0.999)",
+    "turn": [
+     "trec132k-17000237.fix2",
+     9,
+     "stream",
+     "nospec"
+    ],
+    "min": 0.85
+   },
+   {
+    "id": "D9",
+    "claim": "the same turn: `scout` at least 0.85 of `stream` (dry run: 1.000)",
+    "turn": [
+     "trec132k-17000237.fix2",
+     9,
+     "scout",
+     "stream"
+    ],
+    "min": 0.85
+   },
+   {
+    "id": "D10",
+    "claim": "control, session time: `nospec-wide` at 0.86 to 0.98 of `nospec` (dry run: 0.929)",
+    "ratio": [
+     "nospec-wide",
+     "nospec",
+     "wall_s"
+    ],
+    "min": 0.86,
+    "max": 0.98
+   },
+   {
+    "id": "D11",
+    "claim": "control: `wide` at most 0.93 of `nospec-wide` in session time (dry run: 0.853)",
+    "ratio": [
+     "wide",
+     "nospec-wide",
+     "wall_s"
+    ],
+    "max": 0.93
+   }
+  ],
+  "prereg": [
+   "PREREG_RECORD.md",
+   "PREREG_RECORD_ADDENDUM.md"
+  ],
+  "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+  "batch_loops_that_test_results": [
+   {
+    "session": "trec132k-17000237.fix2",
+    "turn": 9
+   }
+  ],
+  "extra": {
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2",
+    "trec132k-17000222.fix2"
+   ],
+   "units": [
+    "stream-open"
+   ],
+   "why": "outside the registered comparison: the session the recording's deadline stopped, replayed up to turn 10, with spec-ptc's character budget lifted"
+  }
+ },
+ "first": {
+  "all": 1.0025749398530464,
+  "replayed": 1.0025749398530464,
+  "sessions_replayed": 10,
+  "sessions_added": 0,
+  "added_s": 0,
+  "saved_s": -3.960000000000022,
+  "carriers": [],
+  "wide_all": 0.8744716821639897,
+  "wide_replayed": 0.8744716821639897
+ },
+ "prereg_fixed": [
+  {
+   "id": "M1",
+   "claim": "every unit exact",
+   "measured": "5 of 5 exact",
+   "held": true
+  },
+  {
+   "id": "M2",
+   "claim": "in the fork's arms no call is sent twice and none is evicted",
+   "measured": "0 sent twice or unrecorded, 0 evicted",
+   "held": true
+  },
+  {
+   "id": "M3",
+   "claim": "a loop of single calls stays serial as shipped: `stream` at least 0.90 of `nospec` on each such turn",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "M4",
+   "claim": "where the loop only stores or prints each result, `scout` at most 0.25 of `stream` on that turn",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "M5",
+   "claim": "where the loop tests each result, `scout` at least 0.85 of `stream` on that turn",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "M6",
+   "claim": "loops of batches: `scout` at 0.55 to 0.95 of `stream` over those turns, `wide` at most 0.45",
+   "measured": "0.990, 0.406",
+   "held": false
+  },
+  {
+   "id": "M7",
+   "claim": "the number reported first (`scout` over `stream`, all replayable sessions) is at least 0.78",
+   "measured": "1.003 (1.003 over the 10 replayed sessions alone)",
+   "held": true
+  },
+  {
+   "id": "D1",
+   "claim": "session time: `stream` at 0.83 to 0.95 of `nospec` (dry run: 0.888)",
+   "measured": "0.890",
+   "held": true
+  },
+  {
+   "id": "D2",
+   "claim": "the number reported first, `scout` over `stream`, is 0.97 to 1.03 (dry run: 1.000)",
+   "measured": "1.003",
+   "held": true
+  },
+  {
+   "id": "D3",
+   "claim": "session time: `wide` at 0.84 to 0.96 of `stream` (dry run: 0.892)",
+   "measured": "0.874",
+   "held": true
+  },
+  {
+   "id": "D4",
+   "claim": "root stream seconds: `scout` within 5% of `stream` (dry run: 1.000)",
+   "measured": "1.006",
+   "held": true
+  },
+  {
+   "id": "D5",
+   "claim": "root stream seconds: `wide` within 10% of `stream` (dry run: 1.033)",
+   "measured": "1.027",
+   "held": true
+  },
+  {
+   "id": "D6",
+   "claim": "the largest loop of batches (`trec132k-17000237.fix1` turn 4, 159 batches of 20): `stream` at most 0.80 of `nospec` (dry run: 0.605)",
+   "measured": "0.622",
+   "held": true
+  },
+  {
+   "id": "D7",
+   "claim": "the same turn: `wide` at most 0.50 of `stream` (dry run: 0.260)",
+   "measured": "0.253",
+   "held": true
+  },
+  {
+   "id": "D8",
+   "claim": "the loop of batches that tests each result (`trec132k-17000237.fix2` turn 9): `stream` at least 0.85 of `nospec` (dry run: 0.999)",
+   "measured": "1.003",
+   "held": true
+  },
+  {
+   "id": "D9",
+   "claim": "the same turn: `scout` at least 0.85 of `stream` (dry run: 1.000)",
+   "measured": "0.977",
+   "held": true
+  },
+  {
+   "id": "D10",
+   "claim": "control, session time: `nospec-wide` at 0.86 to 0.98 of `nospec` (dry run: 0.929)",
+   "measured": "0.922",
+   "held": true
+  },
+  {
+   "id": "D11",
+   "claim": "control: `wide` at most 0.93 of `nospec-wide` in session time (dry run: 0.853)",
+   "measured": "0.844",
+   "held": true
+  }
+ ]
+}

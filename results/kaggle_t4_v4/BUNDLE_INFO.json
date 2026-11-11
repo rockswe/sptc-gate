@@ -1,0 +1,22 @@
+{
+ "built_utc": "2026-10-29T16:09:12Z",
+ "sptc_sim": {
+  "commit": "0f579181a3f53cdd3b1cbee6882b9e80d8f7285d",
+  "not_in_bundle_uncommitted": []
+ },
+ "plugin": {
+  "paths": [
+   "integrations/sptc_vllm",
+   "integrations/pyproject.toml",
+   "integrations/spec-ptc-sptc-hints.patch"
+  ],
+  "last_commit": "5bf3e36",
+  "run2_bundle_commit": "53722e0",
+  "unchanged_since_run2": true
+ },
+ "spec_ptc": {
+  "source": "../spec-ptc-sptc-hints",
+  "commit": "9a6c7af4e373ad4e54adf73fd514cee3962b884a",
+  "in_bundle_uncommitted": []
+ }
+}

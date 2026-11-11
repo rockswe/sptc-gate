@@ -1,0 +1,30 @@
+{"t": 1794280229.799, "kind": "begin", "arms": ["nospec", "stream", "scout", "wide"], "once": ["wide-threads", "nospec-wide"], "repeats": 1, "conc": 3, "model": "Qwen/Qwen3-1.7B", "base_url": "http://localhost:8210/v1", "sessions": ["pairs32k-15", "trec132k-17000232.w8k-c1", "trec132k-17000222.w8k-c8"], "max_minutes": 30.0, "serve_extra": ["--max-model-len", "32768", "--dtype", "half"], "warmup_passes": 1, "units": ["nospec_c3_r1", "stream_c3_r1", "scout_c3_r1", "wide_c3_r1", "wide-threads_c3_r1", "nospec-wide_c3_r1"], "arm_config": {"nospec": {"tree": "stock", "repl": "stock"}, "stream": {"tree": "stock", "repl": "stream", "kwargs": {}}, "scout": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true}}, "wide": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true, "spec_max_inflight": 128, "spec_batch_launch": true}}, "wide-threads": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true, "spec_max_inflight": 128}}, "nospec-wide": {"tree": "stock", "repl": "stock", "handler_width": 128}}, "handler_backlog": 1024, "files": {"PREREG_REPLAY.md": null, "replay.py": "9f712ed38f0d110af6636b085da1062c120bb2f0d6bd51d5a677ed68aeae98b2", "replay_campaign.py": "c99be5c5f621cc2a749523b27d0b8a0026776bcc3c3fc699ac56b7d7f401e045", "replay_corpus.py": "877cbc467fdb826fb000db80d6dee9b0b80dafd0346306643ca1425efa679f19", "replay_report.py": "06587f0e124086200fd9c02f862997ed7e5b48a39f1566d830e267ab748f7e75", "rlm_stream.py": "3a04d8e9f1d12c8c9b031e7db28860190bc8c83994849b5dc8ce33b6f42b7673", "repl_fix.py": "e8108229dce2110442d646471e2c040fa609ed6d27560c5f807273fcdfc56c80", "replay_app.py": "4aae9e57c345f417a53980c95a04c1cd8df4f00f7c17b566271269ec28c5dbed"}, "corpus": {"manifest_sha256": "4873c26c75607bc0d04168e84b6bc6b93ab5bf75bfb20629f36d307fa7c49557", "sessions": {"trec132k-17000232.w8k-c1": "cdb610ad86f51d806892140619eba871f12839c098de6845bce2815ab38bbaec", "trec132k-17000222.w8k-c8": "e191cf43b8b42333f3d3498a4f926fc30d9e8b84890b718ecfe0c11bd42b7eb9", "pairs32k-15": "b5552ce4dac376dd008dab4d8e36b52cbc951c630a609f83b69cb8b25b835b80"}}, "trees": {"stock": {"path": "/opt/spec-ptc", "py_tree": "f46414b0553b245901cef0ad79d6d8f2014843be8ccab8456bc8b13751fbf278", "py_files": 61, "git": null}, "fork": {"path": "/opt/spec-ptc-fork", "py_tree": "33387f6a5b93babe23dd17b743af46b5a858e525279d81e71b9386d1928a1edc", "py_files": 63, "git": null}}}
+{"t": 1794280296.795, "kind": "server_ready", "ready_s": 50.0, "kernel_config_dropped": []}
+{"t": 1794280302.992, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "short", "errors": 0, "wall_s": 5.507, "stream_max_gap_ms": 916.9}
+{"t": 1794280304.188, "kind": "warmup_wave", "pass": 1, "n": 2, "prompt": "short", "errors": 0, "wall_s": 1.196, "stream_max_gap_ms": 29.6}
+{"t": 1794280305.372, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "short", "errors": 0, "wall_s": 1.184, "stream_max_gap_ms": 26.6}
+{"t": 1794280306.622, "kind": "warmup_wave", "pass": 1, "n": 8, "prompt": "short", "errors": 0, "wall_s": 1.249, "stream_max_gap_ms": 40.1}
+{"t": 1794280307.966, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "short", "errors": 0, "wall_s": 1.344, "stream_max_gap_ms": 71.9}
+{"t": 1794280309.396, "kind": "warmup_wave", "pass": 1, "n": 32, "prompt": "short", "errors": 0, "wall_s": 1.429, "stream_max_gap_ms": 164.8}
+{"t": 1794280311.076, "kind": "warmup_wave", "pass": 1, "n": 64, "prompt": "short", "errors": 0, "wall_s": 1.68, "stream_max_gap_ms": 284.8}
+{"t": 1794280314.913, "kind": "warmup_wave", "pass": 1, "n": 128, "prompt": "short", "errors": 0, "wall_s": 3.837, "stream_max_gap_ms": 890.9}
+{"t": 1794280317.759, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.845, "stream_max_gap_ms": 890.1}
+{"t": 1794280325.651, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "long", "errors": 0, "wall_s": 7.891, "stream_max_gap_ms": 1418.2}
+{"t": 1794280353.92, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "long", "errors": 0, "wall_s": 28.268, "stream_max_gap_ms": 1416.9}
+{"t": 1794280357.348, "kind": "warmup_wave", "pass": 1, "n": 256, "prompt": "short", "errors": 0, "wall_s": 3.427, "stream_max_gap_ms": 301.9}
+{"t": 1794280363.312, "kind": "warmup_wave", "pass": 1, "n": 512, "prompt": "short", "errors": 0, "wall_s": 5.964, "stream_max_gap_ms": 296.9}
+{"t": 1794280374.656, "kind": "warmup_wave", "pass": 1, "n": 1024, "prompt": "short", "errors": 0, "wall_s": 11.343, "stream_max_gap_ms": 58.2}
+{"t": 1794280374.66, "kind": "warmup_done", "passes": 1, "waves": 14, "wall_s": 77.9, "errors": 0}
+{"t": 1794280374.661, "kind": "unit_begin", "unit": "nospec_c3_r1", "salt": "0ef16ed43c", "tree": "/opt/spec-ptc"}
+{"t": 1794280567.813, "kind": "unit_end", "unit": "nospec_c3_r1", "wall_s": 193.2, "exit": 0, "done": true, "exact": true}
+{"t": 1794280572.702, "kind": "unit_begin", "unit": "stream_c3_r1", "salt": "130b85b96b", "tree": "/opt/spec-ptc"}
+{"t": 1794280745.244, "kind": "unit_end", "unit": "stream_c3_r1", "wall_s": 172.5, "exit": 0, "done": true, "exact": true}
+{"t": 1794280749.725, "kind": "unit_begin", "unit": "scout_c3_r1", "salt": "9c5c6fb832", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794280925.292, "kind": "unit_end", "unit": "scout_c3_r1", "wall_s": 175.6, "exit": 0, "done": true, "exact": true}
+{"t": 1794280928.529, "kind": "unit_begin", "unit": "wide_c3_r1", "salt": "7059cd0848", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794281105.63, "kind": "unit_end", "unit": "wide_c3_r1", "wall_s": 177.1, "exit": 0, "done": true, "exact": true}
+{"t": 1794281108.239, "kind": "unit_begin", "unit": "wide-threads_c3_r1", "salt": "f3ed06e358", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794281244.825, "kind": "unit_end", "unit": "wide-threads_c3_r1", "wall_s": 136.6, "exit": 0, "done": true, "exact": true}
+{"t": 1794281247.915, "kind": "unit_begin", "unit": "nospec-wide_c3_r1", "salt": "e1e0700ecd", "tree": "/opt/spec-ptc"}
+{"t": 1794281425.27, "kind": "unit_end", "unit": "nospec-wide_c3_r1", "wall_s": 177.4, "exit": 0, "done": true, "exact": true}
+{"t": 1794281431.94, "kind": "end", "spent_s": 1202}

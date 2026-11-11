@@ -1,0 +1,1385 @@
+{
+ "arms": [
+  {
+   "arm": "nospec",
+   "units": 2,
+   "wall_s": 1236.855,
+   "stream_s": 735.2339,
+   "after_s": 495.9886,
+   "unit_wall_s": 520.2808052301407,
+   "after_share": 0.401007878854029,
+   "exact_units": 2,
+   "wall_vs_stream": 1.048582086388877,
+   "after_vs_stream": 1.0648358225874046,
+   "session_ratio_vs_stream": {
+    "geo": 1.0587985968091767,
+    "ci": [
+     1.0398134220633788,
+     1.0837437711304256
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "stream",
+   "units": 2,
+   "wall_s": 1179.55,
+   "stream_s": 708.57425,
+   "after_s": 465.7888,
+   "unit_wall_s": 504.93967390060425,
+   "after_share": 0.39488686363443687,
+   "exact_units": 2,
+   "wall_vs_nospec": 0.9536687808999438,
+   "after_vs_nospec": 0.93911190700754,
+   "session_ratio_vs_nospec": {
+    "geo": 0.9444666842340236,
+    "ci": [
+     0.9227273333778199,
+     0.9617109942816723
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "scout",
+   "units": 2,
+   "wall_s": 850.9300000000001,
+   "stream_s": 699.01765,
+   "after_s": 147.0112,
+   "unit_wall_s": 192.0610488653183,
+   "after_share": 0.17276532734772543,
+   "exact_units": 2,
+   "wall_vs_nospec": 0.6879787849020298,
+   "after_vs_nospec": 0.2964003608147445,
+   "session_ratio_vs_nospec": {
+    "geo": 0.819053212328456,
+    "ci": [
+     0.6487966855367029,
+     0.9331574040478621
+    ],
+    "sessions": 8
+   },
+   "wall_vs_stream": 0.7214022296638549,
+   "after_vs_stream": 0.31561772202337196,
+   "session_ratio_vs_stream": {
+    "geo": 0.8672123919254179,
+    "ci": [
+     0.6832812589962907,
+     0.9871854344347357
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "wide",
+   "units": 2,
+   "wall_s": 760.76,
+   "stream_s": 698.5316499999999,
+   "after_s": 56.905199999999994,
+   "unit_wall_s": 160.84011614322662,
+   "after_share": 0.07480046269519953,
+   "exact_units": 2,
+   "wall_vs_nospec": 0.6150761406955544,
+   "after_vs_nospec": 0.11473086276579743,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7421051412039439,
+    "ci": [
+     0.5633787325050241,
+     0.8992830454327733
+    ],
+    "sessions": 8
+   },
+   "wall_vs_stream": 0.6449578228985631,
+   "after_vs_stream": 0.12216953262938052,
+   "session_ratio_vs_stream": {
+    "geo": 0.7857398821916117,
+    "ci": [
+     0.5948547773887614,
+     0.9533741251914284
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "wide-threads",
+   "units": 1,
+   "wall_s": 750.77,
+   "stream_s": 677.0811,
+   "after_s": 68.2642,
+   "unit_wall_s": 165.86287331581116,
+   "after_share": 0.09092558306805014,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.6069992036253239,
+   "after_vs_nospec": 0.13763259881376305,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7257596489967097,
+    "ci": [
+     0.5566089740212518,
+     0.8869503262177167
+    ],
+    "sessions": 8
+   },
+   "wall_vs_stream": 0.636488491373829,
+   "after_vs_stream": 0.14655612157269562,
+   "session_ratio_vs_stream": {
+    "geo": 0.7684332979784368,
+    "ci": [
+     0.5878019016465892,
+     0.9348965958358266
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "nospec-wide",
+   "units": 1,
+   "wall_s": 1137.8500000000001,
+   "stream_s": 690.6925,
+   "after_s": 440.96180000000004,
+   "unit_wall_s": 532.0859363079071,
+   "after_share": 0.3875394823570769,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.9199542387749575,
+   "after_vs_nospec": 0.8890563210525404,
+   "session_ratio_vs_nospec": {
+    "geo": 0.8659241349834298,
+    "ci": [
+     0.7543482924853068,
+     0.9566639864065208
+    ],
+    "sessions": 8
+   },
+   "wall_vs_stream": 0.9646475350769362,
+   "after_vs_stream": 0.9466990189545134,
+   "session_ratio_vs_stream": {
+    "geo": 0.9168392590636556,
+    "ci": [
+     0.7972970898503275,
+     1.009404930877136
+    ],
+    "sessions": 8
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "nospec_c8_r1",
+   "arm": "nospec",
+   "rep": 1,
+   "t0": 1794284918.3513901,
+   "unit_wall_s": 521.3918659687042,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 1267.97,
+   "stream_s": 771.2359,
+   "after_s": 491.1594,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 230.6,
+   "call_ms_p90": 346.2,
+   "call_ms_max": 2854.9,
+   "gap_p50": 35.59999999999991,
+   "gap_p99": 44.69999999999982,
+   "gap_max": 1320.7000000000007,
+   "stall_s": 25.484899999999996,
+   "ttft_p50": 0.1076,
+   "ttft_p99": 8.397067999999999,
+   "ttft_max": 8.4394,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 4.507677543186181,
+   "running_max": 48.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.1913178294573643,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "stream_c8_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794285446.4449403,
+   "unit_wall_s": 502.4763786792755,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 1173.78,
+   "stream_s": 704.2553,
+   "after_s": 464.6007,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 230.4,
+   "call_ms_p90": 355.4,
+   "call_ms_max": 2380.8,
+   "gap_p50": 36.70000000000073,
+   "gap_p99": 47.22700000000038,
+   "gap_max": 206.60000000000002,
+   "stall_s": 0.8163999999999998,
+   "ttft_p50": 0.1106,
+   "ttft_p99": 0.2542679999999995,
+   "ttft_max": 0.327,
+   "spec": {
+    "shadow_exec": 250,
+    "dispatch": 10655,
+    "ready": 10655,
+    "claim_hit": 10655,
+    "claim_miss": 787,
+    "shadow_stop": 3,
+    "shadow_skip": 1,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "shadow": 10655
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [],
+   "running_mean": 4.727091633466135,
+   "running_max": 49.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.22708010335917317,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "scout_c8_r1",
+   "arm": "scout",
+   "rep": 1,
+   "t0": 1794285955.3221524,
+   "unit_wall_s": 191.81027817726135,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 855.78,
+   "stream_s": 703.2651,
+   "after_s": 147.56,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 222.1,
+   "call_ms_p90": 346.65,
+   "call_ms_max": 2407.9,
+   "gap_p50": 36.5,
+   "gap_p99": 48.69999999999994,
+   "gap_max": 228.5,
+   "stall_s": 1.2024000000000004,
+   "ttft_p50": 0.1121,
+   "ttft_p99": 0.322644,
+   "ttft_max": 0.325,
+   "spec": {
+    "scout_exec": 247,
+    "shadow_exec": 254,
+    "dispatch": 11454,
+    "adopt": 10713,
+    "ready": 11455,
+    "claim_hit": 11455,
+    "scout_skip": 11,
+    "shadow_stop": 4,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "peek": 11454
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     5
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 12.645833333333334,
+   "running_max": 50.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.22811369509043933,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c8_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794286152.6352704,
+   "unit_wall_s": 161.96709537506104,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 767.89,
+   "stream_s": 702.9096,
+   "after_s": 59.6106,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 1042,
+   "released": 24,
+   "calls": 10138,
+   "call_errors": 2359,
+   "call_ms_p50": 359.2,
+   "call_ms_p90": 1003.7,
+   "call_ms_max": 3192.8,
+   "gap_p50": 35.0,
+   "gap_p99": 54.80000000000018,
+   "gap_max": 2860.9000000000005,
+   "stall_s": 19.75875,
+   "ttft_p50": 0.1092,
+   "ttft_p99": 0.25106399999999957,
+   "ttft_max": 0.3165,
+   "spec": {
+    "scout_exec": 247,
+    "shadow_exec": 253,
+    "dispatch": 12367,
+    "adopt": 10249,
+    "ready": 12369,
+    "claim_hit": 11327,
+    "note": 290,
+    "scout_skip": 11,
+    "shadow_stop": 4,
+    "claim_miss": 128,
+    "evict": 1042,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "peek": 11291,
+    "shadow": 1076
+   },
+   "batch_dispatches": 12045,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ],
+    [
+     "AttributeError: 'NoneType' object has no attribute 'lower'",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     5
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 16.746913580246915,
+   "running_max": 131.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.23700258397932816,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c8_r2",
+   "arm": "wide",
+   "rep": 2,
+   "t0": 1794286321.1749742,
+   "unit_wall_s": 159.7131369113922,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 753.63,
+   "stream_s": 694.1537,
+   "after_s": 54.199799999999996,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 343.7,
+   "call_ms_p90": 1031.2,
+   "call_ms_max": 2644.6,
+   "gap_p50": 35.600000000000364,
+   "gap_p99": 54.5,
+   "gap_max": 182.40000000000055,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1096,
+   "ttft_p99": 0.24741199999999958,
+   "ttft_max": 0.3111,
+   "spec": {
+    "scout_exec": 247,
+    "shadow_exec": 255,
+    "dispatch": 11452,
+    "adopt": 11452,
+    "ready": 11455,
+    "claim_hit": 11455,
+    "scout_skip": 11,
+    "shadow_stop": 3,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "peek": 11452
+   },
+   "batch_dispatches": 11130,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     5
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 15.178683385579937,
+   "running_max": 130.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.23700258397932816,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "scout_c8_r2",
+   "arm": "scout",
+   "rep": 2,
+   "t0": 1794286486.7685509,
+   "unit_wall_s": 192.31181955337524,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 846.08,
+   "stream_s": 694.7702,
+   "after_s": 146.4624,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 222.2,
+   "call_ms_p90": 345.8,
+   "call_ms_max": 2105.4,
+   "gap_p50": 36.0,
+   "gap_p99": 48.200000000000394,
+   "gap_max": 180.0999999999999,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1126,
+   "ttft_p99": 0.24965999999999955,
+   "ttft_max": 0.3173,
+   "spec": {
+    "scout_exec": 247,
+    "shadow_exec": 254,
+    "dispatch": 11454,
+    "adopt": 11153,
+    "ready": 11455,
+    "claim_hit": 11455,
+    "scout_skip": 11,
+    "shadow_stop": 4,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "peek": 11454
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     5
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 12.264935064935065,
+   "running_max": 50.0,
+   "waiting_max": 3.0,
+   "queue_share": 0.0025974025974025974,
+   "kv_peak": 0.22801033591731268,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "stream_c8_r2",
+   "arm": "stream",
+   "rep": 2,
+   "t0": 1794286685.202747,
+   "unit_wall_s": 507.402969121933,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 1185.32,
+   "stream_s": 712.8932,
+   "after_s": 466.97689999999994,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 224.05,
+   "call_ms_p90": 345.1,
+   "call_ms_max": 2220.1,
+   "gap_p50": 37.799999999999955,
+   "gap_p99": 45.79999999999952,
+   "gap_max": 183.30000000000018,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1135,
+   "ttft_p99": 0.2561719999999995,
+   "ttft_max": 0.3267,
+   "spec": {
+    "shadow_exec": 249,
+    "dispatch": 10233,
+    "ready": 10233,
+    "claim_hit": 10233,
+    "claim_miss": 1209,
+    "shadow_stop": 4,
+    "shadow_skip": 1,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "shadow": 10233
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [],
+   "running_mean": 4.577909270216963,
+   "running_max": 50.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.2275968992248062,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec_c8_r2",
+   "arm": "nospec",
+   "rep": 2,
+   "t0": 1794287197.7385726,
+   "unit_wall_s": 519.1697444915771,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 1205.74,
+   "stream_s": 699.2319,
+   "after_s": 500.81780000000003,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 238.5,
+   "call_ms_p90": 361.20000000000005,
+   "call_ms_max": 2831.4,
+   "gap_p50": 35.40000000000009,
+   "gap_p99": 57.52700000000014,
+   "gap_max": 177.10000000000036,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1074,
+   "ttft_p99": 0.2551559999999994,
+   "ttft_max": 0.3497,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 4.42485549132948,
+   "running_max": 48.0,
+   "waiting_max": 1.0,
+   "queue_share": 0.0009633911368015414,
+   "kv_peak": 0.1913178294573643,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide-threads_c8_r1",
+   "arm": "wide-threads",
+   "rep": 1,
+   "t0": 1794287723.6618354,
+   "unit_wall_s": 165.86287331581116,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 750.77,
+   "stream_s": 677.0811,
+   "after_s": 68.2642,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 281.8,
+   "call_ms_p90": 454.05,
+   "call_ms_max": 2380.3,
+   "gap_p50": 34.600000000000364,
+   "gap_p99": 49.29999999999927,
+   "gap_max": 185.5,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1087,
+   "ttft_p99": 0.25043999999999955,
+   "ttft_max": 0.3158,
+   "spec": {
+    "scout_exec": 247,
+    "shadow_exec": 255,
+    "dispatch": 11452,
+    "ready": 11455,
+    "adopt": 11451,
+    "claim_hit": 11455,
+    "scout_skip": 11,
+    "shadow_stop": 3,
+    "claim_done": 322
+   },
+   "dispatch_source": {
+    "peek": 11452
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     5
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 14.629518072289157,
+   "running_max": 128.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.228733850129199,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec-wide_c8_r1",
+   "arm": "nospec-wide",
+   "rep": 1,
+   "t0": 1794287895.1084573,
+   "unit_wall_s": 532.0859363079071,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 1137.8500000000001,
+   "stream_s": 690.6925,
+   "after_s": 440.96180000000004,
+   "turns": 77,
+   "prompt_matches": 78,
+   "prompts": 78,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 9096,
+   "call_errors": 2359,
+   "call_ms_p50": 351.35,
+   "call_ms_p90": 993.7,
+   "call_ms_max": 2601.4,
+   "gap_p50": 35.900000000001455,
+   "gap_p99": 50.79999999999946,
+   "gap_max": 182.39999999999998,
+   "stall_s": 0.0,
+   "ttft_p50": 0.1111,
+   "ttft_p99": 0.24459199999999967,
+   "ttft_max": 0.2927,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 4.464722483537159,
+   "running_max": 131.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.18935400516795864,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-1",
+   "wall": {
+    "nospec": 79.785,
+    "stream": 70.62,
+    "scout": 69.285,
+    "wide": 68.47999999999999,
+    "wide-threads": 66.95,
+    "nospec-wide": 74.3
+   },
+   "after": {
+    "nospec": 11.4925,
+    "stream": 5.070149999999999,
+    "scout": 5.1978,
+    "wide": 4.1392500000000005,
+    "wide-threads": 3.5220000000000002,
+    "nospec-wide": 9.773800000000001
+   }
+  },
+  {
+   "session": "pairs32k-15",
+   "wall": {
+    "nospec": 100.875,
+    "stream": 97.815,
+    "scout": 89.745,
+    "wide": 89.32499999999999,
+    "wide-threads": 91.54,
+    "nospec-wide": 95.62
+   },
+   "after": {
+    "nospec": 10.3609,
+    "stream": 11.8326,
+    "scout": 4.2994,
+    "wide": 4.3598,
+    "wide-threads": 9.446499999999999,
+    "nospec-wide": 12.372
+   }
+  },
+  {
+   "session": "pairs32k-20",
+   "wall": {
+    "nospec": 80.65,
+    "stream": 76.9,
+    "scout": 75.35499999999999,
+    "wide": 77.0,
+    "wide-threads": 74.65,
+    "nospec-wide": 75.28
+   },
+   "after": {
+    "nospec": 0.00575,
+    "stream": 0.0103,
+    "scout": 0.01685,
+    "wide": 0.01615,
+    "wide-threads": 0.0153,
+    "nospec-wide": 0.005699999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000222",
+   "wall": {
+    "nospec": 520.265,
+    "stream": 504.92499999999995,
+    "scout": 192.04500000000002,
+    "wide": 160.825,
+    "wide-threads": 165.84,
+    "nospec-wide": 532.07
+   },
+   "after": {
+    "nospec": 374.33865000000003,
+    "stream": 359.11744999999996,
+    "scout": 47.221450000000004,
+    "wide": 17.75725,
+    "wide-threads": 28.148600000000002,
+    "nospec-wide": 389.7962
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "wall": {
+    "nospec": 137.99,
+    "stream": 126.28,
+    "scout": 125.08500000000001,
+    "wide": 101.575,
+    "wide-threads": 100.82,
+    "nospec-wide": 105.29
+   },
+   "after": {
+    "nospec": 41.4212,
+    "stream": 33.509550000000004,
+    "scout": 34.2617,
+    "wide": 9.479,
+    "wide-threads": 11.373099999999999,
+    "nospec-wide": 14.0069
+   }
+  },
+  {
+   "session": "trec132k-17000232",
+   "wall": {
+    "nospec": 120.185,
+    "stream": 115.485,
+    "scout": 114.65,
+    "wide": 111.03,
+    "wide-threads": 109.17,
+    "nospec-wide": 111.38
+   },
+   "after": {
+    "nospec": 0.045399999999999996,
+    "stream": 0.0715,
+    "scout": 0.0874,
+    "wide": 0.0883,
+    "wide-threads": 0.09,
+    "nospec-wide": 0.044700000000000004
+   }
+  },
+  {
+   "session": "trec132k-17000232.w8k-c1",
+   "wall": {
+    "nospec": 87.095,
+    "stream": 83.47999999999999,
+    "scout": 81.77000000000001,
+    "wide": 82.43,
+    "wide-threads": 79.88,
+    "nospec-wide": 81.68
+   },
+   "after": {
+    "nospec": 0.3051,
+    "stream": 0.4077,
+    "scout": 0.044899999999999995,
+    "wide": 0.04025,
+    "wide-threads": 0.0523,
+    "nospec-wide": 0.3243
+   }
+  },
+  {
+   "session": "trec132k-17000241",
+   "wall": {
+    "nospec": 110.00999999999999,
+    "stream": 104.045,
+    "scout": 102.995,
+    "wide": 70.095,
+    "wide-threads": 61.92,
+    "nospec-wide": 62.23
+   },
+   "after": {
+    "nospec": 58.019099999999995,
+    "stream": 55.769549999999995,
+    "scout": 55.8817,
+    "wide": 21.0252,
+    "wide-threads": 15.6164,
+    "nospec-wide": 14.638200000000001
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 2
+   },
+   "calls": 400,
+   "call_errors": 387,
+   "after": {
+    "nospec": 11.48885,
+    "stream": 5.063599999999999,
+    "scout": 5.18825,
+    "wide": 4.1301000000000005,
+    "wide-threads": 3.5132000000000003,
+    "nospec-wide": 9.7703
+   }
+  },
+  {
+   "session": "pairs32k-15",
+   "iteration": 4,
+   "cause": "not speculated",
+   "causes": {
+    "not speculated": 2
+   },
+   "calls": 400,
+   "call_errors": 387,
+   "after": {
+    "nospec": 10.3579,
+    "stream": 11.8185,
+    "scout": 4.274900000000001,
+    "wide": 4.3353,
+    "wide-threads": 9.425699999999999,
+    "nospec-wide": 12.3692
+   }
+  },
+  {
+   "session": "trec132k-17000222",
+   "iteration": 4,
+   "cause": "serial launches",
+   "causes": {
+    "serial launches": 1,
+    "partly speculated": 1
+   },
+   "calls": 1600,
+   "call_errors": 1582,
+   "after": {
+    "nospec": 45.188050000000004,
+    "stream": 23.802349999999997,
+    "scout": 22.104300000000002,
+    "wide": 11.927499999999998,
+    "wide-threads": 22.4677,
+    "nospec-wide": 44.1848
+   }
+  },
+  {
+   "session": "trec132k-17000222",
+   "iteration": 7,
+   "cause": "serial launches",
+   "causes": {
+    "serial launches": 2
+   },
+   "calls": 319,
+   "call_errors": 0,
+   "after": {
+    "nospec": 327.0554,
+    "stream": 333.3397,
+    "scout": 23.281750000000002,
+    "wide": 3.9975,
+    "wide-threads": 3.9074,
+    "nospec-wide": 343.2436
+   }
+  },
+  {
+   "session": "trec132k-17000222",
+   "iteration": 9,
+   "cause": "still running at stream end",
+   "causes": {
+    "still running at stream end": 2
+   },
+   "calls": 2,
+   "call_errors": 0,
+   "after": {
+    "nospec": 1.1132,
+    "stream": 1.065,
+    "scout": 0.9519,
+    "wide": 0.9642499999999999,
+    "wide-threads": 0.9185,
+    "nospec-wide": 1.1131
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 2
+   },
+   "calls": 1002,
+   "call_errors": 0,
+   "after": {
+    "nospec": 13.718250000000001,
+    "stream": 11.40795,
+    "scout": 11.531649999999999,
+    "wide": 6.9761,
+    "wide-threads": 8.0907,
+    "nospec-wide": 7.4136
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 2
+   },
+   "calls": 1007,
+   "call_errors": 1,
+   "after": {
+    "nospec": 13.1045,
+    "stream": 11.231100000000001,
+    "scout": 11.40065,
+    "wide": 1.3335,
+    "wide-threads": 1.7328,
+    "nospec-wide": 3.3277
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 2
+   },
+   "calls": 1008,
+   "call_errors": 1,
+   "after": {
+    "nospec": 12.61685,
+    "stream": 10.6967,
+    "scout": 11.15495,
+    "wide": 1.1382999999999999,
+    "wide-threads": 1.5145,
+    "nospec-wide": 2.6188
+   }
+  },
+  {
+   "session": "trec132k-17000241",
+   "iteration": 12,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 2
+   },
+   "calls": 4224,
+   "call_errors": 0,
+   "after": {
+    "nospec": 58.0179,
+    "stream": 55.7632,
+    "scout": 55.87165,
+    "wide": 21.0176,
+    "wide-threads": 15.6081,
+    "nospec-wide": 14.637
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "not speculated",
+   "turns": 1,
+   "stream_s": 11.8185,
+   "arms": {
+    "nospec": {
+     "after_s": 10.3579,
+     "recovered_s": 1.4605999999999995,
+     "recovered_share": 0.12358590345644535
+    },
+    "stream": {
+     "after_s": 11.8185,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 4.274900000000001,
+     "recovered_s": 7.5436,
+     "recovered_share": 0.638287430723019
+    },
+    "wide": {
+     "after_s": 4.3353,
+     "recovered_s": 7.4832,
+     "recovered_share": 0.6331767990861784
+    },
+    "wide-threads": {
+     "after_s": 9.425699999999999,
+     "recovered_s": 2.392800000000001,
+     "recovered_share": 0.20246224140119315
+    },
+    "nospec-wide": {
+     "after_s": 12.3692,
+     "recovered_s": -0.5506999999999991,
+     "recovered_share": -0.04659643778821332
+    }
+   }
+  },
+  {
+   "cause": "serial launches",
+   "turns": 2,
+   "stream_s": 357.14205,
+   "arms": {
+    "nospec": {
+     "after_s": 372.24345000000005,
+     "recovered_s": -15.10140000000007,
+     "recovered_share": -0.04228401556187537
+    },
+    "stream": {
+     "after_s": 357.14205,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 45.386050000000004,
+     "recovered_s": 311.756,
+     "recovered_share": 0.8729187727964265
+    },
+    "wide": {
+     "after_s": 15.924999999999999,
+     "recovered_s": 341.21705,
+     "recovered_share": 0.9554098992263722
+    },
+    "wide-threads": {
+     "after_s": 26.3751,
+     "recovered_s": 330.76695,
+     "recovered_share": 0.9261495530979901
+    },
+    "nospec-wide": {
+     "after_s": 387.4284,
+     "recovered_s": -30.286350000000027,
+     "recovered_share": -0.08480197165245601
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 5,
+   "stream_s": 94.16255,
+   "arms": {
+    "nospec": {
+     "after_s": 108.94635,
+     "recovered_s": -14.7838,
+     "recovered_share": -0.15700296986434628
+    },
+    "stream": {
+     "after_s": 94.16255,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 95.14715,
+     "recovered_s": -0.9846000000000004,
+     "recovered_share": -0.010456386323437507
+    },
+    "wide": {
+     "after_s": 34.595600000000005,
+     "recovered_s": 59.56694999999999,
+     "recovered_share": 0.632597035658019
+    },
+    "wide-threads": {
+     "after_s": 30.4593,
+     "recovered_s": 63.70325,
+     "recovered_share": 0.6765242657510868
+    },
+    "nospec-wide": {
+     "after_s": 37.7674,
+     "recovered_s": 56.395149999999994,
+     "recovered_share": 0.5989127312291351
+    }
+   }
+  },
+  {
+   "cause": "still running at stream end",
+   "turns": 1,
+   "stream_s": 1.065,
+   "arms": {
+    "nospec": {
+     "after_s": 1.1132,
+     "recovered_s": -0.04820000000000002,
+     "recovered_share": -0.04525821596244134
+    },
+    "stream": {
+     "after_s": 1.065,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 0.9519,
+     "recovered_s": 0.11309999999999998,
+     "recovered_share": 0.10619718309859154
+    },
+    "wide": {
+     "after_s": 0.9642499999999999,
+     "recovered_s": 0.10075,
+     "recovered_share": 0.09460093896713616
+    },
+    "wide-threads": {
+     "after_s": 0.9185,
+     "recovered_s": 0.14649999999999996,
+     "recovered_share": 0.13755868544600935
+    },
+    "nospec-wide": {
+     "after_s": 1.1131,
+     "recovered_s": -0.04810000000000003,
+     "recovered_share": -0.04516431924882632
+    }
+   }
+  }
+ ],
+ "noise": [
+  {
+   "arm": "nospec",
+   "sessions": 8,
+   "session_geo_sd": 1.0880435495152263,
+   "wall_ratio": 1.0516114585233964,
+   "after_r1": 491.1594,
+   "after_r2": 500.81780000000003,
+   "stream_r1": 771.2359,
+   "stream_r2": 699.2319
+  },
+  {
+   "arm": "stream",
+   "sessions": 8,
+   "session_geo_sd": 1.0123438861892815,
+   "wall_ratio": 0.9902642324435595,
+   "after_r1": 464.6007,
+   "after_r2": 466.97689999999994,
+   "stream_r1": 704.2553,
+   "stream_r2": 712.8932
+  },
+  {
+   "arm": "scout",
+   "sessions": 8,
+   "session_geo_sd": 1.0222685079399445,
+   "wall_ratio": 1.011464636913767,
+   "after_r1": 147.56,
+   "after_r2": 146.4624,
+   "stream_r1": 703.2651,
+   "stream_r2": 694.7702
+  },
+  {
+   "arm": "wide",
+   "sessions": 8,
+   "session_geo_sd": 1.028807890013968,
+   "wall_ratio": 1.0189217520533949,
+   "after_r1": 59.6106,
+   "after_r2": 54.199799999999996,
+   "stream_r1": 702.9096,
+   "stream_r2": 694.1537
+  }
+ ],
+ "arm_names": [
+  "nospec",
+  "stream",
+  "scout",
+  "wide",
+  "wide-threads",
+  "nospec-wide"
+ ],
+ "prereg": [
+  {
+   "id": "P1",
+   "claim": "every unit exact; no unrecorded call, no repeat",
+   "measured": "10 of 10 exact; 1042 stray calls",
+   "held": false
+  },
+  {
+   "id": "P2",
+   "claim": "nothing evicted",
+   "measured": "1042 evicted",
+   "held": false
+  },
+  {
+   "id": "P3",
+   "claim": "the loop of 319 single calls: `stream` at least 0.90 of `nospec`",
+   "measured": "1.019",
+   "held": true
+  },
+  {
+   "id": "P4",
+   "claim": "the same turn: `scout` at most 0.15 of `stream`",
+   "measured": "0.070",
+   "held": true
+  },
+  {
+   "id": "P5",
+   "claim": "serial launches: `scout` recovers at least 75%, `wide` at least 85%",
+   "measured": "87%, 96%",
+   "held": true
+  },
+  {
+   "id": "P6",
+   "claim": "the cap: `scout` recovers between -15% and +15%, `wide` at least 50%",
+   "measured": "-1%, 63%",
+   "held": true
+  },
+  {
+   "id": "P7",
+   "claim": "session time: `stream` 0.93\u20131.02 of `nospec`; `scout` at most 0.80 of `stream`; `wide` at most 0.75",
+   "measured": "0.954, 0.721, 0.645",
+   "held": true
+  },
+  {
+   "id": "P8",
+   "claim": "root stream seconds: `scout` within 5% of `stream`, `wide` within 10%",
+   "measured": "0.987, 0.986",
+   "held": true
+  },
+  {
+   "id": "P9",
+   "claim": "an arm's two units differ by less than 5% in session time",
+   "measured": "largest difference 5.2% (4 arms with two units)",
+   "held": false
+  },
+  {
+   "id": "P10",
+   "claim": "controls: `wide-threads` within 25% of `wide`; `nospec-wide` recovers at most 10% of the serial-launch seconds and is at least 0.90 of `nospec`",
+   "measured": "0.987, -8%, 0.920",
+   "held": true
+  },
+  {
+   "id": "live run",
+   "claim": "worth it if the better fork arm is at most 0.85 of `stream` in session time and its root streams at most 10% longer",
+   "measured": "`wide`: 0.645, root streams 0.986",
+   "held": true
+  }
+ ]
+}

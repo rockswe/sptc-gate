@@ -1,0 +1,32 @@
+{"t": 1794263265.001, "kind": "begin", "tasks": ["trec132k-17000232", "trec132k-17000241", "trec132k-17000222", "trec132k-17000237", "pairs32k-16", "pairs32k-20", "pairs32k-1", "pairs32k-15"], "arms": ["nospec", "fanout", "stream"], "conc": [8, 4], "repeats": 2, "model": "Qwen/Qwen3-30B-A3B-Instruct-2507", "base_url": "http://localhost:8210/v1", "max_minutes": 90.0, "repl_fix": true, "files": {"GATE.md": "f5182144e43cf6a932bd24be827332ead44fbf006650a790998241a9f3b54015", "rlm_campaign.py": "0fcd18ceebb89404fd1616f64ae72d036455c02031cc14c2b245cc948b861684", "rlm_stream.py": "c4a48a389e6c155d9104b2d7928ce759feaab7283cef47eead776d51776a1a8d", "repl_fix.py": "e8108229dce2110442d646471e2c040fa609ed6d27560c5f807273fcdfc56c80", "app.py": "2e698612cf93d496a543ce65f4060f0537a2551a1b12ae3f693c85e28db3dc13"}, "spec_ptc_py_tree": "7443213069ac0b5634bebb4dcf453145c9df679c53c9ebd07ef29d873e124b2e", "spec_ptc_py_files": 74}
+{"t": 1794263373.798, "kind": "server_ready", "ready_s": 95.0, "kernel_config_dropped": []}
+{"t": 1794263379.351, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "short", "errors": 0, "wall_s": 5.551, "stream_max_gap_ms": 687.4}
+{"t": 1794263382.286, "kind": "warmup_wave", "pass": 1, "n": 2, "prompt": "short", "errors": 0, "wall_s": 2.935, "stream_max_gap_ms": 613.1}
+{"t": 1794263385.889, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "short", "errors": 0, "wall_s": 3.603, "stream_max_gap_ms": 688.2}
+{"t": 1794263388.925, "kind": "warmup_wave", "pass": 1, "n": 8, "prompt": "short", "errors": 0, "wall_s": 3.035, "stream_max_gap_ms": 57.3}
+{"t": 1794263392.707, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "short", "errors": 0, "wall_s": 3.782, "stream_max_gap_ms": 740.1}
+{"t": 1794263395.166, "kind": "warmup_wave", "pass": 1, "n": 32, "prompt": "short", "errors": 0, "wall_s": 2.458, "stream_max_gap_ms": 66.9}
+{"t": 1794263397.673, "kind": "warmup_wave", "pass": 1, "n": 64, "prompt": "short", "errors": 0, "wall_s": 2.507, "stream_max_gap_ms": 81.0}
+{"t": 1794263401.027, "kind": "warmup_wave", "pass": 1, "n": 128, "prompt": "short", "errors": 0, "wall_s": 3.354, "stream_max_gap_ms": 841.5}
+{"t": 1794263403.458, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.431, "stream_max_gap_ms": 62.1}
+{"t": 1794263406.037, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.579, "stream_max_gap_ms": 140.3}
+{"t": 1794263409.636, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "long", "errors": 0, "wall_s": 3.598, "stream_max_gap_ms": 677.4}
+{"t": 1794263412.058, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "short", "errors": 0, "wall_s": 2.422, "stream_max_gap_ms": 52.9}
+{"t": 1794263414.484, "kind": "warmup_wave", "pass": 2, "n": 2, "prompt": "short", "errors": 0, "wall_s": 2.426, "stream_max_gap_ms": 53.1}
+{"t": 1794263417.593, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "short", "errors": 0, "wall_s": 3.108, "stream_max_gap_ms": 713.7}
+{"t": 1794263420.025, "kind": "warmup_wave", "pass": 2, "n": 8, "prompt": "short", "errors": 0, "wall_s": 2.431, "stream_max_gap_ms": 55.9}
+{"t": 1794263422.511, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "short", "errors": 0, "wall_s": 2.485, "stream_max_gap_ms": 59.6}
+{"t": 1794263424.982, "kind": "warmup_wave", "pass": 2, "n": 32, "prompt": "short", "errors": 0, "wall_s": 2.471, "stream_max_gap_ms": 167.9}
+{"t": 1794263427.463, "kind": "warmup_wave", "pass": 2, "n": 64, "prompt": "short", "errors": 0, "wall_s": 2.48, "stream_max_gap_ms": 68.0}
+{"t": 1794263430.032, "kind": "warmup_wave", "pass": 2, "n": 128, "prompt": "short", "errors": 0, "wall_s": 2.568, "stream_max_gap_ms": 84.1}
+{"t": 1794263432.447, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.415, "stream_max_gap_ms": 53.8}
+{"t": 1794263434.926, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.477, "stream_max_gap_ms": 90.7}
+{"t": 1794263437.858, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "long", "errors": 0, "wall_s": 2.932, "stream_max_gap_ms": 143.8}
+{"t": 1794263437.859, "kind": "warmup_done", "passes": 2, "waves": 22, "wall_s": 64.1, "errors": 0}
+{"t": 1794263437.871, "kind": "unit_begin", "unit": "nospec_c8_r1"}
+{"t": 1794263843.61, "kind": "unit_end", "unit": "nospec_c8_r1", "wall_s": 405.7, "errors": 6, "score": 0.0}
+{"t": 1794263844.538, "kind": "unit_begin", "unit": "fanout_c8_r1"}
+{"t": 1794264384.16, "kind": "unit_end", "unit": "fanout_c8_r1", "wall_s": 539.6, "errors": 2, "score": 0.31}
+{"t": 1794264385.711, "kind": "unit_begin", "unit": "stream_c8_r1"}
+{"t": 1794265485.7, "kind": "unit_end", "unit": "stream_c8_r1", "wall_s": 1100.0, "errors": 4, "score": 0.279}
+{"t": 1794265487.321, "kind": "unit_begin", "unit": "stream_c8_r2"}

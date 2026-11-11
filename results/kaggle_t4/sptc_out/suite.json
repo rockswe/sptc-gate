@@ -1,0 +1,3844 @@
+{
+ "suite": [
+  {
+   "pattern": "map16",
+   "mode": "baseline",
+   "wall_s": 4.473652434000087,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.5709473829999752,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17635479399996257,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.173233479999908,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21011424499988607,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15840321400014545,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1925576999999521,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17804149599987795,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21839727900010075,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17695417000004454,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.213903486999925,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16425018999984786,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21761138200008645,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18678341000008913,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.22654147999992347,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18222750599989013,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.22453128700021807,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map16",
+   "mode": "spec",
+   "wall_s": 1.0110283659998913,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.22228867499984517,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2292775169999004,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22783726500006196,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2484224180000183,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24658454300015364,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2522521419998611,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2398351140000159,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.25922355200009406,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24566292500003328,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27694725500009554,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2738641920000191,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28329548099986823,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28580545599993457,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2711238710000998,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2844778160001624,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2789215279999553,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map16",
+   "mode": "baseline",
+   "wall_s": 4.148235204999992,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.15966602899993632,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18177612299996326,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18171143500012477,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18316495399994892,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16610953500003234,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20368558900008793,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18540080699995087,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.22398149799983003,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1888743169999998,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2232345229999737,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1662206309999874,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.22434448400008478,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19036991999996644,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.23446801499994763,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19110748900016006,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24203110500002367,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map16",
+   "mode": "spec",
+   "wall_s": 1.018320729999914,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.22464179999997214,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23301466499992785,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23452027700000144,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26516378999986046,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2600080939998861,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24816332999989754,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2668973850002203,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24647922099984498,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27661212400016666,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.275154233999956,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2872638569999708,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2816134409999904,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27484576999995625,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29575414800001454,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2898208239998894,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3015589359999922,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map16",
+   "mode": "baseline",
+   "wall_s": 4.373380618000056,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.16293396100013524,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18713639099996726,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19292489100007515,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20297960099992451,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18118037299996104,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.22415406200002508,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2056563629998891,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24873460999992858,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20169796699997278,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24257172500006163,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17806708300008722,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24756979599987972,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20445509199998924,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24389013300014994,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19795084199995472,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24918333699997675,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map16",
+   "mode": "spec",
+   "wall_s": 1.015683321999859,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2333605119999902,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22635206400013885,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2505326689999947,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2535183640000014,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23411021600009008,
+     "usage": {
+      "prompt": 38,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.25483290700003636,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26161040600004526,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2640751779999846,
+     "usage": {
+      "prompt": 38,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24858410199999526,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2442366420000326,
+     "usage": {
+      "prompt": 39,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28396364099990024,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2773570599999857,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2906223229999796,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2733471599999575,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2825921789999484,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2877901589999965,
+     "usage": {
+      "prompt": 39,
+      "completion": 11
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "baseline",
+   "wall_s": 29.277635961999977,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 3.0990251889998035,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.702944521000063,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.6450728530001015,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.9015138419999857,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.895256537000023,
+     "usage": {
+      "prompt": 40,
+      "completion": 160
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.5337520069999755,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.449693625000009,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.147856511999862,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "spec",
+   "wall_s": 4.00999896899998,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 2.83799087400007,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.0510082009998314,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.062600151999959,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.155399032000105,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.1693022609999844,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.2248367379997944,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.3177703759999986,
+     "usage": {
+      "prompt": 40,
+      "completion": 160
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.4018720890001077,
+     "usage": {
+      "prompt": 41,
+      "completion": 165
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "baseline",
+   "wall_s": 24.21021038999993,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 2.7139881369998875,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.0497388109999974,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.8823196860000735,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.1699040470000455,
+     "usage": {
+      "prompt": 41,
+      "completion": 165
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.922721675000048,
+     "usage": {
+      "prompt": 40,
+      "completion": 149
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.8647113760000593,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.8986232679999375,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.806141531000094,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "spec",
+   "wall_s": 3.985840785999926,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 2.814020978000144,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.0258361310000055,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.035228694000125,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.1321989589998793,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.1455085290001534,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.200217864000024,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.293878353000082,
+     "usage": {
+      "prompt": 40,
+      "completion": 160
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.376962376999927,
+     "usage": {
+      "prompt": 41,
+      "completion": 165
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "baseline",
+   "wall_s": 25.35666180599992,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 2.7128603629998906,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.0348679139999604,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.9233838249999735,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.3503633119998995,
+     "usage": {
+      "prompt": 41,
+      "completion": 165
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.007611931999918,
+     "usage": {
+      "prompt": 40,
+      "completion": 149
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.086181482000029,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.229861303000007,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 3.1095292040001823,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map8_slow",
+   "mode": "spec",
+   "wall_s": 4.041869807000012,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 2.8435281600000053,
+     "usage": {
+      "prompt": 41,
+      "completion": 136
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.080711070999996,
+     "usage": {
+      "prompt": 41,
+      "completion": 146
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.0714376660000653,
+     "usage": {
+      "prompt": 41,
+      "completion": 147
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.1659257050000633,
+     "usage": {
+      "prompt": 41,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.1996544520000043,
+     "usage": {
+      "prompt": 40,
+      "completion": 152
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.253549244999931,
+     "usage": {
+      "prompt": 41,
+      "completion": 155
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.349408126000071,
+     "usage": {
+      "prompt": 40,
+      "completion": 160
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 3.433706653999934,
+     "usage": {
+      "prompt": 41,
+      "completion": 165
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "baseline",
+   "wall_s": 12.809933910000154,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.25436567099995955,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4953443290000905,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.29198163199998817,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.514848339000082,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.28246922999983326,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4994160359999569,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2830479969998123,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.5061550359998819,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2708484650001992,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.8784295099999326,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2642312079999556,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.866136306000044,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "spec",
+   "wall_s": 2.8190171039998404,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.26897507100011353,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2656941430000188,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.264337931,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2866562899998826,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2858635019999838,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2845573140000397,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.2974361950000457,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3148039860000154,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3182265190000635,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.314307855999914,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6075592070001221,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6113067439998758,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "baseline",
+   "wall_s": 12.34965256999999,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.2396186299999954,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4362869599999613,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.269540902000017,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4609476170001017,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.26991192399987085,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4592252900001768,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2718766020000203,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4498021169999902,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.25101095099989834,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.8238691490000747,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2504391710001528,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.7644778090000273,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "spec",
+   "wall_s": 2.816677665000043,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.26445338299981813,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26673060400003124,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2723179419999724,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28704306199983876,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2864563509999698,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2854184529999202,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3119971319999877,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3120628929998475,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3156959509999524,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.317742115999863,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.5903509470001609,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6093171009999878,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "baseline",
+   "wall_s": 12.257320233999963,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.23531736599989017,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.433541593999962,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27222680799991394,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4225372350001635,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27421641299997646,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4205176810000921,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2694901319998735,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.4494939219998741,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24573383599999943,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.7707053460001134,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24296375199992326,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.817860883000094,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "two_stage",
+   "mode": "spec",
+   "wall_s": 2.817498425999929,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2703710860000683,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2656600970001364,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2619549949999964,
+     "usage": {
+      "prompt": 38,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2843620659998578,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28739358699999684,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2861932190000971,
+     "usage": {
+      "prompt": 39,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.2926304190000337,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.310080323999955,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3151541719998932,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.315105424999956,
+     "usage": {
+      "prompt": 26,
+      "completion": 68
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6056176399999913,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6089780689999316,
+     "usage": {
+      "prompt": 26,
+      "completion": 85
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "baseline",
+   "wall_s": 4.312626800999851,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.05734195900004124,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.4198837920000642,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.07039532700014206,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27632837800001653,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.06398325999998633,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2784361699998499,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.06964992700000039,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27214138299996193,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "spec",
+   "wall_s": 2.8069797290002043,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.04220927699998356,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.07464178600002924,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3763108430000557,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24654282200003763,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.04255573000000368,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2437218769998708,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.04043649800019011,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2460852579999937,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "baseline",
+   "wall_s": 4.2349188869998216,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.0519585320000715,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.4118911880000269,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.06501944100000401,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.25721609500010345,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.058752825000055964,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.25951243400004387,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.059961757999872134,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.26526113699992493,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "spec",
+   "wall_s": 2.807708670000011,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.04400321900016024,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.35751642400009587,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.07255902599990804,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24758782699996118,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.041250714999932825,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24346405799997228,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.041127818000177285,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.243261375999964,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "baseline",
+   "wall_s": 4.238585381999883,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.051955506000012974,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.40948955099997875,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.06462088800003585,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.26381111899991083,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.059840893000000506,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2644348999999693,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.06076757400001043,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2588658249999298,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "side_branch_chain",
+   "mode": "spec",
+   "wall_s": 2.8069277250001505,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.04251421100002517,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.37157051500003035,
+     "usage": {
+      "prompt": 37,
+      "completion": 20
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.08715630299980148,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24552776599989556,
+     "usage": {
+      "prompt": 20,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.044072253999956956,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24519303500005662,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.04037355800005571,
+     "usage": {
+      "prompt": 43,
+      "completion": 2
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24863853700003347,
+     "usage": {
+      "prompt": 19,
+      "completion": 14
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "baseline",
+   "wall_s": 13.549413067999922,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.9058852969999407,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.936098857999923,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.937809335999873,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.0971482859999924,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.165877243000068,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.2032777479998913,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "spec",
+   "wall_s": 2.8171064859998296,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.8103186509999887,
+     "usage": {
+      "prompt": 36,
+      "completion": 92
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9067347019999943,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9023136329999488,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9021320669999113,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9075429839999742,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9124837460001345,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "baseline",
+   "wall_s": 14.94840670900021,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 2.303932091999968,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.2256668320001154,
+     "usage": {
+      "prompt": 36,
+      "completion": 92
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.3670156089999637,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.2863574729999527,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.2597183810000843,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.202764191999904,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "spec",
+   "wall_s": 2.8029677600000014,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.8164727070000026,
+     "usage": {
+      "prompt": 36,
+      "completion": 92
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8747581989998707,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8889322659999834,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8912645650000286,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.898380090000046,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.894011603999843,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "baseline",
+   "wall_s": 12.953448821000165,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.9458905109997886,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.8956135759999597,
+     "usage": {
+      "prompt": 36,
+      "completion": 92
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9535653099999308,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9372488069998326,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.963286677000042,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9542555339999126,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "multiblock",
+   "mode": "spec",
+   "wall_s": 2.785039746000166,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.800250589000143,
+     "usage": {
+      "prompt": 36,
+      "completion": 92
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8572576169999593,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8737410740000087,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8724150620000728,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8805889330001264,
+     "usage": {
+      "prompt": 36,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.8720798619999641,
+     "usage": {
+      "prompt": 35,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "baseline",
+   "wall_s": 5.841099772999996,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.0656415549999565,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9648734600000353,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.8923779599999762,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21451309999997648,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "spec",
+   "wall_s": 2.687122154000008,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.057957541000178026,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23929695399988304,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6664360550000765,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6827553970001645,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "baseline",
+   "wall_s": 5.768355276999955,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.056221368000024086,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.8883050180002101,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9037519139999404,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21664736599996104,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "spec",
+   "wall_s": 2.6849424959998487,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.057090980999873864,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.25305356099988785,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6659193999998934,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6791740579999441,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "baseline",
+   "wall_s": 5.81041716499999,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.05676911899990955,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9153342849999717,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.914857098000084,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21989476300018396,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "syntax_gauntlet",
+   "mode": "spec",
+   "wall_s": 2.6927775700000893,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.056953471000042555,
+     "usage": {
+      "prompt": 24,
+      "completion": 3
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2406775760000528,
+     "usage": {
+      "prompt": 15,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.672849054999915,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.6824666329998763,
+     "usage": {
+      "prompt": 16,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "baseline",
+   "wall_s": 6.815293064000116,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.0061703220001164,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9852245019999373,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.8132543330000317,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.0329693550002048,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9144686489999003,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9609755169999517,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "spec",
+   "wall_s": 2.068350060999819,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.052351336999891,
+     "usage": {
+      "prompt": 37,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0979120340000463,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.177500364000025,
+     "usage": {
+      "prompt": 37,
+      "completion": 55
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.1912416709999434,
+     "usage": {
+      "prompt": 36,
+      "completion": 56
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8398951229999057,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.3133609219999016,
+     "usage": {
+      "prompt": 37,
+      "completion": 63
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9489102360000743,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9509392120000939,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0428264049999143,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0466417709999405,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "baseline",
+   "wall_s": 7.124792296000123,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.0608674879999853,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.0510624700000335,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.8350552069998685,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.1012421390000782,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9801576969998678,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9941978899998958,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "spec",
+   "wall_s": 2.0470007210001313,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.0185913519999303,
+     "usage": {
+      "prompt": 37,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.02210438599991,
+     "usage": {
+      "prompt": 37,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0414144500000475,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.1394294220001484,
+     "usage": {
+      "prompt": 37,
+      "completion": 55
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.1541203749998203,
+     "usage": {
+      "prompt": 36,
+      "completion": 56
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8358081760000005,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9472057190000669,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9458014800000001,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0389994260001458,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0421392779999223,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "baseline",
+   "wall_s": 7.300625367000066,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.1092049280000538,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.1066168370000469,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.8555131210000582,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.1044585520000965,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.9981140820000292,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.0245383610001682,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "mutating_loop",
+   "mode": "spec",
+   "wall_s": 2.057150535000119,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 1.0204388689999178,
+     "usage": {
+      "prompt": 37,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0662124740001673,
+     "usage": {
+      "prompt": 37,
+      "completion": 51
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.1466348080000444,
+     "usage": {
+      "prompt": 37,
+      "completion": 55
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.1618108640000173,
+     "usage": {
+      "prompt": 36,
+      "completion": 56
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8402840980002111,
+     "usage": {
+      "prompt": 40,
+      "completion": 38
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.2831463729999086,
+     "usage": {
+      "prompt": 37,
+      "completion": 63
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9526977729999544,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.9515317510001751,
+     "usage": {
+      "prompt": 39,
+      "completion": 44
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.050839236999991,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.045859382000117,
+     "usage": {
+      "prompt": 40,
+      "completion": 49
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "baseline",
+   "wall_s": 7.590079531999891,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.2725658280000971,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27950013800000306,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.29338496400009717,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.3154935380000552,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2844193509999968,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.30798194299995885,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.31516101700003674,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.3218143849999251,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 2.095706072999974,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "spec",
+   "wall_s": 3.105941340000072,
+   "root_tpot_ms": null,
+   "rep": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.268075786000054,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2810152869999456,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27918589499995505,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28611814200007757,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28788260999999693,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28964782200000627,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30189036199999464,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29286879500000396,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 2.0644104380000954,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "baseline",
+   "wall_s": 7.4025630510000155,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.27666285199984486,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2717501039999206,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.27080167700000857,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.30233481199979906,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.28951911799981644,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.28514610899992476,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.30416879299991706,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.3049453410001206,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.9929860040001586,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "spec",
+   "wall_s": 3.105254966000075,
+   "root_tpot_ms": null,
+   "rep": 1,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2716996359999939,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2854484980000507,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28911522200019135,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29154361099995185,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2854984670000249,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3037551470001745,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2931838990000415,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29993839300004765,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9898478439999963,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "baseline",
+   "wall_s": 7.351689121999925,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.26416100900019046,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2762313629998516,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2728338619999704,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.29020855900012066,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2744960599998194,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.28347377499994764,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.30812130200001775,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.30264154299993606,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 1.974470268999994,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  },
+  {
+   "pattern": "map_reduce",
+   "mode": "spec",
+   "wall_s": 3.105085400000007,
+   "root_tpot_ms": null,
+   "rep": 2,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.27356607599995186,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2840167950000705,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2870768100001442,
+     "usage": {
+      "prompt": 37,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29200255199998537,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29144912600008865,
+     "usage": {
+      "prompt": 38,
+      "completion": 13
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29972876599981646,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2946208900000329,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30642165400013255,
+     "usage": {
+      "prompt": 38,
+      "completion": 14
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.9476824040000338,
+     "usage": {
+      "prompt": 47,
+      "completion": 96
+     }
+    }
+   ]
+  }
+ ]
+}

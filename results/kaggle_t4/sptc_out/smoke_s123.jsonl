@@ -1,0 +1,4 @@
+{"check": "S1 idle bet completes", "ok": true, "finish": "length"}
+{"check": "S2 non-streaming bet rejected", "ok": true, "finish": "abort", "stop": "sptc_bet_rejected", "text": ""}
+{"check": "S2 streaming bet ends without finish_reason (documented vLLM behaviour)", "ok": true, "finish": null, "stop": null, "text": ""}
+{"check": "S3 early call completes", "ok": true, "untagged": {"early_finish": "length", "normal_itl_p99_ms": 45.09}, "tagged": {"early_finish": "length", "normal_itl_p99_ms": 38.82}}

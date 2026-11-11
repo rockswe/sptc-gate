@@ -1,0 +1,26 @@
+[project]
+name = "sptc-schedulers"
+version = "0.2.0"
+description = "Speculation-aware scheduling (sptc 'agent' policy) for vLLM v0.32.0 and SGLang v0.5.22"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []  # vLLM / SGLang is provided by the serving environment
+
+[project.optional-dependencies]
+vllm = ["vllm==0.32.0"]
+sglang = ["sglang==0.5.22"]
+
+# SGLang discovers general plugins through this group; the plugin stays off unless
+# SPTC_SGLANG_CONFIG is set. vLLM needs no entry point (--scheduler-cls).
+[project.entry-points."sglang.srt.plugins"]
+sptc = "sptc_sglang:register"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["sptc_vllm", "sptc_sglang"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]  # tests_vllm / tests_sglang need the engine: run them explicitly

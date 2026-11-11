@@ -1,0 +1,387 @@
+{
+ "kind": "checks",
+ "name": "govern-h100",
+ "prereg": [
+  "PREREG_GOVERN.md"
+ ],
+ "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+ "engine": "one H100, vLLM 0.32.0, Qwen/Qwen3-30B-A3B-Instruct-2507, the campaign's flags with --max-model-len 65536",
+ "sessions": [
+  "trec132k-17000222.fix2",
+  "trec132k-17000232.fix1",
+  "trec132k-17000241.fix1",
+  "trec132k-17000237.fix1",
+  "pairs32k-16.fix1",
+  "pairs32k-1.fix1",
+  "pairs32k-15.fix1",
+  "trec132k-17000241.fix2",
+  "trec132k-17000237.fix2",
+  "pairs32k-16.fix2",
+  "pairs32k-1.fix2"
+ ],
+ "the_10": [
+  "trec132k-17000232.fix1",
+  "trec132k-17000241.fix1",
+  "trec132k-17000237.fix1",
+  "pairs32k-16.fix1",
+  "pairs32k-1.fix1",
+  "pairs32k-15.fix1",
+  "trec132k-17000241.fix2",
+  "trec132k-17000237.fix2",
+  "pairs32k-16.fix2",
+  "pairs32k-1.fix2"
+ ],
+ "the_11th": "trec132k-17000222.fix2",
+ "warm": {
+  "arm": "auto-past",
+  "sessions": [
+   "trec132k-17000237.fix1",
+   "trec132k-17000241.fix2",
+   "pairs32k-15.fix1",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix1",
+   "trec132k-17000232.fix1"
+  ]
+ },
+ "units": [
+  "stream",
+  "wide",
+  "auto",
+  "auto-past",
+  "wide-open"
+ ],
+ "checks": [
+  {
+   "id": "H1",
+   "claim": "every unit is exact (units that are not: 0)",
+   "against": "any unit not exact: it does not count",
+   "unit": [
+    "*",
+    "exact"
+   ],
+   "max": 0,
+   "digits": 0,
+   "dry_run": 0.0
+  },
+  {
+   "id": "H2",
+   "claim": "no call is sent that the recorded run did not send, and none twice",
+   "against": "any: the scout launched a call the program does not make",
+   "unit": [
+    "*",
+    "stray"
+   ],
+   "max": 0,
+   "digits": 0,
+   "dry_run": 0
+  },
+  {
+   "id": "H3",
+   "claim": "no speculative call is evicted: past a test too, the scout places no bet",
+   "against": "any",
+   "unit": [
+    "*",
+    "evicted"
+   ],
+   "max": 0,
+   "digits": 0,
+   "dry_run": 0
+  },
+  {
+   "id": "F1",
+   "claim": "**the finish rule, 1:** over the 10, `auto`'s session time is at most 1.02 of `wide`'s",
+   "against": "above 1.02: a hand-set 128 is better than the governed window on this engine",
+   "ratio": [
+    "auto",
+    "wide",
+    "wall_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "max": 1.02,
+   "dry_run": 1.0023
+  },
+  {
+   "id": "F2",
+   "claim": "**the finish rule, 2:** over the 10, `auto`'s root stream seconds are at most 1.05 of `stream`'s",
+   "against": "above 1.05: the wider window is paid for by the root's own stream",
+   "ratio": [
+    "auto",
+    "stream",
+    "stream_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "max": 1.05,
+   "dry_run": 1.0378
+  },
+  {
+   "id": "H4",
+   "claim": "over the 10, `wide` is at 0.84 to 0.93 of `stream` in session time (measured on November 10: 0.874)",
+   "against": "outside: this launch does not repeat November's",
+   "ratio": [
+    "wide",
+    "stream",
+    "wall_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "min": 0.84,
+   "max": 0.93,
+   "dry_run": 0.8846
+  },
+  {
+   "id": "H5",
+   "claim": "over the 10, `auto` is at 0.78 to 0.93 of `stream` in session time",
+   "against": "outside",
+   "ratio": [
+    "auto",
+    "stream",
+    "wall_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "min": 0.78,
+   "max": 0.93,
+   "dry_run": 0.8866
+  },
+  {
+   "id": "H6",
+   "claim": "the largest loop (`trec132k-17000237.fix1` turn 4, 3,181 calls): `auto` spends at most 1.10 of `wide`'s seconds after the stream",
+   "against": "above 1.10: the window's way up from 16 costs more than its width gains",
+   "turn": [
+    "trec132k-17000237.fix1",
+    4,
+    "auto",
+    "wide"
+   ],
+   "max": 1.1,
+   "dry_run": 0.6951
+  },
+  {
+   "id": "H7",
+   "claim": "a window of `auto` gets wider than 128",
+   "against": "128 or less: the engine or the client stopped it below the best hand-set number",
+   "govern": [
+    "auto",
+    "window_max"
+   ],
+   "min": 129,
+   "digits": 0,
+   "dry_run": 256.0
+  },
+  {
+   "id": "H8",
+   "claim": "at least half of `auto`'s sub-calls are sent at a window above 16",
+   "against": "fewer: the window hardly opened",
+   "govern": [
+    "auto",
+    "share_above_16"
+   ],
+   "min": 0.5,
+   "digits": 2,
+   "dry_run": 0.9871
+  },
+  {
+   "id": "H9",
+   "claim": "the long turn (`trec132k-17000222.fix2` turn 7) as shipped: `stream` spends at least 450 s after its stream (November: about 530 s, worked out from recorded call times)",
+   "against": "less: the character budget does not hold the long calls back as I worked out",
+   "turn_s": [
+    "trec132k-17000222.fix2",
+    7,
+    "stream"
+   ],
+   "min": 450,
+   "digits": 1,
+   "dry_run": 563.6388
+  },
+  {
+   "id": "H10",
+   "claim": "the long turn: a wider window does nothing for it, `wide` at 0.90 to 1.10 of `stream`",
+   "against": "outside",
+   "turn": [
+    "trec132k-17000222.fix2",
+    7,
+    "wide",
+    "stream"
+   ],
+   "min": 0.9,
+   "max": 1.1,
+   "dry_run": 0.9933
+  },
+  {
+   "id": "H11",
+   "claim": "the long turn: `auto` spends at most 0.80 of `stream`'s seconds",
+   "against": "above 0.80: the KV pool admitted no more than the character budget does",
+   "turn": [
+    "trec132k-17000222.fix2",
+    7,
+    "auto",
+    "stream"
+   ],
+   "max": 0.8,
+   "dry_run": 0.6676
+  },
+  {
+   "id": "H12",
+   "claim": "in `auto` the engine's KV cache stays at or under 97%",
+   "against": "above: the pool admitted more than the cache holds",
+   "unit": [
+    "auto",
+    "kv_peak"
+   ],
+   "max": 0.97,
+   "digits": 2,
+   "dry_run": 0.8678
+  },
+  {
+   "id": "H13",
+   "claim": "in `auto` the engine preempts nothing",
+   "against": "any preemption",
+   "unit": [
+    "auto",
+    "preemptions"
+   ],
+   "max": 0,
+   "digits": 0,
+   "dry_run": 0.0
+  },
+  {
+   "id": "H14",
+   "claim": "control: with the character budget lifted and nothing following the load, the four long calls take the KV cache to at least 95% (`wide-open`)",
+   "against": "below 95%: on this engine and this load the four calls fit, as they did in November next to idle sessions",
+   "unit": [
+    "wide-open",
+    "kv_peak"
+   ],
+   "min": 0.95,
+   "digits": 2,
+   "dry_run": 0.9997
+  },
+  {
+   "id": "H15",
+   "claim": "control: and the 10 pay for it, their session time in `wide-open` at least 1.01 of `wide`'s",
+   "against": "below 1.01: lifting the budget cost the others nothing here, and the pool's caution bought nothing",
+   "ratio": [
+    "wide-open",
+    "wide",
+    "wall_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "min": 1.01,
+   "dry_run": 1.0294
+  },
+  {
+   "id": "H16",
+   "claim": "the loop that tests each result (`trec132k-17000237.fix2` turn 9): `auto-past` spends at most 0.60 of `auto`'s seconds after the stream",
+   "against": "above 0.60: going on past the test did not launch the loop ahead",
+   "turn": [
+    "trec132k-17000237.fix2",
+    9,
+    "auto-past",
+    "auto"
+   ],
+   "max": 0.6,
+   "dry_run": 0.245
+  },
+  {
+   "id": "H17",
+   "claim": "over the 10, `auto-past` is at most 1.00 of `auto` in session time",
+   "against": "above 1.00",
+   "ratio": [
+    "auto-past",
+    "auto",
+    "wall_s"
+   ],
+   "sessions": [
+    "trec132k-17000232.fix1",
+    "trec132k-17000241.fix1",
+    "trec132k-17000237.fix1",
+    "pairs32k-16.fix1",
+    "pairs32k-1.fix1",
+    "pairs32k-15.fix1",
+    "trec132k-17000241.fix2",
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix2"
+   ],
+   "max": 1.0,
+   "dry_run": 0.9684
+  },
+  {
+   "id": "H18",
+   "claim": "all 11 sessions: `auto` at most 0.90 of `stream` in session time",
+   "against": "above 0.90",
+   "ratio": [
+    "auto",
+    "stream",
+    "wall_s"
+   ],
+   "max": 0.9,
+   "dry_run": 0.8407
+  },
+  {
+   "id": "H19",
+   "claim": "all 11 sessions: `auto-past` at most 0.88 of `stream` in session time",
+   "against": "above 0.88",
+   "ratio": [
+    "auto-past",
+    "stream",
+    "wall_s"
+   ],
+   "max": 0.88,
+   "dry_run": 0.821
+  }
+ ]
+}

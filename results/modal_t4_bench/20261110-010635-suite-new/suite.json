@@ -1,0 +1,8779 @@
+{
+ "suite": [
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "baseline",
+   "wall_s": 6.4577332099999865,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 1.0873525770000185,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2056200629999978,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1744726700000001,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14486121600000956,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19000804200001653,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14468622600000458,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17530152300000168,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17501213299999563,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19004897299998902,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15986150099999463,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2509225469999876,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1748876960000132,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.11455955399998174,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.19034194799999682,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17456097500001988,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1897427250000021,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec",
+   "wall_s": 5.257170381999998,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.23564338200000634,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.21374876600000903,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16796776000001046,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13993670199999997,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18518868999998972,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13973704500000395,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1710554310000134,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17035025499998824,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18523080599999275,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15492092600001683,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24589733900000965,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17008375999998293,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.11016639400000372,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18565999300000158,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17041796000000886,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18560820400000466,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec+scout",
+   "wall_s": 2.8395701819999886,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 16,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2300099679999903,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29474343699999395,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29226259800000776,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.309995157000003,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3356848610000043,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3315193119999833,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3313225010000167,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32949527899998543,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3280165390000036,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.35586313700000005,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3540592619999927,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3497184699999991,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3470628110000007,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.34652841799999123,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.37321380299999873,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.411831626999998,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec+scout",
+   "wall_s": 2.8304379590000224,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 16,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.23096879999999942,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28489931300001103,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28417833000000314,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.301979584999998,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32596218300000146,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3241760109999916,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3238057300000037,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32188450499998567,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32042667000001757,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3465727779999952,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3441393949999849,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3421488029999864,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.33963304799999605,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3391896569999915,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3637130199999774,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.40411939700001653,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec",
+   "wall_s": 5.248020053999994,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.24119429999998943,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20267194600000948,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16783804599998575,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13994560700001557,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18557891800000448,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13970090600000162,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17021684700000606,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17037210000000869,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18522216899998512,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15492887499999597,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2457349610000108,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17047912800001086,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.11004791599998498,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.184905509999993,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17042049700000916,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18562245500001495,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "baseline",
+   "wall_s": 5.534910172999986,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.22147010500000874,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20689798800000858,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1682519359999901,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14036218499998654,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18570577700000968,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14018668299999604,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1705443310000021,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17044095500000367,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18594328499997914,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1557448249999993,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2458755700000097,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17064862199998743,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.10994675599999937,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1853949650000004,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17102530500000057,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18640394899998114,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "baseline",
+   "wall_s": 5.547280794999978,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.23964530799997874,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20230347699998674,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16809046399998806,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14025082300000236,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1857007409999767,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14025716599999782,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17078130800001645,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17020735300002343,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18555184099997746,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1554607029999886,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24618959200000745,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17083997500000692,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.11008571599998618,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1858221589999971,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17052189500000736,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18596326499999805,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec",
+   "wall_s": 5.244847771999986,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.23773292000001334,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20185550299999022,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1681486279999831,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1398608920000015,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18580896200001007,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13990553800002203,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17044096099999706,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16995227400002477,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18572991199999933,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15477092900002276,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24596555200000125,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17038969600000087,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.10975654300000315,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18573852000000102,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17034441100000208,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18603585799999678,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec+scout",
+   "wall_s": 2.810103368,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 16,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.22001609899999153,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26647078700000293,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26566974200000004,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28364086700000257,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30784363700001904,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3061659050000003,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3054423960000179,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3037511219999942,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30223779199999967,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3277825309999969,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3261170419999928,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3241839979999952,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3221359169999971,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3209573780000028,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.34610626399998523,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3862958089999893,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec+scout",
+   "wall_s": 2.8175366079999833,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 16,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.223024984999995,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2687670599999876,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2678564089999895,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2861605359999828,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3097303449999913,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30792121400000383,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30725696499999344,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3058197929999835,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.304312455999991,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.33128889299999287,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32825411200002463,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3262368659999879,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3239951259999998,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32302312100000563,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.34966398000000254,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.38871631099999604,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec",
+   "wall_s": 5.242751656999985,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2366600139999946,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20198107800001708,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1681590940000035,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.13990458799997896,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1857270920000076,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14004163600000652,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17035984599999665,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1702829809999855,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18506994900002383,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15506368199999088,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24638839499999676,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16995706600002336,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.11014269400001808,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18529251600000407,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1705520579999984,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18594603599999004,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "baseline",
+   "wall_s": 5.5696470600000225,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.22486381000001643,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21139557399999376,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16855158100000267,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14029324599999882,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18565385100001208,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14008964100000298,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1702217299999802,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1761826340000141,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.20010661800000662,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15557878399999936,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24726924099999792,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17306137700001045,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.11040299300000811,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18727172600000586,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17283920699998134,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18630357999998637,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "baseline",
+   "wall_s": 5.552945631,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.23145059099999798,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2012754429999859,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16851423400001408,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1404245179999748,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18579100000002313,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1402385739999943,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17031868899999836,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17074661099999844,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18563364300001695,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15538523000000737,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2472217549999982,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17145916499998748,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1111294080000107,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2005429159999892,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17142798599999765,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.18684569799998485,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec",
+   "wall_s": 5.245443660999996,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.22702854200002776,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20184846799998013,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1683951150000098,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14032984800002168,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1860659740000017,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14056597300000817,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17068001100000174,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17075311199999987,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18583608800000206,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15564989100002435,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24641410600000313,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17135849400000325,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.11063659299998108,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18663993699999537,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17167777599999567,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18681184299998677,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_helper_loop",
+   "mode": "spec+scout",
+   "wall_s": 2.8208578230000114,
+   "score": 1.0,
+   "dispatched": 16,
+   "hits": 16,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 16,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.21245267300000137,
+     "usage": {
+      "prompt": 69,
+      "completion": 6
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26423699000000056,
+     "usage": {
+      "prompt": 67,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.26355079799998293,
+     "usage": {
+      "prompt": 66,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28426251100000854,
+     "usage": {
+      "prompt": 67,
+      "completion": 9
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3108818860000042,
+     "usage": {
+      "prompt": 65,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3089779109999995,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3085575449999851,
+     "usage": {
+      "prompt": 67,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30679530699998736,
+     "usage": {
+      "prompt": 66,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3055448130000116,
+     "usage": {
+      "prompt": 69,
+      "completion": 10
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.33340173700000264,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.33150346700000455,
+     "usage": {
+      "prompt": 67,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.32970758700000147,
+     "usage": {
+      "prompt": 66,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3271595739999782,
+     "usage": {
+      "prompt": 68,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3263669769999922,
+     "usage": {
+      "prompt": 69,
+      "completion": 11
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3526584340000056,
+     "usage": {
+      "prompt": 67,
+      "completion": 12
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.39362921899999037,
+     "usage": {
+      "prompt": 66,
+      "completion": 15
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "baseline",
+   "wall_s": 3.450247107000024,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.1944935919999864,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21225995700001477,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21202523899998482,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21162936999999715,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16333181600001012,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1798479110000244,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17945181400000365,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17927261899998825,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15618017399998507,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1722397869999952,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17191009399999757,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17148850600000287,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15610585100000662,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1719816890000061,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17288884999999254,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17273551699997824,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15598216799998,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17203699600000277,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17159072399999786,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17155704999998989,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.156777634000008,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17292575600001214,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17266449400000283,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17242514700001266,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15625271000001817,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17247625400000288,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17223241900001085,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17198959500001365,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15578194299999382,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17221649100000036,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17313426800001253,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17217921499999989,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec",
+   "wall_s": 3.3007658070000048,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 4,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.1934628509999925,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.21396342699998172,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.21471471799998199,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2139072029999909,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14967737699998906,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.166027205000006,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16659756500001777,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16643733399999405,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14981473299999948,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1665618749999851,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16679373599998826,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16666966400001115,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14972667600000023,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16650055900001348,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1665221590000101,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16692486900001313,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14907192300000816,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16547710599999732,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16557528600000637,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16616368100000045,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1489088870000046,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16525442800002565,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1651482270000031,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16582328999999163,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14978694600000608,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16608080599999653,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1666806880000138,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16712156299999492,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1500513969999986,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16661136999999826,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1667786250000063,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16730541900000162,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec+scout",
+   "wall_s": 2.451674321000013,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 32,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.2551341559999969,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27799389699998756,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27941945099999543,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27833979599998315,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27730017000001794,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27713817400001517,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2767032269999845,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2792218460000129,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27707813499998224,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27660559700001386,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2763525690000108,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2750281159999872,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27486776899999654,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27801284599999576,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2750736080000138,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2785410870000078,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20241874100000246,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2386633790000019,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23954461999997534,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23828575599998203,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23912466800001653,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23900228900001252,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24035566599999925,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23766056799999546,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2382499649999943,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2379915120000078,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23949015599998802,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23703272200000924,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23822957800001632,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2387476700000093,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24998809199999528,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24806809399998997,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec+scout",
+   "wall_s": 2.465254055999992,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 32,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.28597838499999284,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.31373865199998363,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.31112136699999837,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3110265469999831,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3106376629999943,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30897606999999994,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3108657360000109,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3099537180000027,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30922873399998707,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3117091169999924,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30869372099999737,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.307623776999975,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30964190500000655,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3092748550000124,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3124376780000091,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3095144019999907,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19954542800002173,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23220704999999953,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23233790599999793,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23211303699997643,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23177630999998655,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23093073999999092,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23159008100000733,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23161700200000723,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23090604700001904,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2307692869999869,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23081117199998857,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22889941399998293,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.230826516999997,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23137532800001281,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23073115899998697,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22961235799999713,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec",
+   "wall_s": 3.3143715140000154,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 4,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.194390076000019,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.21548044399997934,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2153770480000219,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2147016939999844,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15815075300000103,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17466006300000458,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17452421699999832,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17507815100000812,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1504597590000003,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1668112629999996,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.167288745999997,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16736489900000606,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1503614330000005,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16670442599999546,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16732478000000128,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16747688499998503,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14946116999999504,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16601287800000364,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16631861100000833,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1668780370000036,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15065686100001585,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16680756499999916,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16727955199999656,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1671698370000172,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15074961100000905,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16694753199999468,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16721481799999083,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16772645300000022,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15033736300000555,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16673183699998617,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16694418399998767,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16757942500001377,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "baseline",
+   "wall_s": 3.46908362100001,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.19427360599999588,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2161223580000069,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2155575600000077,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2152871570000059,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16078584799998907,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1774380790000123,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17665028100000768,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17674615599997878,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1628156140000101,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1788958709999804,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17870416600001704,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17841417799999704,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.154807323,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1708816210000066,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17009435099998882,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16946989800001688,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1556784050000033,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17148453900000504,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17083241099999213,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17113145100000793,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15480255599999282,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16967110499999194,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1721156660000247,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17076393199999984,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16047602800000504,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17371768200001725,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17337562000000162,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1746749179999938,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15739620299999046,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17448726899999656,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17403994000000012,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.17470652999998038,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "baseline",
+   "wall_s": 3.4140631369999994,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.19437064499999224,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21434923099999992,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21440937100001634,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21380555900000786,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15064940400000637,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16683253300001866,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16670512800001802,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16622639099998082,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15042164100000832,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16591406200001302,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16671417799997812,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1661767740000073,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1504788399999768,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16676526899999544,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16653673400000457,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16632576099999596,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15119427099998006,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16804464100002292,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1673868819999882,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16720712400001503,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15082879499999535,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1663199999999847,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1670064600000103,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16642218499998762,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1516238800000167,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16831847399998878,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16788158699998235,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1676826020000135,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15141318999999953,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16819621300001586,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16767544600000406,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16734159899999668,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec",
+   "wall_s": 3.306036919999997,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 4,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.185052804999998,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20422144799999842,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20327215699998646,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2039879939999878,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16433931599999596,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18114170600000534,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18110322799998357,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.18191614900001696,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15030846599998426,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1669007019999924,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16725363700001594,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16696876500000712,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15007591600002002,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16653182499999275,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16674542399999837,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16725831300001914,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14976166700000704,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16624223699997742,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16632823599999824,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1670184130000223,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14920562200001086,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16565019099999745,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16573335100000008,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16646535699999276,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14909927200000084,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16568109500002492,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16582335800001147,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16616970799998398,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14974046300000055,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16647209199999224,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16633322800001338,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16693506300001104,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec+scout",
+   "wall_s": 2.4428231240000002,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 32,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.26891012400000136,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28975236500002666,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29047208400001523,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2910994759999994,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2878409590000217,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2886116010000137,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2908893929999863,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2879710409999916,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28748605199999133,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2885760290000121,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29122073899998213,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28580113600000345,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28686931299998264,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2879682499999774,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2872864830000026,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29120077400000355,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19208053599999175,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23129594900001393,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2313693570000055,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23080393600000093,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2307463870000106,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23184986800001184,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22967205499998045,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2305371520000108,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2310647109999877,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2298978530000113,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2293253009999887,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23210399399999915,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2296157840000035,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23052069099998107,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.230921292000005,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22815521300000796,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec+scout",
+   "wall_s": 2.4435726660000228,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 32,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.26106175199998916,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2814344569999889,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.280678494,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28027304700000855,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2789252670000053,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2796792400000072,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2789784789999885,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27866668700002606,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2788365909999868,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2826992839999889,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2783143089999953,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27695917100001566,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.28077583800001094,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2800888069999985,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.27910358500000143,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2789492770000095,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19038775500001748,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22948425600000633,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23060717599997815,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22924544899998978,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23057420800000727,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22912102200001527,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2296932089999757,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22790933800001767,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23060040000001436,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2285999560000107,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2277653700000144,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22696194300002048,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22858785799999737,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24299033900001632,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24158866100000864,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24149726999999643,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec",
+   "wall_s": 3.2928534739999975,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 4,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.19173791500000448,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20815312099998096,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.20767445699999598,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2071247709999966,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.15203907499997626,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1687359739999863,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16884866299997725,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16896131699999728,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14916279499999519,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16532516300000566,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.165933439999975,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16605580200001668,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14976266599998667,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16623644099999524,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1663328619999902,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16633237599998552,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1487329020000061,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1649865059999911,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16594573899999432,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16575975899999662,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14899424800000816,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1649551109999834,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16495792100002404,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1652635000000089,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14918410299998186,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16581633199999146,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1662575309999852,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16644761899999594,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1492842870000004,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16626119000000017,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16638335199999688,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1661681260000023,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "baseline",
+   "wall_s": 3.4039562369999885,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.1936560960000122,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2122073989999933,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2118488730000081,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21255863000001796,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1491184430000203,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16611676200000147,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16504120999999827,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16583118500000182,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1483755300000098,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16532590700001037,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16492991499998766,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1646146439999825,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14994787800000609,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16680089600001224,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16579382300000134,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1662730520000082,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1498337199999753,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16559537699998828,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1663639900000078,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16583329400000935,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14997637799999097,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1660107529999948,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16589016300000026,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16556461300001502,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1505372049999778,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16643879599999423,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16713146000000734,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16653635900001973,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.14979725199998484,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16608035299998392,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16576591000000462,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1655622719999883,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "baseline",
+   "wall_s": 3.407465660000014,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.19315104199998245,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21425076399998488,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2141460180000081,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.21406480399997463,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1505279470000005,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1672522559999834,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1663445519999982,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16711055999999758,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1501800070000172,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1664844879999805,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16605485399998088,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16606563499999538,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1511623320000126,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1675574840000138,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16729152000002045,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16700846400001979,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1505352420000179,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16715165499999785,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16644271999999205,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16624394499999084,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.149681481000016,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1658995559999994,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16533615899999177,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16617916999999238,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.15079281000001288,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16689172099998473,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16675749800000972,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1662271210000199,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.1511659910000276,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16841794200001914,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16827877599999397,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.16769571399998995,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec",
+   "wall_s": 3.2781497319999744,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 4,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.17342448400000876,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19045205899999473,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19014336099999696,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1898237080000058,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1549645309999903,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17095267499999522,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17173733299998162,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.17175144799998066,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14844494999999824,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16436187299999006,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1648860079999963,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16540526899999008,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1486282140000128,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16508049699999106,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1651270939999847,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16537323500000412,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14905553899998836,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16550057999998558,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16539705799999638,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1657201129999919,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1486950229999877,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16516083900000922,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16527446799997847,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16543490200001543,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14859372199998688,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1648224770000013,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16475721300000146,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1655543399999999,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.14936110900001154,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.1657552320000093,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.165779643999997,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.16659788500001582,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_batched_counter",
+   "mode": "spec+scout",
+   "wall_s": 2.4646213580000165,
+   "score": 1.0,
+   "dispatched": 32,
+   "hits": 32,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 32,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.28124482300000864,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30217314399999395,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3018027560000007,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30171019700000556,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30193841999999904,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30169604299999264,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2997319819999973,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.299346517999993,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3014428779999889,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3000681589999772,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29928941400001463,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.29847502999999165,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3039808350000044,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.30119519500001957,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2994299189999765,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.3007249970000032,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.19415871399999673,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23256038099998477,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23251047899998412,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23116583199998786,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23161236600000734,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23090264100000013,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23019606599999065,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2329225299999962,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.22971753600000966,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2293114959999798,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2319390910000152,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2318596699999773,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2341708540000127,
+     "usage": {
+      "prompt": 46,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23154765299997848,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.23071619899999973,
+     "usage": {
+      "prompt": 48,
+      "completion": 8
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2457178180000028,
+     "usage": {
+      "prompt": 47,
+      "completion": 8
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "baseline",
+   "wall_s": 7.685792569000029,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.42479542500001344,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.25654144300000326,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5626319739999985,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5334780740000156,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.625679411999954,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7618559200000163,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7523396240000011,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.751695887999972,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec",
+   "wall_s": 7.455597944000033,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.44130169499999283,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24932177800002364,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5551245329999688,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5244821059999936,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.6164826140000059,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7540035590000116,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7449656580000124,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7450848139999948,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec+scout",
+   "wall_s": 3.843438755999955,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 8,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.41456256300000405,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5673788339999533,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7550617960000068,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7935007639999867,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.86436108099997,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0206009369999833,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.019762993000029,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0196196829999735,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 0
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec+scout",
+   "wall_s": 3.8338425409999672,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 8,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.403111416999991,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5559999949999792,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.743064779000008,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7811623110000028,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8519721199999708,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0082027520000452,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0076302479999981,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0072196739999981,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec",
+   "wall_s": 7.446189165000021,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.4318433450000043,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24944458200002373,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5562743339999656,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5262970260000088,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.6164274839999848,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.754420940999978,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7432698879999862,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7445929030000116,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "baseline",
+   "wall_s": 7.6572922670000025,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.43177727100004404,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24858690899998237,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5559151190000193,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5254541069999732,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.6172039830000244,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7560829850000346,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7469301059999793,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7524485539999546,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 1
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "baseline",
+   "wall_s": 7.6418947620000495,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.42960285499998463,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.2495655749999628,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5559653699999672,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5254395530000124,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.6170337419999896,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7544037289999892,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.744627711000021,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7453391059999603,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec",
+   "wall_s": 7.450701652999953,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.43174901999998383,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24879411399996343,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5563176649999946,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5253877510000393,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.6167507060000048,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7547394050000094,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7450457630000074,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7461896300000035,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec+scout",
+   "wall_s": 3.8313557959999684,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 8,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.398257473000001,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5552020950000269,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7415484889999675,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7808539549999978,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8483741620000274,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0047392410000384,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0056569559999957,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0050170709999975,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 2
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec+scout",
+   "wall_s": 3.8276806350000356,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 8,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.3962323689999607,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5493893619999994,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7363105210000072,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7739996850000352,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8446851460000175,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0008841270000062,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.000971844999981,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.000514838000015,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec",
+   "wall_s": 7.447194633000038,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.4271724600000084,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.2490668800000435,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5553349810000441,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5248639910000179,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.6169449310000346,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7549370129999602,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7439596149999943,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7477555909999865,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "baseline",
+   "wall_s": 7.641692754000019,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.429001516000028,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24912841200000457,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.556008721000012,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5253984909999758,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.6170455729999844,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7552823259999855,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7453480709999667,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7446952930000066,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 3
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "baseline",
+   "wall_s": 7.645656368999994,
+   "score": 1.0,
+   "dispatched": 0,
+   "hits": 0,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 0,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": false,
+     "dur_s": 0.4310608199999706,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.24950342399995407,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.5561671820000242,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.525642892999997,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.6177360579999913,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7551896150000061,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7458733849999817,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": false,
+     "dur_s": 0.7455088010000281,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec",
+   "wall_s": 7.45227702599999,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 1,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.43293280400001777,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.24883371199996418,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5557162460000313,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.524923144000013,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.6176197799999841,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7559458520000248,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.747894231000032,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7467669709999996,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  },
+  {
+   "pattern": "rec_try_loop",
+   "mode": "spec+scout",
+   "wall_s": 3.827789757000005,
+   "score": 1.0,
+   "dispatched": 8,
+   "hits": 8,
+   "misses": 0,
+   "evicted": 0,
+   "launched_before_first_answer": 8,
+   "root_tpot_ms": null,
+   "root_itl_p99_ms": null,
+   "root_tokens": 0,
+   "root_finish": "None",
+   "sub_finish": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "length",
+    "length",
+    "length"
+   ],
+   "sub_refused": 0,
+   "calls": [
+    {
+     "spec": true,
+     "dur_s": 0.39921373499998936,
+     "usage": {
+      "prompt": 104,
+      "completion": 15
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.5526820449999832,
+     "usage": {
+      "prompt": 106,
+      "completion": 24
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.739849530000015,
+     "usage": {
+      "prompt": 106,
+      "completion": 33
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.7775709219999953,
+     "usage": {
+      "prompt": 105,
+      "completion": 35
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 0.8488861960000236,
+     "usage": {
+      "prompt": 105,
+      "completion": 39
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0053995019999888,
+     "usage": {
+      "prompt": 104,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.005071418,
+     "usage": {
+      "prompt": 109,
+      "completion": 48
+     }
+    },
+    {
+     "spec": true,
+     "dur_s": 1.0046521699999857,
+     "usage": {
+      "prompt": 110,
+      "completion": 48
+     }
+    }
+   ],
+   "decoys": [],
+   "real_bets": [],
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stopped": false,
+   "shadow_stops": [],
+   "rep": 4
+  }
+ ]
+}

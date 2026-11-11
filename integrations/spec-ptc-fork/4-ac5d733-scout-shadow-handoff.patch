@@ -1,0 +1,374 @@
+diff --git a/src/engine/shadow.py b/src/engine/shadow.py
+index 0726d08..fd5c66f 100644
+--- a/src/engine/shadow.py
++++ b/src/engine/shadow.py
+@@ -28,6 +28,12 @@ from spec_ptc.engine.speculation import (
+ from spec_ptc.engine.streaming import Segment, _assigned_names, plan_peeks
+ 
+ STMT_WALL_BUDGET_S = 2.0  # runaway guard: max wall time per shadow statement
++# How long the shadow lets the scout finish a statement before running it itself. The
++# scout's statement always ends: its own computing is cut at STMT_WALL_BUDGET_S, and its
++# launches are bounded by the turn's dispatch cap. But they can take seconds (3,182
++# launches took 6.6 s in a busy process), and a shadow that starts on the statement
++# meanwhile launches the same calls again. So this is a safety net, not a pace.
++SCOUT_WAIT_S = 60.0
+ 
+ 
+ class Opaque:
+@@ -285,14 +291,32 @@ class ShadowRunner:
+                 return
+             tid = threading.get_ident()
+             armed = {"on": True}
+-
+-            def watchdog() -> None:  # the scout never waits, so wall time is its compute
+-                if armed["on"]:
+-                    ctypes.pythonapi.PyThreadState_SetAsyncExc(
+-                        ctypes.c_long(tid), ctypes.py_object(ShadowAborted))
++            t_stmt = time.perf_counter()
++            launched_at_start = self._tracker.forced_seconds()
++            timers: list[threading.Timer] = []
++
++            def watchdog() -> None:
++                # The scout never waits for a result, so its time is the statement's own
++                # computing plus launching. Only the computing is budgeted, and a launch
++                # in progress is never cut: it would leave announced calls unsent.
++                if not armed["on"]:
++                    return
++                pure = (time.perf_counter() - t_stmt) - (
++                    self._tracker.forced_seconds() - launched_at_start)
++                if self._tracker.active() or pure < STMT_WALL_BUDGET_S:
++                    again = threading.Timer(
++                        0.05 if pure >= STMT_WALL_BUDGET_S
++                        else max(0.05, STMT_WALL_BUDGET_S - pure), watchdog)
++                    again.daemon = True
++                    timers.append(again)
++                    again.start()
++                    return
++                ctypes.pythonapi.PyThreadState_SetAsyncExc(
++                    ctypes.c_long(tid), ctypes.py_object(ShadowAborted))
+ 
+             timer = threading.Timer(STMT_WALL_BUDGET_S, watchdog)
+             timer.daemon = True
++            timers.append(timer)
+             timer.start()
+             why = None
+             scouts_own = True
+@@ -305,7 +329,8 @@ class ShadowRunner:
+                 scouts_own = _scouts_own_failure(e)
+             finally:
+                 armed["on"] = False
+-                timer.cancel()
++                for tm in timers:
++                    tm.cancel()
+             if why is not None:
+                 unset = _bound_names(tree)
+                 for stmt in tree.body:
+@@ -322,7 +347,7 @@ class ShadowRunner:
+ 
+     def _exec_one(self, seg: Segment) -> None:
+         if seg.scouted is not None:  # let the scout launch this statement's calls first,
+-            seg.scouted.wait(STMT_WALL_BUDGET_S + 1.0)  # so the hooks below adopt them
++            seg.scouted.wait(SCOUT_WAIT_S)  # all of them, so the hooks below adopt them
+         try:
+             tree = ast.parse(seg.source)
+         except SyntaxError:
+@@ -379,7 +404,9 @@ class ShadowRunner:
+             pure = (time.perf_counter() - t_stmt) - (
+                 self._tracker.forced_seconds() - forced_at_start
+             )
+-            if pure < STMT_WALL_BUDGET_S:  # mostly waiting: re-arm
++            # mostly waiting or launching: re-arm. Nor is a wait or a launch in progress
++            # cut: a launch cut in two leaves announced calls unsent.
++            if pure < STMT_WALL_BUDGET_S or self._tracker.active():
+                 t2 = threading.Timer(max(0.1, STMT_WALL_BUDGET_S - pure), watchdog)
+                 t2.daemon = True
+                 timers.append(t2)
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index 368c2ff..5b44261 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -97,6 +97,11 @@ class ForceTracker:
+             )
+             return self.forced_total + cur
+ 
++    def active(self) -> bool:
++        """Inside begin() .. end() right now."""
++        with self.lock:
++            return self.force_start is not None
++
+ 
+ async def _identity(v: Any) -> Any:
+     """Await-protocol shim: completes immediately with `v`, never suspends."""
+@@ -778,28 +783,32 @@ class Launcher:
+         than the window."""
+         out: list[Speculation | None] = [None] * len(prompts)
+         fresh: list[Speculation] = []
+-        for i, p in enumerate(prompts):
+-            args = (p, *rest)
+-            key = spec_key(single, args, kwargs)
+-            if single.deterministic:
+-                spec = self.store.existing(key)
+-                if spec is not None:
+-                    if adopt:
+-                        spec.adopted = True  # shield from peek retraction
+-                    out[i] = spec
+-                    continue
+-            if adopt:
+-                spec = self.store.adopt(key)
++        try:
++            for i, p in enumerate(prompts):
++                args = (p, *rest)
++                key = spec_key(single, args, kwargs)
++                if single.deterministic:
++                    spec = self.store.existing(key)
++                    if spec is not None:
++                        if adopt:
++                            spec.adopted = True  # shield from peek retraction
++                        out[i] = spec
++                        continue
++                if adopt:
++                    spec = self.store.adopt(key)
++                    if spec is not None:
++                        self.bus.emit("adopt", key=key, seq=spec.seq, tool=single.name)
++                        out[i] = spec
++                        continue
++                spec = self._create(single, args, kwargs, source, batch=len(prompts))
+                 if spec is not None:
+-                    self.bus.emit("adopt", key=key, seq=spec.seq, tool=single.name)
+                     out[i] = spec
+-                    continue
+-            spec = self._create(single, args, kwargs, source, batch=len(prompts))
+-            if spec is not None:
+-                out[i] = spec
+-                fresh.append(spec)
+-        if fresh:
+-            self._pool.submit(self._run_batch, batched, fresh, rest, kwargs)
++                    fresh.append(spec)
++        finally:
++            # whatever ended the loop: a speculation that is in the store must run, or
++            # the shadow adopts it and the real run waits for an answer that never comes
++            if fresh:
++                self._pool.submit(self._run_batch, batched, fresh, rest, kwargs)
+         return out
+ 
+     def _run_batch(
+@@ -986,25 +995,39 @@ def make_shadow_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callab
+                 return NonSpeculated(_tool.name)
+             if contains_nonspec(args) or contains_nonspec(kwargs):
+                 raise RuntimeError(f"{_tool.name} args depend on a non-speculated result")
+-            if _tool.batched and args and isinstance(args[0], (list, tuple)):
+-                # llm_query_batched: dispatch per element so the real run can claim
+-                # elementwise; return list of SpecValues.
+-                prompts = list(args[0])
+-                single = _single_of(_tool, reg)
+-                if launcher.batch_launch:  # one call of the batched tool for the new ones
+-                    specs = launcher.dispatch_batch(
+-                        _tool, single, prompts, tuple(args[1:]), kwargs, "shadow", adopt=True
+-                    )
+-                else:
+-                    specs = [
+-                        launcher.dispatch_or_adopt(single, (p,) + args[1:], kwargs, "shadow")
+-                        for p in prompts
+-                    ]
+-                return [SpecValue(s) if s else None for s in specs]
+-            spec = launcher.dispatch_or_adopt(_tool, args, kwargs, "shadow")
+-            if spec is None:  # budget denied
+-                raise ShadowBudgetDenied(_tool.name)
+-            return SpecValue(spec)
++            # Launching (or adopting) is the launcher's time, not the statement's own
++            # computing: it is metered like a wait, so the runaway guard does not count
++            # it and does not cut a launch in two. 3,000 launches take seconds in a busy
++            # process.
++            tracker = getattr(force_ctx, "tracker", None)
++            if tracker is not None:
++                tracker.begin()
++            try:
++                if _tool.batched and args and isinstance(args[0], (list, tuple)):
++                    # llm_query_batched: dispatch per element so the real run can claim
++                    # elementwise; return list of SpecValues.
++                    prompts = list(args[0])
++                    single = _single_of(_tool, reg)
++                    if launcher.batch_launch:  # one call of the batched tool for the new ones
++                        specs = launcher.dispatch_batch(
++                            _tool, single, prompts, tuple(args[1:]), kwargs, "shadow",
++                            adopt=True,
++                        )
++                    else:
++                        specs = [
++                            launcher.dispatch_or_adopt(
++                                single, (p,) + args[1:], kwargs, "shadow"
++                            )
++                            for p in prompts
++                        ]
++                    return [SpecValue(s) if s else None for s in specs]
++                spec = launcher.dispatch_or_adopt(_tool, args, kwargs, "shadow")
++                if spec is None:  # budget denied
++                    raise ShadowBudgetDenied(_tool.name)
++                return SpecValue(spec)
++            finally:
++                if tracker is not None:
++                    tracker.end()
+ 
+         hooks[name] = hook
+     return hooks
+@@ -1038,19 +1061,29 @@ def make_scout_hooks(reg: ToolRegistry, launcher: Launcher) -> dict[str, Callabl
+         assert tool is not None
+ 
+         def hook(*args: Any, _tool=tool, **kwargs: Any):
+-            if _tool.batched and args and isinstance(args[0], (list, tuple)):
+-                single = _single_of(_tool, reg)
+-                rest = tuple(args[1:])
+-                if launcher.batch_launch:  # the known prompts, as one call of the tool
+-                    ok = [p for p in args[0] if known(single, (p, *rest), kwargs)]
+-                    if ok:
+-                        launcher.dispatch_batch(_tool, single, ok, rest, kwargs, "peek")
+-                else:
+-                    for p in args[0]:
+-                        launch(single, (p, *rest), kwargs)
+-                return [Unknown() for _ in args[0]]
+-            launch(_tool, tuple(args), kwargs)
+-            return Unknown()
++            # Launching is the launcher's time, not the statement's: the scout's watchdog
++            # does not count it and does not cut a launch in two (shadow.py, _scout_one).
++            # In a busy process 3,000 launches take seconds.
++            tracker = getattr(force_ctx, "tracker", None)
++            if tracker is not None:
++                tracker.begin()
++            try:
++                if _tool.batched and args and isinstance(args[0], (list, tuple)):
++                    single = _single_of(_tool, reg)
++                    rest = tuple(args[1:])
++                    if launcher.batch_launch:  # the known prompts, as one call of the tool
++                        ok = [p for p in args[0] if known(single, (p, *rest), kwargs)]
++                        if ok:
++                            launcher.dispatch_batch(_tool, single, ok, rest, kwargs, "peek")
++                    else:
++                        for p in args[0]:
++                            launch(single, (p, *rest), kwargs)
++                    return [Unknown() for _ in args[0]]
++                launch(_tool, tuple(args), kwargs)
++                return Unknown()
++            finally:
++                if tracker is not None:
++                    tracker.end()
+ 
+         hooks[name] = hook
+     return hooks
+diff --git a/tests/test_scout.py b/tests/test_scout.py
+index af85c52..d2eec87 100644
+--- a/tests/test_scout.py
++++ b/tests/test_scout.py
+@@ -12,6 +12,8 @@ network, no model."""
+ 
+ import re
+ 
++import pytest
++
+ from spec_ptc.contracts.events import EventBus
+ from spec_ptc.runtime.engines import MockLM, MockTiming
+ from spec_ptc.runtime.harness import Harness
+@@ -360,3 +362,104 @@ def test_an_error_ends_the_scout_for_its_block_only():
+     assert out.final_answer == "ok" and len(previews) == 1 and "second block" in previews[0]
+     assert kinds(bus.history).count("evict") == 0
+ 
++
++# --------------------------------------------------------- a launch that takes long
++MANY_AT_ONCE = (
++    "questions = [f'Q{i}: item {i} ?' for i in range(60)]\n"
++    "labels = llm_query_batched(['Classify: ' + q for q in questions])\n"
++    "answer['content'] = str(len(labels))\n"
++    "answer['ready'] = True"
++)
++
++
++def _slow_launch_turn(monkeypatch, **harness_kw):
++    """A turn in a busy process: every launch takes 30 ms on the launching thread (here a
++    slow subscriber on the bus; on the H100 it was the other sessions holding the GIL).
++    The statement budget is cut to 0.2 s so that 60 launches are far beyond it."""
++    import time as _time
++
++    import spec_ptc.engine.shadow as shadow_mod
++
++    monkeypatch.setattr(shadow_mod, "STMT_WALL_BUDGET_S", 0.2)
++    eng = MockLM(TIMING)
++    bus = EventBus()
++
++    def busy(ev):
++        if ev.kind == "dispatch":
++            _time.sleep(0.03)
++
++    bus.subscribe(busy)
++    h = Harness(eng, "spec", bus=bus, context=CONTEXT, scout=True, max_inflight=64, **harness_kw)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{MANY_AT_ONCE}\n```\ndone"))
++    h.launcher.shutdown()
++    return out, bus.history
++
++
++@pytest.mark.parametrize("batch_launch", [False, True])
++def test_a_launch_longer_than_the_shadows_patience_is_not_made_twice(monkeypatch, batch_launch):
++    """Recorded on an H100 (replay, 2026-11-10): in a process busy with 128 calls in
++    flight the scout needed 6.6 s to launch 3,182 prompts. The shadow waited 3 s for it,
++    then launched the rest itself, and the scout launched them too: 1,042 calls ran
++    twice, and the turn's dispatch cap ran out."""
++    out, hist = _slow_launch_turn(monkeypatch, batch_launch=batch_launch)
++    k = kinds(hist)
++    assert out.final_answer == "60"
++    assert k.count("dispatch") == 60  # each prompt launched once
++    assert k.count("evict") == 0 and k.count("claim_hit") == 60 and k.count("claim_miss") == 0
++    assert {e.data["source"] for e in hist if e.kind == "dispatch"} == {"peek"}
++    # launching is not the statement's own computing: the watchdog leaves it alone
++    assert "ShadowAborted" not in [e.data.get("reason") for e in hist if e.kind == "scout_skip"]
++
++
++def test_a_batch_launch_that_is_interrupted_still_runs_what_it_announced():
++    """Whatever stops a launch half-way, a speculation that is in the store must run:
++    the shadow adopts it and the real run would wait for it."""
++    from spec_ptc.contracts.tools import ToolRegistry
++    from spec_ptc.engine.speculation import Launcher, SpecStore
++
++    class Cut(BaseException):
++        pass
++
++    reg = ToolRegistry()
++    single = reg.register("llm_query", lambda p: f"one({p})", speculatable=True, pure=True)
++    batched = reg.register("llm_query_batched", lambda ps: [f"many({p})" for p in ps],
++                           speculatable=True, pure=True, batched=True)
++    store = SpecStore()
++    launcher = Launcher(store, batch_launch=True)
++    real_create = launcher._create
++    n = {"made": 0}
++
++    def create(*a, **kw):
++        if n["made"] == 2:
++            raise Cut()  # as an asynchronous exception would land, in the middle
++        n["made"] += 1
++        return real_create(*a, **kw)
++
++    launcher._create = create
++    with pytest.raises(Cut):
++        launcher.dispatch_batch(batched, single, ["a", "b", "c", "d"], (), {}, "peek")
++    assert len(store.all) == 2
++    assert all(s.done.wait(2) for s in store.all)
++    assert [s.result for s in store.all] == ["many(a)", "many(b)"]
++    launcher.shutdown()
++
++
++def test_the_shadows_own_launches_are_not_its_computing_either(monkeypatch):
++    """Recorded on an H100 (replay, 2026-11-10), spec-ptc as shipped: a statement that
++    launched 3,182 calls was cut by the runaway guard after 2,760, in one of two units.
++    The guard budgets a statement's own computing, and it counted the launching."""
++    import time as _time
++
++    import spec_ptc.engine.shadow as shadow_mod
++
++    monkeypatch.setattr(shadow_mod, "STMT_WALL_BUDGET_S", 0.2)
++    eng = MockLM(TIMING)
++    bus = EventBus()
++    bus.subscribe(lambda ev: _time.sleep(0.03) if ev.kind == "dispatch" else None)
++    h = Harness(eng, "spec", bus=bus, context=CONTEXT, scout=False, max_inflight=64)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{MANY_AT_ONCE}\n```\ndone"))
++    h.launcher.shutdown()
++    k = kinds(bus.history)
++    assert out.final_answer == "60"
++    assert "shadow_stop" not in k
++    assert k.count("dispatch") == 60 and k.count("claim_hit") == 60 and k.count("claim_miss") == 0

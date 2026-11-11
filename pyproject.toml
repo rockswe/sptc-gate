@@ -1,0 +1,20 @@
+[project]
+name = "sptc-sim"
+version = "0.1.0"
+description = "Replay simulator for speculative programmatic tool calling with a shared continuous-batching model server"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["numpy>=2.0", "pandas>=2.2", "matplotlib>=3.9", "scipy>=1.13"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["sptc_sim"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

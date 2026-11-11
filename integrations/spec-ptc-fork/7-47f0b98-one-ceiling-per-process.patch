@@ -1,0 +1,395 @@
+diff --git a/src/engine/load.py b/src/engine/load.py
+index 3c282b7..ab21646 100644
+--- a/src/engine/load.py
++++ b/src/engine/load.py
+@@ -11,7 +11,8 @@ too high. This module sets both from what the engine and the client report:
+   engine has free, in place of a count of characters per session.
+ - Governor, one per session, moves the session's window (Budget.max_inflight) between
+   w_min and w_max: up while calls wait for a place and nothing says stop, down when the
+-  engine queues, preempts or runs out of KV cache.
++  engine queues, preempts or runs out of KV cache. The windows of one process share one
++  ceiling: the engine's numbers do not show a client that is itself the limit.
+ 
+ The rule behind it: a call that is certain to be used has to be run anyway, and on an
+ engine whose step time grows linearly with its batch, running it sooner does not cost the
+@@ -238,6 +239,15 @@ class EngineProbe:
+ _shared_lock = threading.Lock()
+ _probes: dict[str, EngineProbe] = {}
+ _pools: weakref.WeakKeyDictionary = weakref.WeakKeyDictionary()
++# the governors of this process, by the probe of their engine (_NO_PROBE: those without)
++_sharers: weakref.WeakKeyDictionary = weakref.WeakKeyDictionary()
++
++
++class _NoProbe:
++    pass
++
++
++_NO_PROBE = _NoProbe()
+ 
+ 
+ def probe_for(url: str, every: float = 0.25) -> EngineProbe:
+@@ -422,10 +432,31 @@ class GovernorConfig:
+     # has sent still run in the engine, and where the launcher is what is slow no call
+     # waits for a place, so the window does not grow anyway. The number is in every event.
+     cpu_hold: float | None = None
++    # The most that the windows of this process on one engine may be together (None:
++    # w_max, one window's ceiling; 0: no bound, each session has w_max to itself). A
++    # session's share is what the others leave of it, never less than w_init. Measured on
++    # an H100 (2026-11-11): two sessions at 256 each had up to 515 calls in flight in one
++    # process and got 169 to 182 short calls back a second, where one window gets about
++    # 210. The engine had 30 requests running and none waiting: nothing it reports shows
++    # a client that is the limit.
++    w_process: int | None = None
+     idle_s: float = 2.0  # this long with no call waiting or in flight: back towards w_init
+     root_gaps: int = 16  # root deltas per sample of the root's own pace (no engine pace)
+ 
+ 
++def share_for(total: float, others: list[int]) -> float:
++    """What is left of `total` places for one session that would take any number, next to
++    sessions that ask for `others`: each of those gets what it asks for if that is no more
++    than an equal share of what is left, and the rest share equally (max-min)."""
++    left, n = float(total), len(others) + 1
++    for want in sorted(others):
++        if want > left / n:
++            break
++        left -= want
++        n -= 1
++    return left / n
++
++
+ class Governor:
+     """One session's window, moved by what the engine and the client report.
+ 
+@@ -449,6 +480,12 @@ class Governor:
+     4. With no call waiting for a place and none in flight for idle_s, the window goes
+        back towards where the next burst should start: w_init, or where the last cut
+        left it if that is lower. An engine that queued at 12 is not offered 16 again.
++    5. The window is never above the session's share of the process's ceiling
++       (w_process): what the other governed sessions of this process on the same engine
++       leave of it, by what they have in flight or waiting. A session next to one that
++       asks for 4 places has the rest; two that both ask for more than half have half
++       each. A window above its share is moved down to it ("share"), and grows again when
++       the others are done. That is the one bound here that the engine does not give.
+ 
+     Without a probe only the client's own signal applies (the root's token pace, through
+     note_root): the window then knows nothing of the engine's queue or KV cache, and
+@@ -474,6 +511,9 @@ class Governor:
+         self._root_t: list[float] = []
+         self.history: list[tuple] = []  # (t, window, why): every change, for tests
+         self.closed = False
++        with _shared_lock:
++            _sharers.setdefault(_NO_PROBE if probe is None else probe,
++                                weakref.WeakSet()).add(self)
+         if ticker and probe is not None:
+             probe.listen(_weak_step(self))
+         elif ticker:
+@@ -497,6 +537,19 @@ class Governor:
+             return None
+         return (cpu - prev[1]) / (now - prev[0])
+ 
++    def _share(self) -> int:
++        """The most this window may be now: what the other sessions of the process on
++        this engine leave of the process's ceiling."""
++        cfg = self.cfg
++        total = cfg.w_max if cfg.w_process is None else cfg.w_process
++        if not total:
++            return cfg.w_max
++        with _shared_lock:
++            peers = list(_sharers.get(_NO_PROBE if self.probe is None else self.probe, ()))
++        others = [g.budget.wanted() for g in peers if g is not self and not g.closed]
++        share = share_for(total, [n for n in others if n > 0])
++        return max(min(cfg.w_init, cfg.w_max), min(cfg.w_max, int(share)))
++
+     # ---- one control step
+     def tick(self, now: float | None = None) -> int:
+         """Move the window if the signals say so. Returns the window."""
+@@ -531,6 +584,7 @@ class Governor:
+             tax = self._root.tax()
+         w = b.max_inflight
+         new, why = w, None
++        share = self._share()
+         hold = None  # what stops growth in this sample, if anything
+         if preempted:
+             hold = "preempted"
+@@ -553,18 +607,20 @@ class Governor:
+             new, why = max(cfg.w_min, int(w * cfg.shrink_queue)), "queue"
+             self._ssthresh, self._queue_run = new, 0
+         else:
+-            if demand and hold is None and w < cfg.w_max:
++            if demand and hold is None and w < share:
+                 if self._clear_run >= cfg.clear_samples:
+                     self._ssthresh = math.inf  # room for a while now: the cut is history
+                 step = (max(1, int(w * (cfg.grow - 1))) if w < self._ssthresh
+                         else max(1, int(w * cfg.grow_add)))
+-                new, why = min(cfg.w_max, w + step), "grow"
++                new, why = min(share, w + step), "grow"
+             elif not demand and not busy and now - self._last_demand >= cfg.idle_s:
+                 start = int(min(cfg.w_init, self._ssthresh))  # where the next burst starts
+                 if w > start:
+                     new, why = max(start, int(w * 0.8)), "idle"
+                 elif w < start and hold is None:
+                     new, why = min(start, w + max(1, w // 4)), "idle"
++        if new > share:  # other sessions of this process ask for their part
++            new, why = share, ("share" if why in (None, "grow", "idle") else why)
+         if new != w:
+             b.set_window(new)
+             self.history.append((now, new, why))
+@@ -574,12 +630,16 @@ class Governor:
+                 kv=None if kv is None else round(kv, 3),
+                 tax=None if tax is None else round(tax, 2),
+                 cpu=None if cpu is None else round(cpu, 2),
+-                pool=None if self.pool is None else self.pool.capacity())
++                pool=None if self.pool is None else self.pool.capacity(), share=share)
+         return new
+ 
+     def close(self) -> None:
+         self.closed = True
+         _ticker.discard(self)
++        with _shared_lock:
++            peers = _sharers.get(_NO_PROBE if self.probe is None else self.probe)
++            if peers is not None:
++                peers.discard(self)
+ 
+ 
+ def _weak_step(gov: Governor) -> Callable[[EngineLoad], object]:
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index eba9d74..f683e2f 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -613,6 +613,12 @@ class Budget:
+         with self._slot_lock:
+             return self._slots
+ 
++    def wanted(self) -> int:
++        """Places taken now, and places the waiters ask for: what the session would use
++        of a window however wide."""
++        with self._slot_lock:
++            return self._slots + sum(me[0] for me in self._slot_queue)
++
+     def take_waited(self) -> int:
+         """How many calls had to wait for a place since this was last asked."""
+         with self._slot_lock:
+diff --git a/tests/test_load.py b/tests/test_load.py
+index 9bc486c..6e6ef55 100644
+--- a/tests/test_load.py
++++ b/tests/test_load.py
+@@ -22,6 +22,7 @@ from spec_ptc.engine.load import (
+     TaxMeter,
+     metrics_url,
+     parse_metrics,
++    share_for,
+ )
+ from spec_ptc.engine.speculation import Budget, Launcher, SpecStore, make_scout_hooks
+ from spec_ptc.runtime.engines import MockLM, MockTiming
+@@ -674,6 +675,159 @@ def test_every_move_is_an_event_with_its_reason_and_the_signals():
+     assert ev.data["waiting"] == 0 and ev.data["kv"] == 0.0
+ 
+ 
++# ------------------------------------------------- several sessions, one process
++class Pair:
++    """Two governed sessions of one process on one engine (or on two, if asked)."""
++
++    def __init__(self, engines: int = 1, **cfg) -> None:
++        self.clock = Clock()
++        self.engs = [FakeEngine(clock=self.clock) for _ in range(engines)]
++        self.cfg = GovernorConfig(**cfg)
++        self.budgets = [Budget(max_inflight=self.cfg.w_init, max_window=self.cfg.w_max)
++                        for _ in range(2)]
++        self.buses = [EventBus(), EventBus()]
++        self.govs = [Governor(b, self.engs[i % engines].probe, None, self.buses[i], self.cfg,
++                              clock=self.clock, cpu_clock=lambda: 0.0, ticker=False)
++                     for i, b in enumerate(self.budgets)]
++        self.tick()
++
++    def burst(self, i: int, wanted: int = 787) -> None:
++        """Session i has a call in flight and a batch waiting for `wanted` places."""
++        b = self.budgets[i]
++        b._slots = 1
++        b._slot_queue.clear()
++        b._slot_queue.append([wanted, 0, threading.Event()])
++
++    def hold(self, i: int, calls: int) -> None:
++        """Session i has `calls` calls in flight and nothing waiting."""
++        self.budgets[i]._slots = calls
++        self.budgets[i]._slot_queue.clear()
++
++    def tick(self, n: int = 1, **engine) -> list[int]:
++        for _ in range(n):
++            for k, eng in enumerate(self.engs):
++                eng.sample(dt=0.25 if k == 0 else 0.0, **engine)
++            ws = [g.tick() for g in self.govs]
++        return ws
++
++    def why(self, i: int) -> list[str]:
++        return [h[2] for h in self.govs[i].history]
++
++
++def test_what_the_other_sessions_leave_of_the_ceiling():
++    assert share_for(256, []) == 256
++    assert share_for(256, [4]) == 252  # four long calls take four places
++    assert share_for(256, [787]) == 128  # two bursts: half each
++    assert share_for(256, [4, 787]) == 126  # the small one first, the rest in halves
++    assert share_for(256, [787, 787, 787]) == 64
++    assert share_for(256, [10, 200]) == 123
++    assert share_for(256, [100, 200]) == pytest.approx(85.33, abs=0.01)  # both above a third
++
++
++def test_a_budget_says_what_its_session_would_use():
++    b = Budget(max_inflight=2, max_window=8)
++    assert b.wanted() == 0
++    assert b.acquire_slots(1) == 1 and b.acquire_slots(1) == 1
++    waiter = threading.Thread(target=b.acquire_slots, args=(5, 5.0), daemon=True)
++    waiter.start()
++    deadline = time.time() + 2
++    while b.waiters() == 0 and time.time() < deadline:
++        time.sleep(0.005)
++    assert (b.in_use(), b.waiters(), b.wanted()) == (2, 1, 7)
++    b.release_slots(2)  # the waiter takes the window as it is: 2 of its 5
++    waiter.join(2)
++    assert (b.in_use(), b.wanted()) == (2, 2)
++
++
++def test_alone_a_session_has_the_whole_ceiling():
++    p = Pair()
++    p.burst(0)
++    assert [p.tick()[0] for _ in range(7)] == [24, 36, 54, 81, 121, 181, 256]
++    assert p.budgets[1].max_inflight == 16  # the other one asked for nothing
++
++
++def test_two_sessions_that_burst_at_once_have_half_the_ceiling_each():
++    p = Pair()
++    p.burst(0)
++    p.tick(7)
++    assert p.budgets[0].max_inflight == 256
++    p.burst(1)  # measured: both at 256, 515 calls in flight in one process
++    assert p.tick() == [128, 24]  # the first gives way at once, the second starts to grow
++    assert p.why(0)[-1] == "share"
++    assert p.tick(6) == [128, 128]
++    assert p.tick(4) == [128, 128]  # and neither goes on from there
++    ev = [e for e in p.buses[0].history if e.kind == "govern"][-1]
++    assert ev.data["why"] == "share" and ev.data["share"] == 128 and ev.data["was"] == 256
++
++
++def test_when_the_other_session_is_done_the_window_grows_again():
++    p = Pair()
++    p.burst(0)
++    p.burst(1)
++    assert p.tick(8) == [128, 128]
++    p.hold(1, 0)  # its burst is over
++    assert [p.tick()[0] for _ in range(2)] == [192, 256]
++    assert p.why(0)[-2:] == ["grow", "grow"]  # by half again: nothing had said stop
++
++
++def test_a_session_with_a_few_long_calls_takes_only_their_places():
++    p = Pair()
++    p.hold(1, 4)  # four calls on long prompts, in flight for minutes
++    p.burst(0)
++    assert p.tick(8)[0] == 252
++    assert p.budgets[1].max_inflight == 16
++
++
++def test_sessions_on_different_engines_do_not_share():
++    p = Pair(engines=2)
++    p.burst(0)
++    p.burst(1)
++    assert p.tick(8) == [256, 256]
++
++
++def test_a_closed_session_asks_for_nothing():
++    p = Pair()
++    p.burst(0)
++    p.burst(1)
++    assert p.tick(8) == [128, 128]
++    p.govs[1].close()  # its budget still looks busy
++    assert p.tick(2)[0] == 256
++
++
++def test_the_share_is_never_under_where_a_window_starts():
++    p = Pair(w_max=24)  # two bursts would have 12 each
++    p.burst(0)
++    p.burst(1)
++    assert p.tick(4) == [16, 16]
++    assert p.why(0) == [] and p.why(1) == []
++
++
++def test_without_a_ceiling_for_the_process_each_session_has_its_own():
++    p = Pair(w_process=0)
++    p.burst(0)
++    p.burst(1)
++    assert p.tick(8) == [256, 256]
++    q = Pair(w_process=64)
++    q.burst(0)
++    q.burst(1)
++    assert q.tick(8) == [32, 32]
++
++
++def test_a_cut_by_the_engine_keeps_its_reason_when_the_share_is_lower_still():
++    p = Pair()
++    p.burst(0)
++    p.tick(7)
++    p.burst(1)
++    # a standing queue for three samples: the first window is cut for it, and its share
++    # (128) is under 0.7 of 256 as well
++    p.budgets[1]._slot_queue.clear()
++    p.budgets[1]._slots = 0
++    p.tick(2, waiting=200, running=256)
++    p.burst(1)
++    ws = p.tick(1, waiting=200, running=256)
++    assert ws[0] == 128 and p.why(0)[-1] == "queue"
++
++
+ def test_without_a_probe_the_roots_own_token_pace_is_the_tax():
+     clock = Clock()
+     budget = Budget(max_inflight=16, max_window=256)
+@@ -763,6 +917,51 @@ def test_on_an_engine_that_queues_the_window_closes():
+     assert eng.peak <= 16
+ 
+ 
++def two_governed_turns(n: int = 240, **cfg):
++    """Two sessions of one process run the same loop at the same time on one engine."""
++    eng = Counting()
++    config = GovernorConfig(tick_s=0.05, **cfg)
++    probe = EngineProbe(fetch=lambda: metrics(), every=0.05).start()
++    context = "\n".join(f"Q{i}: what is item number {i} ?" for i in range(n))
++    outs, moves = [None, None], [[], []]
++
++    def one(i: int) -> None:
++        bus = EventBus()
++        budget = Budget(max_inflight=config.w_init, max_window=config.w_max,
++                        max_dispatches_per_turn=4096)
++        gov = Governor(budget, probe, None, bus, config)
++        h = Harness(eng, "spec", bus=bus, context=context, scout=True, budget=budget)
++        try:
++            outs[i] = h.run_turn(eng.stream_main(f"go\n```repl\n{LOOP}\n```\ndone"))
++        finally:
++            gov.close()
++            h.launcher.shutdown()
++            moves[i] = [e.data for e in bus.history if e.kind == "govern"]
++
++    threads = [threading.Thread(target=one, args=(i,)) for i in range(2)]
++    for th in threads:
++        th.start()
++    for th in threads:
++        th.join(60)
++    probe.stop()
++    return outs, moves, eng
++
++
++def test_two_sessions_at_once_stay_under_one_ceiling_together():
++    outs, moves, eng = two_governed_turns(w_init=4, w_max=64)
++    assert [o.final_answer for o in outs] == ["240", "240"]
++    # 32 each once both ask; a little more for the moment in which the second one starts
++    assert 32 < eng.peak <= 80
++    assert all(m["window"] <= 64 for ms in moves for m in ms)
++    assert any(m["share"] == 32 for ms in moves for m in ms)
++
++
++def test_without_the_process_ceiling_two_sessions_have_twice_the_calls_in_flight():
++    outs, _moves, eng = two_governed_turns(w_init=4, w_max=64, w_process=0)
++    assert [o.final_answer for o in outs] == ["240", "240"]
++    assert eng.peak > 100  # 64 each
++
++
+ # --------------------------------------------------------------------------- chunks
+ def launcher_with(batched_fn, max_inflight=16, chunk=0, batch_width=None):
+     reg = ToolRegistry()

@@ -1,0 +1,446 @@
+{
+ "calibration": {
+  "inputs": [
+   "sptc_out/calib.json (batch-1 decode, solo prefill at 3 lengths)",
+   "sptc_out/concur.json M3 (decode step vs concurrent decoders)",
+   "sptc_out/suite.json (per-call prompt/output tokens, no-spec runs)"
+  ],
+  "fitted_on_outcomes": "client overhead 30 ms each way, on the no-speculation suite medians only",
+  "cost": {
+   "t_fixed_ms": 1.9038412684643633,
+   "t_per_seq_ms": 0.43648139818580123,
+   "gemm_eff": 0.32217926657759216,
+   "attn_eff": 0.012579656030642445
+  },
+  "server": {
+   "max_batched_tokens": 2048,
+   "max_num_seqs": 256,
+   "free_window": 8,
+   "kv_reserve": 0.1,
+   "spec_prefill_budget": 512
+  },
+  "plugin_model": "ServerConfig.plugin_semantics (FCFS with bets last, no promotion, bets gated in the waiting loop, rejected or held <= 16 steps)"
+ },
+ "rows": [
+  {
+   "arm": "stock",
+   "agents": 1,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 2.7597542530667623,
+    "wall_p99": 2.989182835027329,
+    "root_tpot_p50_ms": 16.81459587856401,
+    "root_tpot_p99_ms": 18.279617131847598,
+    "steps": 563,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 2.7325795759998073,
+    "wall_p99": 3.047318830000222,
+    "root_tpot_p50_ms": 16.779316977777448,
+    "root_tpot_p99_ms": 17.099304568969742
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 1,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 2.7597542530667623,
+    "wall_p99": 2.9891828350273295,
+    "root_tpot_p50_ms": 16.81459587856401,
+    "root_tpot_p99_ms": 18.0938711752187,
+    "steps": 563,
+    "allowance_steps": 1,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.101398116001292,
+    "wall_p99": 3.30114063900146,
+    "root_tpot_p50_ms": 19.49013355169882,
+    "root_tpot_p99_ms": 19.89300674358674
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 1,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 2.7597542530667623,
+    "wall_p99": 2.9891828350273295,
+    "root_tpot_p50_ms": 16.81459587856401,
+    "root_tpot_p99_ms": 18.0938711752187,
+    "steps": 563,
+    "allowance_steps": 1,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 1,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 2.7597542530667623,
+    "wall_p99": 2.989182835027329,
+    "root_tpot_p50_ms": 16.81459587856401,
+    "root_tpot_p99_ms": 18.279617131847598,
+    "steps": 563,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "stock",
+   "agents": 1,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 3.326687488123058,
+    "wall_p99": 3.4660221505393713,
+    "root_tpot_p50_ms": 19.188385608242317,
+    "root_tpot_p99_ms": 22.182405305651866,
+    "steps": 566,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.3847389639995527,
+    "wall_p99": 3.4839597350000986,
+    "root_tpot_p50_ms": 19.204605905552953,
+    "root_tpot_p99_ms": 19.5831010000018
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 1,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 2.8967164482783883,
+    "wall_p99": 3.0351493052531664,
+    "root_tpot_p50_ms": 17.497774686996976,
+    "root_tpot_p99_ms": 18.0938711752187,
+    "steps": 563,
+    "allowance_steps": 1,
+    "bets_rejected": 35
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.382515121000324,
+    "wall_p99": 3.750211582999327,
+    "root_tpot_p50_ms": 20.90302164101442,
+    "root_tpot_p99_ms": 23.21131886206974
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 1,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 2.8967164482783883,
+    "wall_p99": 3.0351493052531664,
+    "root_tpot_p50_ms": 17.497774686996976,
+    "root_tpot_p99_ms": 18.0938711752187,
+    "steps": 563,
+    "allowance_steps": 1,
+    "bets_rejected": 35
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 1,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 2.896716448278389,
+    "wall_p99": 3.035149305253165,
+    "root_tpot_p50_ms": 17.497774686996983,
+    "root_tpot_p99_ms": 18.279617131847598,
+    "steps": 563,
+    "allowance_steps": 0,
+    "bets_rejected": 35
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "stock",
+   "agents": 4,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 3.425415028201678,
+    "wall_p99": 3.8687067060095552,
+    "root_tpot_p50_ms": 20.999371730832195,
+    "root_tpot_p99_ms": 22.528986862832376,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.548179803000494,
+    "wall_p99": 4.472032230999503,
+    "root_tpot_p50_ms": 21.12123688888864,
+    "root_tpot_p99_ms": 22.639984724139204
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 4,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 3.4152285990958,
+    "wall_p99": 3.8592758039555166,
+    "root_tpot_p50_ms": 20.93725935823538,
+    "root_tpot_p99_ms": 22.36638510327999,
+    "steps": 567,
+    "allowance_steps": 4,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.5331876189993636,
+    "wall_p99": 4.464014770999711,
+    "root_tpot_p50_ms": 21.03392293888141,
+    "root_tpot_p99_ms": 22.495605982777338
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 4,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 3.4152285990958,
+    "wall_p99": 3.8592758039555166,
+    "root_tpot_p50_ms": 20.93725935823538,
+    "root_tpot_p99_ms": 22.36638510327999,
+    "steps": 567,
+    "allowance_steps": 4,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 4,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 3.425415028201678,
+    "wall_p99": 3.8687067060095552,
+    "root_tpot_p50_ms": 20.999371730832195,
+    "root_tpot_p99_ms": 22.528986862832376,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "stock",
+   "agents": 4,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 5.224917752375942,
+    "wall_p99": 5.942375770044053,
+    "root_tpot_p50_ms": 31.406115221508635,
+    "root_tpot_p99_ms": 36.248959242223435,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 5.037299464000171,
+    "wall_p99": 5.948473534000186,
+    "root_tpot_p50_ms": 29.621374894446085,
+    "root_tpot_p99_ms": 33.04579349999366
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 4,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 3.5353260522595846,
+    "wall_p99": 3.9385314113204073,
+    "root_tpot_p50_ms": 21.454638376564176,
+    "root_tpot_p99_ms": 22.693551772020395,
+    "steps": 567,
+    "allowance_steps": 4,
+    "bets_rejected": 173
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 3.680894305000038,
+    "wall_p99": 4.598744278000595,
+    "root_tpot_p50_ms": 21.830095411102473,
+    "root_tpot_p99_ms": 23.57065261537336
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 4,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 3.5353260522595846,
+    "wall_p99": 3.9385314113204073,
+    "root_tpot_p50_ms": 21.454638376564176,
+    "root_tpot_p99_ms": 22.693551772020395,
+    "steps": 567,
+    "allowance_steps": 4,
+    "bets_rejected": 173
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 4,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 3.5447569543136224,
+    "wall_p99": 3.947962313374445,
+    "root_tpot_p50_ms": 21.515801801995707,
+    "root_tpot_p99_ms": 22.693551772020406,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 173
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "stock",
+   "agents": 8,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 4.475847243665711,
+    "wall_p99": 5.023881428590505,
+    "root_tpot_p50_ms": 27.278778335552264,
+    "root_tpot_p99_ms": 29.96795526191345,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 4.363683436999963,
+    "wall_p99": 5.877870424000321,
+    "root_tpot_p50_ms": 25.567805884149006,
+    "root_tpot_p99_ms": 29.319177879313365
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 8,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 4.450897909474452,
+    "wall_p99": 5.0019483408523095,
+    "root_tpot_p50_ms": 27.086203990498362,
+    "root_tpot_p99_ms": 29.72955424155565,
+    "steps": 567,
+    "allowance_steps": 12,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 4.407080257000416,
+    "wall_p99": 6.078455213999405,
+    "root_tpot_p50_ms": 25.83423416462676,
+    "root_tpot_p99_ms": 29.011355379319365
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 8,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 4.450897909474452,
+    "wall_p99": 5.0019483408523095,
+    "root_tpot_p50_ms": 27.086203990498362,
+    "root_tpot_p99_ms": 29.72955424155565,
+    "steps": 567,
+    "allowance_steps": 12,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 8,
+   "bad_guesses": 0,
+   "predicted": {
+    "wall_p50": 4.475847243665711,
+    "wall_p99": 5.023881428590505,
+    "root_tpot_p50_ms": 27.278778335552264,
+    "root_tpot_p99_ms": 29.96795526191345,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "stock",
+   "agents": 8,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 8.206110185177577,
+    "wall_p99": 9.323216042926013,
+    "root_tpot_p50_ms": 48.6233525994201,
+    "root_tpot_p99_ms": 59.04674749202581,
+    "steps": 566,
+    "allowance_steps": 0,
+    "bets_rejected": 0
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 6.623924359000739,
+    "wall_p99": 8.373206405000019,
+    "root_tpot_p50_ms": 38.98113470000276,
+    "root_tpot_p99_ms": 45.33299625861751
+   }
+  },
+  {
+   "arm": "plugin fixed",
+   "agents": 8,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 4.450897909474452,
+    "wall_p99": 5.0019483408523095,
+    "root_tpot_p50_ms": 27.086203990498362,
+    "root_tpot_p99_ms": 29.72955424155565,
+    "steps": 567,
+    "allowance_steps": 12,
+    "bets_rejected": 360
+   },
+   "measured_t4_2026_10_19": {
+    "wall_p50": 4.405097943999863,
+    "wall_p99": 6.221663599999374,
+    "root_tpot_p50_ms": 25.932126377776715,
+    "root_tpot_p99_ms": 29.531549551738234
+   }
+  },
+  {
+   "arm": "plugin adaptive",
+   "agents": 8,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 4.450897909474452,
+    "wall_p99": 5.0019483408523095,
+    "root_tpot_p50_ms": 27.086203990498362,
+    "root_tpot_p99_ms": 29.72955424155565,
+    "steps": 567,
+    "allowance_steps": 12,
+    "bets_rejected": 360
+   },
+   "measured_t4_2026_10_19": null
+  },
+  {
+   "arm": "plugin off",
+   "agents": 8,
+   "bad_guesses": 1,
+   "predicted": {
+    "wall_p50": 4.475847243665711,
+    "wall_p99": 5.023881428590505,
+    "root_tpot_p50_ms": 27.278778335552264,
+    "root_tpot_p99_ms": 29.96795526191345,
+    "steps": 567,
+    "allowance_steps": 0,
+    "bets_rejected": 360
+   },
+   "measured_t4_2026_10_19": null
+  }
+ ]
+}

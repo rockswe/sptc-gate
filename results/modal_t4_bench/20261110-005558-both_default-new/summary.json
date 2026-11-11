@@ -1,0 +1,790 @@
+{
+ "slo": {
+  "ref_arm": "fcfs/nospec",
+  "k_session": 2.0,
+  "k_tpot": 2.0,
+  "refs": {}
+ },
+ "rows": [
+  {
+   "arm": "cap-d/both",
+   "server": "fcfs",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 10.08890142600012,
+   "session_p99": 15.753581596000004,
+   "root_tpot_p50": 19.14190142073211,
+   "root_tpot_p99": 19.644639672222297,
+   "root_itl_p99": 24.45924500000274,
+   "sessions_per_min": 26.194441559065176,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {
+    "rejected": 405,
+    "completed": 135
+   },
+   "spec_call_outcomes": {
+    "completed": 47
+   },
+   "refused_calls": 473,
+   "real_bet_outcomes": {
+    "rejected": 473,
+    "completed": 67
+   },
+   "real_bet_calls": 480,
+   "reissued": 426,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.011727475800446752,
+   "client_cpu_util": 0.007423451043588343,
+   "host_cpu_util": 0.03850518806744488,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 420.0833333333333,
+   "proxy_peak_in_flight": 11,
+   "prefix_hit_frac": 0.6235578213039978,
+   "gpu_sm_mhz_min": 1095.0,
+   "gpu_sm_mhz_mean": 1373.611111111111,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     5.590952862999984,
+     11.477536150999867
+    ],
+    "root_tpot_p50": [
+     18.895745431034904,
+     19.23617625000007
+    ],
+    "goodput": null
+   }
+  },
+  {
+   "arm": "fcfs-d/nospec",
+   "server": "fcfs",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 9.250287857999865,
+   "session_p99": 16.731168433999983,
+   "root_tpot_p50": 17.637418641024503,
+   "root_tpot_p99": 17.94855396666656,
+   "root_itl_p99": 22.03520899979594,
+   "sessions_per_min": 24.967157517704653,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {},
+   "spec_call_outcomes": {
+    "completed": 540
+   },
+   "refused_calls": 0,
+   "real_bet_outcomes": {},
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.006329113924050667,
+   "client_cpu_util": 0.006832986734352694,
+   "host_cpu_util": 0.033831521739130434,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 385.75,
+   "proxy_peak_in_flight": null,
+   "prefix_hit_frac": 0.6430412371134021,
+   "gpu_sm_mhz_min": 1260.0,
+   "gpu_sm_mhz_mean": 1382.2222222222222,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     7.020516265999959,
+     11.847279168
+    ],
+    "root_tpot_p50": [
+     17.599651615853418,
+     17.70654261666651
+    ],
+    "goodput": null
+   }
+  },
+  {
+   "arm": "fcfs-d/spec",
+   "server": "fcfs",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 3.6446498169999586,
+   "session_p99": 9.102105565000102,
+   "root_tpot_p50": 20.820195413793485,
+   "root_tpot_p99": 22.489206431034432,
+   "root_itl_p99": 31.641512999840415,
+   "sessions_per_min": 52.56750136398816,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {},
+   "spec_call_outcomes": {
+    "completed": 540
+   },
+   "refused_calls": 0,
+   "real_bet_outcomes": {},
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.02010424422933732,
+   "client_cpu_util": 0.01524082968347843,
+   "host_cpu_util": 0.044700312557455414,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 423.0833333333333,
+   "proxy_peak_in_flight": null,
+   "prefix_hit_frac": 0.6420308483290489,
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1422.0,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     3.1183800189999147,
+     3.7495739040000444
+    ],
+    "root_tpot_p50": [
+     20.410956737804078,
+     21.09164326923117
+    ],
+    "goodput": null
+   }
+  },
+  {
+   "arm": "fcfs-d/spec+bad",
+   "server": "fcfs",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 4.619806454000013,
+   "session_p99": 11.897485068999913,
+   "root_tpot_p50": 26.63170642777762,
+   "root_tpot_p99": 30.148614155172222,
+   "root_itl_p99": 38.923383999872385,
+   "sessions_per_min": 41.04211547619104,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {
+    "cancelled": 252,
+    "completed": 288
+   },
+   "spec_call_outcomes": {
+    "completed": 540
+   },
+   "refused_calls": 0,
+   "real_bet_outcomes": {},
+   "real_bet_calls": 0,
+   "reissued": 0,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.04300074460163816,
+   "client_cpu_util": 0.01251989830730099,
+   "host_cpu_util": 0.0442652329749104,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 421.375,
+   "proxy_peak_in_flight": null,
+   "prefix_hit_frac": 0.6583773146077466,
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1400.8333333333333,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     4.281659083000022,
+     5.073926453000013
+    ],
+    "root_tpot_p50": [
+     25.932071333333905,
+     27.769511161111243
+    ],
+    "goodput": null
+   }
+  },
+  {
+   "arm": "plugin-d/both",
+   "server": "plugin",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 10.084158118999994,
+   "session_p99": 15.714710766000053,
+   "root_tpot_p50": 19.10856653658512,
+   "root_tpot_p99": 19.58283432317075,
+   "root_itl_p99": 24.29228599999078,
+   "sessions_per_min": 25.656145608021653,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {
+    "rejected": 404,
+    "completed": 136
+   },
+   "spec_call_outcomes": {
+    "completed": 47
+   },
+   "refused_calls": 480,
+   "real_bet_outcomes": {
+    "rejected": 480,
+    "completed": 60
+   },
+   "real_bet_calls": 481,
+   "reissued": 433,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.011913626209977712,
+   "client_cpu_util": 0.007361150184944407,
+   "host_cpu_util": 0.03877564794816415,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 419.6458333333333,
+   "proxy_peak_in_flight": null,
+   "prefix_hit_frac": 0.6218419997326561,
+   "gpu_sm_mhz_min": 1050.0,
+   "gpu_sm_mhz_mean": 1367.7777777777778,
+   "gpu_temp_c_max": 49.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     5.492543834000003,
+     10.744561160999979
+    ],
+    "root_tpot_p50": [
+     18.760347525640917,
+     19.171082366666624
+    ],
+    "goodput": null
+   }
+  },
+  {
+   "arm": "prio-d/both",
+   "server": "priority",
+   "agents": 4,
+   "reps_ok": 3,
+   "reps_other": {},
+   "sessions": 48,
+   "session_p50": 4.579697054999997,
+   "session_p99": 11.845600505999982,
+   "root_tpot_p50": 26.93413351111076,
+   "root_tpot_p99": 30.169743810345466,
+   "root_itl_p99": 37.85327400009919,
+   "sessions_per_min": 41.3382016782706,
+   "p99_is_max": true,
+   "goodput": null,
+   "goodput_wall": null,
+   "goodput_tpot": null,
+   "goodput_curve": {
+    "1.0": null,
+    "1.25": null,
+    "1.5": null,
+    "1.75": null,
+    "2.0": null,
+    "2.5": null,
+    "3.0": null,
+    "4.0": null,
+    "5.0": null
+   },
+   "decoy_outcomes": {
+    "cancelled": 264,
+    "completed": 276
+   },
+   "spec_call_outcomes": {},
+   "refused_calls": 0,
+   "real_bet_outcomes": {
+    "completed": 540
+   },
+   "real_bet_calls": 480,
+   "reissued": 0,
+   "shadow_stops": 0,
+   "preemptions": 0.0,
+   "max_waiting": 0.0,
+   "waiting_frac": 0.0,
+   "max_kv": 0.04300074460163816,
+   "client_cpu_util": 0.01317304968284127,
+   "host_cpu_util": 0.045980136291141074,
+   "host_cpu_sat_frac": 0.0,
+   "sub_tokens_per_session": 419.6458333333333,
+   "proxy_peak_in_flight": null,
+   "prefix_hit_frac": 0.6583773146077466,
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1413.3333333333333,
+   "gpu_temp_c_max": 48.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ],
+   "cpu_ok": true,
+   "ci": {
+    "session_p50": [
+     4.248218061999978,
+     5.044487778000075
+    ],
+    "root_tpot_p50": [
+     25.84866598275853,
+     27.614176983332882
+    ],
+    "goodput": null
+   }
+  }
+ ],
+ "derived": {
+  "knee": {
+   "cap-d/both": null,
+   "fcfs-d/nospec": null,
+   "fcfs-d/spec": null,
+   "fcfs-d/spec+bad": null,
+   "plugin-d/both": null,
+   "prio-d/both": null
+  },
+  "growth": {
+   "cap-d/both": {
+    "4": 1.0
+   },
+   "fcfs-d/nospec": {
+    "4": 1.0
+   },
+   "fcfs-d/spec": {
+    "4": 1.0
+   },
+   "fcfs-d/spec+bad": {
+    "4": 1.0
+   },
+   "plugin-d/both": {
+    "4": 1.0
+   },
+   "prio-d/both": {
+    "4": 1.0
+   }
+  },
+  "knee_ref": {
+   "cap-d/both": null,
+   "fcfs-d/nospec": null,
+   "fcfs-d/spec": null,
+   "fcfs-d/spec+bad": null,
+   "plugin-d/both": null,
+   "prio-d/both": null
+  },
+  "good50": {
+   "cap-d/both": null,
+   "fcfs-d/nospec": null,
+   "fcfs-d/spec": null,
+   "fcfs-d/spec+bad": null,
+   "plugin-d/both": null,
+   "prio-d/both": null
+  },
+  "good50_wall": {
+   "cap-d/both": null,
+   "fcfs-d/nospec": null,
+   "fcfs-d/spec": null,
+   "fcfs-d/spec+bad": null,
+   "plugin-d/both": null,
+   "prio-d/both": null
+  },
+  "good50_tpot": {
+   "cap-d/both": null,
+   "fcfs-d/nospec": null,
+   "fcfs-d/spec": null,
+   "fcfs-d/spec+bad": null,
+   "plugin-d/both": null,
+   "prio-d/both": null
+  },
+  "thr_peak": {
+   "cap-d/both": 4,
+   "fcfs-d/nospec": 4,
+   "fcfs-d/spec": 4,
+   "fcfs-d/spec+bad": 4,
+   "plugin-d/both": 4,
+   "prio-d/both": 4
+  },
+  "net_loss": {
+   "fcfs": null,
+   "prio": null,
+   "plugin": null
+  },
+  "prio_vs_fcfs": {},
+  "plugin_vs_fcfs": {},
+  "vs_stock": {},
+  "baselines_vs_fcfs": {},
+  "baselines_vs_nobets": {},
+  "pressure_vs_ref": {
+   "fcfs-d/nospec": {
+    "4": {
+     "session_p50": 2.002310692040052,
+     "session_p99": 1.4062777416375765,
+     "root_tpot_p50": 0.662271442832825,
+     "root_tpot_p99": 0.595335953894496
+    }
+   },
+   "fcfs-d/spec": {
+    "4": {
+     "session_p50": 0.7889182919869457,
+     "session_p99": 0.7650445041294104,
+     "root_tpot_p50": 0.7817822515525117,
+     "root_tpot_p99": 0.7459449484239805
+    }
+   },
+   "fcfs-d/spec+bad": {
+    "4": {
+     "session_p50": 1.0,
+     "session_p99": 1.0,
+     "root_tpot_p50": 1.0,
+     "root_tpot_p99": 1.0
+    }
+   },
+   "prio-d/both": {
+    "4": {
+     "session_p50": 0.9913179481869229,
+     "session_p99": 0.9956390310474,
+     "root_tpot_p50": 1.01135590331597,
+     "root_tpot_p99": 1.0007008499649268
+    }
+   },
+   "cap-d/both": {
+    "4": {
+     "session_p50": 2.18383638502101,
+     "session_p99": 1.3241102220037693,
+     "root_tpot_p50": 0.7187636088075291,
+     "root_tpot_p99": 0.6515934553778523
+    }
+   },
+   "plugin-d/both": {
+    "4": {
+     "session_p50": 2.1828096521811484,
+     "session_p99": 1.3208430752265705,
+     "root_tpot_p50": 0.7175119096632255,
+     "root_tpot_p99": 0.6495434324901189
+    }
+   }
+  },
+  "d1": {
+   "agents": 4,
+   "by_workload": {
+    "decoys": {
+     "plugin_vs_cap": null,
+     "plugin_vs_prio": null
+    },
+    "both": {
+     "plugin_vs_cap": null,
+     "plugin_vs_prio": null
+    },
+    "both, default servers": {
+     "plugin_vs_cap": 0.999529849009338,
+     "plugin_vs_prio": 2.2019268955771576
+    }
+   },
+   "pressure": {
+    "fcfs-p/spec+bad": null,
+    "fcfs-p/spec": null
+   },
+   "pressure_check": null,
+   "won_in": [],
+   "plugin_wins": null
+  }
+ },
+ "by_launch": [
+  {
+   "arm": "cap-d/both",
+   "agents": 4,
+   "launch": "fcfs#2",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 10.52963091199996,
+   "root_tpot_p50": 19.172275713414457,
+   "started_utc": "2026-11-10T01:02:38Z",
+   "gpu_sm_mhz_min": 1290.0,
+   "gpu_sm_mhz_mean": 1392.0833333333335,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "cap-d/both",
+   "agents": 4,
+   "launch": "fcfs#3",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 10.08890142600012,
+   "root_tpot_p50": 19.126516076921572,
+   "started_utc": "2026-11-10T01:17:46Z",
+   "gpu_sm_mhz_min": 1095.0,
+   "gpu_sm_mhz_mean": 1336.6666666666667,
+   "gpu_temp_c_max": 49.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/nospec",
+   "agents": 4,
+   "launch": "fcfs#2",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 9.54030151500001,
+   "root_tpot_p50": 17.640378653846383,
+   "started_utc": "2026-11-10T01:01:14Z",
+   "gpu_sm_mhz_min": 1260.0,
+   "gpu_sm_mhz_mean": 1380.0,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/nospec",
+   "agents": 4,
+   "launch": "fcfs#3",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 9.250287857999865,
+   "root_tpot_p50": 17.637418641024503,
+   "started_utc": "2026-11-10T01:18:23Z",
+   "gpu_sm_mhz_min": 1290.0,
+   "gpu_sm_mhz_mean": 1386.6666666666667,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/spec",
+   "agents": 4,
+   "launch": "fcfs#2",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 3.6468743770000174,
+   "root_tpot_p50": 20.904809844827515,
+   "started_utc": "2026-11-10T01:01:56Z",
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1428.0,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/spec",
+   "agents": 4,
+   "launch": "fcfs#3",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 3.6355433500000345,
+   "root_tpot_p50": 20.820195413793485,
+   "started_utc": "2026-11-10T01:17:03Z",
+   "gpu_sm_mhz_min": 1350.0,
+   "gpu_sm_mhz_mean": 1410.0,
+   "gpu_temp_c_max": 47.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/spec+bad",
+   "agents": 4,
+   "launch": "fcfs#2",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 4.655387268000027,
+   "root_tpot_p50": 26.63170642777762,
+   "started_utc": "2026-11-10T01:02:14Z",
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1393.75,
+   "gpu_temp_c_max": 50.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "fcfs-d/spec+bad",
+   "agents": 4,
+   "launch": "fcfs#3",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 4.595509510000056,
+   "root_tpot_p50": 27.02699569999949,
+   "started_utc": "2026-11-10T01:17:22Z",
+   "gpu_sm_mhz_min": 1365.0,
+   "gpu_sm_mhz_mean": 1415.0,
+   "gpu_temp_c_max": 48.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "plugin-d/both",
+   "agents": 4,
+   "launch": "plugin#1",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 10.084158118999994,
+   "root_tpot_p50": 19.088077006097276,
+   "started_utc": "2026-11-10T01:09:22Z",
+   "gpu_sm_mhz_min": 1050.0,
+   "gpu_sm_mhz_mean": 1356.6666666666665,
+   "gpu_temp_c_max": 49.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "plugin-d/both",
+   "agents": 4,
+   "launch": "plugin#2",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 10.333383424999965,
+   "root_tpot_p50": 19.169219844827538,
+   "started_utc": "2026-11-10T01:12:24Z",
+   "gpu_sm_mhz_min": 1350.0,
+   "gpu_sm_mhz_mean": 1390.0,
+   "gpu_temp_c_max": 48.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "prio-d/both",
+   "agents": 4,
+   "launch": "priority#1",
+   "round": 0,
+   "sessions": 32,
+   "session_p50": 4.589574203999973,
+   "root_tpot_p50": 26.95584800000006,
+   "started_utc": "2026-11-10T01:06:44Z",
+   "gpu_sm_mhz_min": 1305.0,
+   "gpu_sm_mhz_mean": 1415.0,
+   "gpu_temp_c_max": 48.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  },
+  {
+   "arm": "prio-d/both",
+   "agents": 4,
+   "launch": "priority#2",
+   "round": 1,
+   "sessions": 16,
+   "session_p50": 4.579697054999997,
+   "root_tpot_p50": 26.93413351111076,
+   "started_utc": "2026-11-10T01:14:36Z",
+   "gpu_sm_mhz_min": 1320.0,
+   "gpu_sm_mhz_mean": 1410.0,
+   "gpu_temp_c_max": 46.0,
+   "gpu_reasons": [
+    "0x0000000000000000",
+    "0x0000000000000004"
+   ]
+  }
+ ]
+}

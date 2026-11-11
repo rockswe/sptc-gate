@@ -1,0 +1,42 @@
+{"t": 1794288764.087, "kind": "begin", "arms": ["wide"], "once": ["stream", "scout", "wide-threads"], "repeats": 2, "conc": 8, "model": "Qwen/Qwen3-30B-A3B-Instruct-2507", "base_url": "http://localhost:8210/v1", "sessions": ["pairs32k-15", "pairs32k-1", "pairs32k-20", "trec132k-17000222", "trec132k-17000232", "trec132k-17000241", "trec132k-17000222.w8k-c8", "trec132k-17000232.w8k-c1"], "max_minutes": 40.0, "serve_extra": ["--max-model-len", "65536"], "warmup_passes": 2, "units": ["wide_c8_r1", "wide_c8_r2", "stream_c8_r1", "scout_c8_r1", "wide-threads_c8_r1"], "arm_config": {"wide": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true, "spec_max_inflight": 128, "spec_batch_launch": true}}, "stream": {"tree": "stock", "repl": "stream", "kwargs": {}}, "scout": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true}}, "wide-threads": {"tree": "fork", "repl": "stream", "kwargs": {"spec_scout": true, "spec_rlm_query": true, "spec_max_inflight": 128}}}, "handler_backlog": 1024, "launch_delay_ms": 0, "files": {"PREREG_REPLAY.md": "a2c0f9dbf6635f6c5b1ad52ef953e706b37eb26d7360fe996d8bcbd4a0ca3ba6", "PREREG_REPLAY_ADDENDUM.md": "b33ff2db2a917cf8f7fd9029f5698bf4bccb234b619857bb99b025f43550e5cf", "replay.py": "bd177221d8e716d407031864cdbc76b09f1d9b9dbffe3fe57c775ae291973db2", "replay_campaign.py": "baf1f3a445b8364e045f88e270c01b86be472f29b7a7369a0d7471d071b72ba3", "replay_corpus.py": "f0185899ad8cc0ba610d4d2c9dbaac66ab8a16bb312657fc89bc1172c7bfe520", "replay_report.py": "c81c61f184cd9b898267cde1f3d601503b0a71b997394e76f03c340cdf22cb3e", "rlm_stream.py": "3a04d8e9f1d12c8c9b031e7db28860190bc8c83994849b5dc8ce33b6f42b7673", "repl_fix.py": "e8108229dce2110442d646471e2c040fa609ed6d27560c5f807273fcdfc56c80", "replay_app.py": "0587113f8a1674a4e54b79e066a3f2d80df4f895b3614fa251a8f2a2d70750d4"}, "corpus": {"manifest_sha256": "4873c26c75607bc0d04168e84b6bc6b93ab5bf75bfb20629f36d307fa7c49557", "sessions": {"trec132k-17000232.w8k-c1": "cdb610ad86f51d806892140619eba871f12839c098de6845bce2815ab38bbaec", "trec132k-17000222.w8k-c8": "e191cf43b8b42333f3d3498a4f926fc30d9e8b84890b718ecfe0c11bd42b7eb9", "trec132k-17000232": "f324e4f630f1c6380657ee690e318c63f95486988fa57934ddb7f282f5bdf4e4", "trec132k-17000241": "59887ceed467b0bc13cfcd55127b54b14db6b0c4cdd00c91f563c0b78e72b2bd", "trec132k-17000222": "1744b1d7b0405824a908f18a20fbcccf81763f740739a84447782ee18da9a5d6", "pairs32k-20": "9fa44ef5c132ebc211cb6ac4a19d1d2a7c88fd5c94caacac5c748cfacc771a0a", "pairs32k-1": "53b0e85e73449d7d100530a8ec0028dae050a1183e9b60abd32c10cedf8342c2", "pairs32k-15": "b5552ce4dac376dd008dab4d8e36b52cbc951c630a609f83b69cb8b25b835b80"}}, "trees": {"stock": {"path": "/opt/spec-ptc", "py_tree": "f46414b0553b245901cef0ad79d6d8f2014843be8ccab8456bc8b13751fbf278", "py_files": 61, "git": null}, "fork": {"path": "/opt/spec-ptc-fork", "py_tree": "7aa23f0706f747daba79c827b5a18baf177ef38cf86d32920688e94b1d272b1b", "py_files": 63, "git": null}}}
+{"t": 1794288848.364, "kind": "server_ready", "ready_s": 70.0, "kernel_config_dropped": []}
+{"t": 1794288853.299, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "short", "errors": 0, "wall_s": 4.329, "stream_max_gap_ms": 536.8}
+{"t": 1794288856.341, "kind": "warmup_wave", "pass": 1, "n": 2, "prompt": "short", "errors": 0, "wall_s": 3.042, "stream_max_gap_ms": 633.8}
+{"t": 1794288860.123, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "short", "errors": 0, "wall_s": 3.781, "stream_max_gap_ms": 1212.6}
+{"t": 1794288864.059, "kind": "warmup_wave", "pass": 1, "n": 8, "prompt": "short", "errors": 0, "wall_s": 3.935, "stream_max_gap_ms": 589.8}
+{"t": 1794288868.077, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "short", "errors": 0, "wall_s": 4.018, "stream_max_gap_ms": 744.2}
+{"t": 1794288871.885, "kind": "warmup_wave", "pass": 1, "n": 32, "prompt": "short", "errors": 0, "wall_s": 3.807, "stream_max_gap_ms": 1147.9}
+{"t": 1794288876.894, "kind": "warmup_wave", "pass": 1, "n": 64, "prompt": "short", "errors": 0, "wall_s": 5.008, "stream_max_gap_ms": 1146.2}
+{"t": 1794288880.362, "kind": "warmup_wave", "pass": 1, "n": 128, "prompt": "short", "errors": 0, "wall_s": 3.468, "stream_max_gap_ms": 1198.5}
+{"t": 1794288882.51, "kind": "warmup_wave", "pass": 1, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.147, "stream_max_gap_ms": 68.2}
+{"t": 1794288884.767, "kind": "warmup_wave", "pass": 1, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.257, "stream_max_gap_ms": 131.5}
+{"t": 1794288887.919, "kind": "warmup_wave", "pass": 1, "n": 16, "prompt": "long", "errors": 0, "wall_s": 3.15, "stream_max_gap_ms": 554.6}
+{"t": 1794288891.059, "kind": "warmup_wave", "pass": 1, "n": 256, "prompt": "short", "errors": 0, "wall_s": 3.14, "stream_max_gap_ms": 770.8}
+{"t": 1794288894.35, "kind": "warmup_wave", "pass": 1, "n": 512, "prompt": "short", "errors": 0, "wall_s": 3.29, "stream_max_gap_ms": 656.6}
+{"t": 1794288898.355, "kind": "warmup_wave", "pass": 1, "n": 1024, "prompt": "short", "errors": 0, "wall_s": 4.004, "stream_max_gap_ms": 148.8}
+{"t": 1794288900.532, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "short", "errors": 0, "wall_s": 2.177, "stream_max_gap_ms": 49.5}
+{"t": 1794288902.717, "kind": "warmup_wave", "pass": 2, "n": 2, "prompt": "short", "errors": 0, "wall_s": 2.184, "stream_max_gap_ms": 51.2}
+{"t": 1794288904.955, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "short", "errors": 0, "wall_s": 2.237, "stream_max_gap_ms": 51.6}
+{"t": 1794288907.268, "kind": "warmup_wave", "pass": 2, "n": 8, "prompt": "short", "errors": 0, "wall_s": 2.312, "stream_max_gap_ms": 53.8}
+{"t": 1794288909.68, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "short", "errors": 0, "wall_s": 2.412, "stream_max_gap_ms": 59.7}
+{"t": 1794288912.111, "kind": "warmup_wave", "pass": 2, "n": 32, "prompt": "short", "errors": 0, "wall_s": 2.43, "stream_max_gap_ms": 71.1}
+{"t": 1794288914.599, "kind": "warmup_wave", "pass": 2, "n": 64, "prompt": "short", "errors": 0, "wall_s": 2.487, "stream_max_gap_ms": 77.2}
+{"t": 1794288916.934, "kind": "warmup_wave", "pass": 2, "n": 128, "prompt": "short", "errors": 0, "wall_s": 2.335, "stream_max_gap_ms": 79.9}
+{"t": 1794288919.097, "kind": "warmup_wave", "pass": 2, "n": 1, "prompt": "long", "errors": 0, "wall_s": 2.163, "stream_max_gap_ms": 50.2}
+{"t": 1794288921.316, "kind": "warmup_wave", "pass": 2, "n": 4, "prompt": "long", "errors": 0, "wall_s": 2.218, "stream_max_gap_ms": 83.6}
+{"t": 1794288923.858, "kind": "warmup_wave", "pass": 2, "n": 16, "prompt": "long", "errors": 0, "wall_s": 2.542, "stream_max_gap_ms": 133.7}
+{"t": 1794288926.158, "kind": "warmup_wave", "pass": 2, "n": 256, "prompt": "short", "errors": 0, "wall_s": 2.299, "stream_max_gap_ms": 69.6}
+{"t": 1794288928.738, "kind": "warmup_wave", "pass": 2, "n": 512, "prompt": "short", "errors": 0, "wall_s": 2.58, "stream_max_gap_ms": 101.7}
+{"t": 1794288933.136, "kind": "warmup_wave", "pass": 2, "n": 1024, "prompt": "short", "errors": 0, "wall_s": 4.397, "stream_max_gap_ms": 110.3}
+{"t": 1794288933.14, "kind": "warmup_done", "passes": 2, "waves": 28, "wall_s": 84.8, "errors": 0}
+{"t": 1794288933.141, "kind": "unit_begin", "unit": "wide_c8_r1", "salt": "bffed9851f", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794289167.016, "kind": "unit_end", "unit": "wide_c8_r1", "wall_s": 233.9, "exit": 0, "done": true, "exact": true}
+{"t": 1794289169.433, "kind": "unit_begin", "unit": "wide_c8_r2", "salt": "710c2c9263", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794289375.924, "kind": "unit_end", "unit": "wide_c8_r2", "wall_s": 206.5, "exit": 0, "done": true, "exact": true}
+{"t": 1794289377.961, "kind": "unit_begin", "unit": "stream_c8_r1", "salt": "52faa82332", "tree": "/opt/spec-ptc"}
+{"t": 1794290023.803, "kind": "unit_end", "unit": "stream_c8_r1", "wall_s": 645.8, "exit": 0, "done": true, "exact": true}
+{"t": 1794290026.01, "kind": "unit_begin", "unit": "scout_c8_r1", "salt": "151f729174", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794290264.507, "kind": "unit_end", "unit": "scout_c8_r1", "wall_s": 238.5, "exit": 0, "done": true, "exact": true}
+{"t": 1794290266.835, "kind": "unit_begin", "unit": "wide-threads_c8_r1", "salt": "b4a241f231", "tree": "/opt/spec-ptc-fork"}
+{"t": 1794290482.882, "kind": "unit_end", "unit": "wide-threads_c8_r1", "wall_s": 216.0, "exit": 0, "done": true, "exact": true}
+{"t": 1794290486.877, "kind": "end", "spent_s": 1723}

@@ -1,0 +1,182 @@
+{
+ "kind": "checks",
+ "name": "govern-small",
+ "prereg": [
+  "PREREG_GOVERN.md"
+ ],
+ "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+ "engine": "one T4, vLLM 0.32.0, Qwen/Qwen3-1.7B, eager, --max-model-len 32768 --dtype half --max-num-seqs 16",
+ "sessions": [
+  "trec132k-17000237.fix2",
+  "pairs32k-16.fix2",
+  "pairs32k-1.fix1",
+  "pairs32k-1.fix2",
+  "pairs32k-16.fix1",
+  "pairs32k-15.fix1",
+  "trec132k-17000232.fix1",
+  "trec132k-17000241.fix1"
+ ],
+ "warm": {
+  "arm": "auto",
+  "sessions": [
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix1",
+   "trec132k-17000232.fix1"
+  ]
+ },
+ "units": [
+  "stream",
+  "wide",
+  "auto"
+ ],
+ "checks": [
+  {
+   "id": "S1",
+   "claim": "every unit is exact (units that are not: 0)",
+   "unit": [
+    "*",
+    "exact"
+   ],
+   "max": 0,
+   "digits": 0,
+   "against": "any unit not exact: it does not count"
+  },
+  {
+   "id": "S2",
+   "claim": "no call is sent that the recorded run did not send, and none twice (dry run: 0)",
+   "unit": [
+    "*",
+    "stray"
+   ],
+   "max": 0,
+   "digits": 0,
+   "against": "any"
+  },
+  {
+   "id": "S3",
+   "claim": "no speculative call is evicted (dry run: 0)",
+   "unit": [
+    "*",
+    "evicted"
+   ],
+   "max": 0,
+   "digits": 0,
+   "against": "any"
+  },
+  {
+   "id": "S4",
+   "claim": "a fixed 128 makes the root's turn wait: `wide`'s root TTFT, 90th percentile, is at least 2.5 times `stream`'s (dry run: 7.4)",
+   "unit_ratio": [
+    "wide",
+    "stream",
+    "ttft_p90"
+   ],
+   "min": 2.5,
+   "digits": 2,
+   "against": "below 2.5: a window of 128 does not make roots wait on an engine with 16 places, and the argument above is wrong about its queue"
+  },
+  {
+   "id": "S5",
+   "claim": "the governed window does not: `auto`'s root TTFT, 90th percentile, is at most 1.25 times `stream`'s (dry run: 0.66)",
+   "unit_ratio": [
+    "auto",
+    "stream",
+    "ttft_p90"
+   ],
+   "max": 1.25,
+   "digits": 2,
+   "against": "above 1.25: the governed window makes roots wait more than the shipped client does"
+  },
+  {
+   "id": "S6",
+   "claim": "the engine's largest queue: `wide`'s is at least 3 times `stream`'s (dry run: 9.2)",
+   "unit_ratio": [
+    "wide",
+    "stream",
+    "waiting_max"
+   ],
+   "min": 3.0,
+   "digits": 2,
+   "against": "below 3"
+  },
+  {
+   "id": "S7",
+   "claim": "the engine's largest queue: `auto`'s is at most 1.5 times `stream`'s (dry run: 0.74)",
+   "unit_ratio": [
+    "auto",
+    "stream",
+    "waiting_max"
+   ],
+   "max": 1.5,
+   "digits": 2,
+   "against": "above 1.5: the governed window does not keep the queue short"
+  },
+  {
+   "id": "S8",
+   "claim": "width buys nothing on an engine with 16 places: `wide` at least 0.98 of `stream` in session time (dry run: 1.031)",
+   "ratio": [
+    "wide",
+    "stream",
+    "wall_s"
+   ],
+   "min": 0.98,
+   "against": "below 0.98: a wider window is faster even here"
+  },
+  {
+   "id": "S9",
+   "claim": "session time: `auto` at most 1.04 of `stream` (dry run: 1.018)",
+   "ratio": [
+    "auto",
+    "stream",
+    "wall_s"
+   ],
+   "max": 1.04,
+   "against": "above 1.04: closing the window costs more session time than the shipped 16 does"
+  },
+  {
+   "id": "S10",
+   "claim": "session time: `auto` at most 1.01 of `wide` (dry run: 0.987)",
+   "ratio": [
+    "auto",
+    "wide",
+    "wall_s"
+   ],
+   "max": 1.01,
+   "against": "above 1.01: on a small engine too, a fixed 128 is the faster setting"
+  },
+  {
+   "id": "S11",
+   "claim": "the governed windows close: at least 10 cuts in `auto` (dry run: 63)",
+   "govern": [
+    "auto",
+    "cuts"
+   ],
+   "min": 10,
+   "digits": 0,
+   "against": "fewer than 10: the engine's queue did not reach the client"
+  },
+  {
+   "id": "S12",
+   "claim": "and no window of `auto` gets to 128 (dry run: the widest is 42)",
+   "govern": [
+    "auto",
+    "window_max"
+   ],
+   "max": 127,
+   "digits": 0,
+   "against": "128 or more"
+  },
+  {
+   "id": "S13",
+   "claim": "root stream seconds: `auto` at most 1.03 of `stream` (dry run: 0.992)",
+   "ratio": [
+    "auto",
+    "stream",
+    "stream_s"
+   ],
+   "max": 1.03,
+   "against": "above 1.03"
+  }
+ ]
+}

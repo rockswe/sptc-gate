@@ -1,0 +1,1231 @@
+{
+ "arms": [
+  {
+   "arm": "stream",
+   "units": 1,
+   "wall_s": 2625.06,
+   "stream_s": 2148.5766,
+   "after_s": 471.07890000000003,
+   "unit_wall_s": 487.1695384979248,
+   "after_share": 0.1794545267536742,
+   "exact_units": 1
+  }
+ ],
+ "units": [
+  {
+   "unit": "stream_c8_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794386827.355131,
+   "unit_wall_s": 487.1695384979248,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 2625.06,
+   "stream_s": 2148.5766,
+   "after_s": 471.07890000000003,
+   "turns": 81,
+   "prompt_matches": 82,
+   "prompts": 82,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 6405,
+   "call_errors": 1,
+   "call_ms_p50": 757.5,
+   "call_ms_p90": 2289.84,
+   "call_ms_max": 16177.9,
+   "gap_p50": 85.95000000000073,
+   "gap_p99": 452.2699999999993,
+   "gap_max": 6102.6,
+   "stall_s": 182.51585000000003,
+   "ttft_p50": 1.2683,
+   "ttft_p90": 2.4739,
+   "ttft_sum": 113.0439,
+   "ttft_p99": 5.355100000000003,
+   "ttft_max": 6.1987,
+   "spec": {
+    "shadow_exec": 356,
+    "shadow_stop": 3,
+    "dispatch": 4981,
+    "ready": 4981,
+    "claim_hit": 4981,
+    "claim_done": 1,
+    "claim_miss": 1425
+   },
+   "dispatch_source": {
+    "shadow": 4981
+   },
+   "batch_dispatches": 0,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 1425,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     2
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 9.681724845995893,
+   "running_max": 16.0,
+   "waiting_max": 38.0,
+   "queue_share": 0.47741273100616016,
+   "kv_peak": 0.3519632118853909,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-1.fix1",
+   "wall": {
+    "stream": 239.37
+   },
+   "stream": {
+    "stream": 163.6318
+   },
+   "after": {
+    "stream": 75.3002
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "wall": {
+    "stream": 254.35
+   },
+   "stream": {
+    "stream": 157.6447
+   },
+   "after": {
+    "stream": 96.2828
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "wall": {
+    "stream": 482.62
+   },
+   "stream": {
+    "stream": 481.936
+   },
+   "after": {
+    "stream": 0.0444
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "wall": {
+    "stream": 351.66
+   },
+   "stream": {
+    "stream": 325.7217
+   },
+   "after": {
+    "stream": 25.4915
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "wall": {
+    "stream": 314.65
+   },
+   "stream": {
+    "stream": 190.5214
+   },
+   "after": {
+    "stream": 123.3436
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "wall": {
+    "stream": 238.43
+   },
+   "stream": {
+    "stream": 238.1215
+   },
+   "after": {
+    "stream": 0.0214
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "wall": {
+    "stream": 487.16
+   },
+   "stream": {
+    "stream": 335.6087
+   },
+   "after": {
+    "stream": 150.56820000000002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "wall": {
+    "stream": 256.82
+   },
+   "stream": {
+    "stream": 255.3908
+   },
+   "after": {
+    "stream": 0.0268
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 75.289
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 786,
+   "call_errors": 0,
+   "after": {
+    "stream": 96.2464
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 40,
+   "call_errors": 0,
+   "after": {
+    "stream": 25.462899999999998
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 82.0168
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 41.3167
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 20,
+   "call_errors": 0,
+   "after": {
+    "stream": 4.7203
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "cause": "partly speculated",
+   "causes": {
+    "partly speculated": 1
+   },
+   "calls": 3185,
+   "call_errors": 0,
+   "after": {
+    "stream": 145.7975
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "partly speculated",
+   "turns": 1,
+   "stream_s": 145.7975,
+   "arms": {
+    "stream": {
+     "after_s": 145.7975,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 6,
+   "stream_s": 325.0521,
+   "arms": {
+    "stream": {
+     "after_s": 325.0521,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    }
+   }
+  }
+ ],
+ "noise": [],
+ "arm_names": [
+  "stream"
+ ],
+ "all_turns": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0027
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "calls": 787,
+   "after": {
+    "stream": 75.289
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0035
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0006000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.005
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "calls": 786,
+   "after": {
+    "stream": 96.2464
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.023
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0026
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0045000000000000005
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0048000000000000004
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0085
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0063
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.006200000000000001
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0010999999999999998
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.004399999999999999
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0046
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.006500000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "calls": 40,
+   "after": {
+    "stream": 25.462899999999998
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0035
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0013000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "calls": 787,
+   "after": {
+    "stream": 82.0168
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "calls": 787,
+   "after": {
+    "stream": 41.3167
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0015
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.003
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0038
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 7,
+   "calls": 13,
+   "after": {
+    "stream": 0.009
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0075
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.006500000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0067
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0182
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "calls": 20,
+   "after": {
+    "stream": 4.7203
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "calls": 3185,
+   "after": {
+    "stream": 145.7975
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0053
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0032
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.004
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0047
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017
+   }
+  }
+ ],
+ "design": {
+  "kind": "checks",
+  "name": "govern-small",
+  "prereg": [
+   "PREREG_GOVERN.md"
+  ],
+  "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+  "engine": "one T4, vLLM 0.32.0, Qwen/Qwen3-1.7B, eager, --max-model-len 32768 --dtype half --max-num-seqs 16",
+  "sessions": [
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix1",
+   "pairs32k-1.fix2",
+   "pairs32k-16.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1"
+  ],
+  "warm": {
+   "arm": "auto",
+   "sessions": [
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix1",
+    "trec132k-17000232.fix1"
+   ]
+  },
+  "units": [
+   "stream",
+   "wide",
+   "auto"
+  ],
+  "checks": [
+   {
+    "id": "S1",
+    "claim": "every unit is exact (units that are not: 0)",
+    "unit": [
+     "*",
+     "exact"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any unit not exact: it does not count"
+   },
+   {
+    "id": "S2",
+    "claim": "no call is sent that the recorded run did not send, and none twice (dry run: 0)",
+    "unit": [
+     "*",
+     "stray"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any"
+   },
+   {
+    "id": "S3",
+    "claim": "no speculative call is evicted (dry run: 0)",
+    "unit": [
+     "*",
+     "evicted"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any"
+   },
+   {
+    "id": "S4",
+    "claim": "a fixed 128 makes the root's turn wait: `wide`'s root TTFT, 90th percentile, is at least 2.5 times `stream`'s (dry run: 7.4)",
+    "unit_ratio": [
+     "wide",
+     "stream",
+     "ttft_p90"
+    ],
+    "min": 2.5,
+    "digits": 2,
+    "against": "below 2.5: a window of 128 does not make roots wait on an engine with 16 places, and the argument above is wrong about its queue"
+   },
+   {
+    "id": "S5",
+    "claim": "the governed window does not: `auto`'s root TTFT, 90th percentile, is at most 1.25 times `stream`'s (dry run: 0.66)",
+    "unit_ratio": [
+     "auto",
+     "stream",
+     "ttft_p90"
+    ],
+    "max": 1.25,
+    "digits": 2,
+    "against": "above 1.25: the governed window makes roots wait more than the shipped client does"
+   },
+   {
+    "id": "S6",
+    "claim": "the engine's largest queue: `wide`'s is at least 3 times `stream`'s (dry run: 9.2)",
+    "unit_ratio": [
+     "wide",
+     "stream",
+     "waiting_max"
+    ],
+    "min": 3.0,
+    "digits": 2,
+    "against": "below 3"
+   },
+   {
+    "id": "S7",
+    "claim": "the engine's largest queue: `auto`'s is at most 1.5 times `stream`'s (dry run: 0.74)",
+    "unit_ratio": [
+     "auto",
+     "stream",
+     "waiting_max"
+    ],
+    "max": 1.5,
+    "digits": 2,
+    "against": "above 1.5: the governed window does not keep the queue short"
+   },
+   {
+    "id": "S8",
+    "claim": "width buys nothing on an engine with 16 places: `wide` at least 0.98 of `stream` in session time (dry run: 1.031)",
+    "ratio": [
+     "wide",
+     "stream",
+     "wall_s"
+    ],
+    "min": 0.98,
+    "against": "below 0.98: a wider window is faster even here"
+   },
+   {
+    "id": "S9",
+    "claim": "session time: `auto` at most 1.04 of `stream` (dry run: 1.018)",
+    "ratio": [
+     "auto",
+     "stream",
+     "wall_s"
+    ],
+    "max": 1.04,
+    "against": "above 1.04: closing the window costs more session time than the shipped 16 does"
+   },
+   {
+    "id": "S10",
+    "claim": "session time: `auto` at most 1.01 of `wide` (dry run: 0.987)",
+    "ratio": [
+     "auto",
+     "wide",
+     "wall_s"
+    ],
+    "max": 1.01,
+    "against": "above 1.01: on a small engine too, a fixed 128 is the faster setting"
+   },
+   {
+    "id": "S11",
+    "claim": "the governed windows close: at least 10 cuts in `auto` (dry run: 63)",
+    "govern": [
+     "auto",
+     "cuts"
+    ],
+    "min": 10,
+    "digits": 0,
+    "against": "fewer than 10: the engine's queue did not reach the client"
+   },
+   {
+    "id": "S12",
+    "claim": "and no window of `auto` gets to 128 (dry run: the widest is 42)",
+    "govern": [
+     "auto",
+     "window_max"
+    ],
+    "max": 127,
+    "digits": 0,
+    "against": "128 or more"
+   },
+   {
+    "id": "S13",
+    "claim": "root stream seconds: `auto` at most 1.03 of `stream` (dry run: 0.992)",
+    "ratio": [
+     "auto",
+     "stream",
+     "stream_s"
+    ],
+    "max": 1.03,
+    "against": "above 1.03"
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "S1",
+   "claim": "every unit is exact (units that are not: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0.0
+  },
+  {
+   "id": "S2",
+   "claim": "no call is sent that the recorded run did not send, and none twice (dry run: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "S3",
+   "claim": "no speculative call is evicted (dry run: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "S4",
+   "claim": "a fixed 128 makes the root's turn wait: `wide`'s root TTFT, 90th percentile, is at least 2.5 times `stream`'s (dry run: 7.4)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S5",
+   "claim": "the governed window does not: `auto`'s root TTFT, 90th percentile, is at most 1.25 times `stream`'s (dry run: 0.66)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S6",
+   "claim": "the engine's largest queue: `wide`'s is at least 3 times `stream`'s (dry run: 9.2)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S7",
+   "claim": "the engine's largest queue: `auto`'s is at most 1.5 times `stream`'s (dry run: 0.74)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S8",
+   "claim": "width buys nothing on an engine with 16 places: `wide` at least 0.98 of `stream` in session time (dry run: 1.031)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S9",
+   "claim": "session time: `auto` at most 1.04 of `stream` (dry run: 1.018)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S10",
+   "claim": "session time: `auto` at most 1.01 of `wide` (dry run: 0.987)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S11",
+   "claim": "the governed windows close: at least 10 cuts in `auto` (dry run: 63)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S12",
+   "claim": "and no window of `auto` gets to 128 (dry run: the widest is 42)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  },
+  {
+   "id": "S13",
+   "claim": "root stream seconds: `auto` at most 1.03 of `stream` (dry run: 0.992)",
+   "measured": "-",
+   "held": null,
+   "value": null
+  }
+ ]
+}

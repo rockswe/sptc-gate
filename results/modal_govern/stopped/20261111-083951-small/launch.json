@@ -1,0 +1,1 @@
+{"stock": {"path": "spec-ptc", "commit": "9b78b7d6ceeaf8afd1557c4e3a999ce653fc0e17", "branch": "main", "dirty": []}, "fork": {"path": "spec-ptc-sptc-hints", "commit": "e09ff01edd145ff5f3069451793979f62ca17893", "branch": "sptc-hints", "dirty": []}, "cloud": {"path": "sptc-sim-next", "commit": "d23f00be37d1e84f1e49d040c689276d620cb066", "branch": "next", "dirty": []}}

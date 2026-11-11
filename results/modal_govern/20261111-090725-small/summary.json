@@ -1,0 +1,1703 @@
+{
+ "arms": [
+  {
+   "arm": "stream",
+   "units": 1,
+   "wall_s": 2590.13,
+   "stream_s": 2119.7917,
+   "after_s": 464.4465,
+   "unit_wall_s": 480.0579307079315,
+   "after_share": 0.17931397265774304,
+   "exact_units": 1
+  },
+  {
+   "arm": "wide",
+   "units": 1,
+   "wall_s": 2540.46,
+   "stream_s": 2156.8514,
+   "after_s": 375.5892,
+   "unit_wall_s": 476.4863512516022,
+   "after_share": 0.14784298906497248,
+   "exact_units": 1,
+   "wall_vs_stream": 0.9808233563566308,
+   "after_vs_stream": 0.8086813012908914,
+   "session_ratio_vs_stream": {
+    "geo": 0.9767091859033139,
+    "ci": [
+     0.9416860931508969,
+     1.0096595882821877
+    ],
+    "sessions": 8
+   }
+  },
+  {
+   "arm": "auto",
+   "units": 1,
+   "wall_s": 2580.09,
+   "stream_s": 2066.66,
+   "after_s": 506.6117,
+   "unit_wall_s": 468.62162804603577,
+   "after_share": 0.1963542744632939,
+   "exact_units": 1,
+   "wall_vs_stream": 0.9961237466845294,
+   "after_vs_stream": 1.0907859139857874,
+   "session_ratio_vs_stream": {
+    "geo": 0.99544902101531,
+    "ci": [
+     0.9693245368455469,
+     1.0294585634410816
+    ],
+    "sessions": 8
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "stream_c8_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794388469.4217556,
+   "unit_wall_s": 480.0579307079315,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 2590.13,
+   "stream_s": 2119.7917,
+   "after_s": 464.4465,
+   "turns": 81,
+   "prompt_matches": 82,
+   "prompts": 82,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 6405,
+   "call_errors": 1,
+   "call_ms_p50": 742.1,
+   "call_ms_p90": 2263.36,
+   "call_ms_max": 15985.9,
+   "gap_p50": 83.59999999999991,
+   "gap_p99": 429.3369999999999,
+   "gap_max": 6076.8,
+   "stall_s": 177.9379,
+   "ttft_p50": 1.2349,
+   "ttft_p90": 2.5293,
+   "ttft_sum": 112.4102,
+   "ttft_p99": 5.324320000000004,
+   "ttft_max": 6.168,
+   "spec": {
+    "shadow_exec": 356,
+    "shadow_stop": 3,
+    "dispatch": 5041,
+    "ready": 5041,
+    "claim_hit": 5041,
+    "claim_done": 1,
+    "claim_miss": 1365
+   },
+   "dispatch_source": {
+    "shadow": 5041
+   },
+   "batch_dispatches": 0,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 1365,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     2
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 9.637122002085507,
+   "running_max": 16.0,
+   "waiting_max": 38.0,
+   "queue_share": 0.4786235662148071,
+   "kv_peak": 0.35195333215485236,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c8_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794388954.8038623,
+   "unit_wall_s": 476.4863512516022,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 2540.46,
+   "stream_s": 2156.8514,
+   "after_s": 375.5892,
+   "turns": 81,
+   "prompt_matches": 82,
+   "prompts": 82,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 6405,
+   "call_errors": 1,
+   "call_ms_p50": 1938.6,
+   "call_ms_p90": 12047.380000000001,
+   "call_ms_max": 21523.6,
+   "gap_p50": 79.59999999999854,
+   "gap_p99": 417.8740000000016,
+   "gap_max": 6069.200000000001,
+   "stall_s": 172.68735000000004,
+   "ttft_p50": 1.2511,
+   "ttft_p90": 9.4333,
+   "ttft_sum": 242.2632,
+   "ttft_p99": 12.946480000000001,
+   "ttft_max": 13.056,
+   "spec": {
+    "scout_exec": 353,
+    "shadow_exec": 357,
+    "scout_skip": 8,
+    "shadow_stop": 2,
+    "dispatch": 6406,
+    "adopt": 3241,
+    "ready": 6406,
+    "claim_hit": 6406,
+    "claim_done": 1
+   },
+   "dispatch_source": {
+    "peek": 3241,
+    "shadow": 3165
+   },
+   "batch_dispatches": 6405,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     2
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     4
+    ],
+    [
+     "IndexError",
+     2
+    ],
+    [
+     "needs a value",
+     2
+    ]
+   ],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 8.955882352941176,
+   "running_max": 16.0,
+   "waiting_max": 357.0,
+   "queue_share": 0.41281512605042014,
+   "kv_peak": 0.31500795474633203,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "auto_c8_r1",
+   "arm": "auto",
+   "rep": 1,
+   "t0": 1794389436.8683658,
+   "unit_wall_s": 468.62162804603577,
+   "sessions": 8,
+   "ok": 8,
+   "exact": true,
+   "wall_s": 2580.09,
+   "stream_s": 2066.66,
+   "after_s": 506.6117,
+   "turns": 81,
+   "prompt_matches": 82,
+   "prompts": 82,
+   "answer_matches": 8,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 6405,
+   "call_errors": 1,
+   "call_ms_p50": 630.5,
+   "call_ms_p90": 1327.8200000000002,
+   "call_ms_max": 16795.2,
+   "gap_p50": 70.80000000000018,
+   "gap_p99": 431.61099999999976,
+   "gap_max": 6063.4,
+   "stall_s": 175.49399999999994,
+   "ttft_p50": 1.0374,
+   "ttft_p90": 1.7562,
+   "ttft_sum": 93.809,
+   "ttft_p99": 5.315460000000003,
+   "ttft_max": 6.1717,
+   "spec": {
+    "scout_exec": 353,
+    "shadow_exec": 357,
+    "scout_skip": 8,
+    "shadow_stop": 2,
+    "dispatch": 6406,
+    "govern": 631,
+    "adopt": 3241,
+    "ready": 6406,
+    "claim_hit": 6406,
+    "claim_done": 1
+   },
+   "dispatch_source": {
+    "peek": 3241,
+    "shadow": 3165
+   },
+   "batch_dispatches": 6405,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     2
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     4
+    ],
+    [
+     "IndexError",
+     2
+    ],
+    [
+     "needs a value",
+     2
+    ]
+   ],
+   "scout_past": 0,
+   "govern": {
+    "moves": 631,
+    "why": {
+     "grow": 433,
+     "queue": 189,
+     "idle": 9
+    },
+    "sessions_moved": 6,
+    "window_max": 38.0,
+    "window_min": 1.0,
+    "at_call_p50": 28.0,
+    "at_call_p90": 28.0,
+    "at_call_mean": 20.76174863387978,
+    "calls_above_16": 4055,
+    "calls_above_128": 0,
+    "calls_below_16": 2038,
+    "calls": 6405,
+    "share_above_16": 0.6330991412958626,
+    "share_above_128": 0.0,
+    "share_below_16": 0.3181889149102264,
+    "cuts": 189,
+    "pool_min": 53836.0,
+    "pool_max": 79664.0
+   },
+   "running_mean": 9.589114194236926,
+   "running_max": 16.0,
+   "waiting_max": 34.0,
+   "queue_share": 0.4055496264674493,
+   "kv_peak": 0.3188969418419657,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-1.fix1",
+   "wall": {
+    "stream": 236.99,
+    "wide": 217.23,
+    "auto": 244.55
+   },
+   "stream": {
+    "stream": 161.6728,
+    "wide": 164.1027,
+    "auto": 158.1843
+   },
+   "after": {
+    "stream": 74.5266,
+    "wide": 52.3167,
+    "auto": 85.5157
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "wall": {
+    "stream": 251.01,
+    "wide": 227.87,
+    "auto": 240.91
+   },
+   "stream": {
+    "stream": 155.43,
+    "wide": 151.85649999999998,
+    "auto": 152.921
+   },
+   "after": {
+    "stream": 95.08859999999999,
+    "wide": 75.2322,
+    "auto": 87.4025
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "wall": {
+    "stream": 475.6,
+    "wide": 468.79,
+    "auto": 467.11
+   },
+   "stream": {
+    "stream": 475.0059,
+    "wide": 467.8672,
+    "auto": 466.09610000000004
+   },
+   "after": {
+    "stream": 0.0515,
+    "wide": 0.0521,
+    "auto": 0.0518
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "wall": {
+    "stream": 346.94,
+    "wide": 356.87,
+    "auto": 349.48
+   },
+   "stream": {
+    "stream": 321.44010000000003,
+    "wide": 337.9105,
+    "auto": 312.8936
+   },
+   "after": {
+    "stream": 25.107300000000002,
+    "wide": 18.432000000000002,
+    "auto": 36.0656
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "wall": {
+    "stream": 310.31,
+    "wide": 289.08,
+    "auto": 339.97
+   },
+   "stream": {
+    "stream": 187.77339999999998,
+    "wide": 196.2285,
+    "auto": 184.7722
+   },
+   "after": {
+    "stream": 121.9798,
+    "wide": 92.1876,
+    "auto": 154.6689
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "wall": {
+    "stream": 235.92,
+    "wide": 242.24,
+    "auto": 224.14
+   },
+   "stream": {
+    "stream": 235.3879,
+    "wide": 241.7774,
+    "auto": 223.701
+   },
+   "after": {
+    "stream": 0.0295,
+    "wide": 0.0228,
+    "auto": 0.0265
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "wall": {
+    "stream": 480.04,
+    "wide": 476.47,
+    "auto": 468.6
+   },
+   "stream": {
+    "stream": 331.1463,
+    "wide": 338.2542,
+    "auto": 324.6632
+   },
+   "after": {
+    "stream": 147.6399,
+    "wide": 137.3248,
+    "auto": 142.8566
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "wall": {
+    "stream": 253.32,
+    "wide": 261.91,
+    "auto": 245.33
+   },
+   "stream": {
+    "stream": 251.9353,
+    "wide": 258.8544,
+    "auto": 243.42860000000002
+   },
+   "after": {
+    "stream": 0.0233,
+    "wide": 0.021,
+    "auto": 0.0241
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 74.51480000000001,
+    "wide": 52.2998,
+    "auto": 85.503
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 786,
+   "call_errors": 0,
+   "after": {
+    "stream": 95.04589999999999,
+    "wide": 75.1956,
+    "auto": 87.3623
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 40,
+   "call_errors": 0,
+   "after": {
+    "stream": 25.0741,
+    "wide": 18.3927,
+    "auto": 36.0204
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 80.8791,
+    "wide": 59.434599999999996,
+    "auto": 95.6207
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 41.0926,
+    "wide": 32.741800000000005,
+    "auto": 59.0363
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 20,
+   "call_errors": 0,
+   "after": {
+    "stream": 4.5771,
+    "wide": 5.623,
+    "auto": 5.1132
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "cause": "partly speculated",
+   "causes": {
+    "partly speculated": 1
+   },
+   "calls": 3185,
+   "call_errors": 0,
+   "after": {
+    "stream": 143.0182,
+    "wide": 131.64690000000002,
+    "auto": 137.69219999999999
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "partly speculated",
+   "turns": 1,
+   "stream_s": 143.0182,
+   "arms": {
+    "stream": {
+     "after_s": 143.0182,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "wide": {
+     "after_s": 131.64690000000002,
+     "recovered_s": 11.37129999999999,
+     "recovered_share": 0.07950946103363062
+    },
+    "auto": {
+     "after_s": 137.69219999999999,
+     "recovered_s": 5.326000000000022,
+     "recovered_share": 0.03724001560640549
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 6,
+   "stream_s": 321.1836,
+   "arms": {
+    "stream": {
+     "after_s": 321.1836,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "wide": {
+     "after_s": 243.6875,
+     "recovered_s": 77.49610000000001,
+     "recovered_share": 0.24128286749385713
+    },
+    "auto": {
+     "after_s": 368.65590000000003,
+     "recovered_s": -47.47230000000002,
+     "recovered_share": -0.14780424654309876
+    }
+   }
+  }
+ ],
+ "noise": [],
+ "arm_names": [
+  "stream",
+  "wide",
+  "auto"
+ ],
+ "all_turns": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0002,
+    "auto": 0.0011
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0005,
+    "auto": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031999999999999997,
+    "wide": 0.0028,
+    "auto": 0.0025
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "calls": 787,
+   "after": {
+    "stream": 74.51480000000001,
+    "wide": 52.2998,
+    "auto": 85.503
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0027,
+    "auto": 0.0010999999999999998
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0038,
+    "wide": 0.006699999999999999,
+    "auto": 0.0035
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0032,
+    "wide": 0.004,
+    "auto": 0.0037
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014,
+    "wide": 0.00030000000000000003,
+    "auto": 0.0012000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.003,
+    "wide": 0.0039,
+    "auto": 0.003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0040999999999999995,
+    "wide": 0.0063,
+    "auto": 0.0059
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "calls": 786,
+   "after": {
+    "stream": 95.04589999999999,
+    "wide": 75.1956,
+    "auto": 87.3623
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0033,
+    "wide": 0.0016,
+    "auto": 0.0028
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.027700000000000002,
+    "wide": 0.0221,
+    "auto": 0.0247
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0032,
+    "wide": 0.0024,
+    "auto": 0.0026
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0004,
+    "auto": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0026,
+    "wide": 0.0031999999999999997,
+    "auto": 0.0033
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0051,
+    "wide": 0.0039,
+    "auto": 0.0032
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0081,
+    "wide": 0.0046,
+    "auto": 0.0031999999999999997
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.01,
+    "wide": 0.0085,
+    "auto": 0.011600000000000001
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0070999999999999995,
+    "wide": 0.010499999999999999,
+    "auto": 0.0085
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0023,
+    "wide": 0.0033,
+    "auto": 0.0028
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0073999999999999995,
+    "wide": 0.0074,
+    "auto": 0.0089
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.003,
+    "auto": 0.0023
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0027,
+    "wide": 0.0031999999999999997,
+    "auto": 0.0031000000000000003
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0010999999999999998,
+    "wide": 0.0006000000000000001,
+    "auto": 0.0013
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0029,
+    "wide": 0.0035,
+    "auto": 0.0034
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009,
+    "wide": 0.0018000000000000002,
+    "auto": 0.0021
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034,
+    "wide": 0.0042,
+    "auto": 0.0047
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0052,
+    "wide": 0.005399999999999999,
+    "auto": 0.004699999999999999
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.004,
+    "wide": 0.0070999999999999995,
+    "auto": 0.0034000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0085,
+    "wide": 0.0074,
+    "auto": 0.0071
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024,
+    "wide": 0.001,
+    "auto": 0.0024
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0023,
+    "wide": 0.0027,
+    "auto": 0.0035
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "calls": 40,
+   "after": {
+    "stream": 25.0741,
+    "wide": 18.3927,
+    "auto": 36.0204
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0035,
+    "wide": 0.0047,
+    "auto": 0.0098
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.001,
+    "wide": 0.0013,
+    "auto": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014999999999999998,
+    "wide": 0.0031000000000000003,
+    "auto": 0.0045
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0006000000000000001,
+    "auto": 0.0013000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0007999999999999999,
+    "auto": 0.0026
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.0004,
+    "auto": 0.0008
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0014,
+    "auto": 0.0002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024999999999999996,
+    "wide": 0.0033,
+    "auto": 0.0031
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "calls": 787,
+   "after": {
+    "stream": 80.8791,
+    "wide": 59.434599999999996,
+    "auto": 95.6207
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "calls": 787,
+   "after": {
+    "stream": 41.0926,
+    "wide": 32.741800000000005,
+    "auto": 59.0363
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014,
+    "wide": 0.0021000000000000003,
+    "auto": 0.0015
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0012,
+    "auto": 0.0013
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009,
+    "wide": 0.0009,
+    "auto": 0.0012000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0010999999999999998,
+    "wide": 0.0010999999999999998,
+    "auto": 0.0012
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0007,
+    "auto": 0.0006000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031999999999999997,
+    "wide": 0.0034,
+    "auto": 0.0031
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018000000000000002,
+    "wide": 0.00039999999999999996,
+    "auto": 0.0008
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.0025,
+    "auto": 0.0028
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0016,
+    "auto": 0.0026999999999999997
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0038,
+    "wide": 0.0042,
+    "auto": 0.0037
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 7,
+   "calls": 13,
+   "after": {
+    "stream": 0.0167,
+    "wide": 0.0077,
+    "auto": 0.009899999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0011,
+    "auto": 0.0019
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0006000000000000001,
+    "wide": 0.0012,
+    "auto": 0.001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009,
+    "wide": 0.001,
+    "auto": 0.0002
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.002,
+    "wide": 0.0021,
+    "auto": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.007,
+    "wide": 0.0076,
+    "auto": 0.0065
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0094,
+    "wide": 0.014100000000000001,
+    "auto": 0.0106
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0006,
+    "auto": 0.0005
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0059,
+    "wide": 0.010499999999999999,
+    "auto": 0.0053
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0103,
+    "wide": 0.0079,
+    "auto": 0.014700000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "calls": 20,
+   "after": {
+    "stream": 4.5771,
+    "wide": 5.623,
+    "auto": 5.1132
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "calls": 3185,
+   "after": {
+    "stream": 143.0182,
+    "wide": 131.64690000000002,
+    "auto": 137.69219999999999
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.0018,
+    "auto": 0.0021
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.006,
+    "wide": 0.008,
+    "auto": 0.008199999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009000000000000001,
+    "wide": 0.0013000000000000002,
+    "auto": 0.0015999999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.001,
+    "auto": 0.0008
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0027,
+    "wide": 0.0034999999999999996,
+    "auto": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.002,
+    "wide": 0.002,
+    "auto": 0.0018
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0004,
+    "auto": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0022,
+    "wide": 0.0017,
+    "auto": 0.0018
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017000000000000001,
+    "wide": 0.0017000000000000001,
+    "auto": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0016,
+    "wide": 0.0023,
+    "auto": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0023,
+    "wide": 0.0017000000000000001,
+    "auto": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0037,
+    "wide": 0.0015,
+    "auto": 0.0027
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0025,
+    "wide": 0.0019,
+    "auto": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017000000000000001,
+    "wide": 0.0016,
+    "auto": 0.0028
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0019,
+    "wide": 0.0017,
+    "auto": 0.0017
+   }
+  }
+ ],
+ "design": {
+  "kind": "checks",
+  "name": "govern-small",
+  "prereg": [
+   "PREREG_GOVERN.md"
+  ],
+  "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+  "engine": "one T4, vLLM 0.32.0, Qwen/Qwen3-1.7B, eager, --max-model-len 32768 --dtype half --max-num-seqs 16",
+  "sessions": [
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix1",
+   "pairs32k-1.fix2",
+   "pairs32k-16.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1"
+  ],
+  "warm": {
+   "arm": "auto",
+   "sessions": [
+    "trec132k-17000237.fix2",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix1",
+    "trec132k-17000232.fix1"
+   ]
+  },
+  "units": [
+   "stream",
+   "wide",
+   "auto"
+  ],
+  "checks": [
+   {
+    "id": "S1",
+    "claim": "every unit is exact (units that are not: 0)",
+    "unit": [
+     "*",
+     "exact"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any unit not exact: it does not count"
+   },
+   {
+    "id": "S2",
+    "claim": "no call is sent that the recorded run did not send, and none twice (dry run: 0)",
+    "unit": [
+     "*",
+     "stray"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any"
+   },
+   {
+    "id": "S3",
+    "claim": "no speculative call is evicted (dry run: 0)",
+    "unit": [
+     "*",
+     "evicted"
+    ],
+    "max": 0,
+    "digits": 0,
+    "against": "any"
+   },
+   {
+    "id": "S4",
+    "claim": "a fixed 128 makes the root's turn wait: `wide`'s root TTFT, 90th percentile, is at least 2.5 times `stream`'s (dry run: 7.4)",
+    "unit_ratio": [
+     "wide",
+     "stream",
+     "ttft_p90"
+    ],
+    "min": 2.5,
+    "digits": 2,
+    "against": "below 2.5: a window of 128 does not make roots wait on an engine with 16 places, and the argument above is wrong about its queue"
+   },
+   {
+    "id": "S5",
+    "claim": "the governed window does not: `auto`'s root TTFT, 90th percentile, is at most 1.25 times `stream`'s (dry run: 0.66)",
+    "unit_ratio": [
+     "auto",
+     "stream",
+     "ttft_p90"
+    ],
+    "max": 1.25,
+    "digits": 2,
+    "against": "above 1.25: the governed window makes roots wait more than the shipped client does"
+   },
+   {
+    "id": "S6",
+    "claim": "the engine's largest queue: `wide`'s is at least 3 times `stream`'s (dry run: 9.2)",
+    "unit_ratio": [
+     "wide",
+     "stream",
+     "waiting_max"
+    ],
+    "min": 3.0,
+    "digits": 2,
+    "against": "below 3"
+   },
+   {
+    "id": "S7",
+    "claim": "the engine's largest queue: `auto`'s is at most 1.5 times `stream`'s (dry run: 0.74)",
+    "unit_ratio": [
+     "auto",
+     "stream",
+     "waiting_max"
+    ],
+    "max": 1.5,
+    "digits": 2,
+    "against": "above 1.5: the governed window does not keep the queue short"
+   },
+   {
+    "id": "S8",
+    "claim": "width buys nothing on an engine with 16 places: `wide` at least 0.98 of `stream` in session time (dry run: 1.031)",
+    "ratio": [
+     "wide",
+     "stream",
+     "wall_s"
+    ],
+    "min": 0.98,
+    "against": "below 0.98: a wider window is faster even here"
+   },
+   {
+    "id": "S9",
+    "claim": "session time: `auto` at most 1.04 of `stream` (dry run: 1.018)",
+    "ratio": [
+     "auto",
+     "stream",
+     "wall_s"
+    ],
+    "max": 1.04,
+    "against": "above 1.04: closing the window costs more session time than the shipped 16 does"
+   },
+   {
+    "id": "S10",
+    "claim": "session time: `auto` at most 1.01 of `wide` (dry run: 0.987)",
+    "ratio": [
+     "auto",
+     "wide",
+     "wall_s"
+    ],
+    "max": 1.01,
+    "against": "above 1.01: on a small engine too, a fixed 128 is the faster setting"
+   },
+   {
+    "id": "S11",
+    "claim": "the governed windows close: at least 10 cuts in `auto` (dry run: 63)",
+    "govern": [
+     "auto",
+     "cuts"
+    ],
+    "min": 10,
+    "digits": 0,
+    "against": "fewer than 10: the engine's queue did not reach the client"
+   },
+   {
+    "id": "S12",
+    "claim": "and no window of `auto` gets to 128 (dry run: the widest is 42)",
+    "govern": [
+     "auto",
+     "window_max"
+    ],
+    "max": 127,
+    "digits": 0,
+    "against": "128 or more"
+   },
+   {
+    "id": "S13",
+    "claim": "root stream seconds: `auto` at most 1.03 of `stream` (dry run: 0.992)",
+    "ratio": [
+     "auto",
+     "stream",
+     "stream_s"
+    ],
+    "max": 1.03,
+    "against": "above 1.03"
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "S1",
+   "claim": "every unit is exact (units that are not: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0.0
+  },
+  {
+   "id": "S2",
+   "claim": "no call is sent that the recorded run did not send, and none twice (dry run: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "S3",
+   "claim": "no speculative call is evicted (dry run: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "S4",
+   "claim": "a fixed 128 makes the root's turn wait: `wide`'s root TTFT, 90th percentile, is at least 2.5 times `stream`'s (dry run: 7.4)",
+   "measured": "3.73",
+   "held": true,
+   "value": 3.729608982722492
+  },
+  {
+   "id": "S5",
+   "claim": "the governed window does not: `auto`'s root TTFT, 90th percentile, is at most 1.25 times `stream`'s (dry run: 0.66)",
+   "measured": "0.69",
+   "held": true,
+   "value": 0.6943423081484995
+  },
+  {
+   "id": "S6",
+   "claim": "the engine's largest queue: `wide`'s is at least 3 times `stream`'s (dry run: 9.2)",
+   "measured": "9.39",
+   "held": true,
+   "value": 9.394736842105264
+  },
+  {
+   "id": "S7",
+   "claim": "the engine's largest queue: `auto`'s is at most 1.5 times `stream`'s (dry run: 0.74)",
+   "measured": "0.89",
+   "held": true,
+   "value": 0.8947368421052632
+  },
+  {
+   "id": "S8",
+   "claim": "width buys nothing on an engine with 16 places: `wide` at least 0.98 of `stream` in session time (dry run: 1.031)",
+   "measured": "0.981",
+   "held": true,
+   "value": 0.9808233563566308
+  },
+  {
+   "id": "S9",
+   "claim": "session time: `auto` at most 1.04 of `stream` (dry run: 1.018)",
+   "measured": "0.996",
+   "held": true,
+   "value": 0.9961237466845294
+  },
+  {
+   "id": "S10",
+   "claim": "session time: `auto` at most 1.01 of `wide` (dry run: 0.987)",
+   "measured": "1.016",
+   "held": false,
+   "value": 1.015599537091708
+  },
+  {
+   "id": "S11",
+   "claim": "the governed windows close: at least 10 cuts in `auto` (dry run: 63)",
+   "measured": "189",
+   "held": true,
+   "value": 189
+  },
+  {
+   "id": "S12",
+   "claim": "and no window of `auto` gets to 128 (dry run: the widest is 42)",
+   "measured": "38",
+   "held": true,
+   "value": 38.0
+  },
+  {
+   "id": "S13",
+   "claim": "root stream seconds: `auto` at most 1.03 of `stream` (dry run: 0.992)",
+   "measured": "0.975",
+   "held": true,
+   "value": 0.9749354146447501
+  }
+ ]
+}

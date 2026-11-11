@@ -1,0 +1,3164 @@
+{
+ "stamp_utc": "2026-10-29T16:08:47Z",
+ "label": "PREDICTED by the simulator before any GPU run of the both_default preset (addendum to prereg_v4: step 5 of the pressure run)",
+ "version": "v4b",
+ "code": {
+  "commit": "696c206252cfb3166d9b74e9e23c6707bf11de20",
+  "dirty_files": [],
+  "script": "experiments/prereg_v4b.py"
+ },
+ "primary": "P1",
+ "based_on": {
+  "prereg_v4_commit": "4d87117",
+  "prereg_v4_files": {
+   "prereg_v4/predictions.json": "match",
+   "prereg_v4/predictions.md": "match",
+   "prereg_v4_fallback/predictions.json": "match",
+   "prereg_v4_fallback/predictions.md": "match"
+  },
+  "prereg_v4_stamp": "2026-10-29T15:14:56Z",
+  "grid": "results/pressure/grid.json",
+  "grid_check_P1": {
+   "fcfs-d/nospec": "equal",
+   "fcfs-d/spec": "equal",
+   "fcfs-d/spec+bad": "equal",
+   "prio-d/both": "equal",
+   "cap-d/both": "equal",
+   "plugin-d/both": "equal"
+  }
+ },
+ "config": {
+  "kv_frac": null,
+  "kv_blocks": 5369,
+  "max_num_seqs": 256,
+  "server": "default (vllm_bench SERVERS fcfs, priority, plugin)"
+ },
+ "arms": {
+  "fcfs-d/nospec": {
+   "server": "fcfs",
+   "mode": "baseline",
+   "decoys": 0,
+   "tags": "none",
+   "gate": null,
+   "spec_kind": "early",
+   "simulated_as": "fcfs-p/nospec"
+  },
+  "fcfs-d/spec": {
+   "server": "fcfs",
+   "mode": "spec",
+   "decoys": 0,
+   "tags": "none",
+   "gate": null,
+   "spec_kind": "early",
+   "simulated_as": "fcfs-p/spec"
+  },
+  "fcfs-d/spec+bad": {
+   "server": "fcfs",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "none",
+   "gate": null,
+   "spec_kind": "early",
+   "simulated_as": "fcfs-p/spec+bad"
+  },
+  "prio-d/both": {
+   "server": "priority",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "priority_bets",
+   "gate": null,
+   "spec_kind": "bet",
+   "simulated_as": "prio-p/both"
+  },
+  "cap-d/both": {
+   "server": "fcfs",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "none",
+   "gate": "window:8",
+   "spec_kind": "bet",
+   "simulated_as": "cap-p/both"
+  },
+  "plugin-d/both": {
+   "server": "plugin",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "sptc_bets",
+   "gate": null,
+   "spec_kind": "bet",
+   "simulated_as": "plugin-p/both"
+  }
+ },
+ "sets": {
+  "P1": {
+   "seq_cap": 24,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-d/both",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 116,
+       "completed": 20
+      },
+      "real_bet_calls": 136,
+      "reissued": 116,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.01061650214192587,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/nospec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.00651890482398957,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.9175493645548487,
+      "root_tpot_p50": 21.374717422687443,
+      "root_tpot_p99": 22.776001825922126,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.49390061229687,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.02607561929595828,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.695526748603278,
+      "session_p99": 5.207749438291615,
+      "root_tpot_p50": 28.490505057870184,
+      "root_tpot_p99": 30.87378129572612,
+      "root_itl_p99": 126.38252288226104,
+      "sessions_per_min": 59.16845886321473,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06351275842801267,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-d/both",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 115,
+       "completed": 27
+      },
+      "real_bet_calls": 142,
+      "reissued": 115,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.011175265412553549,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-d/both",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.695526748603278,
+      "session_p99": 5.207749438291615,
+      "root_tpot_p50": 28.490505057870184,
+      "root_tpot_p99": 30.87378129572612,
+      "root_itl_p99": 126.38252288226104,
+      "sessions_per_min": 59.16845886321473,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "completed": 180
+      },
+      "real_bet_calls": 180,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06351275842801267,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "growth": {
+      "cap-d/both": {
+       "4": 1.0
+      },
+      "fcfs-d/nospec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-d/both": {
+       "4": 1.0
+      },
+      "prio-d/both": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_wall": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_tpot": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "thr_peak": {
+      "cap-d/both": 4,
+      "fcfs-d/nospec": 4,
+      "fcfs-d/spec": 4,
+      "fcfs-d/spec+bad": 4,
+      "plugin-d/both": 4,
+      "prio-d/both": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {},
+     "pressure_vs_ref": {
+      "fcfs-d/nospec": {
+       "4": {
+        "session_p50": 1.5212469717904231,
+        "session_p99": 2.10951968632027,
+        "root_tpot_p50": 0.601243924481378,
+        "root_tpot_p99": 0.5569071924334622
+       }
+      },
+      "fcfs-d/spec": {
+       "4": {
+        "session_p50": 0.7426629889188111,
+        "session_p99": 0.7522538115505011,
+        "root_tpot_p50": 0.750240031872756,
+        "root_tpot_p99": 0.7377133888382835
+       }
+      },
+      "fcfs-d/spec+bad": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "prio-d/both": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "cap-d/both": {
+       "4": {
+        "session_p50": 1.4689290470049714,
+        "session_p99": 2.236379572150926,
+        "root_tpot_p50": 0.6387122095271525,
+        "root_tpot_p99": 0.5986117967738859
+       }
+      },
+      "plugin-d/both": {
+       "4": {
+        "session_p50": 1.4689290470049714,
+        "session_p99": 2.2424830524505244,
+        "root_tpot_p50": 0.642450984613605,
+        "root_tpot_p99": 0.6069185537606074
+       }
+      }
+     },
+     "d1": {
+      "agents": 4,
+      "by_workload": {
+       "decoys": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both, default servers": {
+        "plugin_vs_cap": 1.0,
+        "plugin_vs_prio": 1.4689290470049714
+       }
+      },
+      "pressure": {
+       "fcfs-p/spec+bad": null,
+       "fcfs-p/spec": null
+      },
+      "pressure_check": null,
+      "won_in": [],
+      "plugin_wins": null
+     }
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "DB-1",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.5212469717904231,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-2",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.601243924481378,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-3",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7426629889188111,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-4",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.750240031872756,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-5",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-6",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-7",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4689290470049714,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-8",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6387122095271525,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-9",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4689290470049714,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-10",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.642450984613605,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-1",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-2",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "DP-1",
+     "section": "plugin vs vLLM priority, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "prio-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4689290470049714,
+     "tol": 0.05
+    },
+    {
+     "id": "DF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "DF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-d/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.00651890482398957,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.02607561929595828,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06351275842801267,
+     "max_kv_blocks": 341,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06351275842801267,
+     "max_kv_blocks": 341,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.01061650214192587,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.011175265412553549,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ]
+  },
+  "P0": {
+   "seq_cap": Infinity,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-d/both",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 116,
+       "completed": 20
+      },
+      "real_bet_calls": 136,
+      "reissued": 116,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.01061650214192587,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/nospec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.00651890482398957,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.92453306692582,
+      "root_tpot_p50": 21.503637172006325,
+      "root_tpot_p99": 22.89641048749059,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.20191318034625,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.02607561929595828,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.391566844346299,
+      "session_p99": 6.10028544182176,
+      "root_tpot_p50": 32.37886547632113,
+      "root_tpot_p99": 37.450877854101094,
+      "root_itl_p99": 138.5953058709779,
+      "sessions_per_min": 51.58391727210163,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06369901285155523,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-d/both",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 115,
+       "completed": 27
+      },
+      "real_bet_calls": 142,
+      "reissued": 115,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.011175265412553549,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-d/both",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.391566844346299,
+      "session_p99": 6.10028544182176,
+      "root_tpot_p50": 32.37886547632113,
+      "root_tpot_p99": 37.450877854101094,
+      "root_itl_p99": 138.5953058709779,
+      "sessions_per_min": 51.58391727210163,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "completed": 180
+      },
+      "real_bet_calls": 180,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06369901285155523,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "growth": {
+      "cap-d/both": {
+       "4": 1.0
+      },
+      "fcfs-d/nospec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-d/both": {
+       "4": 1.0
+      },
+      "prio-d/both": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_wall": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_tpot": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "thr_peak": {
+      "cap-d/both": 4,
+      "fcfs-d/nospec": 4,
+      "fcfs-d/spec": 4,
+      "fcfs-d/spec+bad": 4,
+      "plugin-d/both": 4,
+      "prio-d/both": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {},
+     "pressure_vs_ref": {
+      "fcfs-d/nospec": {
+       "4": {
+        "session_p50": 1.3248571432929586,
+        "session_p99": 1.800874740415217,
+        "root_tpot_p50": 0.529040867227961,
+        "root_tpot_p99": 0.45910354700336475
+       }
+      },
+      "fcfs-d/spec": {
+       "4": {
+        "session_p50": 0.6467867375738235,
+        "session_p99": 0.6433359724481705,
+        "root_tpot_p50": 0.6641257145878713,
+        "root_tpot_p99": 0.6113717968558459
+       }
+      },
+      "fcfs-d/spec+bad": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "prio-d/both": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "cap-d/both": {
+       "4": {
+        "session_p50": 1.2792933540729272,
+        "session_p99": 1.909173688960655,
+        "root_tpot_p50": 0.562009606215651,
+        "root_tpot_p99": 0.49348401836233
+       }
+      },
+      "plugin-d/both": {
+       "4": {
+        "session_p50": 1.2792933540729272,
+        "session_p99": 1.9143841658153846,
+        "root_tpot_p50": 0.565299393826916,
+        "root_tpot_p99": 0.5003319485893301
+       }
+      }
+     },
+     "d1": {
+      "agents": 4,
+      "by_workload": {
+       "decoys": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both, default servers": {
+        "plugin_vs_cap": 1.0,
+        "plugin_vs_prio": 1.2792933540729272
+       }
+      },
+      "pressure": {
+       "fcfs-p/spec+bad": null,
+       "fcfs-p/spec": null
+      },
+      "pressure_check": null,
+      "won_in": [],
+      "plugin_wins": null
+     }
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "DB-1",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3248571432929586,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-2",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.529040867227961,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-3",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6467867375738235,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-4",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6641257145878713,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-5",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-6",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-7",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.2792933540729272,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-8",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.562009606215651,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-9",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.2792933540729272,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-10",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.565299393826916,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-1",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-2",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "DP-1",
+     "section": "plugin vs vLLM priority, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "prio-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.2792933540729272,
+     "tol": 0.05
+    },
+    {
+     "id": "DF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "DF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-d/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.00651890482398957,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.02607561929595828,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06369901285155523,
+     "max_kv_blocks": 342,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06369901285155523,
+     "max_kv_blocks": 342,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.01061650214192587,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.011175265412553549,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ]
+  },
+  "P1-alt": {
+   "seq_cap": 32,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-d/both",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 116,
+       "completed": 20
+      },
+      "real_bet_calls": 136,
+      "reissued": 116,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.01061650214192587,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/nospec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.00651890482398957,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659384,
+      "session_p99": 3.9245330669258207,
+      "root_tpot_p50": 21.46486958424873,
+      "root_tpot_p99": 22.89641048749061,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.25328440907467,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.02607561929595828,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-d/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.997498971267191,
+      "session_p99": 5.604162083884168,
+      "root_tpot_p50": 30.058557685513627,
+      "root_tpot_p99": 33.54294460598704,
+      "root_itl_p99": 129.86455582203814,
+      "sessions_per_min": 55.280772735128906,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {},
+      "real_bet_calls": 0,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06369901285155523,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-d/both",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "rejected": 115,
+       "completed": 27
+      },
+      "real_bet_calls": 142,
+      "reissued": 115,
+      "shadow_stops": 16,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.011175265412553549,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-d/both",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.997498971267191,
+      "session_p99": 5.604162083884168,
+      "root_tpot_p50": 30.058557685513627,
+      "root_tpot_p99": 33.54294460598704,
+      "root_itl_p99": 129.86455582203814,
+      "sessions_per_min": 55.280772735128906,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "real_bet_outcomes": {
+       "completed": 180
+      },
+      "real_bet_calls": 180,
+      "reissued": 0,
+      "shadow_stops": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "waiting_frac": null,
+      "max_kv": 0.06369901285155523,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "growth": {
+      "cap-d/both": {
+       "4": 1.0
+      },
+      "fcfs-d/nospec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec": {
+       "4": 1.0
+      },
+      "fcfs-d/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-d/both": {
+       "4": 1.0
+      },
+      "prio-d/both": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_wall": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "good50_tpot": {
+      "cap-d/both": null,
+      "fcfs-d/nospec": null,
+      "fcfs-d/spec": null,
+      "fcfs-d/spec+bad": null,
+      "plugin-d/both": null,
+      "prio-d/both": null
+     },
+     "thr_peak": {
+      "cap-d/both": 4,
+      "fcfs-d/nospec": 4,
+      "fcfs-d/spec": 4,
+      "fcfs-d/spec+bad": 4,
+      "plugin-d/both": 4,
+      "prio-d/both": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {},
+     "pressure_vs_ref": {
+      "fcfs-d/nospec": {
+       "4": {
+        "session_p50": 1.4293261265969683,
+        "session_p99": 1.9603019679054943,
+        "root_tpot_p50": 0.5698790757251103,
+        "root_tpot_p99": 0.5125915766542055
+       }
+      },
+      "fcfs-d/spec": {
+       "4": {
+        "session_p50": 0.6977878234123394,
+        "session_p99": 0.7002890009572637,
+        "root_tpot_p50": 0.71410178122397,
+        "root_tpot_p99": 0.6825998956395694
+       }
+      },
+      "fcfs-d/spec+bad": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "prio-d/both": {
+       "4": {
+        "session_p50": 1.0,
+        "session_p99": 1.0,
+        "root_tpot_p50": 1.0,
+        "root_tpot_p99": 1.0
+       }
+      },
+      "cap-d/both": {
+       "4": {
+        "session_p50": 1.3801694951151187,
+        "session_p99": 2.078188368992318,
+        "root_tpot_p50": 0.6053927678914123,
+        "root_tpot_p99": 0.5509775576274207
+       }
+      },
+      "plugin-d/both": {
+       "4": {
+        "session_p50": 1.3801694951151187,
+        "session_p99": 2.0838601171727036,
+        "root_tpot_p50": 0.6089365038093253,
+        "root_tpot_p99": 0.5586233085147476
+       }
+      }
+     },
+     "d1": {
+      "agents": 4,
+      "by_workload": {
+       "decoys": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both": {
+        "plugin_vs_cap": null,
+        "plugin_vs_prio": null
+       },
+       "both, default servers": {
+        "plugin_vs_cap": 1.0,
+        "plugin_vs_prio": 1.3801694951151187
+       }
+      },
+      "pressure": {
+       "fcfs-p/spec+bad": null,
+       "fcfs-p/spec": null
+      },
+      "pressure_check": null,
+      "won_in": [],
+      "plugin_wins": null
+     }
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "DB-1",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4293261265969683,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-2",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5698790757251103,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-3",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6977878234123394,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-4",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-d/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.71410178122397,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-5",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-6",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "prio-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-7",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3801694951151187,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-8",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "cap-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6053927678914123,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-9",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3801694951151187,
+     "tol": 0.05
+    },
+    {
+     "id": "DB-10",
+     "section": "each arm vs fcfs-d/spec+bad (default servers)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-d/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6089365038093253,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-1",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "DC-2",
+     "section": "plugin vs the client-side cap, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "cap-d/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "DP-1",
+     "section": "plugin vs vLLM priority, default servers",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-d/both",
+      4
+     ],
+     "denominator": [
+      "prio-d/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3801694951151187,
+     "tol": 0.05
+    },
+    {
+     "id": "DF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "DF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-d/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.00651890482398957,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.02607561929595828,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-d/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06369901285155523,
+     "max_kv_blocks": 342,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 66.0,
+     "max_kv": 0.06369901285155523,
+     "max_kv_blocks": 342,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.01061650214192587,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-d/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.011175265412553549,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ]
+  }
+ },
+ "summary": {
+  "slo": {
+   "ref_arm": "fcfs/nospec",
+   "k_session": 2.0,
+   "k_tpot": 2.0,
+   "refs": {}
+  },
+  "rows": [
+   {
+    "arm": "cap-d/both",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 6.897395632012165,
+    "session_p99": 11.646504460675828,
+    "root_tpot_p50": 18.197233436056777,
+    "root_tpot_p99": 18.481409694638604,
+    "root_itl_p99": 20.21575620941718,
+    "sessions_per_min": 34.245690337257415,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 108,
+     "completed": 28
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {
+     "rejected": 116,
+     "completed": 20
+    },
+    "real_bet_calls": 136,
+    "reissued": 116,
+    "shadow_stops": 16,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.01061650214192587,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-d/nospec",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 7.1430558472736685,
+    "session_p99": 10.98584996149949,
+    "root_tpot_p50": 17.129743071450417,
+    "root_tpot_p99": 17.193830861207573,
+    "root_itl_p99": 17.283430861207094,
+    "sessions_per_min": 35.078127455314615,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {},
+    "real_bet_calls": 0,
+    "reissued": 0,
+    "shadow_stops": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.00651890482398957,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-d/spec",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.4871939296659376,
+    "session_p99": 3.9175493645548487,
+    "root_tpot_p50": 21.374717422687443,
+    "root_tpot_p99": 22.776001825922126,
+    "root_itl_p99": 64.06510435614709,
+    "sessions_per_min": 79.49390061229687,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {},
+    "real_bet_calls": 0,
+    "reissued": 0,
+    "shadow_stops": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.02607561929595828,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-d/spec+bad",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.695526748603278,
+    "session_p99": 5.207749438291615,
+    "root_tpot_p50": 28.490505057870184,
+    "root_tpot_p99": 30.87378129572612,
+    "root_itl_p99": 126.38252288226104,
+    "sessions_per_min": 59.16845886321473,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "cancelled": 112,
+     "completed": 68
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {},
+    "real_bet_calls": 0,
+    "reissued": 0,
+    "shadow_stops": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.06351275842801267,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "plugin-d/both",
+    "server": "plugin",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 6.897395632012165,
+    "session_p99": 11.678289856777685,
+    "root_tpot_p50": 18.30375302656759,
+    "root_tpot_p99": 18.737870693123387,
+    "root_itl_p99": 20.845019529314612,
+    "sessions_per_min": 34.24136301293565,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 109,
+     "completed": 33
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {
+     "rejected": 115,
+     "completed": 27
+    },
+    "real_bet_calls": 142,
+    "reissued": 115,
+    "shadow_stops": 16,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.011175265412553549,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "prio-d/both",
+    "server": "priority",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.695526748603278,
+    "session_p99": 5.207749438291615,
+    "root_tpot_p50": 28.490505057870184,
+    "root_tpot_p99": 30.87378129572612,
+    "root_itl_p99": 126.38252288226104,
+    "sessions_per_min": 59.16845886321473,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "cancelled": 112,
+     "completed": 68
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "real_bet_outcomes": {
+     "completed": 180
+    },
+    "real_bet_calls": 180,
+    "reissued": 0,
+    "shadow_stops": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "waiting_frac": null,
+    "max_kv": 0.06351275842801267,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   }
+  ],
+  "derived": {
+   "knee": {
+    "cap-d/both": null,
+    "fcfs-d/nospec": null,
+    "fcfs-d/spec": null,
+    "fcfs-d/spec+bad": null,
+    "plugin-d/both": null,
+    "prio-d/both": null
+   },
+   "growth": {
+    "cap-d/both": {
+     "4": 1.0
+    },
+    "fcfs-d/nospec": {
+     "4": 1.0
+    },
+    "fcfs-d/spec": {
+     "4": 1.0
+    },
+    "fcfs-d/spec+bad": {
+     "4": 1.0
+    },
+    "plugin-d/both": {
+     "4": 1.0
+    },
+    "prio-d/both": {
+     "4": 1.0
+    }
+   },
+   "knee_ref": {
+    "cap-d/both": null,
+    "fcfs-d/nospec": null,
+    "fcfs-d/spec": null,
+    "fcfs-d/spec+bad": null,
+    "plugin-d/both": null,
+    "prio-d/both": null
+   },
+   "good50": {
+    "cap-d/both": null,
+    "fcfs-d/nospec": null,
+    "fcfs-d/spec": null,
+    "fcfs-d/spec+bad": null,
+    "plugin-d/both": null,
+    "prio-d/both": null
+   },
+   "good50_wall": {
+    "cap-d/both": null,
+    "fcfs-d/nospec": null,
+    "fcfs-d/spec": null,
+    "fcfs-d/spec+bad": null,
+    "plugin-d/both": null,
+    "prio-d/both": null
+   },
+   "good50_tpot": {
+    "cap-d/both": null,
+    "fcfs-d/nospec": null,
+    "fcfs-d/spec": null,
+    "fcfs-d/spec+bad": null,
+    "plugin-d/both": null,
+    "prio-d/both": null
+   },
+   "thr_peak": {
+    "cap-d/both": 4,
+    "fcfs-d/nospec": 4,
+    "fcfs-d/spec": 4,
+    "fcfs-d/spec+bad": 4,
+    "plugin-d/both": 4,
+    "prio-d/both": 4
+   },
+   "net_loss": {
+    "fcfs": null,
+    "prio": null,
+    "plugin": null
+   },
+   "prio_vs_fcfs": {},
+   "plugin_vs_fcfs": {},
+   "vs_stock": {},
+   "baselines_vs_fcfs": {},
+   "baselines_vs_nobets": {},
+   "pressure_vs_ref": {
+    "fcfs-d/nospec": {
+     "4": {
+      "session_p50": 1.5212469717904231,
+      "session_p99": 2.10951968632027,
+      "root_tpot_p50": 0.601243924481378,
+      "root_tpot_p99": 0.5569071924334622
+     }
+    },
+    "fcfs-d/spec": {
+     "4": {
+      "session_p50": 0.7426629889188111,
+      "session_p99": 0.7522538115505011,
+      "root_tpot_p50": 0.750240031872756,
+      "root_tpot_p99": 0.7377133888382835
+     }
+    },
+    "fcfs-d/spec+bad": {
+     "4": {
+      "session_p50": 1.0,
+      "session_p99": 1.0,
+      "root_tpot_p50": 1.0,
+      "root_tpot_p99": 1.0
+     }
+    },
+    "prio-d/both": {
+     "4": {
+      "session_p50": 1.0,
+      "session_p99": 1.0,
+      "root_tpot_p50": 1.0,
+      "root_tpot_p99": 1.0
+     }
+    },
+    "cap-d/both": {
+     "4": {
+      "session_p50": 1.4689290470049714,
+      "session_p99": 2.236379572150926,
+      "root_tpot_p50": 0.6387122095271525,
+      "root_tpot_p99": 0.5986117967738859
+     }
+    },
+    "plugin-d/both": {
+     "4": {
+      "session_p50": 1.4689290470049714,
+      "session_p99": 2.2424830524505244,
+      "root_tpot_p50": 0.642450984613605,
+      "root_tpot_p99": 0.6069185537606074
+     }
+    }
+   },
+   "d1": {
+    "agents": 4,
+    "by_workload": {
+     "decoys": {
+      "plugin_vs_cap": null,
+      "plugin_vs_prio": null
+     },
+     "both": {
+      "plugin_vs_cap": null,
+      "plugin_vs_prio": null
+     },
+     "both, default servers": {
+      "plugin_vs_cap": 1.0,
+      "plugin_vs_prio": 1.4689290470049714
+     }
+    },
+    "pressure": {
+     "fcfs-p/spec+bad": null,
+     "fcfs-p/spec": null
+    },
+    "pressure_check": null,
+    "won_in": [],
+    "plugin_wins": null
+   }
+  },
+  "by_launch": []
+ },
+ "overhead": [],
+ "general": {
+  "claims": [],
+  "quick_claims": []
+ },
+ "rules": {
+  "validity": "A measured point counts only if every run has status ok and its row's cpu_ok is true (whole-host CPU < 0.85 mean, < 10% of seconds >= 95% busy). Otherwise every claim using it is 'invalid'.",
+  "ratio": "measured ratio m of two measured points vs predicted p: supported if |m - p| <= tol; refuted if |m - p| > tol and the numerator's 95% CI does not overlap p x the denominator's 95% CI (both from vllm_bench.summarize's bootstrap); otherwise unresolved. Eager ratios use eager points only.",
+  "fraction": "measured share of decoys logged 'rejected' vs predicted: supported if within tol (absolute), otherwise refuted.",
+  "points": "for every measured (arm, load), |log(predicted / measured)| of session p50 and root TPOT p50 for P1, P0 and P1-alt: median and max, P1's in-sample points (1/4/8 agents of fcfs/* and plugin/*) apart from the rest. Not pass/fail.",
+  "step5": "Claims DB, DC, DP use v3's ratio rule and DF v3's fraction rule. The denominators are fcfs-d/spec+bad (DB), cap-d/both (DC) and prio-d/both (DP), all at 4 agents on the default servers' launches."
+ },
+ "found_after_v4": [
+  "**spec-ptc bets again on a call whose bet failed.** Seen while testing the bench on the fake server (kaggle/fake_openai_server.py), after prereg_v4 and before any GPU run. A speculation that raised SpeculationRejected is invisible to spec-ptc's store (SpecStore.existing), so the shadow peeks the call again and then dispatches it from its statement. In one traced map16 turn behind the window cap (1 agent), 16 calls got 32 bets (29 refused), and the 13 calls whose bets were all refused ran for real at their claim. The simulator sends one bet per call. So where bets are refused (the cap and the plugin in `both`), the T4 arms send more bets, and more decoys (one per bet), than simulated. This bears on v4's PR-13..16, PC-3/4, PP-2 and PF-3/4, and here on every claim with cap-d/both or plugin-d/both. The predictions stay as simulated; the bench reports bets per call (sweep/summary.md, Pressure table): read those claims next to it."
+ ],
+ "reading_rules": [
+  "**Not part of the decision rule.** Step 5 has no KV pressure, and the rule needs the pressure check. It shows what a fixed window of 8 costs when half the bets are needed: on stock FCFS nothing is refused, so fcfs-d/spec+bad is `both` with every bet admitted, and fcfs-d/spec sends only the needed bets (the oracle).",
+  "**Why cap and plugin lose here** (v4's reading rule, unchanged): in mix4 the shadow forces nearly every speculation, and spec-ptc's shadow stops for the rest of the turn when it forces a refused bet. The window of 8 refuses most real bets at 4 agents, so these arms run close to no speculation (fcfs-d/nospec).",
+  "**Pooled p50s sit on pattern clusters** (v4's): read every session_p50 claim with prereg_compare.py's per-pattern ratios."
+ ],
+ "gpu_minutes": {
+  "preset": "both_default",
+  "runs": 18,
+  "launches": 6,
+  "cache_fill_launches_max": 1,
+  "est_minutes": 48,
+  "source": "simulator predictions"
+ },
+ "wall_s": 1.1720809936523438
+}

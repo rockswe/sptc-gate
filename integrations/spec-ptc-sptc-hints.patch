@@ -1,0 +1,1142 @@
+diff --git a/benchmark/failures.py b/benchmark/failures.py
+index 09b671a..882cfe2 100644
+--- a/benchmark/failures.py
++++ b/benchmark/failures.py
+@@ -5,6 +5,7 @@ from __future__ import annotations
+ import time
+ 
+ from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.hints import net_hits
+ from spec_ptc.engine.speculation import Budget
+ from spec_ptc.runtime.engines import MockLM, MockTiming
+ from spec_ptc.runtime.harness import Harness
+@@ -25,7 +26,7 @@ def run(script, mode, budget=256):
+     out = h.run_turn(eng.stream_main(script))
+     wall = time.perf_counter() - t0
+     waste = sum(1 for s in h.store.all if s.state != "claimed")
+-    hits = sum(1 for e in bus.history if e.kind == "claim_hit")
++    hits = net_hits(bus.history)
+     misses = sum(1 for e in bus.history if e.kind == "claim_miss")
+     # time the eviction itself (already ran inside run_turn; measure a second
+     # storm separately below)
+diff --git a/benchmark/geometry.py b/benchmark/geometry.py
+index acc6669..e0c43a1 100644
+--- a/benchmark/geometry.py
++++ b/benchmark/geometry.py
+@@ -8,6 +8,7 @@ import time
+ from pathlib import Path
+ 
+ from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.hints import net_hits
+ from spec_ptc.runtime.engines import MockLM, MockTiming
+ from spec_ptc.runtime.harness import Harness
+ 
+@@ -43,7 +44,7 @@ def run(script: str, mode: str, timing: MockTiming, max_inflight: int = 16) -> d
+     t0 = time.perf_counter()
+     h.run_turn(eng.stream_main(script))
+     wall = time.perf_counter() - t0
+-    hits = sum(1 for e in bus.history if e.kind == "claim_hit")
++    hits = net_hits(bus.history)
+     wasted = sum(1 for s in h.store.all if s.state != "claimed")
+     h.launcher.shutdown()
+     return {"wall": round(wall, 2), "hits": hits, "wasted": wasted}
+diff --git a/benchmark/suite/runner.py b/benchmark/suite/runner.py
+index 2511286..8fc05e0 100644
+--- a/benchmark/suite/runner.py
++++ b/benchmark/suite/runner.py
+@@ -8,13 +8,27 @@ from dataclasses import dataclass
+ 
+ from benchmark.suite.patterns import CONTEXT, Pattern, response_text
+ from spec_ptc import EventBus, Harness
++from spec_ptc.contracts.hints import (
++    SpeculationRejected,
++    extra_body,
++    net_hits,
++    raise_if_rejected,
++    stop_reason,
++)
+ from spec_ptc.contracts.tools import ToolRegistry
+ 
+ 
+ class SuiteEngine:
+     """Scripted main stream (the pattern text, token-paced) + REAL vLLM subs."""
+ 
+-    def __init__(self, base_url: str, model: str, tps: float = 60.0, sub_max_tokens: int = 96):
++    def __init__(
++        self,
++        base_url: str,
++        model: str,
++        tps: float = 60.0,
++        sub_max_tokens: int = 96,
++        sptc_tags: bool = True,
++    ):
+         import threading
+ 
+         from openai import OpenAI
+@@ -23,6 +37,8 @@ class SuiteEngine:
+         self.calls = 0  # real HTTP sub-calls issued
+         self.calls_aborted = 0  # sub-calls closed early by an eviction
+         self.chunks = 0  # streamed deltas ~ tokens generated
++        self.calls_rejected = 0  # speculative sub-calls refused/dropped by the sptc scheduler
++        self.sptc_tags = sptc_tags  # tag speculative sub-calls `early` (vllm_xargs)
+         self.client = OpenAI(base_url=base_url, api_key="EMPTY", timeout=120)
+         self.model = model
+         self.tps = tps
+@@ -47,19 +63,35 @@ class SuiteEngine:
+             stream=True,
+             max_tokens=self.sub_max_tokens,
+             temperature=0.7,
++            extra_body=extra_body(_spec, self.sptc_tags),
+         )
+         parts = []
++        finish = stop = None
+         for ch in resp:
+             if _spec is not None and _spec.state == "evicted":
+                 resp.close()
+                 with self._lock:
+                     self.calls_aborted += 1
+                 raise RuntimeError("evicted")
+-            d = ch.choices[0].delta.content if ch.choices else None
++            if not ch.choices:
++                continue
++            c = ch.choices[0]
++            d = c.delta.content if c.delta else None
+             if d:
+                 parts.append(d)
+                 with self._lock:
+                     self.chunks += 1
++            if c.finish_reason:
++                finish, stop = c.finish_reason, stop_reason(c)
++        if _spec is not None:
++            if _spec.state == "evicted":  # evicted after the last chunk: not a server refusal
++                raise RuntimeError("evicted")
++            try:
++                raise_if_rejected(finish, stop)
++            except SpeculationRejected:
++                with self._lock:
++                    self.calls_rejected += 1
++                raise
+         return "".join(parts).strip()
+ 
+     def make_tools(self, reg: ToolRegistry, bus: EventBus) -> None:
+@@ -120,6 +152,8 @@ class RunResult:
+     abort_reason: str
+     score: float
+     stderr_head: str
++    calls_rejected: int = 0  # speculative sub-calls refused/dropped by the server
++    spec_fallbacks: int = 0  # claims of a rejected speculation that re-ran the call
+ 
+ 
+ def run_pattern(
+@@ -158,6 +192,8 @@ def run_pattern(
+             abort_reason=next((x.abort_reason for x in rs if x.abort_reason), ""),
+             score=round(statistics.mean(x.score for x in rs), 3),
+             stderr_head=next((x.stderr_head for x in rs if x.stderr_head), ""),
++            calls_rejected=add("calls_rejected"),
++            spec_fallbacks=add("spec_fallbacks"),
+         )
+     return _one_turn(p, mode, base_url, model, tps)
+ 
+@@ -191,7 +227,7 @@ def _one_turn(p: Pattern, mode: str, base_url: str, model: str, tps: float = 60.
+         ),
+         dispatched=len(disp),
+         peeked=sum(1 for e in disp if e.data.get("source") == "peek"),
+-        hits=sum(1 for e in ev if e.kind == "claim_hit"),
++        hits=net_hits(ev),  # a claim that fell back saved nothing
+         misses=sum(1 for e in ev if e.kind == "claim_miss"),
+         evicted=sum(1 for e in ev if e.kind == "evict"),
+         adopted=sum(1 for e in ev if e.kind == "adopt"),
+@@ -206,6 +242,8 @@ def _one_turn(p: Pattern, mode: str, base_url: str, model: str, tps: float = 60.
+         ),
+         score=round(score, 3),
+         stderr_head=stderr,
++        calls_rejected=eng.calls_rejected,
++        spec_fallbacks=sum(1 for e in ev if e.kind == "spec_fallback"),
+     )
+     h.launcher.shutdown()
+     return res
+diff --git a/demo/oolong_race.py b/demo/oolong_race.py
+index a50babf..983d3c8 100644
+--- a/demo/oolong_race.py
++++ b/demo/oolong_race.py
+@@ -24,6 +24,7 @@ from pathlib import Path
+ 
+ from demo.live import RLM_SYSTEM, instrument_inline_calls, rlm_turns
+ from spec_ptc.contracts.events import EventBus, SpecEvent
++from spec_ptc.contracts.hints import net_hits
+ from spec_ptc.runtime.engines import engine_from_env
+ from spec_ptc.runtime.harness import Harness
+ 
+@@ -147,7 +148,7 @@ def start_race(task: dict, on_event=None):
+             r.final = final
+             m = [e for e in bus.history if e.kind == "turn_begin"]
+             r.turns = len(m)
+-            r.hits = sum(1 for e in bus.history if e.kind == "claim_hit")
++            r.hits = net_hits(bus.history)
+             r.misses = sum(1 for e in bus.history if e.kind == "claim_miss")
+             r.dispatched = sum(1 for e in bus.history if e.kind == "dispatch")
+             correct = bool(final) and gold.lower() in str(final).lower()
+diff --git a/plugins/bun/driver.py b/plugins/bun/driver.py
+index 88ea883..10d33e5 100644
+--- a/plugins/bun/driver.py
++++ b/plugins/bun/driver.py
+@@ -8,6 +8,7 @@ import threading
+ from pathlib import Path
+ 
+ from spec_ptc.contracts.events import NULL_BUS, EventBus
++from spec_ptc.contracts.hints import SpeculationRejected
+ from spec_ptc.contracts.tools import ToolRegistry, spec_key
+ from spec_ptc.engine.speculation import Launcher, SpecStore
+ 
+@@ -79,8 +80,16 @@ class BunREPL:
+                 spec = self.store.claim(key)
+                 if spec is not None:
+                     self.bus.emit("claim_hit", key=key, seq=spec.seq, tool=tool.name)
+-                    result = spec.wait(600)
+-                    spec.state = "claimed"
++                    try:
++                        result = spec.wait(600)
++                        spec.state = "claimed"
++                    except SpeculationRejected as e:
++                        # refused/dropped by the server: run the call for real (untagged)
++                        self.bus.emit(
++                            "spec_fallback", key=key, seq=spec.seq, tool=tool.name,
++                            reason=e.reason,
++                        )
++                        result = tool.fn(*args)
+                 else:
+                     self.bus.emit("claim_miss", key=key, tool=tool.name)
+                     result = tool.fn(*args)
+@@ -104,9 +113,15 @@ class BunREPL:
+                 self._dispatch_by_id[m["id"]] = spec
+                 self.shadow.send({"op": "reply", "id": m["id"], "data": {"id": m["id"]}})
+             elif m["op"] == "tool_force":
+-                spec = self._dispatch_by_id.get(m["id"])
+-                result = spec.wait(600) if spec else None
+-                self.shadow.send({"op": "reply", "id": m["id"], "data": {"result": result}})
++                # m["id"] is this force's own reply id; m["handle"] the dispatch it forces
++                spec = self._dispatch_by_id.get(m["handle"])
++                try:
++                    data = {"result": spec.wait(600) if spec else None}
++                except SpeculationRejected as e:
++                    # a failed force in the shadow twin: worker.js throws it into the
++                    # shadow statement (exec_done error); the real run re-runs the call
++                    data = {"error": str(e)}
++                self.shadow.send({"op": "reply", "id": m["id"], "data": data})
+ 
+     def close(self) -> None:
+         self.real.close()
+diff --git a/plugins/bun/worker.js b/plugins/bun/worker.js
+index 2a346e7..614471f 100644
+--- a/plugins/bun/worker.js
++++ b/plugins/bun/worker.js
+@@ -18,7 +18,11 @@ function callHost(op, payload) {
+ function lazyProxy(dispatchId) {
+   let forced = null, has = false;
+   const force = () => {
+-    if (!has) { forced = callHost("tool_force", { id: dispatchId }).result; has = true; }
++    if (!has) {
++      const r = callHost("tool_force", { handle: dispatchId }); // not `id`: repl.js sets that
++      if (r.error) throw new Error(r.error);    // e.g. speculation rejected by the server
++      forced = r.result; has = true;
++    }
+     return forced;
+   };
+   return new Proxy({}, {
+diff --git a/src/contracts/hints.py b/src/contracts/hints.py
+new file mode 100644
+index 0000000..32f15ef
+--- /dev/null
++++ b/src/contracts/hints.py
+@@ -0,0 +1,79 @@
++"""Scheduler hints for speculative sub-calls (the sptc vLLM / SGLang scheduler plugins).
++
++Speculative dispatches (shadow hooks and loop peeks) are tagged "early" through an
++OpenAI-compatible body field: `vllm_xargs` (vLLM turns it into SamplingParams.extra_args;
++the default) or `custom_params` (SGLang's SamplingParams.custom_params). Choose with the
++environment variable SPTC_TAG_FIELD. Real calls stay untagged (normal work). Servers that
++don't know the field ignore it: vanilla vLLM keeps unknown extra_args, vanilla SGLang keeps
++unknown custom_params, Ollama ignores unknown body fields.
++
++A server running the sptc scheduler may refuse or drop a speculative call. It then finishes it
++with finish_reason "abort" (vLLM: stop_reason, SGLang: matched_stop "sptc_bet_rejected" /
++"sptc_bet_dropped"), or, on vLLM, for a stream that had produced no token yet, ends the
++stream without any finish_reason (vLLM drops empty final chunks). That is not a tool
++failure: a claim of the speculation re-runs the call for real.
++"""
++
++from __future__ import annotations
++
++import os
++from collections.abc import Iterable
++from typing import Any
++
++SPTC_CLASS_KEY = "sptc_class"
++TAG_FIELDS = ("vllm_xargs", "custom_params")  # vLLM, SGLang
++TAG_FIELD_ENV = "SPTC_TAG_FIELD"
++
++
++class SpeculationRejected(RuntimeError):
++    """The server refused or dropped a speculative sub-call. Claims fall back to a real run."""
++
++    def __init__(self, reason: str | None = None) -> None:
++        super().__init__(f"speculative sub-call rejected by server ({reason})")
++        self.reason = reason
++
++
++def sptc_xargs(spec: Any) -> dict[str, str] | None:
++    """vllm_xargs for one sub-call: speculative dispatches are 'early', real calls untagged."""
++    return None if spec is None else {SPTC_CLASS_KEY: "early"}
++
++
++def tag_field() -> str:
++    field = os.environ.get(TAG_FIELD_ENV) or TAG_FIELDS[0]
++    if field not in TAG_FIELDS:
++        raise ValueError(f"{TAG_FIELD_ENV} must be one of {TAG_FIELDS}, got {field!r}")
++    return field
++
++
++def extra_body(spec: Any, enabled: bool = True) -> dict[str, Any] | None:
++    xargs = sptc_xargs(spec) if enabled else None
++    return {tag_field(): xargs} if xargs else None
++
++
++def stop_reason(choice: Any) -> Any:
++    """The server's stop detail for a finished choice: vLLM's stop_reason, SGLang's
++    matched_stop (both are extra fields of the OpenAI choice)."""
++    reason = getattr(choice, "stop_reason", None)
++    return reason if reason is not None else getattr(choice, "matched_stop", None)
++
++
++def net_hits(events: Iterable[Any]) -> int:
++    """Claim hits that actually used the speculation. A claim of a speculation the server
++    then refused emits claim_hit (at claim time, before the wait) and later spec_fallback,
++    and re-runs the call: it saved nothing, so it is not counted."""
++    hits = fallbacks = 0
++    for e in events:
++        if e.kind == "claim_hit":
++            hits += 1
++        elif e.kind == "spec_fallback":
++            fallbacks += 1
++    return hits - fallbacks
++
++
++def raise_if_rejected(finish_reason: str | None, stop_reason: Any = None) -> None:
++    """For speculative calls only: the server aborted the call, or the stream ended without a
++    finish_reason (vLLM's zero-token streaming finish)."""
++    if finish_reason is None or finish_reason == "abort":
++        raise SpeculationRejected(
++            str(stop_reason) if stop_reason else (finish_reason or "no_finish_reason")
++        )
+diff --git a/src/daemon.py b/src/daemon.py
+index 54825fa..5e0c5b9 100644
+--- a/src/daemon.py
++++ b/src/daemon.py
+@@ -9,6 +9,7 @@ import os
+ import socketserver
+ import threading
+ 
++from spec_ptc.contracts.hints import SpeculationRejected
+ from spec_ptc.contracts.tools import ToolRegistry, spec_key
+ from spec_ptc.runtime.harness import REAL_BUILTINS
+ from spec_ptc.speculator import SpecSession, StreamTurn
+@@ -68,7 +69,17 @@ class Handler(socketserver.StreamRequestHandler):
+                     import time
+ 
+                     t0 = time.perf_counter()
+-                    result = spec.wait(600)
++                    try:
++                        result = spec.wait(600)
++                    except SpeculationRejected as e:
++                        # the server refused/dropped the speculative call: a miss, so the
++                        # client runs the tool itself (plugins/client.py contract)
++                        st.session.bus.emit(
++                            "spec_fallback", key=key, seq=spec.seq, tool=tool.name,
++                            reason=e.reason,
++                        )
++                        self._send({"status": "miss"})
++                        continue
+                     spec.state = "claimed"
+                     self._send(
+                         {
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index 21bb737..28263ce 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
+ from typing import Any, Literal
+ 
+ from spec_ptc.contracts.events import NULL_BUS, EventBus
++from spec_ptc.contracts.hints import SpeculationRejected
+ from spec_ptc.contracts.tools import (
+     NonSpeculated,
+     SpecKey,
+@@ -513,6 +514,9 @@ class Launcher:
+             except BaseException as e:  # surfaced at claim/force point
+                 spec.error = e
+                 spec.state = "failed" if spec.state != "evicted" else "evicted"
++                if isinstance(e, SpeculationRejected) and spec.state != "evicted":
++                    # server refused/dropped it (sptc scheduler): a claim re-runs it for real
++                    self.bus.emit("spec_rejected", key=key, seq=spec.seq, reason=e.reason)
+             self.budget.release_chars(nchars)
+             spec.t_ready = time.perf_counter()
+             spec.done.set()
+@@ -646,10 +650,22 @@ def make_real_hooks(
+                     batch_res = _tool.fn([prompts[i] for i in misses], *rest, **kwargs)
+                     for j, i in enumerate(misses):
+                         out[i] = batch_res[j]
++                rejected: list[int] = []
+                 for i, spec in claimed:
+-                    out[i] = spec.wait(timeout=600)
++                    try:
++                        out[i] = spec.wait(timeout=600)
++                    except SpeculationRejected as e:
++                        _emit_fallback(bus, spec.key, spec, single, e)
++                        rejected.append(i)
++                        continue
+                     spec.state = "claimed"
+                     spec.t_claim = time.perf_counter()
++                if rejected:
++                    # refused/dropped by the server: re-run them together through the
++                    # (sync) batched tool, so k fallbacks cost one batch latency, not k
++                    batch_res = _tool.fn([prompts[i] for i in rejected], *rest, **kwargs)
++                    for j, i in enumerate(rejected):
++                        out[i] = batch_res[j]
+                 return out
+             return _claim_or_run(_tool, tuple(args), kwargs, store, bus)
+ 
+@@ -696,7 +712,12 @@ def _async_real_hook(tool: ToolSpec, reg: ToolRegistry, store: SpecStore, bus: E
+                     out[i] = res[j]
+ 
+             async def _fill_claim(i, spec):
+-                out[i] = await _await_spec(spec)
++                try:
++                    out[i] = await _await_spec(spec)
++                except SpeculationRejected as e:
++                    res = _fallback(single, prompts[i], rest, kwargs, _tool, spec, e, bus)
++                    out[i] = await res if inspect.isawaitable(res) else res
++                    return
+                 spec.state = "claimed"
+                 spec.t_claim = time.perf_counter()
+ 
+@@ -715,7 +736,11 @@ def _async_real_hook(tool: ToolSpec, reg: ToolRegistry, store: SpecStore, bus: E
+             tool=_tool.name,
+             already_ready=spec.done.is_set(),
+         )
+-        result = await _await_spec(spec)
++        try:
++            result = await _await_spec(spec)
++        except SpeculationRejected as e:
++            _emit_fallback(bus, key, spec, _tool, e)
++            return await _tool.fn(*args, **kwargs)  # untagged real call
+         spec.state = "claimed"
+         spec.t_claim = time.perf_counter()
+         bus.emit(
+@@ -758,7 +783,13 @@ def _claim_or_run(tool, args: tuple, kwargs: dict, store: SpecStore, bus: EventB
+         bus.emit(
+             "claim_hit", key=key, seq=spec.seq, tool=tool.name, already_ready=spec.done.is_set()
+         )
+-        result = spec.wait(timeout=600)  # waiting mode: block on in-flight call
++        try:
++            result = spec.wait(timeout=600)  # waiting mode: block on in-flight call
++        except SpeculationRejected as e:
++            # The server refused/dropped the speculative call after we claimed it: run the
++            # call for real now (claim-site args, no _spec -> untagged normal work).
++            _emit_fallback(bus, key, spec, tool, e)
++            return tool.fn(*args, **kwargs)
+         spec.state = "claimed"
+         spec.t_claim = time.perf_counter()
+         bus.emit(
+@@ -773,6 +804,27 @@ def _claim_or_run(tool, args: tuple, kwargs: dict, store: SpecStore, bus: EventB
+     return tool.fn(*args, **kwargs)  # miss: exactly the baseline path
+ 
+ 
++def _emit_fallback(bus: EventBus, key, spec: Speculation, tool, e: SpeculationRejected) -> None:
++    bus.emit("spec_fallback", key=key, seq=spec.seq, tool=tool.name, reason=e.reason)
++
++
++def _fallback(single, prompt, rest: tuple, kwargs: dict, batched, spec, e, bus):
++    """Real run of one element of an async batched claim whose speculation was rejected (the
++    elements run concurrently under gather). Returns the value, or an awaitable for async
++    tools. Leaves the speculation unclaimed (waste)."""
++    _emit_fallback(bus, spec.key, spec, single, e)
++    if single is batched:  # no single-prompt twin registered: call the batch with one item
++        res = batched.fn([prompt], *rest, **kwargs)
++        if inspect.isawaitable(res):
++            return _first(res)
++        return res[0]
++    return single.fn(prompt, *rest, **kwargs)
++
++
++async def _first(aw):
++    return (await aw)[0]
++
++
+ def _single_of(batched_tool, reg: ToolRegistry):
+     """The single-prompt ToolSpec that a batched tool decomposes into."""
+     base = batched_tool.name.removesuffix("_batched")
+diff --git a/src/runtime/engines.py b/src/runtime/engines.py
+index 216e528..62d48f2 100644
+--- a/src/runtime/engines.py
++++ b/src/runtime/engines.py
+@@ -12,6 +12,7 @@ from dataclasses import dataclass
+ from pathlib import Path
+ 
+ from spec_ptc.contracts.events import NULL_BUS, EventBus
++from spec_ptc.contracts.hints import extra_body, raise_if_rejected, stop_reason
+ from spec_ptc.contracts.tools import ToolRegistry
+ 
+ 
+@@ -110,7 +111,10 @@ class VLLMEngine:
+         bus: EventBus = NULL_BUS,
+         sub_max_tokens: int = 256,
+         main_max_tokens: int = 1200,
++        sptc_tags: bool = True,
+     ):
++        """sptc_tags: tag speculative sub-calls `early` for the sptc vLLM scheduler
++        (vllm_xargs); servers that don't know the field ignore it."""
+         from openai import OpenAI
+ 
+         self.main = OpenAI(base_url=main_base_url, api_key="EMPTY")
+@@ -120,6 +124,7 @@ class VLLMEngine:
+         self.bus = bus
+         self.sub_max_tokens = sub_max_tokens
+         self.main_max_tokens = main_max_tokens
++        self.sptc_tags = sptc_tags
+ 
+     def stream_main(self, messages) -> Iterator[str]:
+         if isinstance(messages, str):
+@@ -143,17 +148,30 @@ class VLLMEngine:
+             stream=True,
+             max_tokens=self.sub_max_tokens,
+             temperature=0.7,
++            extra_body=extra_body(_spec, self.sptc_tags),
+         )
+         parts: list[str] = []
++        finish = stop = None
+         for chunk in resp:
+             if _spec is not None and _spec.state == "evicted":
+                 resp.close()
+                 raise RuntimeError("evicted")
+-            delta = chunk.choices[0].delta.content if chunk.choices else None
++            if not chunk.choices:
++                continue
++            c = chunk.choices[0]
++            delta = c.delta.content if c.delta else None
+             if delta:
+                 parts.append(delta)
+                 if _spec is not None:
+                     self.bus.emit("subtoken", seq=_spec.seq, text=delta)
++            if c.finish_reason:
++                finish = c.finish_reason
++                stop = stop_reason(c)  # vLLM / SGLang extra field
++        if _spec is not None:
++            if _spec.state == "evicted":  # evicted after the last chunk: not a server refusal
++                raise RuntimeError("evicted")
++            # refused/dropped by the server: not a result; a claim re-runs it for real
++            raise_if_rejected(finish, stop)
+         return "".join(parts)
+ 
+     def make_tools(self, reg: ToolRegistry, bus: EventBus) -> None:
+diff --git a/src/runtime/harness.py b/src/runtime/harness.py
+index edb092f..bbc608d 100644
+--- a/src/runtime/harness.py
++++ b/src/runtime/harness.py
+@@ -156,6 +156,7 @@ class TurnMetrics:
+     dispatched: int = 0
+     saved_ms_total: float = 0.0  # per-claim head start actually banked
+     wasted_calls: int = 0  # dispatched but never claimed
++    fallbacks: int = 0  # claims of a server-rejected speculation that re-ran the call
+ 
+     def row(self) -> dict:
+         return {
+@@ -183,6 +184,9 @@ def collect(events: list[SpecEvent], store: SpecStore, mode: str) -> TurnMetrics
+             m.dispatched += 1
+         elif ev.kind == "claim_hit":
+             m.hits += 1
++        elif ev.kind == "spec_fallback":  # claimed, then rejected: no hit after all
++            m.hits -= 1
++            m.fallbacks += 1
+         elif ev.kind == "claim_miss":
+             m.misses += 1
+         elif ev.kind == "claim_done":
+diff --git a/tests/test_sptc_hints.py b/tests/test_sptc_hints.py
+new file mode 100644
+index 0000000..07fc959
+--- /dev/null
++++ b/tests/test_sptc_hints.py
+@@ -0,0 +1,574 @@
++"""sptc scheduler hints: speculative sub-calls are tagged `early` (vllm_xargs), real calls are
++untagged, and a speculation the server refused/dropped falls back to a real run at claim
++time instead of raising into the user program. All mock: no network, no model."""
++
++import asyncio
++import os
++import re
++import shutil
++import threading
++import time
++from types import SimpleNamespace
++
++import pytest
++
++from spec_ptc import Speculator
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.hints import (
++    SPTC_CLASS_KEY,
++    SpeculationRejected,
++    extra_body,
++    net_hits,
++    raise_if_rejected,
++    sptc_xargs,
++    stop_reason,
++)
++from spec_ptc.contracts.tools import ToolRegistry, ToolSpec, spec_key
++from spec_ptc.engine.speculation import (
++    Launcher,
++    SpecStore,
++    Speculation,
++    _claim_or_run,
++    make_real_hooks,
++)
++from spec_ptc.runtime.engines import MockLM, MockTiming, VLLMEngine
++from spec_ptc.runtime.harness import Harness
++
++FAST = MockTiming(main_tok_per_s=2000, sub_base_s=0.15, sub_jitter_s=0.1, sub_tokens=3)
++SPEC = SimpleNamespace(state="running", seq=1)  # stands in for a Speculation
++
++
++# ------------------------------------------------------------------------- pure helpers
++def test_tags():
++    assert SPTC_CLASS_KEY == "sptc_class"
++    assert sptc_xargs(None) is None
++    assert sptc_xargs(SPEC) == {"sptc_class": "early"}
++    assert extra_body(None) is None
++    assert extra_body(SPEC) == {"vllm_xargs": {"sptc_class": "early"}}
++    assert extra_body(SPEC, enabled=False) is None
++
++
++def test_tag_field_for_sglang(monkeypatch):
++    monkeypatch.setenv("SPTC_TAG_FIELD", "custom_params")
++    assert extra_body(SPEC) == {"custom_params": {"sptc_class": "early"}}
++    monkeypatch.setenv("SPTC_TAG_FIELD", "nonsense")
++    with pytest.raises(ValueError, match="SPTC_TAG_FIELD"):
++        extra_body(SPEC)
++    assert extra_body(None) is None  # untagged calls never read the field
++
++
++def test_stop_reason_vllm_or_sglang():
++    assert stop_reason(SimpleNamespace(stop_reason="sptc_bet_dropped")) == "sptc_bet_dropped"
++    assert stop_reason(SimpleNamespace(matched_stop="sptc_bet_rejected")) == "sptc_bet_rejected"
++    assert stop_reason(SimpleNamespace(stop_reason=None, matched_stop=7)) == 7
++    assert stop_reason(SimpleNamespace()) is None
++
++
++@pytest.mark.parametrize("finish", ["stop", "length", "tool_calls"])
++def test_raise_if_rejected_passes_real_finishes(finish):
++    raise_if_rejected(finish, None)
++
++
++@pytest.mark.parametrize(
++    "finish,stop,reason",
++    [
++        ("abort", "sptc_bet_dropped", "sptc_bet_dropped"),
++        ("abort", "sptc_bet_rejected", "sptc_bet_rejected"),
++        ("abort", None, "abort"),
++        (None, None, "no_finish_reason"),  # vLLM: zero-token streams lose their final chunk
++    ],
++)
++def test_raise_if_rejected(finish, stop, reason):
++    with pytest.raises(SpeculationRejected) as ei:
++        raise_if_rejected(finish, stop)
++    assert ei.value.reason == reason
++
++
++# ------------------------------------------------------------------- fake OpenAI client
++def chunk(text=None, finish=None, stop=None):
++    choice = SimpleNamespace(delta=SimpleNamespace(content=text), finish_reason=finish)
++    if stop is not None:
++        choice.stop_reason = stop
++    return SimpleNamespace(choices=[choice])
++
++
++class FakeStream:
++    def __init__(self, chunks):
++        self.chunks = chunks
++        self.closed = False
++
++    def __iter__(self):
++        return iter(self.chunks)
++
++    def close(self):
++        self.closed = True
++
++
++class FakeClient:
++    def __init__(self, chunks):
++        self.chunks = chunks
++        self.calls: list[dict] = []
++        self.chat = SimpleNamespace(completions=SimpleNamespace(create=self._create))
++
++    def _create(self, **kw):
++        self.calls.append(kw)
++        return FakeStream(self.chunks)
++
++
++OK = [chunk("he"), chunk("llo"), SimpleNamespace(choices=[]), chunk(None, "stop")]
++ABORT = [chunk("par"), chunk(None, "abort", "sptc_bet_dropped")]
++SILENT = []  # a rejected bet over streaming: no chunk carries a finish_reason
++
++
++def vllm_engine(chunks, **kw):
++    eng = VLLMEngine("http://127.0.0.1:9/v1", "m", "http://127.0.0.1:9/v1", "s", **kw)
++    eng.sub = FakeClient(chunks)
++    return eng
++
++
++def test_vllm_engine_tags_only_speculative_calls():
++    eng = vllm_engine(OK)
++    assert eng.sub_call("p", _spec=SPEC) == "hello"
++    assert eng.sub_call("p") == "hello"
++    spec_kw, real_kw = eng.sub.calls
++    assert spec_kw["extra_body"] == {"vllm_xargs": {"sptc_class": "early"}}
++    assert real_kw["extra_body"] is None
++    assert spec_kw["stream"] is True and spec_kw["messages"] == real_kw["messages"]
++
++
++def test_vllm_engine_tags_can_be_disabled():
++    eng = vllm_engine(OK, sptc_tags=False)
++    eng.sub_call("p", _spec=SPEC)
++    assert eng.sub.calls[0]["extra_body"] is None
++
++
++@pytest.mark.parametrize("chunks,reason", [(ABORT, "sptc_bet_dropped"), (SILENT, None)])
++def test_vllm_engine_rejection_raises_only_when_speculative(chunks, reason):
++    eng = vllm_engine(chunks)
++    with pytest.raises(SpeculationRejected) as ei:
++        eng.sub_call("p", _spec=SPEC)
++    if reason:
++        assert ei.value.reason == reason
++    # a real call keeps today's behaviour: whatever text arrived
++    assert eng.sub_call("p") == ("par" if chunks is ABORT else "")
++
++
++def test_vllm_engine_eviction_unchanged():
++    eng = vllm_engine(OK)
++    with pytest.raises(RuntimeError, match="evicted"):
++        eng.sub_call("p", _spec=SimpleNamespace(state="evicted", seq=1))
++
++
++@pytest.mark.parametrize("make", ["vllm", "suite"])
++def test_eviction_after_last_chunk_is_not_a_server_rejection(make):
++    """A zero-token stream ([DONE] only) of a speculation evicted after the loop: no chunk
++    ran the in-loop eviction check, and no finish_reason arrived. Must read as eviction."""
++    if make == "vllm":
++        eng = vllm_engine(SILENT)
++        call = eng.sub_call
++    else:
++        from benchmark.suite.runner import SuiteEngine
++
++        eng = SuiteEngine("http://127.0.0.1:9/v1", "m")
++        eng.client = FakeClient(SILENT)
++        call = eng._call
++    with pytest.raises(RuntimeError, match="evicted") as ei:
++        call("p", _spec=SimpleNamespace(state="evicted", seq=1))
++    assert not isinstance(ei.value, SpeculationRejected)
++    assert getattr(eng, "calls_rejected", 0) == 0
++
++
++def test_launcher_does_not_report_evicted_speculation_as_rejected():
++    bus = EventBus()
++    store = SpecStore(bus)
++
++    def spec_fn(prompt, _spec=None):
++        _spec.state = "evicted"  # evicted while in flight, then the stream ends silently
++        raise SpeculationRejected("no_finish_reason")
++
++    spec_fn.wants_spec = True
++    tool = ToolSpec(name="llm_query", fn=lambda p: p, speculatable=True, pure=True,
++                    spec_fn=spec_fn)
++    launcher = Launcher(store, bus)
++    spec = launcher.dispatch(tool, ("p",), {}, "shadow")
++    assert spec.done.wait(5)
++    launcher.shutdown()
++    assert spec.state == "evicted"
++    assert not any(e.kind == "spec_rejected" for e in bus.history)
++
++
++def test_suite_engine_counts_rejections():
++    from benchmark.suite.runner import RunResult, SuiteEngine
++
++    eng = SuiteEngine("http://127.0.0.1:9/v1", "m")
++    eng.client = FakeClient(ABORT)
++    with pytest.raises(SpeculationRejected):
++        eng._call("p", SPEC)
++    assert eng._call("p") == "par"
++    assert eng.calls == 2 and eng.calls_rejected == 1
++    assert eng.client.calls[0]["extra_body"] == {"vllm_xargs": {"sptc_class": "early"}}
++    assert eng.client.calls[1]["extra_body"] is None
++    fields = RunResult.__dataclass_fields__
++    assert fields["calls_rejected"].default == 0 and fields["spec_fallbacks"].default == 0
++
++
++# ----------------------------------------------------------------- claim-time fallback
++def _store_with(tool, args, *, error=None, done=True, state="running"):
++    bus = EventBus()
++    store = SpecStore(bus)
++    spec = Speculation(
++        key=spec_key(tool, args, {}), seq=1, args=args, kwargs={}, source="shadow"
++    )
++    spec.state = state
++    spec.error = error
++    if done:
++        spec.done.set()
++    store.put(spec)
++    return bus, store, spec
++
++
++def _tool(fn=None):
++    calls = []
++
++    def real(prompt):
++        calls.append(prompt)
++        return f"real({prompt})"
++
++    return ToolSpec(name="llm_query", fn=fn or real, speculatable=True, pure=True), calls
++
++
++def test_claim_of_rejected_speculation_reruns_for_real():
++    tool, calls = _tool()
++    bus, store, spec = _store_with(tool, ("p",), error=SpeculationRejected("sptc_bet_dropped"))
++    assert _claim_or_run(tool, ("p",), {}, store, bus) == "real(p)"
++    assert calls == ["p"]
++    kinds = [e.kind for e in bus.history]
++    assert kinds == ["claim_hit", "spec_fallback"]
++    assert bus.history[-1].data["reason"] == "sptc_bet_dropped"
++    assert spec.state != "claimed"  # counted as waste, not as a hit that saved time
++
++
++def test_claim_waiting_on_inflight_speculation_that_gets_rejected():
++    tool, calls = _tool()
++    bus, store, spec = _store_with(tool, ("p",), done=False)
++
++    def reject_later():
++        time.sleep(0.05)
++        spec.error = SpeculationRejected("sptc_bet_rejected")
++        spec.state = "failed"
++        spec.done.set()
++
++    threading.Thread(target=reject_later).start()
++    assert _claim_or_run(tool, ("p",), {}, store, bus) == "real(p)"
++    assert calls == ["p"] and any(e.kind == "spec_fallback" for e in bus.history)
++
++
++def test_rejected_before_claim_is_a_plain_miss():
++    tool, calls = _tool()
++    bus, store, _ = _store_with(tool, ("p",), error=SpeculationRejected("x"), state="failed")
++    assert _claim_or_run(tool, ("p",), {}, store, bus) == "real(p)"
++    assert [e.kind for e in bus.history] == ["claim_miss"]
++
++
++def test_other_speculation_errors_still_propagate():
++    tool, calls = _tool()
++    bus, store, _ = _store_with(tool, ("p",), error=RuntimeError("boom"))
++    with pytest.raises(RuntimeError, match="boom"):
++        _claim_or_run(tool, ("p",), {}, store, bus)
++    assert calls == []
++
++
++def test_batched_claim_falls_back_elementwise():
++    reg = ToolRegistry()
++    single_calls = []
++
++    def single(prompt):
++        single_calls.append(prompt)
++        return f"real({prompt})"
++
++    reg.register("llm_query", single, speculatable=True, pure=True)
++    reg.register(
++        "llm_query_batched",
++        lambda ps: [f"batch({p})" for p in ps],
++        speculatable=True,
++        pure=True,
++        batched=True,
++    )
++    bus = EventBus()
++    store = SpecStore(bus)
++    one = reg.get("llm_query")
++    for seq, (p, err) in enumerate([("a", None), ("b", SpeculationRejected("x"))], 1):
++        sp = Speculation(
++            key=spec_key(one, (p,), {}),
++            seq=seq,
++            args=(p,),
++            kwargs={},
++            source="shadow",
++            state="ready" if err is None else "running",
++        )
++        sp.result, sp.error = f"spec({p})", err
++        sp.done.set()
++        store.put(sp)
++    hooks = make_real_hooks(reg, store, launcher=None, bus=bus)
++    # the rejected element re-runs through the batched tool (one call for all rejections)
++    assert hooks["llm_query_batched"](["a", "b", "c"]) == ["spec(a)", "batch(b)", "batch(c)"]
++    assert single_calls == []
++    assert sum(e.kind == "spec_fallback" for e in bus.history) == 1
++
++
++def _rejected_store(single, prompts):
++    bus = EventBus()
++    store = SpecStore(bus)
++    for seq, p in enumerate(prompts, 1):
++        sp = Speculation(
++            key=spec_key(single, (p,), {}), seq=seq, args=(p,), kwargs={}, source="shadow",
++            state="running",
++        )
++        sp.error = SpeculationRejected("abort")
++        sp.done.set()
++        store.put(sp)
++    return bus, store
++
++
++def test_batched_claim_reruns_all_rejected_in_one_batch():
++    reg = ToolRegistry()
++    batches = []
++
++    def batched(ps):
++        batches.append(list(ps))
++        time.sleep(0.2)  # one batch latency, whatever its size
++        return [f"batch({p})" for p in ps]
++
++    reg.register("llm_query", lambda p: f"real({p})", speculatable=True, pure=True)
++    reg.register("llm_query_batched", batched, speculatable=True, pure=True, batched=True)
++    prompts = [f"p{i}" for i in range(6)]
++    bus, store = _rejected_store(reg.get("llm_query"), prompts)
++    hooks = make_real_hooks(reg, store, launcher=None, bus=bus)
++    t0 = time.perf_counter()
++    assert hooks["llm_query_batched"](prompts) == [f"batch({p})" for p in prompts]
++    assert time.perf_counter() - t0 < 0.5  # not 6 sequential single calls
++    assert batches == [prompts]
++    assert sum(e.kind == "spec_fallback" for e in bus.history) == 6
++
++
++def test_sync_batched_fallback_with_async_single_twin_returns_values():
++    reg = ToolRegistry()
++
++    async def single(p):
++        return f"single({p})"
++
++    reg.register("llm_query", single, speculatable=True, pure=True)
++    reg.register(
++        "llm_query_batched", lambda ps: [f"batch({p})" for p in ps],
++        speculatable=True, pure=True, batched=True,
++    )
++    bus, store = _rejected_store(reg.get("llm_query"), ["a"])
++    hooks = make_real_hooks(reg, store, launcher=None, bus=bus)
++    assert hooks["llm_query_batched"](["a"]) == ["batch(a)"]  # a value, not a coroutine
++
++
++def test_net_hits_excludes_fallbacks():
++    ev = [SimpleNamespace(kind=k) for k in
++          ("claim_hit", "claim_hit", "spec_fallback", "claim_miss", "claim_hit")]
++    assert net_hits(ev) == 2
++
++
++def test_batched_claim_without_single_twin_falls_back_through_the_batch():
++    reg = ToolRegistry()
++    seen = []
++
++    def batched(ps):
++        seen.append(list(ps))
++        return [f"batch({p})" for p in ps]
++
++    reg.register("lookup_many", batched, speculatable=True, pure=True, batched=True)
++    tool = reg.get("lookup_many")
++    bus = EventBus()
++    store = SpecStore(bus)
++    sp = Speculation(
++        key=spec_key(tool, ("a",), {}),
++        seq=1,
++        args=("a",),
++        kwargs={},
++        source="shadow",
++        state="running",
++    )
++    sp.error = SpeculationRejected("x")
++    sp.done.set()
++    store.put(sp)
++    hooks = make_real_hooks(reg, store, launcher=None, bus=bus)
++    assert hooks["lookup_many"](["a"]) == ["batch(a)"]
++    assert seen == [["a"]]
++
++
++# --------------------------------------------------------------------- end to end
++class RejectingMock(MockLM):
++    """Every speculative sub-call is refused by the 'server' after 0.3 s."""
++
++    def sub_call(self, prompt, _spec=None):
++        if _spec is not None:
++            time.sleep(0.3)
++            raise SpeculationRejected("sptc_bet_rejected")
++        return super().sub_call(prompt)
++
++
++def norm(s):
++    return re.sub(r"\[\w+#\d+\] ", "", s or "")
++
++
++def run_turn(eng, mode, code, with_locals=False):
++    bus = EventBus()
++    h = Harness(eng, mode, bus=bus, context="x" * 300)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    h.launcher.shutdown()
++    return (out, bus, h.repl.locals) if with_locals else (out, bus)
++
++
++CODE = (
++    "a = llm_query('first: ' + context[:20])\n"
++    "b = llm_query_batched(['x1', 'x2'])\n"
++    "answer['content'] = str(a) + '|' + '|'.join(str(r) for r in b)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_harness_answer_matches_baseline_when_server_rejects_speculation():
++    out, bus = run_turn(RejectingMock(FAST), "spec", CODE)
++    base, _ = run_turn(MockLM(FAST), "baseline", CODE)
++    assert out.final_answer and norm(out.final_answer) == norm(base.final_answer)
++    assert out.metrics.hits == 0  # fallbacks saved nothing: not reported as hits
++    assert out.metrics.fallbacks == sum(e.kind == "spec_fallback" for e in bus.history)
++    kinds = [e.kind for e in bus.history]
++    assert kinds.count("dispatch") >= 1
++    # every speculative dispatch was refused; each real call either claimed it and fell
++    # back, or missed it outright
++    assert kinds.count("spec_fallback") + kinds.count("claim_miss") == 3, kinds
++    assert kinds.count("claim_done") == 0
++
++
++def test_harness_claims_inflight_speculation_then_falls_back():
++    """The shadow never forces the results, so the real run claims the speculations while
++    they are still in flight; the server then refuses them and each claim re-runs for real."""
++    code = "a = llm_query('first: ' + context[:20])\nb = llm_query_batched(['x1', 'x2'])"
++    _, bus, ns = run_turn(RejectingMock(FAST), "spec", code, with_locals=True)
++    _, _, base = run_turn(MockLM(FAST), "baseline", code, with_locals=True)
++    assert norm(str(ns["a"])) == norm(str(base["a"])) and "mock-answer" in str(ns["a"])
++    assert [norm(str(x)) for x in ns["b"]] == [norm(str(x)) for x in base["b"]]
++    kinds = [e.kind for e in bus.history]
++    assert kinds.count("spec_fallback") + kinds.count("claim_miss") == 3, kinds
++    assert kinds.count("spec_fallback") >= 1, kinds  # the claim-then-reject path ran
++    assert kinds.count("spec_rejected") == kinds.count("dispatch")
++
++
++def test_async_tool_rejected_speculation_falls_back():
++    sp = Speculator()
++    real_calls = []
++
++    async def allm(p):
++        real_calls.append(p)
++        await asyncio.sleep(0.01)
++        return f"A[{p}]"
++
++    async def allm_spec(p, _spec=None):
++        await asyncio.sleep(0.3)
++        raise SpeculationRejected("sptc_bet_dropped")
++
++    allm_spec.wants_spec = True
++    sp.registry.register("allm", allm, speculatable=True, pure=True, spec_fn=allm_spec)
++    ns: dict = {}
++    ns.update(sp.hooks())
++    code = (
++        "import asyncio\n"
++        "async def main():\n"
++        "    return await allm('x')\n"
++        "out = asyncio.run(main())"
++    )
++    with sp.turn(repl_locals=ns) as t:
++        for ch in f"go\n```repl\n{code}\n```\ndone":
++            t.feed(ch)
++    exec(compile(code, "<real>", "exec"), ns)
++    assert ns["out"] == "A[x]" and real_calls == ["x"]
++    kinds = [e.kind for e in sp.bus.history]
++    assert "spec_fallback" in kinds or "claim_miss" in kinds, kinds
++    sp.close()
++
++
++# ----------------------------------------------------------- other claim sites
++def test_daemon_resolve_of_rejected_speculation_is_a_miss():
++    from plugins.client import SpecClient
++    from spec_ptc.daemon import serve
++
++    sock = f"/tmp/sptc-{os.getpid()}.sock"  # short: AF_UNIX paths are limited on macOS
++    eng = RejectingMock(MockTiming(sub_base_s=0.05, sub_jitter_s=0.0, sub_tokens=1))
++    srv = serve(sock, eng)
++    threading.Thread(target=srv.serve_forever, daemon=True).start()
++    try:
++        c = SpecClient(sock)
++        c.turn_begin({})
++        script = "t\n```repl\nx = llm_query('x: aa')\n```\n"
++        for i in range(0, len(script), 8):
++            c.feed(script[i : i + 8])
++        time.sleep(0.1)  # dispatched, still in flight: the claim waits, then it is rejected
++        assert c.resolve("llm_query", ["x: aa"]) is None  # miss: the host runs the tool
++        assert c.resolve("llm_query", ["never"]) is None  # connection still alive
++        c.turn_end()
++        c.close()
++    finally:
++        srv.shutdown()
++        srv.server_close()
++        if os.path.exists(sock):
++            os.unlink(sock)
++    assert any(e.kind == "spec_fallback" for e in srv.RequestHandlerClass.state.session.bus.history)
++
++
++@pytest.mark.skipif(shutil.which("bun") is None, reason="bun not installed")
++def test_bun_driver_falls_back_on_rejected_speculation():
++    from plugins.bun.driver import BunREPL
++
++    bus = EventBus()
++    reg = ToolRegistry()
++
++    def spec_fn(prompt):
++        time.sleep(0.2)
++        raise SpeculationRejected("sptc_bet_rejected")
++
++    reg.register("llm_query", lambda p: f"real({p})", speculatable=True, pure=True,
++                 spec_fn=spec_fn)
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus)
++    repl = BunREPL(reg, store, launcher, bus)
++    try:
++        repl.shadow_feed("ns.a = llm_query('q1');")  # dispatched, lazily
++        m = repl.execute_code("ns.v = llm_query('q1'); print(ns.v);")  # claims it
++        assert not m["error"], m
++        assert m["stdout"] == "real(q1)"
++        assert any(e.kind == "spec_fallback" for e in bus.history)
++        # shadow force of a rejected speculation fails that statement, without a deadlock
++        repl.shadow_feed("ns.b = String(llm_query('q2'));")
++        m = repl.execute_code("print(llm_query('q3'));")
++        assert not m["error"] and m["stdout"] == "real(q3)", m
++    finally:
++        repl.close()
++        launcher.shutdown()
++
++
++@pytest.mark.skipif(shutil.which("bun") is None, reason="bun not installed")
++def test_bun_shadow_force_reaches_the_forced_dispatch():
++    """tool_force used to send the dispatch handle as `id`, which repl.js overwrote with the
++    reply id, so any force in the shadow twin killed the bun process."""
++    from plugins.bun.driver import BunREPL
++
++    bus = EventBus()
++    reg = ToolRegistry()
++    reg.register("llm_query", lambda p: f"ans({p})", speculatable=True, pure=True)
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus)
++    repl = BunREPL(reg, store, launcher, bus)
++    try:
++        repl.shadow_feed("ns.b = String(llm_query('q')) + '!';")
++        m = repl.execute_code("print(llm_query('q'));")
++        assert not m["error"] and m["stdout"] == "ans(q)", m
++        assert any(e.kind == "claim_hit" for e in bus.history)
++    finally:
++        repl.close()
++        launcher.shutdown()

@@ -1,0 +1,586 @@
+{
+ "schema": 1,
+ "tokenizer": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+ "token_check": {
+  "single_calls": 13,
+  "exact": 6,
+  "mean_diff": 0.538,
+  "max_abs_diff": 1
+ },
+ "loop_error": "Error: llm() call failed - Event loop is closed",
+ "sessions": [
+  {
+   "session": "trec132k-17000232.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "trec132k-17000232",
+   "window": 65536,
+   "wall_s": 124.27,
+   "score": 0.0,
+   "turns": 9,
+   "problems": [],
+   "blocks": 9,
+   "root_tokens": 2196,
+   "rec_stream_s": 123.0,
+   "rec_after_s": 0.5,
+   "calls": 13,
+   "errors": 0,
+   "batches": 1,
+   "singles": 0,
+   "call_out_tokens": 69,
+   "rec_call_s": 0.5,
+   "distinct_prompts": 13,
+   "prompts_with_differing_outcomes": 0,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     8
+    ],
+    [
+     7,
+     1
+    ]
+   ],
+   "sha256": "c1bd733ff7c05bdf4778b6f3c8c894d18c1ccbac55810c756893695224dc3864",
+   "replayable": true
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "trec132k-17000241",
+   "window": 65536,
+   "wall_s": 130.19,
+   "score": 4.570686103088926e-72,
+   "turns": 12,
+   "problems": [],
+   "blocks": 12,
+   "root_tokens": 2335,
+   "rec_stream_s": 129.5,
+   "rec_after_s": 0.0,
+   "calls": 0,
+   "errors": 0,
+   "batches": 0,
+   "singles": 0,
+   "call_out_tokens": 0,
+   "rec_call_s": 0.0,
+   "distinct_prompts": 0,
+   "prompts_with_differing_outcomes": 0,
+   "final": "default_answer",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     4,
+     1
+    ]
+   ],
+   "sha256": "d595e9e95cb477fb6a0fd03985407bc24cb5894c451e086e611b9e0dfd96a49b",
+   "replayable": true
+  },
+  {
+   "session": "trec132k-17000222.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "trec132k-17000222",
+   "window": 65536,
+   "wall_s": 899.13,
+   "score": 5.766401576846622e-23,
+   "turns": 12,
+   "problems": [
+    "turn 6: the recorded reply was cut",
+    "turn 7: the recorded reply was cut",
+    "turn 8: the recorded reply was cut",
+    "turn 9: the recorded reply was cut",
+    "turn 10: the recorded reply was cut",
+    "turn 11: the recorded reply was cut"
+   ],
+   "blocks": 5,
+   "root_tokens": 19330,
+   "rec_stream_s": 888.5,
+   "rec_after_s": 0.0,
+   "calls": 0,
+   "errors": 0,
+   "batches": 0,
+   "singles": 0,
+   "call_out_tokens": 0,
+   "rec_call_s": 0.0,
+   "distinct_prompts": 0,
+   "prompts_with_differing_outcomes": 0,
+   "final": "default_answer",
+   "delta_token_gap": [
+    [
+     1,
+     6
+    ],
+    [
+     0,
+     6
+    ]
+   ],
+   "replayable": false
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "trec132k-17000237",
+   "window": 65536,
+   "wall_s": 536.07,
+   "score": 0.0,
+   "turns": 8,
+   "problems": [],
+   "blocks": 8,
+   "root_tokens": 1840,
+   "rec_stream_s": 94.6,
+   "rec_after_s": 440.6,
+   "calls": 6362,
+   "errors": 0,
+   "batches": 320,
+   "singles": 0,
+   "call_out_tokens": 74781,
+   "rec_call_s": 440.1,
+   "distinct_prompts": 6362,
+   "prompts_with_differing_outcomes": 0,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     8
+    ]
+   ],
+   "sha256": "d0b24825a2bdf977761a1744db04aebd9be97ff173592487e12eeeeb50c82460",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "pairs32k-16",
+   "window": 65536,
+   "wall_s": 177.91,
+   "score": 0.014440433212996389,
+   "turns": 12,
+   "problems": [],
+   "blocks": 12,
+   "root_tokens": 3182,
+   "rec_stream_s": 168.8,
+   "rec_after_s": 8.4,
+   "calls": 40,
+   "errors": 0,
+   "batches": 1,
+   "singles": 0,
+   "call_out_tokens": 2346,
+   "rec_call_s": 8.4,
+   "distinct_prompts": 40,
+   "prompts_with_differing_outcomes": 0,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     11
+    ],
+    [
+     7,
+     1
+    ]
+   ],
+   "sha256": "790d4a54bff6fa3905c6a6190b011e7a40aff8c71e9d5a66ed9ecc35f724c73a",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-20.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "pairs32k-20",
+   "window": 65536,
+   "wall_s": 688.89,
+   "score": 0.0,
+   "turns": 12,
+   "problems": [
+    "turn 11: the recorded reply was cut",
+    "turn 12: the recorded reply was cut"
+   ],
+   "blocks": 10,
+   "root_tokens": 7374,
+   "rec_stream_s": 367.6,
+   "rec_after_s": 0.0,
+   "calls": 0,
+   "errors": 0,
+   "batches": 0,
+   "singles": 0,
+   "call_out_tokens": 0,
+   "rec_call_s": 0.0,
+   "distinct_prompts": 0,
+   "prompts_with_differing_outcomes": 0,
+   "final": "default_answer",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "replayable": false
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "pairs32k-1",
+   "window": 65536,
+   "wall_s": 121.95,
+   "score": 0.9763164525069286,
+   "turns": 7,
+   "problems": [],
+   "blocks": 7,
+   "root_tokens": 1580,
+   "rec_stream_s": 82.5,
+   "rec_after_s": 38.7,
+   "calls": 787,
+   "errors": 0,
+   "batches": 40,
+   "singles": 0,
+   "call_out_tokens": 3953,
+   "rec_call_s": 38.6,
+   "distinct_prompts": 693,
+   "prompts_with_differing_outcomes": 69,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     7
+    ]
+   ],
+   "sha256": "9b52a3ee057e9c640d1d9506c723572158c27ecf98e9409dfe4c530d15745765",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r1",
+   "task_id": "pairs32k-15",
+   "window": 65536,
+   "wall_s": 263.4,
+   "score": 0.0,
+   "turns": 12,
+   "problems": [],
+   "blocks": 14,
+   "root_tokens": 5087,
+   "rec_stream_s": 262.9,
+   "rec_after_s": 0.0,
+   "calls": 0,
+   "errors": 0,
+   "batches": 0,
+   "singles": 0,
+   "call_out_tokens": 0,
+   "rec_call_s": 0.0,
+   "distinct_prompts": 0,
+   "prompts_with_differing_outcomes": 0,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ],
+    [
+     4,
+     2
+    ]
+   ],
+   "sha256": "4bf28a829b3f5f5b8623860f984a9d9276e3ad312859c59a142a678b4fb5d56d",
+   "replayable": true
+  },
+  {
+   "session": "trec132k-17000232.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "trec132k-17000232",
+   "window": 65536,
+   "wall_s": 920.07,
+   "score": 0.0,
+   "cut": "timeout",
+   "turns": 10,
+   "problems": [
+    "turn 4: the recorded reply was cut",
+    "turn 5: the recorded reply was cut",
+    "turn 6: the recorded reply was cut",
+    "turn 7: the recorded reply was cut",
+    "turn 8: the recorded reply was cut",
+    "turn 9: the recorded reply was cut",
+    "turn 10: the recorded reply was cut",
+    "the recorded session has no final answer"
+   ],
+   "blocks": 3,
+   "root_tokens": 21510,
+   "rec_stream_s": 919.7,
+   "rec_after_s": 0.0,
+   "calls": 0,
+   "errors": 0,
+   "batches": 0,
+   "singles": 0,
+   "call_out_tokens": 0,
+   "rec_call_s": 0.0,
+   "distinct_prompts": 0,
+   "prompts_with_differing_outcomes": 0,
+   "final": null,
+   "delta_token_gap": [
+    [
+     0,
+     7
+    ],
+    [
+     1,
+     3
+    ]
+   ],
+   "replayable": false
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "trec132k-17000241",
+   "window": 65536,
+   "wall_s": 110.67,
+   "score": 1.9239109771287545e-70,
+   "turns": 12,
+   "problems": [],
+   "blocks": 12,
+   "root_tokens": 2326,
+   "rec_stream_s": 104.6,
+   "rec_after_s": 5.0,
+   "calls": 4,
+   "errors": 0,
+   "batches": 0,
+   "singles": 4,
+   "call_out_tokens": 9,
+   "rec_call_s": 5.0,
+   "distinct_prompts": 4,
+   "prompts_with_differing_outcomes": 0,
+   "final": "default_answer",
+   "delta_token_gap": [
+    [
+     1,
+     12
+    ]
+   ],
+   "sha256": "c5f4d37a62b3538d2bbf2d550c0786486a3dcdc78596020cc2422ce5161009ec",
+   "replayable": true
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "trec132k-17000222",
+   "window": 65536,
+   "wall_s": 1339.69,
+   "score": 0.0,
+   "cut": "deadline",
+   "turns_kept": 10,
+   "turns": 10,
+   "problems": [],
+   "blocks": 10,
+   "root_tokens": 2268,
+   "rec_stream_s": 104.3,
+   "rec_after_s": 699.7,
+   "calls": 4,
+   "errors": 1,
+   "batches": 0,
+   "singles": 5,
+   "call_out_tokens": 16384,
+   "rec_call_s": 699.5,
+   "distinct_prompts": 5,
+   "prompts_with_differing_outcomes": 0,
+   "final": "deadline",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ]
+   ],
+   "sha256": "64fb5236559df5ce20bdc82ef39c0dd34c82285668f4598ceaeb4e8415bed349",
+   "replayable": true
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "trec132k-17000237",
+   "window": 65536,
+   "wall_s": 229.27,
+   "score": 0.0,
+   "turns": 12,
+   "problems": [],
+   "blocks": 12,
+   "root_tokens": 3385,
+   "rec_stream_s": 151.6,
+   "rec_after_s": 76.6,
+   "calls": 3205,
+   "errors": 1,
+   "batches": 161,
+   "singles": 1,
+   "call_out_tokens": 9819,
+   "rec_call_s": 76.2,
+   "distinct_prompts": 3186,
+   "prompts_with_differing_outcomes": 20,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     12
+    ]
+   ],
+   "sha256": "d53ee22d295154fb0f1eaafac918dde2ce9ef5a9696f80365878b9f70d949362",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "pairs32k-16",
+   "window": 65536,
+   "wall_s": 114.83,
+   "score": 0.4872521246458923,
+   "turns": 10,
+   "problems": [],
+   "blocks": 10,
+   "root_tokens": 1981,
+   "rec_stream_s": 88.9,
+   "rec_after_s": 25.6,
+   "calls": 1574,
+   "errors": 0,
+   "batches": 2,
+   "singles": 0,
+   "call_out_tokens": 4701,
+   "rec_call_s": 25.6,
+   "distinct_prompts": 1386,
+   "prompts_with_differing_outcomes": 0,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ]
+   ],
+   "sha256": "882862ccae58814817f400acc0e087e17a6b7496e104d9b2b90f1e44fb2f1e21",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-20.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "pairs32k-20",
+   "window": 65536,
+   "wall_s": 159.16,
+   "score": 0.2741035856573705,
+   "turns": 11,
+   "problems": [
+    "turn 8 block 1: output differs from the recorded one",
+    "turn 9: message history differs from the recorded one",
+    "turn 10: message history differs from the recorded one",
+    "turn 11: message history differs from the recorded one"
+   ],
+   "blocks": 11,
+   "root_tokens": 2795,
+   "rec_stream_s": 127.4,
+   "rec_after_s": 31.2,
+   "calls": 807,
+   "errors": 0,
+   "batches": 41,
+   "singles": 0,
+   "call_out_tokens": 4131,
+   "rec_call_s": 31.1,
+   "distinct_prompts": 693,
+   "prompts_with_differing_outcomes": 83,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     11
+    ]
+   ],
+   "replayable": false
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "pairs32k-1",
+   "window": 65536,
+   "wall_s": 90.84,
+   "score": 0.984064503841026,
+   "turns": 7,
+   "problems": [],
+   "blocks": 7,
+   "root_tokens": 1502,
+   "rec_stream_s": 72.6,
+   "rec_after_s": 17.8,
+   "calls": 786,
+   "errors": 0,
+   "batches": 40,
+   "singles": 0,
+   "call_out_tokens": 2350,
+   "rec_call_s": 17.8,
+   "distinct_prompts": 693,
+   "prompts_with_differing_outcomes": 68,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     7
+    ]
+   ],
+   "sha256": "924f3e68f7414b34d1f22496d91738dc78d3304513316e642f05268d80b2cbd2",
+   "replayable": true
+  },
+  {
+   "session": "pairs32k-15.fix2",
+   "run": "20261110-173155-record",
+   "unit": "nospec_c8_r2",
+   "task_id": "pairs32k-15",
+   "window": 65536,
+   "wall_s": 120.39,
+   "score": 0.43380281690140843,
+   "turns": 10,
+   "problems": [
+    "turn 6 block 1: output differs from the recorded one",
+    "turn 7: message history differs from the recorded one",
+    "turn 7 block 1: output differs from the recorded one",
+    "turn 8: message history differs from the recorded one",
+    "turn 9: message history differs from the recorded one",
+    "turn 10: message history differs from the recorded one"
+   ],
+   "blocks": 10,
+   "root_tokens": 2063,
+   "rec_stream_s": 89.9,
+   "rec_after_s": 30.2,
+   "calls": 787,
+   "errors": 0,
+   "batches": 40,
+   "singles": 0,
+   "call_out_tokens": 3931,
+   "rec_call_s": 30.1,
+   "distinct_prompts": 693,
+   "prompts_with_differing_outcomes": 69,
+   "final": "answer",
+   "delta_token_gap": [
+    [
+     1,
+     10
+    ]
+   ],
+   "replayable": false
+  }
+ ]
+}

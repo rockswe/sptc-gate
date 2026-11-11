@@ -1,0 +1,3685 @@
+{
+ "stamp_utc": "2026-10-20T06:22:09Z",
+ "label": "PREDICTED by the simulator before any GPU run of kaggle/sptc_kaggle_v3.ipynb (addendum to prereg_v3, section B4; no new simulation)",
+ "version": "v3b",
+ "code": {
+  "commit": "da1ae49bd15e17f5a811338d3aa47e58816784c0",
+  "dirty_files": [],
+  "script": "experiments/prereg_v3b.py"
+ },
+ "based_on": {
+  "prereg_v3_commit": "2e39a4d",
+  "prereg_v3_files": {
+   "predictions.json": "match",
+   "predictions.md": "match",
+   "general_predictions.json": "match"
+  },
+  "prereg_v3_code_commit": "3ded06ba8949a0d871d6d214f637c531a74c3a4c",
+  "prereg_v3_stamp": "2026-10-20T05:40:28Z"
+ },
+ "primary": "P1",
+ "sets": {
+  "P1": {
+   "summary": {
+    "rows": [
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.695526748603278,
+      "session_p99": 5.207749438291615,
+      "root_tpot_p50": 28.490505057870184,
+      "root_tpot_p99": 30.87378129572612,
+      "root_itl_p99": 126.38252288226104,
+      "sessions_per_min": 59.16845886321473,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0625,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 5.813159586272564,
+      "session_p99": 6.397878884649838,
+      "root_tpot_p50": 35.926651024399895,
+      "root_tpot_p99": 38.95156405345827,
+      "root_itl_p99": 240.38565093959807,
+      "sessions_per_min": 95.5980553917284,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.653773052575093,
+      "session_p99": 4.045713305436874,
+      "root_tpot_p50": 22.35677773688934,
+      "root_tpot_p99": 23.597652703597642,
+      "root_itl_p99": 89.3067913656127,
+      "sessions_per_min": 75.88147775649797,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 166,
+       "cancelled": 6,
+       "completed": 8
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.398572000789906,
+      "session_p99": 4.889543146406069,
+      "root_tpot_p50": 26.764433718031626,
+      "root_tpot_p99": 28.771337127378,
+      "root_itl_p99": 120.11562786922836,
+      "sessions_per_min": 126.54625472775307,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.75,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.9423486627101445,
+      "session_p99": 4.376181235296321,
+      "root_tpot_p50": 24.063566260076772,
+      "root_tpot_p99": 25.846928556291314,
+      "root_itl_p99": 118.60222602162341,
+      "sessions_per_min": 70.69746976179134,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.25,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 130,
+       "cancelled": 34,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.6864239215672985,
+      "session_p99": 5.199943476915891,
+      "root_tpot_p50": 28.671946796333028,
+      "root_tpot_p99": 30.757218222736313,
+      "root_itl_p99": 172.92149633920505,
+      "sessions_per_min": 118.2129736360396,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.125,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 308,
+       "cancelled": 36,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.695526748603278,
+      "session_p99": 5.207749438291615,
+      "root_tpot_p50": 28.490505057870184,
+      "root_tpot_p99": 30.87378129572612,
+      "root_itl_p99": 126.38252288226104,
+      "sessions_per_min": 59.16845886321473,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0625,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 5.810638070661916,
+      "session_p99": 6.395347513039191,
+      "root_tpot_p50": 35.92355607572653,
+      "root_tpot_p99": 38.89085936252161,
+      "root_itl_p99": 240.38565093959807,
+      "sessions_per_min": 95.63471045015909,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.584692566853583,
+      "session_p99": 3.988548869914407,
+      "root_tpot_p50": 21.842716770625604,
+      "root_tpot_p99": 23.129618833900444,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.61554671191016,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.373054216277464,
+      "session_p99": 4.871646805631243,
+      "root_tpot_p50": 26.60883747100454,
+      "root_tpot_p99": 28.577308785610494,
+      "root_itl_p99": 88.76925482454823,
+      "sessions_per_min": 127.27281747449811,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.75,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.9175493645548487,
+      "root_tpot_p50": 21.374717422687443,
+      "root_tpot_p99": 22.776001825922126,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.49390061229687,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.398572000789906,
+      "session_p99": 4.889543146406069,
+      "root_tpot_p50": 26.764433718031626,
+      "root_tpot_p99": 28.771337127378,
+      "root_itl_p99": 120.11562786922836,
+      "sessions_per_min": 126.54625472775307,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.75,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     }
+    ],
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {
+      "map16": {
+       "wall_s": 4.310659509329832,
+       "root_tpot_ms": 15.807106666650167
+      },
+      "map_reduce": {
+       "wall_s": 6.6165042559936635,
+       "root_tpot_ms": 15.834434666650168
+      },
+      "two_stage": {
+       "wall_s": 10.159637079990148,
+       "root_tpot_ms": 15.811586666650157
+      },
+      "side_branch_chain": {
+       "wall_s": 4.198057170662814,
+       "root_tpot_ms": 15.830850666650155
+      }
+     }
+    }
+   },
+   "claims": [
+    {
+     "id": "B4C-1",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7426629889188111,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-2",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.750240031872756,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-3",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.756657706624273,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-4",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7449743562196858,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-1",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0477688153480793,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-2",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0459449495767146,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-3",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-4",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-5",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.1305217725840127,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-6",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.1257957606744942,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-7",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0654421300198564,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-8",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.071270444142305,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-9",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3465057703438637,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-10",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.3329067465298952,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-11",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3210282950053855,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-12",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.3422124470925854,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-13",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.027959052221964,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-14",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0218949957879406,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-15",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9941986207096624,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-16",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9941864547306952,
+     "tol": 0.05
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "frac": 0.7222222222222222
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "frac": 0.8555555555555555
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "frac": 0.9222222222222223
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    }
+   ],
+   "proxy": [
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "gate": "window:8",
+     "bets_sent": 14,
+     "bets_refused": 166
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "gate": "window:8",
+     "bets_sent": 0,
+     "bets_refused": 360
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "gate": "bets:8",
+     "bets_sent": 50,
+     "bets_refused": 130
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "gate": "bets:8",
+     "bets_sent": 52,
+     "bets_refused": 308
+    }
+   ]
+  },
+  "P0": {
+   "summary": {
+    "rows": [
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.391566844346299,
+      "session_p99": 6.10028544182176,
+      "root_tpot_p50": 32.37886547632113,
+      "root_tpot_p99": 37.450877854101094,
+      "root_itl_p99": 138.5953058709779,
+      "sessions_per_min": 51.58391727210163,
+      "p99_is_max": true,
+      "goodput": 0.375,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.375,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.375,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 8.563349176522253,
+      "session_p99": 9.657233488469618,
+      "root_tpot_p50": 50.97440413892294,
+      "root_tpot_p99": 61.531628872376636,
+      "root_itl_p99": 275.29799132573095,
+      "sessions_per_min": 65.42522978304154,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 0.875,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 0.0,
+       "3.0": 0.125,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.668777617854948,
+      "session_p99": 4.052790526256641,
+      "root_tpot_p50": 22.40837646608887,
+      "root_tpot_p99": 24.178269819667573,
+      "root_itl_p99": 89.3067913656127,
+      "sessions_per_min": 75.51931554606071,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.9375,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 166,
+       "cancelled": 6,
+       "completed": 8
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.613333242120672,
+      "session_p99": 5.147892964407653,
+      "root_tpot_p50": 28.228668531327706,
+      "root_tpot_p99": 31.18001493226463,
+      "root_itl_p99": 126.22636744382953,
+      "sessions_per_min": 121.22425952053581,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.375,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.9916587762819145,
+      "session_p99": 4.428559003078616,
+      "root_tpot_p50": 24.261969869665656,
+      "root_tpot_p99": 26.025997847854683,
+      "root_itl_p99": 118.60222602162341,
+      "sessions_per_min": 69.78450961909378,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.1875,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 130,
+       "cancelled": 34,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 5.128774392759396,
+      "session_p99": 5.686137924600029,
+      "root_tpot_p50": 31.24353718541761,
+      "root_tpot_p99": 34.06031914616431,
+      "root_itl_p99": 176.4133475246914,
+      "sessions_per_min": 109.01691856848996,
+      "p99_is_max": true,
+      "goodput": 0.625,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.625,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.625,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 308,
+       "cancelled": 36,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.391566844346299,
+      "session_p99": 6.10028544182176,
+      "root_tpot_p50": 32.37886547632113,
+      "root_tpot_p99": 37.450877854101094,
+      "root_itl_p99": 138.5953058709779,
+      "sessions_per_min": 51.58391727210163,
+      "p99_is_max": true,
+      "goodput": 0.375,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.375,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.375,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 8.553239014179745,
+      "session_p99": 9.645089670098892,
+      "root_tpot_p50": 50.90878544088314,
+      "root_tpot_p99": 61.531628872376686,
+      "root_itl_p99": 275.29799132573095,
+      "sessions_per_min": 65.53085515362368,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 0.9375,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 0.0,
+       "3.0": 0.125,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.5912397878263693,
+      "session_p99": 3.995096090887193,
+      "root_tpot_p50": 21.884772561351944,
+      "root_tpot_p99": 23.129618833900444,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.35621118045708,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.580831755237259,
+      "session_p99": 5.125631809650975,
+      "root_tpot_p50": 27.875773684174025,
+      "root_tpot_p99": 30.852396575492794,
+      "root_itl_p99": 93.24072778744785,
+      "sessions_per_min": 122.02268321724297,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.4375,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.92453306692582,
+      "root_tpot_p50": 21.503637172006325,
+      "root_tpot_p99": 22.89641048749059,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.20191318034625,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.613333242120672,
+      "session_p99": 5.147892964407653,
+      "root_tpot_p50": 28.228668531327706,
+      "root_tpot_p99": 31.18001493226463,
+      "root_itl_p99": 126.22636744382953,
+      "sessions_per_min": 121.22425952053581,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.375,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     }
+    ],
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {
+      "map16": {
+       "wall_s": 4.310659509329832,
+       "root_tpot_ms": 15.807106666650167
+      },
+      "map_reduce": {
+       "wall_s": 6.6165042559936635,
+       "root_tpot_ms": 15.834434666650168
+      },
+      "two_stage": {
+       "wall_s": 10.159637079990148,
+       "root_tpot_ms": 15.811586666650157
+      },
+      "side_branch_chain": {
+       "wall_s": 4.198057170662814,
+       "root_tpot_ms": 15.830850666650155
+      }
+     }
+    }
+   },
+   "claims": [
+    {
+     "id": "B4C-1",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6467867375738235,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-2",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6641257145878713,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-3",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.5387300163782692,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-4",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5537812360571158,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-1",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0520715772771507,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-2",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0420737797445887,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-3",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-4",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-5",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.144662114235873,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-6",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.128272844058686,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-7",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.1117285753243753,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-8",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.1068016598354276,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-9",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.546104677024026,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-10",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.5057390160243356,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-11",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.8540258345282608,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-12",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.8034426733370517,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-13",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0298365563427094,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-14",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0177242289895863,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-15",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9929548798715282,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-16",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9874987073243626,
+     "tol": 0.05
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "frac": 0.7222222222222222
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "frac": 0.8555555555555555
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "frac": 0.9222222222222223
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    }
+   ],
+   "proxy": [
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "gate": "window:8",
+     "bets_sent": 14,
+     "bets_refused": 166
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "gate": "window:8",
+     "bets_sent": 0,
+     "bets_refused": 360
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "gate": "bets:8",
+     "bets_sent": 50,
+     "bets_refused": 130
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "gate": "bets:8",
+     "bets_sent": 52,
+     "bets_refused": 308
+    }
+   ]
+  },
+  "P1-alt": {
+   "summary": {
+    "rows": [
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.997498971267191,
+      "session_p99": 5.604162083884168,
+      "root_tpot_p50": 30.058557685513627,
+      "root_tpot_p99": 33.54294460598704,
+      "root_itl_p99": 129.86455582203814,
+      "sessions_per_min": 55.280772735128906,
+      "p99_is_max": true,
+      "goodput": 0.8125,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.8125,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.8125,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 6.2909147816354825,
+      "session_p99": 6.930405270534171,
+      "root_tpot_p50": 38.59493773941136,
+      "root_tpot_p99": 41.463892039014915,
+      "root_itl_p99": 243.86740335806945,
+      "sessions_per_min": 88.49354652463174,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 0.625,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6542095339732787,
+      "session_p99": 4.052697007807848,
+      "root_tpot_p50": 22.359439208829492,
+      "root_tpot_p99": 23.801992752266017,
+      "root_itl_p99": 89.3067913656127,
+      "sessions_per_min": 75.64919092983443,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.9375,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 166,
+       "cancelled": 6,
+       "completed": 8
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.509128424000286,
+      "session_p99": 5.04405756136384,
+      "root_tpot_p50": 27.669334177685098,
+      "root_tpot_p99": 29.86414625676184,
+      "root_itl_p99": 123.60747905471482,
+      "sessions_per_min": 124.01316939393493,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.5625,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.975521248972261,
+      "session_p99": 4.421575300707644,
+      "root_tpot_p50": 24.22770901329296,
+      "root_tpot_p99": 26.025997847854683,
+      "root_itl_p99": 118.60222602162341,
+      "sessions_per_min": 70.01108908205421,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.1875,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 130,
+       "cancelled": 34,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "proxy-sem/spec+bad",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.913145547950463,
+      "session_p99": 5.426860939972515,
+      "root_tpot_p50": 29.981390990890564,
+      "root_tpot_p99": 32.29191971114044,
+      "root_itl_p99": 176.4133475246914,
+      "sessions_per_min": 113.3219045976944,
+      "p99_is_max": true,
+      "goodput": 0.875,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.875,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.875,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 308,
+       "cancelled": 36,
+       "completed": 16
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.997498971267191,
+      "session_p99": 5.604162083884168,
+      "root_tpot_p50": 30.058557685513627,
+      "root_tpot_p99": 33.54294460598704,
+      "root_itl_p99": 129.86455582203814,
+      "sessions_per_min": 55.280772735128906,
+      "p99_is_max": true,
+      "goodput": 0.8125,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.8125,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.8125,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-bets/spec+bad",
+      "server": "priority",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 6.288383410024837,
+      "session_p99": 6.927864042923526,
+      "root_tpot_p50": 38.59184279073802,
+      "root_tpot_p99": 41.463892039014915,
+      "root_itl_p99": 243.86740335806945,
+      "sessions_per_min": 88.53106745014922,
+      "p99_is_max": true,
+      "goodput": 0.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 0.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.0,
+       "2.0": 0.0,
+       "2.5": 0.625,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "cancelled": 224,
+       "completed": 136
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.5912397878263684,
+      "session_p99": 3.995096090887192,
+      "root_tpot_p50": 21.88477256135193,
+      "root_tpot_p99": 23.129618833900434,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.39704362004402,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-b4/spec+bad",
+      "server": "plugin",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.4865310917275165,
+      "session_p99": 5.029216590376312,
+      "root_tpot_p50": 27.365831438824927,
+      "root_tpot_p99": 29.780040353171977,
+      "root_itl_p99": 92.19321985398832,
+      "sessions_per_min": 124.61199211991355,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.75,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {
+       "rejected": 360
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659384,
+      "session_p99": 3.9245330669258207,
+      "root_tpot_p50": 21.46486958424873,
+      "root_tpot_p99": 22.89641048749061,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.25328440907467,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 1.0,
+       "1.75": 1.0,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     },
+     {
+      "arm": "fcfs-b4/spec",
+      "server": "fcfs",
+      "agents": 8,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 32,
+      "session_p50": 4.509128424000286,
+      "session_p99": 5.04405756136384,
+      "root_tpot_p50": 27.669334177685098,
+      "root_tpot_p99": 29.86414625676184,
+      "root_itl_p99": 123.60747905471482,
+      "sessions_per_min": 124.01316939393493,
+      "p99_is_max": true,
+      "goodput": 1.0,
+      "goodput_wall": 1.0,
+      "goodput_tpot": 1.0,
+      "goodput_curve": {
+       "1.0": 0.0,
+       "1.25": 0.0,
+       "1.5": 0.0,
+       "1.75": 0.5625,
+       "2.0": 1.0,
+       "2.5": 1.0,
+       "3.0": 1.0,
+       "4.0": 1.0,
+       "5.0": 1.0
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": null,
+      "max_kv": null,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null,
+      "copied_from": "fcfs/spec"
+     }
+    ],
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {
+      "map16": {
+       "wall_s": 4.310659509329832,
+       "root_tpot_ms": 15.807106666650167
+      },
+      "map_reduce": {
+       "wall_s": 6.6165042559936635,
+       "root_tpot_ms": 15.834434666650168
+      },
+      "two_stage": {
+       "wall_s": 10.159637079990148,
+       "root_tpot_ms": 15.811586666650157
+      },
+      "side_branch_chain": {
+       "wall_s": 4.198057170662814,
+       "root_tpot_ms": 15.830850666650155
+      }
+     }
+    }
+   },
+   "claims": [
+    {
+     "id": "B4C-1",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6977878234123394,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-2",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.71410178122397,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-3",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7167683207477854,
+     "tol": 0.05
+    },
+    {
+     "id": "B4C-4",
+     "section": "B4: cost of the bets (no-bets reference)",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec+bad",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7169161501051071,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-1",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0478939822894622,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-2",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.041675986945535,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-3",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-4",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-5",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.1400344601291224,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-6",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.1287144754455738,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-7",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0895998263876796,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-8",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "proxy-sem/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.083560261998285,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-9",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4331003873208552,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-10",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.4003606016582129,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-11",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 1.394589556721048,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-12",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "prio-bets/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.3947514075659169,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-13",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0298365563427088,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-14",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0195623353524277,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-15",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9949885365534294,
+     "tol": 0.05
+    },
+    {
+     "id": "B4N-16",
+     "section": "B4: each arm vs refusing every bet",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-b4/spec+bad",
+      8
+     ],
+     "denominator": [
+      "fcfs-b4/spec",
+      8
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9890310790671305,
+     "tol": 0.05
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "fcfs-b4/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "plugin-b4/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-bets/spec+bad",
+     "agents": 8,
+     "frac": 0.0
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "frac": 0.7222222222222222
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "frac": 0.8555555555555555
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "frac": 0.9222222222222223
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "frac": 1.0
+    }
+   ],
+   "proxy": [
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 4,
+     "gate": "window:8",
+     "bets_sent": 14,
+     "bets_refused": 166
+    },
+    {
+     "arm": "proxy/spec+bad",
+     "agents": 8,
+     "gate": "window:8",
+     "bets_sent": 0,
+     "bets_refused": 360
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 4,
+     "gate": "bets:8",
+     "bets_sent": 50,
+     "bets_refused": 130
+    },
+    {
+     "arm": "proxy-sem/spec+bad",
+     "agents": 8,
+     "gate": "bets:8",
+     "bets_sent": 52,
+     "bets_refused": 308
+    }
+   ]
+  }
+ },
+ "summary": {
+  "rows": [
+   {
+    "arm": "fcfs-b4/spec+bad",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.695526748603278,
+    "session_p99": 5.207749438291615,
+    "root_tpot_p50": 28.490505057870184,
+    "root_tpot_p99": 30.87378129572612,
+    "root_itl_p99": 126.38252288226104,
+    "sessions_per_min": 59.16845886321473,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.0625,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "cancelled": 112,
+     "completed": 68
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-b4/spec+bad",
+    "server": "fcfs",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 5.813159586272564,
+    "session_p99": 6.397878884649838,
+    "root_tpot_p50": 35.926651024399895,
+    "root_tpot_p99": 38.95156405345827,
+    "root_itl_p99": 240.38565093959807,
+    "sessions_per_min": 95.5980553917284,
+    "p99_is_max": true,
+    "goodput": 0.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 0.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.0,
+     "2.0": 0.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "cancelled": 224,
+     "completed": 136
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "proxy/spec+bad",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.653773052575093,
+    "session_p99": 4.045713305436874,
+    "root_tpot_p50": 22.35677773688934,
+    "root_tpot_p99": 23.597652703597642,
+    "root_itl_p99": 89.3067913656127,
+    "sessions_per_min": 75.88147775649797,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 1.0,
+     "1.75": 1.0,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 166,
+     "cancelled": 6,
+     "completed": 8
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "proxy/spec+bad",
+    "server": "fcfs",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 4.398572000789906,
+    "session_p99": 4.889543146406069,
+    "root_tpot_p50": 26.764433718031626,
+    "root_tpot_p99": 28.771337127378,
+    "root_itl_p99": 120.11562786922836,
+    "sessions_per_min": 126.54625472775307,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.75,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 360
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "proxy-sem/spec+bad",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.9423486627101445,
+    "session_p99": 4.376181235296321,
+    "root_tpot_p50": 24.063566260076772,
+    "root_tpot_p99": 25.846928556291314,
+    "root_itl_p99": 118.60222602162341,
+    "sessions_per_min": 70.69746976179134,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.25,
+     "1.75": 1.0,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 130,
+     "cancelled": 34,
+     "completed": 16
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "proxy-sem/spec+bad",
+    "server": "fcfs",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 4.6864239215672985,
+    "session_p99": 5.199943476915891,
+    "root_tpot_p50": 28.671946796333028,
+    "root_tpot_p99": 30.757218222736313,
+    "root_itl_p99": 172.92149633920505,
+    "sessions_per_min": 118.2129736360396,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.125,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 308,
+     "cancelled": 36,
+     "completed": 16
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "prio-bets/spec+bad",
+    "server": "priority",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.695526748603278,
+    "session_p99": 5.207749438291615,
+    "root_tpot_p50": 28.490505057870184,
+    "root_tpot_p99": 30.87378129572612,
+    "root_itl_p99": 126.38252288226104,
+    "sessions_per_min": 59.16845886321473,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.0625,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "cancelled": 112,
+     "completed": 68
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "prio-bets/spec+bad",
+    "server": "priority",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 5.810638070661916,
+    "session_p99": 6.395347513039191,
+    "root_tpot_p50": 35.92355607572653,
+    "root_tpot_p99": 38.89085936252161,
+    "root_itl_p99": 240.38565093959807,
+    "sessions_per_min": 95.63471045015909,
+    "p99_is_max": true,
+    "goodput": 0.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 0.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.0,
+     "2.0": 0.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "cancelled": 224,
+     "completed": 136
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "plugin-b4/spec+bad",
+    "server": "plugin",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.584692566853583,
+    "session_p99": 3.988548869914407,
+    "root_tpot_p50": 21.842716770625604,
+    "root_tpot_p99": 23.129618833900444,
+    "root_itl_p99": 65.3188621337395,
+    "sessions_per_min": 77.61554671191016,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 1.0,
+     "1.75": 1.0,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 173,
+     "completed": 5,
+     "cancelled": 2
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "plugin-b4/spec+bad",
+    "server": "plugin",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 4.373054216277464,
+    "session_p99": 4.871646805631243,
+    "root_tpot_p50": 26.60883747100454,
+    "root_tpot_p99": 28.577308785610494,
+    "root_itl_p99": 88.76925482454823,
+    "sessions_per_min": 127.27281747449811,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.75,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {
+     "rejected": 360
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-b4/spec",
+    "server": "fcfs",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.4871939296659376,
+    "session_p99": 3.9175493645548487,
+    "root_tpot_p50": 21.374717422687443,
+    "root_tpot_p99": 22.776001825922126,
+    "root_itl_p99": 64.06510435614709,
+    "sessions_per_min": 79.49390061229687,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 1.0,
+     "1.75": 1.0,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null,
+    "copied_from": "fcfs/spec"
+   },
+   {
+    "arm": "fcfs-b4/spec",
+    "server": "fcfs",
+    "agents": 8,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 32,
+    "session_p50": 4.398572000789906,
+    "session_p99": 4.889543146406069,
+    "root_tpot_p50": 26.764433718031626,
+    "root_tpot_p99": 28.771337127378,
+    "root_itl_p99": 120.11562786922836,
+    "sessions_per_min": 126.54625472775307,
+    "p99_is_max": true,
+    "goodput": 1.0,
+    "goodput_wall": 1.0,
+    "goodput_tpot": 1.0,
+    "goodput_curve": {
+     "1.0": 0.0,
+     "1.25": 0.0,
+     "1.5": 0.0,
+     "1.75": 0.75,
+     "2.0": 1.0,
+     "2.5": 1.0,
+     "3.0": 1.0,
+     "4.0": 1.0,
+     "5.0": 1.0
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": null,
+    "max_kv": null,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null,
+    "copied_from": "fcfs/spec"
+   }
+  ],
+  "slo": {
+   "ref_arm": "fcfs/nospec",
+   "k_session": 2.0,
+   "k_tpot": 2.0,
+   "refs": {
+    "map16": {
+     "wall_s": 4.310659509329832,
+     "root_tpot_ms": 15.807106666650167
+    },
+    "map_reduce": {
+     "wall_s": 6.6165042559936635,
+     "root_tpot_ms": 15.834434666650168
+    },
+    "two_stage": {
+     "wall_s": 10.159637079990148,
+     "root_tpot_ms": 15.811586666650157
+    },
+    "side_branch_chain": {
+     "wall_s": 4.198057170662814,
+     "root_tpot_ms": 15.830850666650155
+    }
+   }
+  }
+ },
+ "overhead": [],
+ "general": {
+  "claims": [],
+  "quick_claims": []
+ },
+ "protocol_changes": [
+  "**Same prompts on every B4 arm.** In v3's protocol the three arms on each stock FCFS launch (fcfs-b4, proxy, proxy-sem) had numbered prompt prefixes (`[spec d1 n8 r0]`, `[spec d1 v1 n8 r0]`, `[spec d1 v2 n8 r0]`), to keep their runs out of each other's prefix cache. Sub-calls stop at EOS, so a different prefix can change their length: B4-1..8 and B4P-1..8 compared unlike prompts. Now every B4 arm sends the same text (`[spec n8 r0]`, the number of bad guesses left out), and the arms that share a launch are kept apart by vLLM's per-request `cache_salt` (`sptc-v1`, `sptc-v2`, `sptc-v3`; it enters the first KV block's hash). If a server refuses `cache_salt` the bench falls back to numbered prefixes and says so; every run records `salt` and `cache_salt`. The predicted values of v3's B4 claims do not change: the simulator has no prompt text.",
+  "**No-bets reference `fcfs-b4/spec`** on the same stock FCFS launches: speculation without bad guesses, 3 repeats at 8 and 4 agents (6 more runs). Claims B4C-* and B4N-* below.",
+  "**Work and prefix-cache columns.** The B4 table of `sweep/summary.md` now gives, per arm, sub-call completion tokens per session against fcfs-b4, session p50 against the no-bets reference, the share of decoys refused, and the server's prefix-cache hit share (`vllm:prefix_cache_hits` over `vllm:prefix_cache_queries`, per run)."
+ ],
+ "reading_rules": [
+  "**B4 cannot show a cost of refusing too many bets.** Every bet in this bench is a decoy: a bad guess of the same size, never claimed. Real speculative calls are kind `early`, which no gate and no bets-only priority touches. So refusing every bet is the best possible gate here, and the B4 arms rank by how many bets they refuse. The no-bets reference measures that best case directly. An arm within tolerance of it (B4N-*) has refused nearly every bet. Where two arms both refuse (nearly) all bets (in P1 at 8 agents, the window cap and the plugin both refuse 100%: B4P-3/4 predict 0.994), their ratio compares two arms that send almost no bets, and says nothing about which gate is smarter. 'If the GPU agrees, the T4 win needs no scheduler change at this load' holds only for a workload whose bets are all worthless.",
+  "**Work check (secondary, not a verdict).** Next to each B4 ratio, read the ratio of sub-call tokens per session (numerator over denominator; `experiments/prereg_compare.py` prints it as 'work'). Away from 1 by more than the claim's tolerance, the two arms did not run the same workload and the claim is read as confounded, whatever its verdict.",
+  "**Prefix-cache check (secondary).** The proxy and no-bets arms' prefix-cache hit share should be close to fcfs-b4's on the same launches. A clearly higher share means `cache_salt` did not keep the runs apart.",
+  "**Launch depth (known limit, not corrected).** Four B4 arms share each stock FCFS launch (fcfs-b4, proxy, proxy-sem, no-bets: 16 measured runs in round 0, 8 in round 1), while prio-bets and plugin-b4 have a launch each (4 and 2). Arm order rotates within a launch and the rounds are ABBA, but claims across launches (B4P-*, B4-9..16, B4N for prio-bets and plugin-b4) compare runs made at different depths into a launch. Read them with the per-launch GPU clocks in `sweep/summary.md` ('Per server launch')."
+ ],
+ "corrections_to_v3": [
+  "v3's rule 'baselines' (predictions.json `rules.baselines` and predictions.md) says the B4 denominators are fcfs-b4/spec+bad. That holds for B4-1..16 only. B4P-1..8 divide plugin-b4/spec+bad (plugin launches) by proxy/spec+bad or proxy-sem/spec+bad (stock FCFS launches). prereg_compare scores every claim with its own numerator and denominator, so no verdict changes; only the rule text was wrong.",
+  "The same rule's '(same server, other prompt prefix)' no longer holds: see the protocol change above."
+ ],
+ "rules": {
+  "validity": "A measured point counts only if every run has status ok and its row's cpu_ok is true (whole-host CPU < 0.85 mean, < 10% of seconds >= 95% busy). Otherwise every claim using it is 'invalid'.",
+  "ratio": "measured ratio m of two measured points vs predicted p: supported if |m - p| <= tol; refuted if |m - p| > tol and the numerator's 95% CI does not overlap p x the denominator's 95% CI (both from vllm_bench.summarize's bootstrap); otherwise unresolved. Eager ratios use eager points only.",
+  "fraction": "measured share of decoys logged 'rejected' vs predicted: supported if within tol (absolute), otherwise refuted.",
+  "threshold": "a predicted knee_ref / good50 / net_loss load is right if the measured one is the same ladder step or the adjacent one; a prediction above the ladder (None) is right if no measured load reaches it. Scored on the presets that ran; a threshold beyond the loads measured is 'unchecked'.",
+  "overhead": "plugin total p50 minus stock total p50 (same N, same scheduling, sync and async), from overhead_bench.py vllm: supported if <= bound_added_us.",
+  "general": "experiments/general.py's claims (results/general/predictions.json, regenerated identically): supported if the measured ratio is inside the bound.",
+  "points": "for every measured (arm, load), |log(predicted / measured)| of session p50 and root TPOT p50 for P1, P0 and P1-alt: median and max, P1's in-sample points (1/4/8 agents of fcfs/* and plugin/*) apart from the rest. Not pass/fail.",
+  "baselines": "B4C and B4N ratio claims use v3's ratio rule (tol 0.05); each claim's denominator is its own: fcfs-b4/spec+bad for B4C, the no-bets reference fcfs-b4/spec for B4N, both on the stock FCFS launches."
+ },
+ "gpu_minutes": {
+  "baselines": {
+   "preset": "baselines",
+   "runs": 36,
+   "launches": 6,
+   "cache_fill_launches_max": 1,
+   "est_minutes": 58,
+   "source": "simulator predictions"
+  }
+ }
+}

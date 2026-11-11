@@ -1,0 +1,27 @@
+{
+ "M1_solo_decode": [
+  {
+   "itl_median_ms": 15.80165449991
+  },
+  {
+   "itl_median_ms": 15.857083000014427
+  },
+  {
+   "itl_median_ms": 15.88824650002607
+  }
+ ],
+ "M2_solo_prefill": [
+  {
+   "prompt_tokens": 464,
+   "ttft_s": 0.11107196399984787
+  },
+  {
+   "prompt_tokens": 1400,
+   "ttft_s": 0.4778116110001065
+  },
+  {
+   "prompt_tokens": 2804,
+   "ttft_s": 1.4963422900000296
+  }
+ ]
+}

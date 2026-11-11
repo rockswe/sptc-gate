@@ -1,0 +1,9 @@
+{"t": 1794262354.075, "kind": "begin", "tasks": ["trec132k-17000232"], "arms": ["stream", "fanout", "nospec"], "conc": [1], "repeats": 1, "model": "Qwen/Qwen3-30B-A3B-Instruct-2507", "base_url": "http://localhost:8210/v1", "max_minutes": 30.0, "repl_fix": true, "files": {"GATE.md": "f5182144e43cf6a932bd24be827332ead44fbf006650a790998241a9f3b54015", "rlm_campaign.py": "be0babbfe16931df7049681087acd260f641a3a15343040920a756c58cbae3d6", "rlm_stream.py": "c4a48a389e6c155d9104b2d7928ce759feaab7283cef47eead776d51776a1a8d", "repl_fix.py": "e8108229dce2110442d646471e2c040fa609ed6d27560c5f807273fcdfc56c80", "app.py": "104ca6a2de5f397da4d1849811a6312cb38b2145154c3c8584c27e2bf4cc2bd6"}, "spec_ptc_py_tree": "7443213069ac0b5634bebb4dcf453145c9df679c53c9ebd07ef29d873e124b2e", "spec_ptc_py_files": 74}
+{"t": 1794262491.831, "kind": "server_ready", "ready_s": 120.1, "kernel_config_dropped": []}
+{"t": 1794262491.843, "kind": "unit_begin", "unit": "stream_c1_r1"}
+{"t": 1794262638.819, "kind": "unit_end", "unit": "stream_c1_r1", "wall_s": 147.0, "errors": 0, "score": 1.0}
+{"t": 1794262646.9, "kind": "unit_begin", "unit": "fanout_c1_r1"}
+{"t": 1794262737.033, "kind": "unit_end", "unit": "fanout_c1_r1", "wall_s": 90.1, "errors": 1, "score": 0.0}
+{"t": 1794262741.967, "kind": "unit_begin", "unit": "nospec_c1_r1"}
+{"t": 1794262859.981, "kind": "unit_end", "unit": "nospec_c1_r1", "wall_s": 118.0, "errors": 0, "score": 1.0}
+{"t": 1794262865.173, "kind": "end", "spent_s": 511}

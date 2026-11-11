@@ -1,0 +1,424 @@
+{
+ "arms": [
+  {
+   "arm": "nospec",
+   "units": 1,
+   "wall_s": 477.92,
+   "stream_s": 387.151,
+   "after_s": 89.1919,
+   "unit_wall_s": 187.82404208183289,
+   "after_share": 0.18662516739203214,
+   "exact_units": 1
+  },
+  {
+   "arm": "wide",
+   "units": 1,
+   "wall_s": 378.44,
+   "stream_s": 372.2549,
+   "after_s": 4.3867,
+   "unit_wall_s": 134.10092568397522,
+   "after_share": 0.011591533664517494,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.7918480080348175,
+   "after_vs_nospec": 0.04918271726468435,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7991625533733716,
+    "ci": [
+     0.7136467706724882,
+     0.9066545537133772
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "wide-threads",
+   "units": 1,
+   "wall_s": 368.03,
+   "stream_s": 365.1236,
+   "after_s": 0.7744000000000001,
+   "unit_wall_s": 129.58116507530212,
+   "after_share": 0.002104176289976361,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.7700661198526949,
+   "after_vs_nospec": 0.008682402774242953,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7773115609880129,
+    "ci": [
+     0.6898993663809169,
+     0.8837913543795897
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "nospec-wide",
+   "units": 1,
+   "wall_s": 373.21,
+   "stream_s": 330.3303,
+   "after_s": 40.818,
+   "unit_wall_s": 134.0547971725464,
+   "after_share": 0.10937005975188231,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.7809047539337127,
+   "after_vs_nospec": 0.4576424540793502,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7861160146193588,
+    "ci": [
+     0.7133805441669772,
+     0.8323113028995381
+    ],
+    "sessions": 3
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "nospec_c3_r1",
+   "arm": "nospec",
+   "rep": 1,
+   "t0": 1794283938.661473,
+   "unit_wall_s": 187.82404208183289,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 477.92,
+   "stream_s": 387.151,
+   "after_s": 89.1919,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 334.45,
+   "call_ms_p90": 557.19,
+   "call_ms_max": 4510.6,
+   "gap_p50": 37.90000000000009,
+   "gap_p99": 112.79999999999927,
+   "gap_max": 2103.800000000003,
+   "stall_s": 29.76045,
+   "ttft_p50": 0.5919,
+   "ttft_p99": 14.11185,
+   "ttft_max": 14.113,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 5.9787234042553195,
+   "running_max": 32.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.12504491555874953,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c3_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794284133.9737837,
+   "unit_wall_s": 134.10092568397522,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 378.44,
+   "stream_s": 372.2549,
+   "after_s": 4.3867,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 813.5,
+   "call_ms_p90": 1208.21,
+   "call_ms_max": 5663.8,
+   "gap_p50": 39.69999999999891,
+   "gap_p99": 218.7140000000006,
+   "gap_max": 4390.5999999999985,
+   "stall_s": 42.376600000000025,
+   "ttft_p50": 0.5910500000000001,
+   "ttft_p99": 1.1612,
+   "ttft_max": 1.1688,
+   "spec": {
+    "scout_exec": 89,
+    "shadow_exec": 96,
+    "dispatch": 3982,
+    "adopt": 3982,
+    "ready": 3982,
+    "claim_hit": 3982,
+    "scout_skip": 10,
+    "shadow_stop": 3
+   },
+   "dispatch_source": {
+    "peek": 3982
+   },
+   "batch_dispatches": 3982,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     4
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 16.91044776119403,
+   "running_max": 131.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.1837944664031621,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide-threads_c3_r1",
+   "arm": "wide-threads",
+   "rep": 1,
+   "t0": 1794284274.3220148,
+   "unit_wall_s": 129.58116507530212,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 368.03,
+   "stream_s": 365.1236,
+   "after_s": 0.7744000000000001,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 798.9,
+   "call_ms_p90": 1161.3600000000001,
+   "call_ms_max": 2281.7,
+   "gap_p50": 40.0,
+   "gap_p99": 215.63999999999942,
+   "gap_max": 1150.5999999999995,
+   "stall_s": 29.104599999999994,
+   "ttft_p50": 0.5931,
+   "ttft_p99": 1.492475,
+   "ttft_max": 1.5227,
+   "spec": {
+    "scout_exec": 89,
+    "shadow_exec": 96,
+    "dispatch": 3982,
+    "ready": 3982,
+    "adopt": 3982,
+    "claim_hit": 3982,
+    "scout_skip": 10,
+    "shadow_stop": 3
+   },
+   "dispatch_source": {
+    "peek": 3982
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     4
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 17.50965250965251,
+   "running_max": 105.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.17840459935321595,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec-wide_c3_r1",
+   "arm": "nospec-wide",
+   "rep": 1,
+   "t0": 1794284410.176658,
+   "unit_wall_s": 134.0547971725464,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 373.21,
+   "stream_s": 330.3303,
+   "after_s": 40.818,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 776.1,
+   "call_ms_p90": 1150.59,
+   "call_ms_max": 1766.7,
+   "gap_p50": 39.19999999999982,
+   "gap_p99": 192.80699999999914,
+   "gap_max": 1103.7,
+   "stall_s": 23.445249999999998,
+   "ttft_p50": 0.6046499999999999,
+   "ttft_p99": 1.40375,
+   "ttft_max": 1.4776,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 14.869402985074627,
+   "running_max": 126.0,
+   "waiting_max": 41.0,
+   "queue_share": 0.011194029850746268,
+   "kv_peak": 0.14696370822853033,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-15",
+   "wall": {
+    "nospec": 158.02,
+    "wide": 124.65,
+    "wide-threads": 121.72,
+    "nospec-wide": 129.29
+   },
+   "after": {
+    "nospec": 20.1737,
+    "wide": 1.2474,
+    "wide-threads": 0.13190000000000002,
+    "nospec-wide": 17.688200000000002
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "wall": {
+    "nospec": 187.81,
+    "wide": 134.03,
+    "wide-threads": 129.57,
+    "nospec-wide": 133.98
+   },
+   "after": {
+    "nospec": 68.6217,
+    "wide": 3.1153,
+    "wide-threads": 0.5357000000000001,
+    "nospec-wide": 22.7212
+   }
+  },
+  {
+   "session": "trec132k-17000232.w8k-c1",
+   "wall": {
+    "nospec": 132.09,
+    "wide": 119.76,
+    "wide-threads": 116.74,
+    "nospec-wide": 109.94
+   },
+   "after": {
+    "nospec": 0.3965,
+    "wide": 0.024,
+    "wide-threads": 0.1068,
+    "nospec-wide": 0.4086
+   }
+  }
+ ],
+ "waited": [],
+ "recovery": [],
+ "noise": [],
+ "arm_names": [
+  "nospec",
+  "wide",
+  "wide-threads",
+  "nospec-wide"
+ ],
+ "prereg": [
+  {
+   "id": "P1",
+   "claim": "every unit exact; no unrecorded call, no repeat",
+   "measured": "4 of 4 exact; 0 stray calls",
+   "held": true
+  },
+  {
+   "id": "P2",
+   "claim": "nothing evicted",
+   "measured": "0 evicted",
+   "held": true
+  },
+  {
+   "id": "P3",
+   "claim": "the loop of 319 single calls: `stream` at least 0.90 of `nospec`",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "P4",
+   "claim": "the same turn: `scout` at most 0.15 of `stream`",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "P5",
+   "claim": "serial launches: `scout` recovers at least 75%, `wide` at least 85%",
+   "measured": "-, -",
+   "held": null
+  },
+  {
+   "id": "P6",
+   "claim": "the cap: `scout` recovers between -15% and +15%, `wide` at least 50%",
+   "measured": "-, -",
+   "held": null
+  },
+  {
+   "id": "P7",
+   "claim": "session time: `stream` 0.93\u20131.02 of `nospec`; `scout` at most 0.80 of `stream`; `wide` at most 0.75",
+   "measured": "-, -, -",
+   "held": null
+  },
+  {
+   "id": "P8",
+   "claim": "root stream seconds: `scout` within 5% of `stream`, `wide` within 10%",
+   "measured": "-, -",
+   "held": null
+  },
+  {
+   "id": "P9",
+   "claim": "an arm's two units differ by less than 5% in session time",
+   "measured": "-",
+   "held": null
+  },
+  {
+   "id": "P10",
+   "claim": "controls: `wide-threads` within 25% of `wide`; `nospec-wide` recovers at most 10% of the serial-launch seconds and is at least 0.90 of `nospec`",
+   "measured": "0.972, -, 0.781",
+   "held": null
+  }
+ ]
+}

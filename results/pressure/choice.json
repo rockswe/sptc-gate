@@ -1,0 +1,277 @@
+{
+ "stamp_utc": "2026-10-29T15:14:13Z",
+ "chosen": {
+  "kv_frac": 0.75,
+  "kv_blocks": 256,
+  "max_num_seqs": 256,
+  "num_gpu_blocks_override": 257,
+  "max_model_len": 512,
+  "flags": "--num-gpu-blocks-override 257 --max-num-seqs 256 --max-model-len 512"
+ },
+ "fallback": {
+  "kv_frac": 0.3754,
+  "kv_blocks": 128,
+  "max_num_seqs": 256,
+  "num_gpu_blocks_override": 129,
+  "max_model_len": 512,
+  "flags": "--num-gpu-blocks-override 129 --max-num-seqs 256 --max-model-len 512"
+ },
+ "longest_request": {
+  "root": 209,
+  "sub_call": 151,
+  "decoy": 154
+ },
+ "rule": {
+  "clearly": {
+   "preemptions": 16,
+   "queue_frac": 0.25
+  },
+  "barely": {
+   "preemptions": 2,
+   "queue_frac": 0.05
+  }
+ },
+ "table": [
+  {
+   "config": {
+    "kv_frac": null,
+    "kv_blocks": 5369,
+    "max_num_seqs": 256
+   },
+   "key": "kv5369/seqs256",
+   "clearly": "False",
+   "barely": "True",
+   "bad_slowdown": 1.0,
+   "spec_slowdown": 1.0,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.0,
+   "bad_max_waiting": 0.0,
+   "bad_max_kv_blocks": 341,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.0,
+   "spec_max_waiting": 0.0,
+   "spec_max_kv_blocks": 140
+  },
+  {
+   "config": {
+    "kv_frac": null,
+    "kv_blocks": 5369,
+    "max_num_seqs": 32
+   },
+   "key": "kv5369/seqs32",
+   "clearly": "True",
+   "barely": "True",
+   "bad_slowdown": 1.0767218150592932,
+   "spec_slowdown": 1.0000000000000002,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.5727967823716031,
+   "bad_max_waiting": 37.0,
+   "bad_max_kv_blocks": 272,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.024467514027570903,
+   "spec_max_waiting": 3.0,
+   "spec_max_kv_blocks": 132
+  },
+  {
+   "config": {
+    "kv_frac": null,
+    "kv_blocks": 5369,
+    "max_num_seqs": 16
+   },
+   "key": "kv5369/seqs16",
+   "clearly": "True",
+   "barely": "False",
+   "bad_slowdown": 1.6434725324431365,
+   "spec_slowdown": 0.9850150924914804,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.910146399048414,
+   "bad_max_waiting": 50.0,
+   "bad_max_kv_blocks": 136,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.20427731136861285,
+   "spec_max_waiting": 19.0,
+   "spec_max_kv_blocks": 98
+  },
+  {
+   "config": {
+    "kv_frac": 1.0,
+    "kv_blocks": 341,
+    "max_num_seqs": 256
+   },
+   "key": "kv341/seqs256",
+   "clearly": "False",
+   "barely": "True",
+   "bad_slowdown": 1.0,
+   "spec_slowdown": 1.0,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.0,
+   "bad_max_waiting": 0.0,
+   "bad_max_kv_blocks": 341,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.0,
+   "spec_max_waiting": 0.0,
+   "spec_max_kv_blocks": 140
+  },
+  {
+   "config": {
+    "kv_frac": 1.0,
+    "kv_blocks": 341,
+    "max_num_seqs": 32
+   },
+   "key": "kv341/seqs32",
+   "clearly": "True",
+   "barely": "True",
+   "bad_slowdown": 1.0767218150592932,
+   "spec_slowdown": 1.0000000000000002,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.5727967823716031,
+   "bad_max_waiting": 37.0,
+   "bad_max_kv_blocks": 272,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.024467514027570903,
+   "spec_max_waiting": 3.0,
+   "spec_max_kv_blocks": 132
+  },
+  {
+   "config": {
+    "kv_frac": 1.0,
+    "kv_blocks": 341,
+    "max_num_seqs": 16
+   },
+   "key": "kv341/seqs16",
+   "clearly": "True",
+   "barely": "False",
+   "bad_slowdown": 1.6434725324431365,
+   "spec_slowdown": 0.9850150924914804,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.910146399048414,
+   "bad_max_waiting": 50.0,
+   "bad_max_kv_blocks": 136,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.20427731136861285,
+   "spec_max_waiting": 19.0,
+   "spec_max_kv_blocks": 98
+  },
+  {
+   "config": {
+    "kv_frac": 0.75,
+    "kv_blocks": 256,
+    "max_num_seqs": 256
+   },
+   "key": "kv256/seqs256",
+   "clearly": true,
+   "barely": "True",
+   "bad_slowdown": 1.0392536842577031,
+   "spec_slowdown": 1.0,
+   "bad_preemptions": 57.0,
+   "bad_queue_frac": 0.1976223862192159,
+   "bad_max_waiting": 20.0,
+   "bad_max_kv_blocks": 256,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.0,
+   "spec_max_waiting": 0.0,
+   "spec_max_kv_blocks": 140
+  },
+  {
+   "config": {
+    "kv_frac": 0.75,
+    "kv_blocks": 256,
+    "max_num_seqs": 32
+   },
+   "key": "kv256/seqs32",
+   "clearly": "True",
+   "barely": "True",
+   "bad_slowdown": 1.0767162812818516,
+   "spec_slowdown": 1.0000000000000002,
+   "bad_preemptions": 3.0,
+   "bad_queue_frac": 0.5734635107011414,
+   "bad_max_waiting": 37.0,
+   "bad_max_kv_blocks": 256,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.024467514027570903,
+   "spec_max_waiting": 3.0,
+   "spec_max_kv_blocks": 132
+  },
+  {
+   "config": {
+    "kv_frac": 0.75,
+    "kv_blocks": 256,
+    "max_num_seqs": 16
+   },
+   "key": "kv256/seqs16",
+   "clearly": "True",
+   "barely": "False",
+   "bad_slowdown": 1.6434725324431365,
+   "spec_slowdown": 0.9850150924914804,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.910146399048414,
+   "bad_max_waiting": 50.0,
+   "bad_max_kv_blocks": 136,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.20427731136861285,
+   "spec_max_waiting": 19.0,
+   "spec_max_kv_blocks": 98
+  },
+  {
+   "config": {
+    "kv_frac": 0.5,
+    "kv_blocks": 170,
+    "max_num_seqs": 256
+   },
+   "key": "kv170/seqs256",
+   "clearly": true,
+   "barely": "True",
+   "bad_slowdown": 1.2857576637775245,
+   "spec_slowdown": 1.0,
+   "bad_preemptions": 139.0,
+   "bad_queue_frac": 0.610668621713584,
+   "bad_max_waiting": 50.0,
+   "bad_max_kv_blocks": 170,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.0,
+   "spec_max_waiting": 0.0,
+   "spec_max_kv_blocks": 140
+  },
+  {
+   "config": {
+    "kv_frac": 0.5,
+    "kv_blocks": 170,
+    "max_num_seqs": 32
+   },
+   "key": "kv170/seqs32",
+   "clearly": true,
+   "barely": "True",
+   "bad_slowdown": 1.2514752325354241,
+   "spec_slowdown": 1.0000000000000002,
+   "bad_preemptions": 110.0,
+   "bad_queue_frac": 0.6420711121953789,
+   "bad_max_waiting": 42.0,
+   "bad_max_kv_blocks": 170,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.024467514027570903,
+   "spec_max_waiting": 3.0,
+   "spec_max_kv_blocks": 132
+  },
+  {
+   "config": {
+    "kv_frac": 0.5,
+    "kv_blocks": 170,
+    "max_num_seqs": 16
+   },
+   "key": "kv170/seqs16",
+   "clearly": "True",
+   "barely": "False",
+   "bad_slowdown": 1.6434725324431365,
+   "spec_slowdown": 0.9850150924914804,
+   "bad_preemptions": 0.0,
+   "bad_queue_frac": 0.910146399048414,
+   "bad_max_waiting": 50.0,
+   "bad_max_kv_blocks": 136,
+   "spec_preemptions": 0.0,
+   "spec_queue_frac": 0.20427731136861285,
+   "spec_max_waiting": 19.0,
+   "spec_max_kv_blocks": 98
+  }
+ ],
+ "fcfs_only": true
+}

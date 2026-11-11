@@ -1,0 +1,95 @@
+..........................................................................................................sssssssssssssssssssssss............................................................ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssWarning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files:  33%|███▎      | 3/9 [00:00<00:00, 23.77it/s]Fetching 9 files: 100%|██████████| 9/9 [00:01<00:00,  6.79it/s]Fetching 9 files: 100%|██████████| 9/9 [00:01<00:00,  7.31it/s]
+.......................................................................................................default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 660 log entries, 11 preemptions, peak KV usage 1.00
+.default-like seed 1: 666 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 584 log entries, 16 preemptions, peak KV usage 1.00
+.default-like seed 2: 590 log entries, 13 preemptions, peak KV usage 1.00
+..{"mode": "fixed", "median_us_per_step": {"stock": 328.40021, "sptc_untagged": 361.8415225, "sptc_early": 370.4823725}, "overhead_us": {"sptc_untagged": 33.44131249999998, "sptc_early": 42.08216249999998}, "runs_us": {"stock": [328.972505, 333.4150725, 326.9666825, 328.40021, 325.92997499999996], "sptc_untagged": [352.00392, 349.746645, 369.5094675, 361.8415225, 445.967645], "sptc_early": [370.4823725, 372.036555, 359.48413500000004, 362.63316249999997, 377.7618325]}}
+.{"mode": "adaptive", "median_us_per_step": {"stock": 335.55527500000005, "sptc_untagged": 364.91203249999995, "sptc_early": 368.0963175}, "overhead_us": {"sptc_untagged": 29.3567574999999, "sptc_early": 32.541042499999946}, "runs_us": {"stock": [340.50601750000004, 335.55527500000005, 328.02721, 329.91238250000004, 337.330925], "sptc_untagged": [357.1241175, 364.91203249999995, 367.37052, 371.85233250000005, 361.1507125], "sptc_early": [364.7428625, 368.0963175, 386.395745, 369.204745, 367.64678749999996]}}
+............................................................F................
+=================================== FAILURES ===================================
+__________________ test_startup_line_reaches_vllm_log_handler __________________
+
+    def test_startup_line_reaches_vllm_log_handler():
+        # On the T4 run the plugin's INFO lines never reached the server log: a logger outside
+        # the "vllm" namespace has no handler under vLLM's logging config.
+        import logging
+    
+        from sptc_vllm import scheduler as mod
+    
+        lg = mod.logger
+>       assert lg.name.startswith("vllm.") and lg.isEnabledFor(logging.INFO)
+E       AssertionError: assert (True and False)
+E        +  where True = <built-in method startswith of str object at 0x7dedef25d340>('vllm.')
+E        +    where <built-in method startswith of str object at 0x7dedef25d340> = 'vllm.sptc_vllm.scheduler'.startswith
+E        +      where 'vllm.sptc_vllm.scheduler' = <Logger vllm.sptc_vllm.scheduler (WARNING)>.name
+E        +  and   False = isEnabledFor(20)
+E        +    where isEnabledFor = <Logger vllm.sptc_vllm.scheduler (WARNING)>.isEnabledFor
+E        +    and   20 = <module 'logging' from '/usr/lib/python3.13/logging/__init__.py'>.INFO
+
+tests_vllm/test_sptc_scheduler.py:705: AssertionError
+=============================== warnings summary ===============================
+../../../../../usr/local/lib/python3.13/dist-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/lib/python3.13/dist-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests_vllm/test_sptc_scheduler.py::test_startup_line_reaches_vllm_log_handler
+1 failed, 407 passed, 82 skipped, 14 warnings in 107.68s (0:01:47)

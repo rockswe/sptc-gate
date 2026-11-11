@@ -1,0 +1,25 @@
+# environments and build artifacts
+.venv/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.DS_Store
+data/
+
+# smolagents/codeagent-traces has no license tag: publish aggregates only, not per-call
+# rows; the hand-check items quote code from the corpora
+results/census_smol/calls.csv
+results/census_smol/conversations.csv
+results/census/handcheck_items.json
+results/census/handcheck_v2_items.json
+
+# simulator outputs that nothing reads; run_all.sh regenerates them
+results/clog_*.json
+results/kv_rtx4090.json
+results/sweep_runs.csv
+
+# figures that no document embeds; experiments/figures.py regenerates them
+results/fig_clog_eager_*.png
+results/fig_clog_moe_*.png
+results/fig_clog_graphs_p99.png
+results/fig_clog_graphs_tpot.png

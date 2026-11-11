@@ -1,0 +1,2633 @@
+diff --git a/demo/rlm.py b/demo/rlm.py
+index 96f6b59..8e0a295 100644
+--- a/demo/rlm.py
++++ b/demo/rlm.py
+@@ -33,9 +33,12 @@ class SpeculativeLocalREPL(LocalREPL):
+         subcall_override: Callable[..., str] | None = None,
+         subcall_batched_override: Callable[[list[str]], list[str]] | None = None,
+         auto_speculate: bool = True,
+-        spec_scout: bool = False,
++        spec_scout: bool | str = False,
+         spec_rlm_query: bool = False,
+         spec_batch_launch: bool = False,
++        spec_govern: Any = False,
++        spec_load_url: str | None = None,
++        spec_batch_chunk: int = 0,
+         **kwargs: Any,
+     ) -> None:
+         """spec_max_inflight: the window, speculative sub-calls in flight at once. 16 as
+@@ -53,7 +56,17 @@ class SpeculativeLocalREPL(LocalREPL):
+         spec_batch_launch: launch a model-written llm_query_batched as one batched request
+         to the LM handler, as the program itself would send it, in place of one thread and
+         one handler connection per prompt. rlms runs 16 prompts of a batch at a time; see
+-        follow_window for a wider batch."""
++        follow_window for a wider batch. spec_batch_chunk: in requests of at most that
++        many prompts each, so that the window bounds a batch of any size.
++
++        spec_govern: the window and the character budget follow the load
++        (spec_ptc.engine.load): True, or a GovernorConfig. The window then starts at 16
++        and moves between the config's w_min and w_max. spec_load_url: the engine's
++        /metrics (spec_ptc.engine.load.metrics_url(base_url) for a vLLM server). Without
++        it the limits follow this process's own signals only.
++
++        spec_scout="past": the scout also goes on past a test on a result when no arm of
++        the test can leave the loop it is in."""
+         self._auto_speculate = auto_speculate
+         super().__init__(*args, **kwargs)
+         self.bus = spec_bus or EventBus()
+@@ -108,6 +121,9 @@ class SpeculativeLocalREPL(LocalREPL):
+             max_dispatches_per_turn=4096,
+             scout=spec_scout,
+             batch_launch=spec_batch_launch,
++            govern=spec_govern,
++            load=spec_load_url,
++            batch_chunk=spec_batch_chunk,
+         )
+         self.spec_store = self.session.store
+         self.spec_launcher = self.session.launcher
+@@ -136,7 +152,8 @@ class SpeculativeLocalREPL(LocalREPL):
+           engine could take. With spec_batch_launch on, it is raised to the window, for
+           the batches this REPL launches and for the ones the program sends itself, and
+           a batch launched as a batch then holds that many places."""
+-        window = self.session.launcher.budget.max_inflight
++        # a governed window may reach max_window; an ungoverned one is where it is
++        window = self.session.launcher.budget.max_window
+         sock = getattr(getattr(lm_handler, "_server", None), "socket", None)
+         if sock is not None and window > 5 and getattr(self, "_backlog_for", None) is not sock:
+             try:
+@@ -149,8 +166,11 @@ class SpeculativeLocalREPL(LocalREPL):
+         current = getattr(lm_handler, "batch_max_concurrent", None)
+         if not isinstance(current, int):
+             return
+-        if current < window:
+-            lm_handler.batch_max_concurrent = current = window
++        # with chunks, a request to the handler holds at most one chunk: that is how
++        # wide the handler has to be, and the window bounds the chunks in flight
++        want = self.session.launcher.batch_chunk or window
++        if current < want:
++            lm_handler.batch_max_concurrent = current = want
+         for name in ("llm_query_batched", "rlm_query_batched"):
+             tool = self.reg.get(name)
+             if tool is not None and tool.batched:
+diff --git a/src/engine/load.py b/src/engine/load.py
+new file mode 100644
+index 0000000..8db52a2
+--- /dev/null
++++ b/src/engine/load.py
+@@ -0,0 +1,622 @@
++"""Limits that follow the load.
++
++spec-ptc as shipped holds speculation back with two constants: 16 calls in flight and
++120,000 characters of prompts in flight per session (speculation.Budget). Measured on one
++H100, both were far below what the engine took. On a small or a busy engine they can be
++too high. This module sets both from what the engine and the client report:
++
++- EngineProbe reads a vLLM server's /metrics: requests running and waiting, the KV
++  cache's size and how full it is, preemptions, and the time between two tokens.
++- KvPool, one per engine and process, admits speculative calls against the KV cache the
++  engine has free, in place of a count of characters per session.
++- Governor, one per session, moves the session's window (Budget.max_inflight) between
++  w_min and w_max: up while calls wait for a place and nothing says stop, down when the
++  engine queues, preempts or runs out of KV cache.
++
++The rule behind it: a call that is certain to be used has to be run anyway, and on an
++engine whose step time grows linearly with its batch, running it sooner does not cost the
++other requests more in total. What costs them is an engine that is past what it can admit:
++requests queue in front of the root's next turn, or the KV cache overflows and work is
++thrown away. So the window follows those signals, and a bound on how much slower tokens
++may get (tax_hold) only stops it from growing.
++
++Everything here is off unless asked for (SpecSession(governor=...))."""
++
++from __future__ import annotations
++
++import math
++import re
++import statistics
++import threading
++import time
++import urllib.request
++import weakref
++from collections import deque
++from collections.abc import Callable
++from dataclasses import dataclass
++
++from spec_ptc.contracts.events import NULL_BUS, EventBus
++
++
++# --------------------------------------------------------------------------- the engine
++@dataclass(frozen=True)
++class EngineLoad:
++    """One sample of what the engine reports. A field is None if the engine does not
++    export it."""
++
++    t: float  # perf_counter when it was read
++    running: float | None = None  # requests in the engine's batch
++    waiting: float | None = None  # requests the engine could not schedule in its last step
++    kv: float | None = None  # share of the KV cache in use
++    kv_tokens: int | None = None  # the KV cache's size, in tokens
++    preemptions: float | None = None  # running total
++    itl_ms: float | None = None  # mean time between two tokens since the last sample
++    tax: float | None = None  # itl_ms over the quietest pace seen lately, minus 1
++
++
++_LABEL = re.compile(r'(\w+)="([^"]*)"')
++_GAUGES = {
++    "running": ("num_requests_running",),
++    "waiting": ("num_requests_waiting",),
++    "kv": ("kv_cache_usage_perc", "gpu_cache_usage_perc"),
++}
++_COUNTERS = {
++    "preemptions": ("num_preemptions_total", "num_preemptions"),
++    "itl_sum": ("inter_token_latency_seconds_sum", "time_per_output_token_seconds_sum"),
++    "itl_count": ("inter_token_latency_seconds_count", "time_per_output_token_seconds_count"),
++}
++
++
++def parse_metrics(text: str) -> dict:
++    """What the governor reads, from a vLLM server's Prometheus text. A metric is summed
++    over its label sets (several engines behind one server); for a metric with two names
++    (older and newer vLLM) the first that is there wins."""
++    sums: dict[str, float] = {}
++    out: dict = {}
++    for line in text.splitlines():
++        if not line or line[0] == "#":
++            continue
++        head, _, value = line.rpartition(" ")
++        name = head.split("{", 1)[0].split(":", 1)[-1]
++        if name == "cache_config_info":
++            labels = dict(_LABEL.findall(head))
++            try:
++                blocks = int(float(labels["num_gpu_blocks"]))
++                size = int(float(labels["block_size"]))
++            except (KeyError, ValueError):
++                continue
++            out["kv_tokens"] = out.get("kv_tokens", 0) + blocks * size
++            continue
++        try:
++            sums[name] = sums.get(name, 0.0) + float(value)
++        except ValueError:
++            pass
++    for key, names in {**_GAUGES, **_COUNTERS}.items():
++        for name in names:
++            if name in sums:
++                out[key] = sums[name]
++                break
++    return out
++
++
++def metrics_url(base_url: str) -> str:
++    """The /metrics of the server behind an OpenAI base URL (http://host:port/v1)."""
++    root = base_url.rstrip("/")
++    if root.endswith("/v1"):
++        root = root[:-3]
++    return root.rstrip("/") + "/metrics"
++
++
++class TaxMeter:
++    """How much slower tokens come than at the quietest pace seen lately.
++
++    `add` takes a mean time between tokens. The pace now is the median of the last few;
++    the quiet pace is the lowest pace seen, let rise by `drift` per sample so that it
++    follows an engine that got slower for good (longer contexts, another host)."""
++
++    def __init__(self, window: int = 4, drift: float = 0.002) -> None:
++        self._recent: deque[float] = deque(maxlen=window)
++        self._drift = drift
++        self.base: float | None = None
++
++    def add(self, ms: float) -> None:
++        if not (ms > 0 and math.isfinite(ms)):
++            return
++        self._recent.append(ms)
++        now = statistics.median(self._recent)
++        self.base = now if self.base is None else min(now, self.base * (1 + self._drift))
++
++    def now(self) -> float | None:
++        return statistics.median(self._recent) if self._recent else None
++
++    def tax(self) -> float | None:
++        if not self._recent or not self.base:
++            return None
++        return statistics.median(self._recent) / self.base - 1.0
++
++
++class EngineProbe:
++    """A vLLM server's /metrics, read every `every` seconds on a thread of its own.
++
++    `fetch` returns the metrics text (tests pass their own). A read that fails leaves the
++    last sample to go stale: latest() then returns None and whoever asks keeps its limits
++    where they are."""
++
++    MIN_TOKENS = 8  # fewer tokens than this between two samples: no time between tokens
++
++    def __init__(self, url: str = "", every: float = 0.25, timeout: float = 2.0,
++                 fetch: Callable[[], str] | None = None,
++                 clock: Callable[[], float] = time.perf_counter) -> None:
++        self.url, self.every = url, every
++        self._fetch = fetch or (
++            lambda: urllib.request.urlopen(url, timeout=timeout).read().decode())
++        self._clock = clock
++        self._lock = threading.Lock()
++        self._latest: EngineLoad | None = None
++        self._itl_prev: tuple[float, float] | None = None
++        self._meter = TaxMeter()
++        self._listeners: list[Callable[[EngineLoad], None]] = []
++        self._stop = threading.Event()
++        self._thread: threading.Thread | None = None
++        self.samples = self.errors = 0
++
++    def listen(self, fn: Callable[[EngineLoad], object]) -> None:
++        """Call `fn` with every new sample, on the probe's thread. A listener that
++        returns False is dropped."""
++        with self._lock:
++            self._listeners.append(fn)
++
++    def poll(self) -> EngineLoad | None:
++        """Read the engine once. Returns the sample, or None if the read failed."""
++        try:
++            m = parse_metrics(self._fetch())
++        except Exception:  # noqa: BLE001 - an engine that is down, a timeout: no sample
++            self.errors += 1
++            return None
++        itl = None
++        if "itl_sum" in m and "itl_count" in m:
++            prev, self._itl_prev = self._itl_prev, (m["itl_sum"], m["itl_count"])
++            if prev is not None and m["itl_count"] - prev[1] >= self.MIN_TOKENS:
++                itl = 1000.0 * (m["itl_sum"] - prev[0]) / (m["itl_count"] - prev[1])
++                self._meter.add(itl)
++        load = EngineLoad(
++            t=self._clock(), running=m.get("running"), waiting=m.get("waiting"),
++            kv=m.get("kv"), kv_tokens=m.get("kv_tokens"), preemptions=m.get("preemptions"),
++            itl_ms=itl, tax=self._meter.tax() if itl is not None else None)
++        with self._lock:
++            self._latest = load
++            self.samples += 1
++            listeners = list(self._listeners)
++        for fn in listeners:
++            try:
++                keep = fn(load)
++            except Exception:  # noqa: BLE001 - a listener must not stop the probe
++                keep = True
++            if keep is False:
++                with self._lock:
++                    if fn in self._listeners:
++                        self._listeners.remove(fn)
++        return load
++
++    def latest(self, max_age: float = 2.0) -> EngineLoad | None:
++        with self._lock:
++            load = self._latest
++        if load is None or self._clock() - load.t > max_age:
++            return None
++        return load
++
++    def start(self) -> EngineProbe:
++        with self._lock:
++            if self._thread is None:
++                self._thread = threading.Thread(target=self._run, daemon=True,
++                                                name="spec-probe")
++                self._thread.start()
++        return self
++
++    def _run(self) -> None:
++        while not self._stop.is_set():
++            t = time.perf_counter()
++            self.poll()
++            self._stop.wait(max(0.01, self.every - (time.perf_counter() - t)))
++
++    def stop(self) -> None:
++        self._stop.set()
++
++
++_shared_lock = threading.Lock()
++_probes: dict[str, EngineProbe] = {}
++_pools: weakref.WeakKeyDictionary = weakref.WeakKeyDictionary()
++
++
++def probe_for(url: str, every: float = 0.25) -> EngineProbe:
++    """The one probe of this process for that /metrics URL, started."""
++    with _shared_lock:
++        probe = _probes.get(url)
++        if probe is None:
++            probe = _probes[url] = EngineProbe(url, every=every)
++    return probe.start()
++
++
++def pool_for(probe: EngineProbe, **kw) -> KvPool:
++    """The one KV pool of this process for that probe's engine."""
++    with _shared_lock:
++        pool = _pools.get(probe)
++        if pool is None:
++            pool = _pools[probe] = KvPool(probe, **kw)
++    return pool
++
++
++# --------------------------------------------------------------------------- the KV cache
++class KvTicket:
++    __slots__ = ("tokens", "t", "visible_at")
++
++    def __init__(self, tokens: int, t: float, visible_at: float) -> None:
++        self.tokens, self.t, self.visible_at = tokens, t, visible_at
++
++
++class KvPool:
++    """The KV cache the engine has free, shared by the speculative calls of every governed
++    session of this process.
++
++    As shipped, a session keeps at most 120,000 characters of speculative prompts in
++    flight: about a quarter of an H100's KV cache with a 30B model, and half of a T4's
++    with a 1.7B one. Here a call is admitted if its prompt, plus room for its answer,
++    fits into `target` of the engine's KV cache less what everything else holds. The
++    engine says how large the cache is and how full; what the pool's own calls hold is
++    estimated from their characters, and what is left of the reported use is everything
++    else's.
++
++    The client has no tokenizer. It counts `chars_per_token` characters to a token: 2.5,
++    on the low side on purpose. Prose runs at 3.5 to 4 and is then taken for larger than
++    it is, which admits less than would fit. Text full of numbers and identifiers runs
++    near 2.8 (measured on OOLONG: 100,276 characters, 36,000 tokens), and a count of 3.3
++    would have admitted a fifth more of it than the cache holds.
++
++    A call's tokens show in the engine's number only once it has been prefilled, so a
++    call counts as seen `visible_s` after it was admitted, plus the time its prefill
++    takes. Until then the reported use is taken to hold none of it. That errs to the
++    safe side: it can only make everything else look larger.
++
++    A call that does not fit waits (acquire blocks); it is never refused. Three kinds of
++    call do not wait:
++
++    - With nothing of the pool's in flight, a call is admitted whatever its size, so
++      there is always progress.
++    - A small call (at most `small_share` of the cache) is counted but never held: the
++      pool is one for all sessions, and one session's long prompts must not stop the
++      others' short calls. How many short calls are in flight is the window's business.
++    - A call somebody is waiting for (`urgent`): the real run at its claim, or the
++      shadow where a statement uses the result. It is not ahead of need any more: the
++      program itself would send it now, and the real run cannot start before the shadow
++      is through. So the pool never makes a session slower than it is without
++      speculation, and one session's long calls never hold up another session's turn.
++
++    Without the cache's size from the engine the pool admits nothing itself: live() is
++    False and the session's own character budget applies."""
++
++    def __init__(self, probe: EngineProbe, target: float = 0.88,
++                 chars_per_token: float = 2.5, answer_share: float = 0.10,
++                 answer_min_tokens: int = 64, visible_s: float = 0.5,
++                 prefill_tokens_per_s: float = 20_000.0, small_share: float = 0.01,
++                 clock: Callable[[], float] = time.perf_counter) -> None:
++        self.probe = probe
++        self.target = target
++        self.chars_per_token = chars_per_token
++        self.answer_share, self.answer_min_tokens = answer_share, answer_min_tokens
++        self.visible_s, self.prefill_tokens_per_s = visible_s, prefill_tokens_per_s
++        self.small_share = small_share
++        self._kv_tokens: int | None = None
++        self._clock = clock
++        self._cv = threading.Condition()
++        self._held: set[KvTicket] = set()
++        self._total = 0
++        self._others: deque[int] = deque(maxlen=5)
++        self._capacity: int | None = None
++        self.waited = 0  # calls that had to wait for room
++        probe.listen(self._on_sample)
++
++    def tokens_for(self, nchars: int) -> int:
++        prompt = math.ceil(nchars / self.chars_per_token)
++        return prompt + max(self.answer_min_tokens, int(prompt * self.answer_share))
++
++    def _on_sample(self, load: EngineLoad) -> None:
++        if load.kv is None or not load.kv_tokens:
++            return
++        with self._cv:
++            now = self._clock()
++            self._kv_tokens = load.kv_tokens
++            seen = sum(t.tokens for t in self._held if t.visible_at <= now)
++            self._others.append(max(0, int(load.kv * load.kv_tokens) - seen))
++            others = int(statistics.median(self._others))
++            self._capacity = max(0, int(self.target * load.kv_tokens) - others)
++            self._cv.notify_all()
++
++    def live(self) -> bool:
++        """Does the engine say how large its KV cache is and how full, recently?"""
++        load = self.probe.latest()
++        return load is not None and load.kv is not None and bool(load.kv_tokens)
++
++    def capacity(self) -> int | None:
++        """Tokens of KV cache the pool's calls may hold now (None: not known)."""
++        with self._cv:
++            return self._capacity
++
++    def in_flight(self) -> int:
++        with self._cv:
++            return self._total
++
++    def acquire(self, nchars: int, timeout: float = 600.0, calls: int = 1,
++                urgent: Callable[[], bool] | None = None) -> KvTicket:
++        """Room for `calls` calls of `nchars` characters together (a batch's calls in
++        flight). `urgent` says whether the program is waiting for one of them by now."""
++        calls = max(1, calls)
++        each = self.tokens_for(math.ceil(nchars / calls))
++        need = each * calls
++        deadline = time.monotonic() + timeout
++        with self._cv:
++            waited = False
++            while (self._total > 0 and self._capacity is not None
++                   and self._total + need > self._capacity):
++                if self._kv_tokens and each <= self.small_share * self._kv_tokens:
++                    break  # small calls are counted, not held
++                if urgent is not None and urgent():
++                    break  # the program waits for it: it would send it itself now
++                remaining = deadline - time.monotonic()
++                if remaining <= 0:
++                    break  # degrade: run anyway, as the character budget does
++                if not waited:
++                    waited = True
++                    self.waited += 1
++                self._cv.wait(min(remaining, 0.1))
++            now = self._clock()
++            ticket = KvTicket(need, now, now + self.visible_s
++                              + need / self.prefill_tokens_per_s)
++            self._held.add(ticket)
++            self._total += need
++            return ticket
++
++    def release(self, ticket: KvTicket) -> None:
++        with self._cv:
++            if ticket in self._held:
++                self._held.discard(ticket)
++                self._total -= ticket.tokens
++                self._cv.notify_all()
++
++
++# --------------------------------------------------------------------------- the window
++@dataclass
++class GovernorConfig:
++    w_init: int = 16  # where the window starts: spec-ptc's constant
++    w_min: int = 1
++    w_max: int = 256  # also the size of the launcher's thread pool
++    tick_s: float = 0.25
++    grow: float = 1.5  # per tick, until something first says stop
++    grow_add: float = 0.125  # after that: this share of the window per tick
++    shrink_queue: float = 0.7  # the engine has a standing queue
++    shrink_hard: float = 0.5  # the engine preempted, or its KV cache is nearly full
++    # A standing queue: in queue_samples samples in a row the engine had at least
++    # queue_share of its running requests waiting, and at least queue_min. A root's next
++    # turn waits behind that queue for about queue_share of a sub-call's time. Fewer
++    # waiting than that keep the engine's places full and are left alone.
++    queue_samples: int = 3
++    queue_share: float = 0.25
++    queue_min: int = 2
++    clear_samples: int = 3  # samples in a row with nothing waiting: growth by `grow` again
++    kv_high: float = 0.93  # no growth above this share of the KV cache
++    kv_crit: float = 0.97  # above this the window is halved
++    tax_hold: float = 1.0  # no growth while tokens take (1 + tax_hold) times their quiet time
++    # No growth while this process uses that much of one core (None: not looked at, the
++    # default). A client at its limit launches no faster with a wider window, but calls it
++    # has sent still run in the engine, and where the launcher is what is slow no call
++    # waits for a place, so the window does not grow anyway. The number is in every event.
++    cpu_hold: float | None = None
++    idle_s: float = 2.0  # this long with no call waiting or in flight: back towards w_init
++    root_gaps: int = 16  # root deltas per sample of the root's own pace (no engine pace)
++
++
++class Governor:
++    """One session's window, moved by what the engine and the client report.
++
++    One control step per new sample of the engine (the probe calls it); without a probe,
++    one every tick_s on a timer thread. Tests call tick() themselves. Each step:
++
++    1. The engine preempted since the last tick, or its KV cache is above kv_crit: the
++       window is halved.
++    2. The engine had a standing queue (a quarter of what it runs waiting, in
++       queue_samples samples in a row): the window is cut to shrink_queue of itself. A
++       request or two waiting only stop growth: that is an engine with its places full,
++       or a burst arriving between two steps.
++       Both cuts apply to a session with calls in flight only: one that has none is not
++       what loads the engine, and keeps its window for when it has.
++    3. Otherwise, if calls waited for a place since the last tick and nothing holds it
++       (a request waiting, KV above kv_high, tokens slower than tax_hold allows), the
++       window grows: by `grow` until the first cut, by `grow_add` of itself after it, as
++       a TCP window does. After clear_samples samples in a row with nothing waiting the
++       cut is forgotten and growth is by `grow` again: the engine has room now.
++    4. With no call waiting for a place and none in flight for idle_s, the window goes
++       back towards where the next burst should start: w_init, or where the last cut
++       left it if that is lower. An engine that queued at 12 is not offered 16 again.
++
++    Without a probe only the client's own signal applies (the root's token pace, through
++    note_root): the window then knows nothing of the engine's queue or KV cache, and
++    w_max is its only bound from that side."""
++
++    def __init__(self, budget, probe: EngineProbe | None = None, pool: KvPool | None = None,
++                 bus: EventBus = NULL_BUS, config: GovernorConfig | None = None,
++                 clock: Callable[[], float] = time.perf_counter,
++                 cpu_clock: Callable[[], float] = time.process_time,
++                 ticker: bool = True) -> None:
++        self.budget, self.probe, self.pool, self.bus = budget, probe, pool, bus
++        self.cfg = config or GovernorConfig()
++        self._clock, self._cpu_clock = clock, cpu_clock
++        self._lock = threading.Lock()
++        self._ssthresh = math.inf
++        self._queue_run = 0
++        self._clear_run = 0
++        self._last_sample_t: float | None = None
++        self._last_preempt: float | None = None
++        self._last_demand = clock()
++        self._cpu_prev: tuple[float, float] | None = None
++        self._root = TaxMeter()
++        self._root_t: list[float] = []
++        self.history: list[tuple] = []  # (t, window, why): every change, for tests
++        self.closed = False
++        if ticker and probe is not None:
++            probe.listen(_weak_step(self))
++        elif ticker:
++            _ticker.add(self)
++
++    # ---- signals from the client
++    def note_root(self, t: float | None = None) -> None:
++        """A delta of the root's stream arrived. Used for the pace of tokens only when
++        the engine does not report one."""
++        t = self._clock() if t is None else t
++        with self._lock:
++            self._root_t.append(t)
++            if len(self._root_t) > self.cfg.root_gaps:
++                ts, self._root_t = self._root_t, [t]
++                self._root.add(1000.0 * (ts[-1] - ts[0]) / (len(ts) - 1))
++
++    def _cpu(self, now: float) -> float | None:
++        cpu = self._cpu_clock()
++        prev, self._cpu_prev = self._cpu_prev, (now, cpu)
++        if prev is None or now - prev[0] <= 0:
++            return None
++        return (cpu - prev[1]) / (now - prev[0])
++
++    # ---- one control step
++    def tick(self, now: float | None = None) -> int:
++        """Move the window if the signals say so. Returns the window."""
++        with self._lock:
++            return self._tick(self._clock() if now is None else now)
++
++    def _tick(self, now: float) -> int:
++        cfg, b = self.cfg, self.budget
++        load = self.probe.latest() if self.probe is not None else None
++        demand = b.take_waited() > 0 or b.waiters() > 0
++        busy = b.in_use() > 0
++        if demand or busy:  # idle is: no call waits for a place, and none is in flight
++            self._last_demand = now
++        cpu = self._cpu(now)
++        if self.probe is not None and (load is None or load.t == self._last_sample_t):
++            # no new numbers from the engine (a read failed, the server is busy): nothing
++            # more is known than at the last step, so the window stays where it is
++            return b.max_inflight
++        waiting = kv = tax = None
++        preempted = False
++        if load is not None:
++            waiting, kv, tax = load.waiting, load.kv, load.tax
++            self._last_sample_t = load.t
++            standing = (waiting or 0) >= max(cfg.queue_min,
++                                            cfg.queue_share * (load.running or 0))
++            self._queue_run = self._queue_run + 1 if standing else 0
++            if load.preemptions is not None:
++                preempted = (self._last_preempt is not None
++                             and load.preemptions > self._last_preempt)
++                self._last_preempt = load.preemptions
++        if tax is None:
++            tax = self._root.tax()
++        w = b.max_inflight
++        new, why = w, None
++        hold = None  # what stops growth in this sample, if anything
++        if preempted:
++            hold = "preempted"
++        elif (waiting or 0) >= 1:
++            hold = "queue"
++        elif kv is not None and kv >= cfg.kv_high:
++            hold = "kv"
++        elif tax is not None and tax >= cfg.tax_hold:
++            hold = "tax"
++        elif cfg.cpu_hold is not None and cpu is not None and cpu >= cfg.cpu_hold:
++            hold = "cpu"
++        self._clear_run = self._clear_run + 1 if hold is None else 0
++        if busy and (preempted or (kv is not None and kv >= cfg.kv_crit)):
++            new, why = max(cfg.w_min, int(w * cfg.shrink_hard)), ("preempted" if preempted
++                                                                 else "kv")
++            self._ssthresh, self._queue_run = new, 0
++        elif busy and self._queue_run >= cfg.queue_samples:
++            new, why = max(cfg.w_min, int(w * cfg.shrink_queue)), "queue"
++            self._ssthresh, self._queue_run = new, 0
++        else:
++            if demand and hold is None and w < cfg.w_max:
++                if self._clear_run >= cfg.clear_samples:
++                    self._ssthresh = math.inf  # room for a while now: the cut is history
++                step = (max(1, int(w * (cfg.grow - 1))) if w < self._ssthresh
++                        else max(1, int(w * cfg.grow_add)))
++                new, why = min(cfg.w_max, w + step), "grow"
++            elif not demand and not busy and now - self._last_demand >= cfg.idle_s:
++                start = int(min(cfg.w_init, self._ssthresh))  # where the next burst starts
++                if w > start:
++                    new, why = max(start, int(w * 0.8)), "idle"
++                elif w < start and hold is None:
++                    new, why = min(start, w + max(1, w // 4)), "idle"
++        if new != w:
++            b.set_window(new)
++            self.history.append((now, new, why))
++            self.bus.emit(
++                "govern", window=new, was=w, why=why,
++                waiting=waiting, running=None if load is None else load.running,
++                kv=None if kv is None else round(kv, 3),
++                tax=None if tax is None else round(tax, 2),
++                cpu=None if cpu is None else round(cpu, 2),
++                pool=None if self.pool is None else self.pool.capacity())
++        return new
++
++    def close(self) -> None:
++        self.closed = True
++        _ticker.discard(self)
++
++
++def _weak_step(gov: Governor) -> Callable[[EngineLoad], object]:
++    """A probe listener that steps the governor while it lives and is open, without
++    keeping it alive: the probe is the process's, a governor its session's."""
++    ref = weakref.ref(gov)
++
++    def step(_load: EngineLoad) -> object:
++        g = ref()
++        if g is None or g.closed:
++            return False
++        g.tick()
++        return True
++
++    return step
++
++
++class _Ticker:
++    """One timer thread for every governor of the process that has no probe."""
++
++    def __init__(self) -> None:
++        self._govs: weakref.WeakSet = weakref.WeakSet()
++        self._lock = threading.Lock()
++        self._thread: threading.Thread | None = None
++
++    def add(self, gov: Governor) -> None:
++        with self._lock:
++            self._govs.add(gov)
++            if self._thread is None or not self._thread.is_alive():
++                self._thread = threading.Thread(target=self._run, daemon=True,
++                                                name="spec-governor")
++                self._thread.start()
++
++    def discard(self, gov: Governor) -> None:
++        with self._lock:
++            self._govs.discard(gov)
++
++    def _run(self) -> None:
++        while True:
++            with self._lock:
++                govs = list(self._govs)
++                if not govs:
++                    self._thread = None
++                    return
++            every = min(g.cfg.tick_s for g in govs)
++            t = time.perf_counter()
++            for g in govs:
++                try:
++                    g.tick()
++                except Exception:  # noqa: BLE001 - one session's failure stays its own
++                    pass
++            time.sleep(max(0.01, every - (time.perf_counter() - t)))
++
++
++_ticker = _Ticker()
+diff --git a/src/engine/shadow.py b/src/engine/shadow.py
+index fd5c66f..6708fe8 100644
+--- a/src/engine/shadow.py
++++ b/src/engine/shadow.py
+@@ -172,10 +172,15 @@ class ShadowRunner:
+         registry=None,
+         taint_skip: bool = True,
+         scout: bool = False,
++        scout_past: bool = False,
+     ) -> None:
+         # scout: this runner is the scout pass. It gets make_scout_hooks, never waits for
+         # a result, and only launches calls (see _scout_one).
++        # scout_past: the scout goes on past a test on a result when no arm of the test
++        # can leave the loop it is in (scout_past_tests).
+         self.scout = scout
++        self.scout_past = scout and scout_past
++        self._passed = 0  # tests the scout went past, in the statement it is on
+         self.launcher = launcher  # needed only for peeks
+         self.registry = registry
+         self.taint_skip = taint_skip
+@@ -187,6 +192,8 @@ class ShadowRunner:
+         self.ns.update(shadow_hooks)
+         self.ns["__builtins__"] = shadow_builtins(real_builtins)
+         self.ns.setdefault("__name__", "__main__")  # class stmts need it
++        if self.scout_past:  # what scout_past_tests' rewritten statements call
++            self.ns[_PAST_STOP], self.ns[_PAST_UNKNOWN] = ScoutStop, self._past_a_test
+         # cross-turn helpers keep __globals__ on the real (claiming) hooks
+         for k, v in list(self.ns.items()):
+             if isinstance(v, FunctionType) and k not in shadow_hooks:
+@@ -258,6 +265,10 @@ class ShadowRunner:
+                     if left is not None and getattr(left, "scouted", None) is not None:
+                         left.scouted.set()
+ 
++    def _past_a_test(self) -> Unknown:
++        self._passed += 1
++        return Unknown()
++
+     def _scout_one(self, seg: Segment) -> None:
+         """Run one closed statement in the scout's own copy of the variables, with hooks
+         that launch what they can and return Unknown at once. Nothing here waits for a
+@@ -289,6 +300,8 @@ class ShadowRunner:
+             if any(name in self.hooks for name in _bound_names(tree)):
+                 self.aborted = "rebind"  # a tool name was rebound: stop launching
+                 return
++            run_tree = scout_past_tests(ast.parse(seg.source)) if self.scout_past else tree
++            self._passed = 0
+             tid = threading.get_ident()
+             armed = {"on": True}
+             t_stmt = time.perf_counter()
+@@ -321,7 +334,7 @@ class ShadowRunner:
+             why = None
+             scouts_own = True
+             try:
+-                exec(compile(tree, "<scout>", "exec"), self.ns, self.ns)
++                exec(compile(run_tree, "<scout>", "exec"), self.ns, self.ns)
+             except ScoutStop:
+                 why = "needs a value"
+             except BaseException as e:  # noqa: BLE001 - model code may raise anything
+@@ -340,7 +353,8 @@ class ShadowRunner:
+                 if not scouts_own:
+                     self._dead_block = seg.block_id
+             self.bus.emit("scout_exec" if why is None else "scout_skip", block=seg.block_id,
+-                          index=seg.index, **({} if why is None else {"reason": why}))
++                          index=seg.index, **({} if why is None else {"reason": why}),
++                          **({"past": self._passed} if self._passed else {}))
+         finally:
+             if seg.scouted is not None:
+                 seg.scouted.set()
+@@ -474,6 +488,83 @@ class ShadowRunner:
+         self.bus.emit("shadow_stop", reason=why, block=seg.block_id, index=seg.index)
+ 
+ 
++# --------------------------------------------------------------------------- past a test
++_PAST_STOP, _PAST_UNKNOWN = "__scout_stop__", "__scout_unknown__"
++_LEAVES = (ast.Return, ast.Raise, ast.Break, ast.Continue, ast.Assert)
++_OWN_SCOPE = (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef)
++
++
++def _can_leave(stmts: list[ast.stmt]) -> bool:
++    """Could running these statements leave the block they are in by a statement made
++    for it: return, raise, break, continue, assert? (Any statement can raise by
++    accident; the scout takes that risk everywhere.) Bodies of functions and classes
++    defined here are not run here and do not count."""
++    todo: list[ast.AST] = list(stmts)
++    while todo:
++        n = todo.pop()
++        if isinstance(n, _LEAVES):
++            return True
++        if not isinstance(n, _OWN_SCOPE):
++            todo.extend(ast.iter_child_nodes(n))
++    return False
++
++
++class _PastTests(ast.NodeTransformer):
++    def __init__(self) -> None:
++        self.n = 0
++
++    def _own_scope(self, node):
++        return node  # a name set in there is a local: leave its tests as they are
++
++    visit_FunctionDef = visit_AsyncFunctionDef = visit_Lambda = visit_ClassDef = _own_scope
++
++    def visit_If(self, node: ast.If):
++        self.generic_visit(node)  # the tests inside the arms first (elif is one of them)
++        arms = node.body + node.orelse
++        if _can_leave(arms):
++            return node
++        names: set[str] = set()
++        for stmt in arms:
++            names |= _assigned_names(stmt) | _bound_names(stmt)
++        self.n += 1
++        cond = f"__scout_test_{self.n}__"
++        names = {n for n in names if not n.startswith("__scout_")}
++        load = lambda name: ast.Name(id=name, ctx=ast.Load())  # noqa: E731
++        store = lambda name: ast.Name(id=name, ctx=ast.Store())  # noqa: E731
++        unknown = ast.Call(func=load(_PAST_UNKNOWN), args=[], keywords=[])
++        # the names an arm would have set are not known after it; the call counts the test
++        skipped = ast.Assign(targets=[store(n) for n in sorted(names)] or [store(cond)],
++                             value=unknown)
++        new = ast.Try(
++            body=[ast.Assign(targets=[store(cond)],
++                             value=ast.Call(func=load("bool"), args=[node.test], keywords=[]))],
++            handlers=[ast.ExceptHandler(type=load(_PAST_STOP), name=None, body=[skipped])],
++            orelse=[ast.If(test=load(cond), body=node.body, orelse=node.orelse)],
++            finalbody=[],
++        )
++        return ast.copy_location(new, node)
++
++
++def scout_past_tests(tree: ast.Module) -> ast.Module:
++    """Rewrite a statement for the scout so that a test on a result does not end it.
++
++    The scout places no bets: where an `if` needs a value that is not there yet, it
++    stops, and with it the loop the `if` is in (ScoutStop). But a test whose arms cannot
++    leave that loop (no return, raise, break, continue or assert in them) changes
++    nothing about what comes after it: the loop goes on whichever arm runs. Recorded on
++    OOLONG: a loop of 160 batches that counts each label with `if label == 'location':`.
++    Every one of those batches is certain, and neither spec-ptc as shipped nor the scout
++    launched them ahead.
++
++    So such an `if` becomes: work out the test; if that needs an unknown value, run
++    neither arm and make every name an arm sets or changes unknown; else run the `if`
++    as written. A call inside a skipped arm is not launched (that would be a bet), and
++    a later call built from a name an arm sets is not launched either. A test inside a
++    function or class body is left as it is."""
++    tree = _PastTests().visit(tree)
++    return ast.fix_missing_locations(tree)
++
++
+ _UNKNOWN_IN_MESSAGE = re.compile(r"\bUnknown(Str)?\b")
+ 
+ 
+diff --git a/src/engine/speculation.py b/src/engine/speculation.py
+index 5b44261..eba9d74 100644
+--- a/src/engine/speculation.py
++++ b/src/engine/speculation.py
+@@ -49,8 +49,12 @@ class Speculation:
+     # (Launcher.reissue) and returns that run, which is also kept here
+     relaunch: Callable[[], Speculation] | None = None
+     reissued: Speculation | None = None
++    # somebody waits for the result (the real run at its claim, or the shadow where a
++    # statement uses it): the call is not ahead of need any more
++    wanted: bool = False
+ 
+     def wait(self, timeout: float | None = None) -> Any:
++        self.wanted = True
+         if not self.done.wait(timeout):
+             raise TimeoutError(f"speculation {self.key} not ready after {timeout}s")
+         if self.error is not None:
+@@ -523,51 +527,106 @@ class Budget:
+     max_inflight_chars bounds total argument characters being executed at
+     once — the prefill-pressure control. Char-budget
+     excess WAITS in its worker (delayed dispatch) rather than denying, so it
+-    can never abort the shadow or cause a miss. The window waits the same way."""
++    can never abort the shadow or cause a miss. The window waits the same way.
++
++    The window can be moved while calls run (set_window; engine.load.Governor does):
++    max_window is the most it may ever be, and the size of the launcher's thread pool.
++    With a kv_pool (engine.load.KvPool) that knows the engine's KV cache, calls are
++    admitted against the cache the engine has free, in place of max_inflight_chars."""
+ 
+     def __init__(
+         self,
+         max_inflight: int = 16,
+         max_dispatches_per_turn: int = 64,
+         max_inflight_chars: int = 120_000,
++        max_window: int | None = None,
++        kv_pool=None,
+     ):
+         self.max_inflight = max_inflight
++        self.max_window = max(max_inflight, max_window or max_inflight)
+         self.max_dispatches_per_turn = max_dispatches_per_turn
+         self.max_inflight_chars = max_inflight_chars
++        self.kv_pool = kv_pool
+         self._dispatched = 0
+         self._chars = 0
+         self._lock = threading.Lock()
+         self._chars_freed = threading.Condition(self._lock)
+         self._slots = 0  # places of the window in use
+-        self._slot_queue: deque = deque()  # who waits for a place, in arrival order
+-        self._slots_freed = threading.Condition(threading.Lock())
++        # who waits for a place, in arrival order: [places wanted, places given, event]
++        self._slot_queue: deque = deque()
++        self._slot_lock = threading.Lock()
++        self._waited = 0  # callers that had to wait for a place (take_waited)
+ 
+     def acquire_slots(self, n: int = 1, timeout: float = 600.0) -> int:
+         """Take `n` places of the window (at most all of it) and return how many were
+         taken. Waits for room, in arrival order: a batch that needs many places is not
+-        overtaken by the single calls that arrive behind it. With single calls alone the
+-        pool's size already is the window, and this never waits."""
+-        n = max(1, min(n, self.max_inflight))
+-        me = object()
+-        with self._slots_freed:
++        overtaken by the single calls that arrive behind it. Each waiter is woken by
++        itself when its turn has come, however many wait behind it."""
++        with self._slot_lock:
++            if not self._slot_queue:
++                take = max(1, min(n, self.max_inflight))
++                if self._slots + take <= self.max_inflight:
++                    self._slots += take
++                    return take
++            me = [n, 0, threading.Event()]
+             self._slot_queue.append(me)
+-            deadline = time.monotonic() + timeout
+-            while self._slot_queue[0] is not me or self._slots + n > self.max_inflight:
+-                remaining = deadline - time.monotonic()
+-                if remaining <= 0:
+-                    break  # degrade: run anyway, as the char budget does
+-                self._slots_freed.wait(remaining)
+-            self._slot_queue.remove(me)
+-            self._slots += n
+-            self._slots_freed.notify_all()
+-        return n
++            self._waited += 1
++        if not me[2].wait(timeout):
++            with self._slot_lock:
++                if not me[1]:  # degrade: run anyway, as the char budget does
++                    self._slot_queue.remove(me)
++                    me[1] = max(1, min(n, self.max_inflight))
++                    self._slots += me[1]
++        return me[1]
++
++    def _grant(self) -> None:
++        """Give places to the waiters at the head of the queue, while there is room."""
++        while self._slot_queue:
++            me = self._slot_queue[0]
++            take = max(1, min(me[0], self.max_inflight))
++            if self._slots + take > self.max_inflight:
++                return
++            self._slot_queue.popleft()
++            self._slots += take
++            me[1] = take
++            me[2].set()
+ 
+     def release_slots(self, n: int) -> None:
+-        with self._slots_freed:
++        with self._slot_lock:
+             self._slots -= n
+-            self._slots_freed.notify_all()
+-
+-    def acquire_chars(self, n: int, timeout: float = 600.0) -> None:
++            self._grant()
++
++    def set_window(self, n: int) -> None:
++        """Move the window. A wider one lets waiters in at once; a narrower one takes
++        effect as the calls in flight end."""
++        with self._slot_lock:
++            self.max_inflight = max(1, min(int(n), self.max_window))
++            self._grant()
++
++    def waiters(self) -> int:
++        """Calls waiting for a place now."""
++        with self._slot_lock:
++            return len(self._slot_queue)
++
++    def in_use(self) -> int:
++        """Places of the window taken now."""
++        with self._slot_lock:
++            return self._slots
++
++    def take_waited(self) -> int:
++        """How many calls had to wait for a place since this was last asked."""
++        with self._slot_lock:
++            n, self._waited = self._waited, 0
++            return n
++
++    def acquire_chars(self, n: int, timeout: float = 600.0, calls: int = 1, urgent=None):
++        """Room for `calls` calls of `n` argument characters together. Returns what
++        release_chars takes back. `urgent()`: the program is waiting for one of them (a
++        KV pool then lets it through; the character budget, which is this session's
++        own, holds it as shipped)."""
++        pool = self.kv_pool
++        if pool is not None and pool.live():
++            return pool.acquire(n, timeout, calls=calls, urgent=urgent)
+         n = min(n, self.max_inflight_chars)  # one huge call may still run
+         with self._chars_freed:
+             deadline = time.monotonic() + timeout
+@@ -576,11 +635,14 @@ class Budget:
+                 if remaining <= 0 or not self._chars_freed.wait(remaining):
+                     break  # degrade: run anyway
+             self._chars += n
++        return n
+ 
+-    def release_chars(self, n: int) -> None:
+-        n = min(n, self.max_inflight_chars)
++    def release_chars(self, held) -> None:
++        if not isinstance(held, int):  # a KvPool's ticket
++            self.kv_pool.release(held)
++            return
+         with self._chars_freed:
+-            self._chars -= n
++            self._chars = max(0, self._chars - held)
+             self._chars_freed.notify_all()
+ 
+     def admit(self) -> bool:
+@@ -602,6 +664,7 @@ class Launcher:
+         bus: EventBus = NULL_BUS,
+         budget: Budget | None = None,
+         batch_launch: bool = False,
++        batch_chunk: int = 0,
+     ) -> None:
+         self.store = store
+         self.bus = bus
+@@ -609,10 +672,14 @@ class Launcher:
+         # batch_launch: the shadow and scout hooks launch a model-written batch as one
+         # call of the batched tool (dispatch_batch), not as one single call per prompt
+         self.batch_launch = batch_launch
++        # batch_chunk: a batch launched as a batch goes out in calls of the batched tool
++        # of at most this many prompts (and never more than the window), each sent as
++        # soon as its speculations exist. 0: the whole batch as one call.
++        self.batch_chunk = batch_chunk
+         self._seq = 0
+         self._seq_lock = threading.Lock()
+         self._pool = ThreadPoolExecutor(
+-            max_workers=self.budget.max_inflight, thread_name_prefix="spec"
++            max_workers=self.budget.max_window, thread_name_prefix="spec"
+         )
+         self._aloop: asyncio.AbstractEventLoop | None = None
+         self._aloop_lock = threading.Lock()
+@@ -722,8 +789,17 @@ class Launcher:
+                 return
+             spec.state = "running"
+             nchars = sum(len(a) for a in args if isinstance(a, str))
+-            slots = self.budget.acquire_slots(1)  # the window; free with single calls alone
+-            self.budget.acquire_chars(nchars)  # prefill-pressure gate (EXP-2)
++            slots = self.budget.acquire_slots(1)  # the window
++            # prefill-pressure gate (EXP-2). A speculation somebody waits for is not
++            # ahead of need: the real run at its claim, or the shadow where a statement
++            # uses the result (the real run cannot start before the shadow is through).
++            held = self.budget.acquire_chars(
++                nchars, urgent=lambda: spec.wanted or bool(spec.t_claim))
++            if spec.state == "evicted":  # evicted while it waited for its place: not sent
++                self.budget.release_chars(held)
++                self.budget.release_slots(slots)
++                spec.done.set()
++                return
+             run_fn = tool.spec_fn or tool.fn  # speculative-mode variant
+             try:
+                 if getattr(run_fn, "wants_spec", False):
+@@ -745,7 +821,7 @@ class Launcher:
+                 if isinstance(e, SpeculationRejected) and spec.state != "evicted":
+                     # server refused/dropped it (sptc scheduler): a claim re-runs it for real
+                     self.bus.emit("spec_rejected", key=key, seq=spec.seq, reason=e.reason)
+-            self.budget.release_chars(nchars)
++            self.budget.release_chars(held)
+             self.budget.release_slots(slots)
+             spec.t_ready = time.perf_counter()
+             spec.done.set()
+@@ -780,9 +856,16 @@ class Launcher:
+ 
+         The batch holds as many places of the window as the tool keeps calls in flight
+         (ToolSpec.batch_width; all of the batch if the tool does not say), and never more
+-        than the window."""
++        than the window.
++
++        With batch_chunk set, the new prompts go out in several calls of the tool, of at
++        most that many prompts and never more than the window is wide now. A chunk is
++        sent as soon as its speculations exist, so a batch of thousands starts to run
++        while the rest is still being announced, and the window bounds what is in flight
++        of it."""
+         out: list[Speculation | None] = [None] * len(prompts)
+         fresh: list[Speculation] = []
++        chunk = min(self.batch_chunk, self.budget.max_inflight) if self.batch_chunk else 0
+         try:
+             for i, p in enumerate(prompts):
+                 args = (p, *rest)
+@@ -804,6 +887,9 @@ class Launcher:
+                 if spec is not None:
+                     out[i] = spec
+                     fresh.append(spec)
++                    if chunk and len(fresh) >= chunk:
++                        full, fresh = fresh, []
++                        self._pool.submit(self._run_batch, batched, full, rest, kwargs)
+         finally:
+             # whatever ended the loop: a speculation that is in the store must run, or
+             # the shadow adopts it and the real run waits for an answer that never comes
+@@ -824,29 +910,48 @@ class Launcher:
+         if not live:
+             return
+         prompts = [s.args[0] for s in live]
+-        slots = self.budget.acquire_slots(min(len(live), batched.batch_width or len(live)))
++        want = min(len(live), batched.batch_width or len(live))
++        slots = self.budget.acquire_slots(want)
+         # the characters in flight at once: the batch's, in proportion to its places
+         total = sum(len(p) for p in prompts if isinstance(p, str))
+         nchars = total * slots // len(live)
+-        self.budget.acquire_chars(nchars)
++        held = self.budget.acquire_chars(
++            nchars, calls=slots, urgent=lambda: any(s.wanted or s.t_claim for s in live))
++        gone = [s for s in live if s.state == "evicted"]
++        if gone:  # evicted while the batch waited for its places: those are not sent
++            for spec in gone:
++                spec.done.set()
++            live = [s for s in live if s.state != "evicted"]
++            prompts = [s.args[0] for s in live]
++            if not live:
++                self.budget.release_chars(held)
++                self.budget.release_slots(slots)
++                return
+         run_fn = batched.spec_fn or batched.fn  # speculative-mode variant
+         results: list = []
+         failure: BaseException | None = None
++        # With batch_chunk: if the window is narrower than the tool would run this batch
++        # (it was cut after the batch was announced), the batch goes out in pieces of the
++        # places it was given, one after another, so that no more of it is in flight than
++        # the window allows.
++        step = slots if self.batch_chunk and slots < want else len(live)
+         try:
+-            if getattr(run_fn, "wants_spec", False):
+-                out = run_fn(prompts, *rest, _spec=live, **kwargs)
+-            else:
+-                out = run_fn(prompts, *rest, **kwargs)
+-            if inspect.isawaitable(out):
+-                out = self.run_awaitable(out)
+-            results = list(out)
++            for i in range(0, len(live), step):
++                part, specs = prompts[i:i + step], live[i:i + step]
++                if getattr(run_fn, "wants_spec", False):
++                    out = run_fn(part, *rest, _spec=specs, **kwargs)
++                else:
++                    out = run_fn(part, *rest, **kwargs)
++                if inspect.isawaitable(out):
++                    out = self.run_awaitable(out)
++                results.extend(out)
+             if len(results) != len(live):
+                 raise RuntimeError(
+                     f"{batched.name} returned {len(results)} results for {len(live)} prompts"
+                 )
+         except BaseException as e:  # surfaced at each element's claim/force point
+             failure = e
+-        self.budget.release_chars(nchars)
++        self.budget.release_chars(held)
+         self.budget.release_slots(slots)
+         now = time.perf_counter()
+         for i, spec in enumerate(live):
+diff --git a/src/runtime/harness.py b/src/runtime/harness.py
+index 639aa1e..ed7d488 100644
+--- a/src/runtime/harness.py
++++ b/src/runtime/harness.py
+@@ -237,13 +237,17 @@ class Harness:
+         max_inflight: int = 16,
+         peek: bool = True,
+         taint_skip: bool = True,
+-        scout: bool = False,
++        scout: bool | str = False,
+         batch_launch: bool = False,
++        budget: Budget | None = None,
++        batch_chunk: int = 0,
+     ):
+         # scout: the non-blocking pass ahead of the shadow (ShadowRunner._scout_one);
+-        # it replaces the tail peeks
++        # it replaces the tail peeks. scout="past": it also goes on past a test on a
++        # result that cannot leave its loop.
+         # batch_launch: a model-written batch goes out as one call of the batched tool
+         # (Launcher.dispatch_batch); max_inflight is the window either way
++        # budget: the launcher's budget, built by the caller (a governed one, in tests)
+         self.scout = scout
+         self.peek = peek and not scout
+         self.taint_skip = taint_skip
+@@ -255,7 +259,8 @@ class Harness:
+         engine.make_tools(self.reg, self.bus)
+         self.store = SpecStore(self.bus)
+         self.launcher = Launcher(
+-            self.store, self.bus, Budget(max_inflight=max_inflight), batch_launch=batch_launch
++            self.store, self.bus, budget or Budget(max_inflight=max_inflight),
++            batch_launch=batch_launch, batch_chunk=batch_chunk,
+         )
+         self.repl = SpecREPL(context=context)
+         if mode == "baseline":
+@@ -305,6 +310,7 @@ class Harness:
+                         launcher=self.launcher,
+                         registry=self.reg,
+                         scout=True,
++                        scout_past=self.scout == "past",
+                     )
+                 s.scouted = threading.Event()
+                 scout.feed(s)
+diff --git a/src/speculator.py b/src/speculator.py
+index b796ac5..03a1b49 100644
+--- a/src/speculator.py
++++ b/src/speculator.py
+@@ -17,6 +17,7 @@ from typing import Protocol
+ 
+ from spec_ptc.contracts.events import EventBus
+ from spec_ptc.contracts.tools import Tool, ToolRegistry
++from spec_ptc.engine.load import EngineProbe, Governor, GovernorConfig, pool_for, probe_for
+ from spec_ptc.engine.shadow import ShadowRunner
+ from spec_ptc.engine.speculation import (
+     Budget,
+@@ -54,6 +55,7 @@ class StreamTurn:
+     peek: bool = True
+     _last_tail: str = ""
+     scout: ShadowRunner | None = None  # the scout pass, ahead of the shadow (or None)
++    on_delta: Callable[[], None] | None = None  # told of every delta (the governor's clock)
+ 
+     def _to_runners(self, seg) -> None:
+         if self.scout is not None:
+@@ -62,6 +64,8 @@ class StreamTurn:
+         self.shadow.feed(seg)
+ 
+     def feed(self, delta: str) -> None:
++        if self.on_delta is not None:
++            self.on_delta()
+         for seg in self.segmenter.feed(delta):
+             self._to_runners(seg)
+         if self.peek and "\n" in delta:
+@@ -106,25 +110,46 @@ class SpecSession:
+         max_inflight: int = 16,
+         max_dispatches_per_turn: int = 2048,
+         taint_skip: bool = True,
+-        scout: bool = False,
++        scout: bool | str = False,
+         batch_launch: bool = False,
++        govern: bool | GovernorConfig = False,
++        load: str | EngineProbe | None = None,
++        batch_chunk: int = 0,
+     ) -> None:
+         self.reg = registry
+         self.bus = bus or EventBus()
+         self.taint_skip = taint_skip
+         # scout: run each closed statement once more, ahead of the shadow, without ever
+         # waiting for a result, to launch every call whose arguments are known
+-        # (ShadowRunner._scout_one). It replaces the tail peeks.
++        # (ShadowRunner._scout_one). It replaces the tail peeks. scout="past" also goes
++        # on past a test on a result when no arm of it can leave the loop it is in
++        # (shadow.scout_past_tests).
+         self.scout = scout
+         # max_inflight: the window, speculative calls in flight at once.
+         # batch_launch: launch a model-written batch as one call of the batched tool
+-        # (Launcher.dispatch_batch), not as one single call per prompt.
++        # (Launcher.dispatch_batch), not as one single call per prompt; batch_chunk: in
++        # calls of at most that many prompts.
++        # govern: the window and the character budget follow the load (engine.load). The
++        # window then starts at the config's w_init, not at max_inflight. load: the
++        # engine's /metrics URL, or a probe; without it only this process's own signals
++        # are read.
+         self.store = SpecStore(self.bus)
++        self.governor: Governor | None = None
++        budget = Budget(max_inflight=max_inflight,
++                        max_dispatches_per_turn=max_dispatches_per_turn)
++        if govern:
++            cfg = govern if isinstance(govern, GovernorConfig) else GovernorConfig()
++            probe = probe_for(load) if isinstance(load, str) else load
++            pool = pool_for(probe) if probe is not None else None
++            budget = Budget(max_inflight=cfg.w_init, max_window=cfg.w_max,
++                            max_dispatches_per_turn=max_dispatches_per_turn, kv_pool=pool)
++            self.governor = Governor(budget, probe, pool, self.bus, cfg)
+         self.launcher = Launcher(
+             self.store,
+             self.bus,
+-            Budget(max_inflight=max_inflight, max_dispatches_per_turn=max_dispatches_per_turn),
++            budget,
+             batch_launch=batch_launch,
++            batch_chunk=batch_chunk,
+         )
+ 
+     def real_hooks(self) -> dict:
+@@ -157,14 +182,20 @@ class SpecSession:
+                 launcher=self.launcher,
+                 registry=self.reg,
+                 scout=True,
++                scout_past=self.scout == "past",
+             )
+-        return StreamTurn(StreamSegmenter(), shadow, peek=peek and scout is None, scout=scout)
++        return StreamTurn(
++            StreamSegmenter(), shadow, peek=peek and scout is None, scout=scout,
++            on_delta=self.governor.note_root if self.governor is not None else None,
++        )
+ 
+     def end_turn(self) -> None:
+         self.store.evict_unclaimed("turn_end")
+         self.launcher.budget.reset()
+ 
+     def close(self) -> None:
++        if self.governor is not None:
++            self.governor.close()
+         self.launcher.shutdown()
+ 
+ 
+@@ -174,8 +205,11 @@ class Speculator:
+         max_inflight: int = 16,
+         bus: EventBus | None = None,
+         taint_skip: bool = True,
+-        scout: bool = False,
++        scout: bool | str = False,
+         batch_launch: bool = False,
++        govern: bool | GovernorConfig = False,
++        load: str | EngineProbe | None = None,
++        batch_chunk: int = 0,
+     ) -> None:
+         self.registry = ToolRegistry()
+         self.bus = bus or EventBus()
+@@ -184,6 +218,7 @@ class Speculator:
+         self.taint_skip = taint_skip
+         self.scout = scout
+         self.batch_launch = batch_launch
++        self.govern, self.load, self.batch_chunk = govern, load, batch_chunk
+ 
+     # ---------------------------------------------------------- registration
+     def tool(
+@@ -236,6 +271,9 @@ class Speculator:
+                 taint_skip=self.taint_skip,
+                 scout=self.scout,
+                 batch_launch=self.batch_launch,
++                govern=self.govern,
++                load=self.load,
++                batch_chunk=self.batch_chunk,
+             )
+         return self._session
+ 
+diff --git a/tests/test_load.py b/tests/test_load.py
+new file mode 100644
+index 0000000..5610201
+--- /dev/null
++++ b/tests/test_load.py
+@@ -0,0 +1,917 @@
++"""Limits that follow the load (spec_ptc.engine.load).
++
++As shipped, speculation is held by two constants: 16 calls in flight and 120,000
++characters of prompts in flight. Measured on an H100 (2026-11-10) both were far below what
++the engine took. Here the window follows the engine's queue, KV cache and preemptions and
++the client's own CPU, and long prompts are admitted against the KV cache the engine has
++free. All mock: no network, no model; the "engine" is a text of metrics the test writes."""
++
++import threading
++import time
++
++import pytest
++
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.contracts.tools import ToolRegistry
++from spec_ptc.engine.load import (
++    EngineLoad,
++    EngineProbe,
++    Governor,
++    GovernorConfig,
++    KvPool,
++    TaxMeter,
++    metrics_url,
++    parse_metrics,
++)
++from spec_ptc.engine.speculation import Budget, Launcher, SpecStore, make_scout_hooks
++from spec_ptc.runtime.engines import MockLM, MockTiming
++from spec_ptc.runtime.harness import Harness
++
++# what vLLM 0.32 writes (shortened), with two label sets for one gauge
++VLLM_TEXT = """\
++# HELP vllm:num_requests_running Number of requests in model execution batches.
++# TYPE vllm:num_requests_running gauge
++vllm:num_requests_running{engine="0",model_name="m"} 37.0
++vllm:num_requests_waiting{engine="0",model_name="m"} 4.0
++vllm:num_requests_waiting_by_reason{engine="0",model_name="m",reason="capacity"} 4.0
++vllm:kv_cache_usage_perc{engine="0",model_name="m"} 0.375
++vllm:num_preemptions_total{engine="0",model_name="m"} 2.0
++vllm:inter_token_latency_seconds_bucket{engine="0",le="0.01",model_name="m"} 0.0
++vllm:inter_token_latency_seconds_count{engine="0",model_name="m"} 1000.0
++vllm:inter_token_latency_seconds_sum{engine="0",model_name="m"} 45.0
++vllm:cache_config_info{block_size="16",cache_dtype="auto",engine="0",num_gpu_blocks="9676"} 1.0
++"""
++
++
++def metrics(running=0, waiting=0, kv=0.0, preempt=0, itl_sum=0.0, itl_count=0,
++            blocks=9676) -> str:
++    cache = (f'vllm:cache_config_info{{block_size="16",num_gpu_blocks="{blocks}"}} 1.0\n'
++             if blocks else "")
++    return (f'vllm:num_requests_running{{model_name="m"}} {running}\n'
++            f'vllm:num_requests_waiting{{model_name="m"}} {waiting}\n'
++            f'vllm:kv_cache_usage_perc{{model_name="m"}} {kv}\n'
++            f'vllm:num_preemptions_total{{model_name="m"}} {preempt}\n'
++            f'vllm:inter_token_latency_seconds_sum{{model_name="m"}} {itl_sum}\n'
++            f'vllm:inter_token_latency_seconds_count{{model_name="m"}} {itl_count}\n'
++            + cache)
++
++
++class Clock:
++    def __init__(self) -> None:
++        self.t = 100.0
++
++    def __call__(self) -> float:
++        return self.t
++
++
++class FakeEngine:
++    """Metrics text that a test sets; each read is a new sample."""
++
++    def __init__(self, clock=None, **kw) -> None:
++        self.kw = dict(kw)
++        self.clock = clock or Clock()
++        self.probe = EngineProbe(fetch=lambda: metrics(**self.kw), clock=self.clock)
++
++    def sample(self, dt: float = 0.25, **kw) -> EngineLoad:
++        self.kw.update(kw)
++        self.clock.t += dt
++        return self.probe.poll()
++
++
++# --------------------------------------------------------------------------- the probe
++def test_the_probe_reads_what_vllm_exports():
++    m = parse_metrics(VLLM_TEXT)
++    assert m["running"] == 37 and m["waiting"] == 4 and m["kv"] == 0.375
++    assert m["preemptions"] == 2 and m["kv_tokens"] == 9676 * 16
++    assert m["itl_sum"] == 45 and m["itl_count"] == 1000
++
++
++def test_older_metric_names_are_read_too():
++    m = parse_metrics("vllm:gpu_cache_usage_perc 0.5\nvllm:num_preemptions 3\n"
++                      "vllm:time_per_output_token_seconds_sum 2.0\n"
++                      "vllm:time_per_output_token_seconds_count 50\n")
++    assert m == {"kv": 0.5, "preemptions": 3.0, "itl_sum": 2.0, "itl_count": 50.0}
++
++
++def test_metrics_url_of_an_openai_base_url():
++    assert metrics_url("http://localhost:8210/v1") == "http://localhost:8210/metrics"
++    assert metrics_url("http://h:1/v1/") == "http://h:1/metrics"
++    assert metrics_url("http://h:1") == "http://h:1/metrics"
++
++
++def test_time_between_tokens_is_the_mean_since_the_last_sample():
++    eng = FakeEngine(itl_sum=10.0, itl_count=1000)
++    assert eng.sample().itl_ms is None  # nothing to compare with yet
++    load = eng.sample(itl_sum=10.0 + 100 * 0.040, itl_count=1100)
++    assert load.itl_ms == pytest.approx(40.0)
++    assert eng.sample(itl_sum=14.0 + 4 * 0.5, itl_count=1104).itl_ms is None  # too few tokens
++
++
++def test_the_tax_is_the_pace_now_over_the_quietest_pace_seen():
++    eng = FakeEngine(itl_sum=0.0, itl_count=0)
++    eng.sample()
++    s, n = 0.0, 0
++    for _ in range(6):  # a quiet engine: 40 ms a token
++        s, n = s + 100 * 0.040, n + 100
++        load = eng.sample(itl_sum=s, itl_count=n)
++    assert load.tax == pytest.approx(0.0, abs=0.02)
++    for _ in range(6):  # a loaded one: 100 ms a token
++        s, n = s + 100 * 0.100, n + 100
++        load = eng.sample(itl_sum=s, itl_count=n)
++    assert load.tax == pytest.approx(1.5, abs=0.1)
++
++
++def test_the_quiet_pace_follows_an_engine_that_got_slower_for_good():
++    m = TaxMeter(drift=0.01)
++    for _ in range(10):
++        m.add(40.0)
++    for _ in range(400):
++        m.add(60.0)
++    assert m.tax() == pytest.approx(0.0, abs=0.01)
++
++
++def test_a_sample_goes_stale_and_a_failed_read_gives_none():
++    clock = Clock()
++    eng = FakeEngine(clock=clock)
++    eng.sample()
++    assert eng.probe.latest() is not None
++    clock.t += 5.0
++    assert eng.probe.latest() is None
++
++    def down():
++        raise OSError("connection refused")
++
++    probe = EngineProbe(fetch=down)
++    assert probe.poll() is None and probe.errors == 1 and probe.latest() is None
++
++
++# --------------------------------------------------------------------------- the window
++def test_waiters_get_their_places_in_arrival_order_one_by_one():
++    b = Budget(max_inflight=1, max_window=8)
++    assert b.acquire_slots(1) == 1
++    order: list[int] = []
++
++    def want(i):
++        got = b.acquire_slots(1)
++        order.append(i)  # the only one in flight: nobody else writes now
++        time.sleep(0.02)
++        b.release_slots(got)
++
++    threads = []
++    for i in range(6):
++        t = threading.Thread(target=want, args=(i,))
++        t.start()
++        threads.append(t)
++        time.sleep(0.02)  # arrive in order
++    assert b.waiters() == 6 and b.take_waited() == 6 and b.take_waited() == 0
++    b.release_slots(1)
++    for t in threads:
++        t.join(2)
++    assert order == [0, 1, 2, 3, 4, 5]
++    assert b.waiters() == 0 and b.in_use() == 0
++
++
++def test_a_wider_window_lets_waiters_in_at_once_and_a_narrower_one_as_calls_end():
++    b = Budget(max_inflight=2, max_window=8)
++    b.acquire_slots(1)
++    b.acquire_slots(1)
++    got: list[int] = []
++    threads = [threading.Thread(target=lambda: got.append(b.acquire_slots(1)))
++               for _ in range(4)]
++    for t in threads:
++        t.start()
++    time.sleep(0.1)
++    assert got == [] and b.waiters() == 4
++    b.set_window(5)  # three more places: three of the four go
++    time.sleep(0.1)
++    assert got == [1, 1, 1] and b.waiters() == 1
++    b.set_window(2)  # narrower than what is in flight: nobody is stopped, nobody enters
++    for _ in range(3):
++        b.release_slots(1)
++    time.sleep(0.1)
++    assert b.waiters() == 1  # five were in flight, two are left: the window is full
++    b.release_slots(1)
++    for t in threads:
++        t.join(2)
++    assert got == [1, 1, 1, 1]
++
++
++def test_the_window_never_leaves_its_bounds():
++    b = Budget(max_inflight=16, max_window=64)
++    b.set_window(1000)
++    assert b.max_inflight == 64
++    b.set_window(0)
++    assert b.max_inflight == 1
++
++
++def test_a_batch_that_wants_more_than_the_window_takes_the_window_as_it_is_then():
++    b = Budget(max_inflight=4, max_window=64)
++    b.acquire_slots(1)
++    got: list[int] = []
++    t = threading.Thread(target=lambda: got.append(b.acquire_slots(20)))
++    t.start()
++    time.sleep(0.05)
++    b.set_window(32)  # it waited at a window of 4; it is let in at 32, with all 20
++    t.join(2)
++    assert got == [20]
++
++
++# --------------------------------------------------------------------------- the KV pool
++def pool_with(kv=0.0, clock=None, **kw):
++    eng = FakeEngine(clock=clock, kv=kv)
++    kw.setdefault("chars_per_token", 3.3)  # the arithmetic below is in these tokens
++    pool = KvPool(eng.probe, clock=eng.clock, **kw)
++    eng.sample()
++    return eng, pool
++
++
++def test_without_the_cache_size_the_pool_is_not_used():
++    eng = FakeEngine(blocks=0)
++    pool = KvPool(eng.probe, clock=eng.clock)
++    eng.sample()
++    assert not pool.live()
++    b = Budget(max_inflight_chars=1000, kv_pool=pool)
++    held = b.acquire_chars(400)
++    assert held == 400  # the session's own character budget, as shipped
++    b.release_chars(held)
++
++
++def test_a_call_is_admitted_against_the_kv_cache_the_engine_has_free():
++    eng, pool = pool_with(kv=0.50)  # half of 154,816 tokens held by everything else
++    assert pool.live()
++    free = int(0.88 * 154_816) - int(0.50 * 154_816)
++    assert pool.capacity() == free  # 58,830 tokens
++    a = pool.acquire(100_000)  # 30,304 tokens and a tenth for its answer
++    assert a.tokens == 30_304 + 3_030
++    done = threading.Event()
++    held: list = []
++
++    def second():
++        held.append(pool.acquire(100_000))
++        done.set()
++
++    threading.Thread(target=second, daemon=True).start()
++    assert not done.wait(0.3)  # two do not fit: the second waits, it is not refused
++    pool.release(a)
++    assert done.wait(2)
++    assert pool.in_flight() == held[0].tokens
++
++
++def test_a_token_is_counted_as_two_and_a_half_characters_unless_told_otherwise():
++    eng = FakeEngine()
++    pool = KvPool(eng.probe, clock=eng.clock)
++    assert pool.chars_per_token == 2.5
++    # OOLONG's chunks: 100,276 characters are 36,000 tokens, and their answers 4,096
++    assert pool.tokens_for(100_276) == 40_111 + 4_011
++    assert pool.tokens_for(100_276) >= 36_000 + 4_096
++
++
++def test_the_pool_grows_when_the_engine_empties():
++    eng, pool = pool_with(kv=0.80)
++    small = pool.capacity()
++    for _ in range(5):
++        eng.sample(kv=0.10)
++    assert pool.capacity() > small + 100_000
++
++
++def test_with_nothing_in_flight_a_call_of_any_size_is_admitted():
++    eng, pool = pool_with(kv=0.95)
++    assert pool.capacity() == 0
++    t = pool.acquire(400_000)  # there must be progress
++    assert pool.in_flight() == t.tokens
++
++
++def test_a_small_call_is_counted_but_never_held():
++    """The pool is one for all sessions. A session's long prompts must not stop the
++    others' short calls: how many of those are in flight is the window's business."""
++    eng, pool = pool_with(kv=0.50)
++    a = pool.acquire(180_000)  # nearly all of the room
++    t0 = time.perf_counter()
++    small = [pool.acquire(400) for _ in range(50)]  # 122 tokens and 64 for the answer
++    assert time.perf_counter() - t0 < 0.5
++    assert pool.in_flight() == a.tokens + 50 * (122 + 64)
++    done = threading.Event()
++    threading.Thread(target=lambda: (pool.acquire(100_000), done.set()), daemon=True).start()
++    assert not done.wait(0.3)  # a long one still waits
++    for t in small:
++        pool.release(t)
++    pool.release(a)
++    assert done.wait(2)
++
++
++def test_a_batch_of_small_calls_is_small_whatever_its_sum():
++    eng, pool = pool_with(kv=0.50)
++    pool.acquire(180_000)
++    t0 = time.perf_counter()
++    t = pool.acquire(32 * 400, calls=32)  # 5,952 tokens together, 186 each
++    assert time.perf_counter() - t0 < 0.5 and t.tokens == 32 * (122 + 64)
++
++
++def test_a_call_the_program_waits_for_is_let_through():
++    """Held, a speculative call is ahead of need. Once the program is at it, the program
++    itself would send it: the pool never makes a session slower than it is without
++    speculation."""
++    eng, pool = pool_with(kv=0.50)
++    pool.acquire(180_000)
++    claimed = threading.Event()
++    done = threading.Event()
++    threading.Thread(target=lambda: (pool.acquire(100_000, urgent=claimed.is_set), done.set()),
++                     daemon=True).start()
++    assert not done.wait(0.3)
++    claimed.set()
++    assert done.wait(1)
++
++
++def test_the_real_run_is_not_held_by_another_sessions_long_calls():
++    """Through the launcher: a long call is held ahead of need, and runs at once when the
++    real run claims it."""
++    eng, pool = pool_with(kv=0.50)
++    blocker = pool.acquire(180_000)  # another session's
++    ran = threading.Event()
++
++    def tool(prompt):
++        ran.set()
++        return "ok"
++
++    reg = ToolRegistry()
++    reg.register("llm_query", tool, speculatable=True, pure=True)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus, Budget(kv_pool=pool))
++    from spec_ptc.engine.speculation import make_real_hooks
++
++    make_scout_hooks(reg, launcher)["llm_query"]("z" * 100_000)
++    assert not ran.wait(0.3)  # ahead of need: it waits for room
++    assert make_real_hooks(reg, store, launcher, bus)["llm_query"]("z" * 100_000) == "ok"
++    assert [e.kind for e in bus.history].count("claim_hit") == 1
++    pool.release(blocker)
++    launcher.shutdown()
++
++
++def test_a_turn_is_not_held_up_by_another_sessions_long_calls():
++    """Found in a dry run: a statement used the result of a long call. The shadow waited
++    for it, the call waited for room that another session's calls held, and the real run
++    waited for the shadow: 277 s for a call that takes none. A call the shadow waits for
++    is let through."""
++    eng, pool = pool_with(kv=0.50)
++    blocker = pool.acquire(180_000)  # another session's long calls
++    out, hist, lm = governed_turn(
++        "big = llm_query('Summarise: ' + context * 60)\n"  # about 200,000 characters
++        "answer['content'] = big.strip()[:4]\n"  # the result is used: the shadow waits
++        "answer['ready'] = True",
++        {}, w_init=4, w_max=8, budget_kw={"kv_pool": pool})
++    assert out.final_answer
++    k = [e.kind for e in hist]
++    assert k.count("claim_hit") == 1 and k.count("claim_miss") == 0
++    assert out.metrics.t_turn < 2.0  # the call's own 0.2 s, not the wait for room
++    pool.release(blocker)
++
++
++def test_the_pools_own_calls_are_not_taken_for_everything_elses():
++    """A call shows in the engine's number once it is prefilled. From then on the pool
++    takes it off the reported use; before that it takes nothing off."""
++    clock = Clock()
++    eng, pool = pool_with(kv=0.20, clock=clock)
++    free = pool.capacity()
++    t = pool.acquire(100_000)
++    # the engine now reports the call too
++    seen = 0.20 + t.tokens / 154_816
++    eng.sample(dt=0.1, kv=seen)  # too early to be sure it is in the number: stays safe
++    assert pool.capacity() <= free
++    for _ in range(5):
++        eng.sample(dt=1.0, kv=seen)
++    assert pool.capacity() == pytest.approx(free, abs=64)
++    pool.release(t)
++    for _ in range(5):
++        eng.sample(dt=1.0, kv=0.20)
++    assert pool.capacity() == pytest.approx(free, abs=64)
++
++
++def test_the_launcher_runs_long_calls_together_when_the_engine_has_room():
++    """Four calls of 100,000 characters. As shipped one runs at a time (120,000
++    characters in flight). With the pool they run together on an engine that has room,
++    and two at a time on one that has room for two."""
++
++    def peak_for(kv: float | None) -> int:
++        lock = threading.Lock()
++        state = {"now": 0, "peak": 0}
++
++        def slow(prompt):
++            with lock:
++                state["now"] += 1
++                state["peak"] = max(state["peak"], state["now"])
++            time.sleep(0.15)
++            with lock:
++                state["now"] -= 1
++            return "ok"
++
++        reg = ToolRegistry()
++        reg.register("llm_query", slow, speculatable=True, pure=True)
++        pool = None
++        if kv is not None:
++            _, pool = pool_with(kv=kv)
++        launcher = Launcher(SpecStore(), budget=Budget(kv_pool=pool))
++        scout = make_scout_hooks(reg, launcher)
++        for i in range(4):
++            scout["llm_query"](f"{i}" + "x" * 100_000)
++        deadline = time.time() + 5
++        while time.time() < deadline and not all(s.done.is_set() for s in launcher.store.all):
++            time.sleep(0.02)
++        launcher.shutdown()
++        return state["peak"]
++
++    assert peak_for(None) == 1  # as shipped
++    assert peak_for(0.0) == 4  # 4 x 33,334 tokens fit into 136,238
++    assert peak_for(0.44) == 2  # 68,119 tokens free: two fit, three do not
++
++
++# --------------------------------------------------------------------------- the governor
++class Rig:
++    """A governor on a budget, with an engine and a clock the test moves."""
++
++    def __init__(self, **cfg) -> None:
++        self.clock = Clock()
++        self.eng = FakeEngine(clock=self.clock)
++        self.cpu = 0.0
++        self.cfg = GovernorConfig(**cfg)
++        self.budget = Budget(max_inflight=self.cfg.w_init, max_window=self.cfg.w_max)
++        self.bus = EventBus()
++        self.gov = Governor(self.budget, self.eng.probe, None, self.bus, self.cfg,
++                            clock=self.clock, cpu_clock=lambda: self.cpu, ticker=False)
++        self.demand = True
++        self.budget._slots = 1  # a call of this session is in flight
++        self.eng.sample()
++        self.gov.tick()
++
++    def tick(self, n: int = 1, cpu: float = 0.1, **engine) -> int:
++        for _ in range(n):
++            self.eng.sample(**engine)  # moves the clock by 0.25 s
++            self.cpu += cpu * 0.25
++            if self.demand:
++                self.budget._waited += 1  # a call had to wait for a place
++            w = self.gov.tick()
++        return w
++
++    def idle(self) -> None:
++        """No call waits for a place, and none is in flight."""
++        self.demand = False
++        self.budget._slots = 0
++
++    @property
++    def why(self) -> list[str]:
++        return [h[2] for h in self.gov.history]
++
++
++def test_the_window_grows_while_calls_wait_for_a_place_and_nothing_says_stop():
++    r = Rig()
++    assert r.budget.max_inflight == 16
++    assert [r.tick() for _ in range(7)] == [24, 36, 54, 81, 121, 181, 256]
++    assert r.tick(3) == 256  # w_max
++    assert set(r.why) == {"grow"}
++
++
++def test_without_demand_the_window_stays_where_it_is():
++    r = Rig()
++    r.demand = False
++    assert r.tick(4) == 16 and r.gov.history == []
++
++
++def test_one_sample_with_a_request_waiting_only_stops_growth():
++    r = Rig()
++    r.tick(2)
++    assert r.tick(waiting=20) == 36  # a burst arrived between two steps
++    assert r.tick(waiting=0) == 54
++
++
++def test_a_request_or_two_waiting_is_an_engine_with_its_places_full_not_a_queue():
++    """Cutting until nothing waits would leave places of the engine empty. A standing
++    queue is a quarter of what the engine runs, waiting."""
++    r = Rig()
++    r.tick(2)  # 36
++    assert r.tick(12, running=16, waiting=3) == 36  # held, never cut
++    assert r.why == ["grow", "grow"]
++    assert r.tick(2, running=16, waiting=4) == 36
++    assert r.tick(running=16, waiting=4) == 25 and r.why[-1] == "queue"  # a quarter of 16
++    r2 = Rig()
++    r2.tick(2)
++    assert r2.tick(6, running=200, waiting=40) == 36  # a fifth of 200: held
++    assert r2.tick(3, running=200, waiting=60) == 25
++
++
++def test_a_standing_queue_cuts_the_window_and_growth_is_slower_after_it():
++    r = Rig()
++    r.tick(4)  # 81
++    assert r.tick(2, waiting=30) == 81  # held
++    assert r.tick(waiting=30) == 56  # the third sample in a row: 0.7 of it
++    assert r.why[-1] == "queue"
++    assert r.tick(2, waiting=5) == 56  # the run starts again after a cut
++    assert r.tick(waiting=5) == 39
++    assert [r.tick(waiting=0) for _ in range(2)] == [43, 48]  # an eighth a tick
++
++
++def test_a_preemption_or_a_full_kv_cache_halves_the_window():
++    r = Rig()
++    r.tick(4)  # 81
++    assert r.tick(preempt=1) == 40 and r.why[-1] == "preempted"
++    assert r.tick(kv=0.98) == 20 and r.why[-1] == "kv"
++    assert r.tick(kv=0.95) == 20  # above kv_high: no growth
++    assert r.tick(kv=0.50) == 22  # by an eighth: the cut is one sample old
++
++
++def test_slow_tokens_stop_growth_and_do_not_cut():
++    r = Rig()
++    tokens = {"s": 0.0, "n": 0}
++
++    def tick(ms: float) -> int:
++        tokens["s"] += 100 * ms / 1000.0
++        tokens["n"] += 100
++        return r.tick(itl_sum=tokens["s"], itl_count=tokens["n"])
++
++    assert [tick(40) for _ in range(3)] == [24, 36, 54]  # the engine's quiet pace
++    for _ in range(3):  # 2.5 times slower; the pace is a median of the last samples
++        tick(100)
++    held = r.budget.max_inflight
++    assert [tick(100) for _ in range(4)] == [held] * 4  # held, not cut
++    assert set(r.why) == {"grow"}
++    for _ in range(4):
++        tick(40)
++    assert r.budget.max_inflight > held
++
++
++def test_a_busy_client_stops_growth_only_if_asked_to():
++    r = Rig()
++    assert r.tick(cpu=0.97) == 24  # as built: the client's CPU is recorded, not acted on
++    ev = [e for e in r.bus.history if e.kind == "govern"][-1]
++    assert ev.data["cpu"] == pytest.approx(0.97, abs=0.01)
++    r2 = Rig(cpu_hold=0.90)
++    assert r2.tick(2, cpu=0.97) == 16
++    assert r2.tick(cpu=0.30) == 24
++
++
++def test_with_no_call_waiting_the_window_goes_back_to_where_it_starts():
++    r = Rig()
++    r.tick(5)  # 121
++    r.idle()
++    assert r.tick(7) == 121  # not idle for 2 s yet
++    assert r.tick() == 96 and r.why[-1] == "idle"
++    assert r.tick(20) == 16
++    # a window that was cut below 16 by a session's last calls stays there while idle
++    r2 = Rig()
++    r2.tick(3, waiting=9)  # cut to 11
++    assert r2.budget.max_inflight == 11
++    r2.idle()
++    assert r2.tick(9, waiting=9) == 11
++    assert r2.tick(8, waiting=0) == 11
++
++
++def test_a_window_in_use_is_not_taken_back():
++    """Calls in flight and none waiting: the window is wide enough, not idle."""
++    r = Rig()
++    r.tick(5)  # 121
++    r.demand = False  # nobody waits for a place, but a call is in flight
++    assert r.tick(20) == 121 and "idle" not in r.why
++
++
++def test_a_session_with_nothing_in_flight_keeps_its_window_when_the_engine_queues():
++    """The queue is somebody else's. Cutting this session's window would only make its
++    next burst start late."""
++    r = Rig()
++    r.tick(4)  # 81
++    r.idle()
++    assert r.tick(4, waiting=50) == 81
++    assert r.tick(preempt=3) == 81 and r.tick(kv=0.99) == 81
++    assert set(r.why) == {"grow"}
++
++
++def test_after_a_cut_the_next_burst_starts_where_the_cut_left_the_window():
++    """An engine that queued at 16 is not offered 16 again two seconds later."""
++    r = Rig()
++    r.tick(3, waiting=9)  # cut to 11
++    assert r.budget.max_inflight == 11
++    r.idle()
++    assert r.tick(12, waiting=1) == 11  # idle: it stays at 11, not back up to 16
++    r.demand, r.budget._slots = True, 1
++    assert r.tick(waiting=1) == 11  # the engine's places are full: held
++    assert [r.tick(waiting=0) for _ in range(2)] == [12, 13]  # by an eighth
++
++
++def test_with_nothing_waiting_for_a_while_the_cut_is_forgotten():
++    r = Rig()
++    r.tick(3, waiting=9)  # cut to 11
++    assert [r.tick(waiting=0) for _ in range(3)] == [12, 13, 19]  # the third: by half again
++    assert r.tick(waiting=0) == 28
++    r.idle()
++    r.tick(12)
++    assert r.budget.max_inflight == 16  # and an idle window goes back to 16, as at first
++
++
++def test_a_window_above_16_goes_back_to_16_when_idle_even_after_a_cut_above_it():
++    r = Rig()
++    r.tick(5)  # 121
++    r.tick(3, running=40, waiting=30)  # cut to 84
++    assert r.budget.max_inflight == 84
++    r.idle()
++    r.tick(20, waiting=1)
++    assert r.budget.max_inflight == 16
++
++
++def test_without_fresh_numbers_from_the_engine_the_window_stays_where_it_is():
++    r = Rig()
++    r.tick(2)  # 36
++    for _ in range(12):  # the probe's reads fail: its last sample goes stale
++        r.clock.t += 0.25
++        r.budget._waited += 1
++        r.gov.tick()
++    assert r.budget.max_inflight == 36 and r.why == ["grow", "grow"]
++    assert r.tick() == 54  # a fresh sample: it moves again
++
++
++def test_the_window_stays_between_its_bounds():
++    r = Rig(w_min=4, w_max=40)
++    assert r.tick(10) == 40
++    for _ in range(12):
++        r.tick(3, waiting=50)
++    assert r.budget.max_inflight == 4
++
++
++def test_a_governor_steps_with_the_probes_samples_and_is_dropped_when_closed():
++    eng = FakeEngine()
++    budget = Budget(max_inflight=16, max_window=256)
++    budget._slots = 1
++    gov = Governor(budget, eng.probe, None, clock=eng.clock, cpu_clock=lambda: 0.0)
++    budget._waited = 1
++    eng.sample()  # the probe's sample is the governor's step
++    assert budget.max_inflight == 24
++    assert len(eng.probe._listeners) == 1
++    gov.close()
++    budget._waited = 1
++    eng.sample()
++    assert budget.max_inflight == 24 and eng.probe._listeners == []
++
++
++def test_every_move_is_an_event_with_its_reason_and_the_signals():
++    r = Rig()
++    r.tick()
++    ev = [e for e in r.bus.history if e.kind == "govern"][-1]
++    assert ev.data["window"] == 24 and ev.data["was"] == 16 and ev.data["why"] == "grow"
++    assert ev.data["waiting"] == 0 and ev.data["kv"] == 0.0
++
++
++def test_without_a_probe_the_roots_own_token_pace_is_the_tax():
++    clock = Clock()
++    budget = Budget(max_inflight=16, max_window=256)
++    gov = Governor(budget, None, None, clock=clock, cpu_clock=lambda: 0.0, ticker=False)
++
++    def root(gap_s: float, n: int) -> None:
++        for _ in range(n):
++            clock.t += gap_s
++            gov.note_root()
++
++    def tick() -> int:
++        budget._waited += 1
++        clock.t += 0.01
++        return gov.tick()
++
++    root(0.040, 80)  # the root at its quiet pace
++    assert tick() == 24
++    root(0.100, 80)  # 2.5 times slower: no growth
++    assert tick() == 24
++    root(0.040, 80)
++    assert tick() == 36
++
++
++# --------------------------------------------------------------------------- end to end
++TIMING = MockTiming(main_tok_per_s=2000, sub_base_s=0.2, sub_jitter_s=0.0, sub_tokens=2)
++CONTEXT = "\n".join(f"Q{i}: what is item number {i} ?" for i in range(96))
++LOOP = (
++    "questions = context.split('\\n')\n"
++    "labels = []\n"
++    "for q in questions:\n"
++    "    labels.append(llm_query('Classify: ' + q).strip())\n"
++    "answer['content'] = str(len(labels))\n"
++    "answer['ready'] = True"
++)
++
++
++class Counting(MockLM):
++    def __init__(self, timing=TIMING):
++        super().__init__(timing)
++        self.inflight = self.peak = 0
++        self._rec = threading.Lock()
++
++    def sub_call(self, prompt, _spec=None):
++        with self._rec:
++            self.inflight += 1
++            self.peak = max(self.peak, self.inflight)
++        try:
++            return super().sub_call(prompt, _spec=_spec)
++        finally:
++            with self._rec:
++                self.inflight -= 1
++
++
++def governed_turn(code, engine_metrics: dict, budget_kw: dict | None = None, **cfg):
++    eng = Counting()
++    bus = EventBus()
++    config = GovernorConfig(tick_s=0.05, **cfg)
++    probe = EngineProbe(fetch=lambda: metrics(**engine_metrics), every=0.05).start()
++    budget = Budget(max_inflight=config.w_init, max_window=config.w_max,
++                    max_dispatches_per_turn=4096, **(budget_kw or {}))
++    gov = Governor(budget, probe, None, bus, config)
++    h = Harness(eng, "spec", bus=bus, context=CONTEXT, scout=True, budget=budget)
++    try:
++        out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    finally:
++        gov.close()
++        probe.stop()
++        h.launcher.shutdown()
++    return out, bus.history, eng
++
++
++def test_on_a_quiet_engine_the_window_opens_and_the_turn_is_faster_than_at_16():
++    out, hist, eng = governed_turn(LOOP, {}, w_init=4, w_max=64)
++    assert out.final_answer == "96"
++    k = [e.kind for e in hist]
++    assert k.count("claim_hit") == 96 and k.count("claim_miss") == 0
++    assert eng.peak > 16  # wider than the constant
++    assert out.metrics.t_turn < 96 / 16 * 0.2  # faster than 16 in flight would be: 1.2 s
++
++
++def test_on_an_engine_that_queues_the_window_closes():
++    out, hist, eng = governed_turn(LOOP, {"waiting": 40}, w_init=16, w_max=64, w_min=2)
++    assert out.final_answer == "96"
++    moves = [e.data for e in hist if e.kind == "govern"]
++    assert moves and all(m["why"] == "queue" for m in moves)
++    assert moves[-1]["window"] < 16  # below the constant
++    assert eng.peak <= 16
++
++
++# --------------------------------------------------------------------------- chunks
++def launcher_with(batched_fn, max_inflight=16, chunk=0, batch_width=None):
++    reg = ToolRegistry()
++    reg.register("llm_query", lambda p: f"one({p})", speculatable=True, pure=True)
++    reg.register("llm_query_batched", batched_fn, speculatable=True, pure=True, batched=True,
++                 batch_width=batch_width)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus,
++                        Budget(max_inflight=max_inflight, max_dispatches_per_turn=4096),
++                        batch_launch=True, batch_chunk=chunk)
++    return reg, bus, store, launcher
++
++
++def wait_all(store, seconds=5.0):
++    deadline = time.time() + seconds
++    while time.time() < deadline and not all(s.done.is_set() for s in store.all):
++        time.sleep(0.01)
++
++
++def test_a_large_batch_goes_out_in_chunks_that_the_window_bounds():
++    lock = threading.Lock()
++    state = {"now": 0, "peak": 0}
++    seen: list[int] = []
++
++    def batched(prompts):
++        with lock:
++            seen.append(len(prompts))
++            state["now"] += len(prompts)
++            state["peak"] = max(state["peak"], state["now"])
++        time.sleep(0.05)
++        with lock:
++            state["now"] -= len(prompts)
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched, max_inflight=16, chunk=8)
++    scout = make_scout_hooks(reg, launcher)
++    scout["llm_query_batched"]([f"p{i}" for i in range(100)])
++    wait_all(store)
++    assert sorted(seen, reverse=True) == [8] * 12 + [4]  # 13 calls of the tool
++    assert state["peak"] == 16  # two chunks at a time: what the window allows
++    assert [s.result for s in store.all] == [f"many(p{i})" for i in range(100)]
++    launcher.shutdown()
++
++
++def test_a_chunk_is_never_larger_than_the_window():
++    seen: list[int] = []
++
++    def batched(prompts):
++        seen.append(len(prompts))
++        return list(prompts)
++
++    reg, bus, store, launcher = launcher_with(batched, max_inflight=3, chunk=32)
++    make_scout_hooks(reg, launcher)["llm_query_batched"]([f"p{i}" for i in range(10)])
++    wait_all(store)
++    assert sorted(seen, reverse=True) == [3, 3, 3, 1]
++    launcher.shutdown()
++
++
++def test_a_batch_has_no_more_calls_in_flight_than_the_window_gave_it():
++    """A batch of 12 that the tool would run all at once, at a window of 4: it goes out
++    in three pieces, one after another."""
++    lock = threading.Lock()
++    state = {"now": 0, "peak": 0}
++    seen: list[int] = []
++
++    def batched(prompts):
++        with lock:
++            seen.append(len(prompts))
++            state["now"] += len(prompts)
++            state["peak"] = max(state["peak"], state["now"])
++        time.sleep(0.05)
++        with lock:
++            state["now"] -= len(prompts)
++        return [f"many({p})" for p in prompts]
++
++    reg, bus, store, launcher = launcher_with(batched, max_inflight=16, chunk=32)
++    held = launcher.budget.acquire_slots(16)  # the window is full: the batch will wait
++    make_scout_hooks(reg, launcher)["llm_query_batched"]([f"p{i}" for i in range(12)])
++    time.sleep(0.05)
++    launcher.budget.set_window(4)  # cut after the batch was announced as one request
++    launcher.budget.release_slots(held)
++    wait_all(store)
++    assert seen == [4, 4, 4] and state["peak"] == 4
++    assert [s.result for s in store.all] == [f"many(p{i})" for i in range(12)]
++    launcher.shutdown()
++
++
++def test_the_first_chunk_runs_while_the_rest_is_still_being_announced():
++    started = threading.Event()
++
++    def batched(prompts):
++        started.set()
++        return list(prompts)
++
++    reg, bus, store, launcher = launcher_with(batched, max_inflight=64, chunk=4)
++    seen_started: list[bool] = []
++    bus.subscribe(lambda ev: (time.sleep(0.01), seen_started.append(started.is_set()))
++                  if ev.kind == "dispatch" else None)
++    make_scout_hooks(reg, launcher)["llm_query_batched"]([f"p{i}" for i in range(40)])
++    wait_all(store)
++    assert seen_started[0] is False and seen_started[-1] is True
++    launcher.shutdown()
++
++
++def test_a_call_evicted_while_it_waits_for_a_place_is_not_sent():
++    """With a governed window the pool has more threads than the window has places, so a
++    launched call can be waiting for its place when its turn ends."""
++    sent: list[str] = []
++    gate = threading.Event()
++
++    def single(p):
++        sent.append(p)
++        gate.wait(5)
++        return p
++
++    def batched(prompts):
++        sent.extend(prompts)
++        return list(prompts)
++
++    reg = ToolRegistry()
++    reg.register("llm_query", single, speculatable=True, pure=True)
++    reg.register("llm_query_batched", batched, speculatable=True, pure=True, batched=True)
++    bus = EventBus()
++    store = SpecStore(bus)
++    launcher = Launcher(store, bus, Budget(max_inflight=1, max_window=8), batch_launch=True)
++    scout = make_scout_hooks(reg, launcher)
++    scout["llm_query"]("holds the only place")
++    scout["llm_query"]("waits for it")
++    scout["llm_query_batched"](["b1", "b2"])
++    time.sleep(0.1)
++    assert sent == ["holds the only place"] and launcher.budget.waiters() == 2
++    store.evict_unclaimed("turn_end")
++    gate.set()
++    wait_all(store)
++    time.sleep(0.1)
++    assert sent == ["holds the only place"]  # nothing of what was evicted went out
++    assert launcher.budget.in_use() == 0 and launcher.budget.waiters() == 0
++    launcher.shutdown()
++
++
++def test_without_a_chunk_size_a_batch_is_one_call_as_before():
++    seen: list[int] = []
++
++    def batched(prompts):
++        seen.append(len(prompts))
++        return list(prompts)
++
++    reg, bus, store, launcher = launcher_with(batched, max_inflight=16)
++    make_scout_hooks(reg, launcher)["llm_query_batched"]([f"p{i}" for i in range(40)])
++    wait_all(store)
++    assert seen == [40]
++    launcher.shutdown()
++
++
++def test_everything_is_off_unless_asked_for():
++    from spec_ptc.speculator import SpecSession
++
++    s = SpecSession(ToolRegistry())
++    b = s.launcher.budget
++    assert s.governor is None and b.kv_pool is None
++    assert b.max_inflight == b.max_window == 16 and b.max_inflight_chars == 120_000
++    assert s.launcher.batch_chunk == 0
++    s.close()
++    g = SpecSession(ToolRegistry(), govern=True)
++    assert g.governor is not None and g.launcher.budget.max_window == 256
++    assert g.launcher.budget.max_inflight == 16  # it starts where spec-ptc ships
++    g.close()
++    assert g.governor.closed
+diff --git a/tests/test_rlm_adapter.py b/tests/test_rlm_adapter.py
+index 0551a39..3cc2659 100644
+--- a/tests/test_rlm_adapter.py
++++ b/tests/test_rlm_adapter.py
+@@ -303,3 +303,109 @@ def test_follow_window_resizes_the_handlers_listen_queue():
+     repl.follow_window(h)  # once per turn: the queue is resized once per handler
+     assert h._server.socket.backlogs == [256]
+     assert h.batch_max_concurrent == 16  # batches stay as rlms runs them without batch launch
++
++
++# ---------------------------------------------------------------- limits that follow the load
++def _quiet_engine(**kw):
++    """A probe on a text of metrics: an engine with nothing waiting and an empty KV cache."""
++    from spec_ptc.engine.load import EngineProbe
++
++    vals = {"running": 0, "waiting": 0, "kv": 0.0, **kw}
++    text = lambda: (  # noqa: E731
++        f"vllm:num_requests_running {vals['running']}\n"
++        f"vllm:num_requests_waiting {vals['waiting']}\n"
++        f"vllm:kv_cache_usage_perc {vals['kv']}\n"
++        'vllm:cache_config_info{block_size="16",num_gpu_blocks="9676"} 1.0\n')
++    return EngineProbe(fetch=text, every=0.05).start()
++
++
++def test_adapter_governed_window_opens_on_a_quiet_engine_and_starts_at_16():
++    from demo.rlm import SpeculativeLocalREPL
++    from spec_ptc.engine.load import GovernorConfig
++
++    inflight = {"now": 0, "peak": 0}
++    lock = __import__("threading").Lock()
++
++    def counting(prompt, model=None):
++        with lock:
++            inflight["now"] += 1
++            inflight["peak"] = max(inflight["peak"], inflight["now"])
++        time.sleep(0.2)
++        with lock:
++            inflight["now"] -= 1
++        return "x"
++
++    code = (
++        "out = []\n"
++        "for i in range(120):\n"
++        "    out.append(llm_query('q' + str(i)).strip())\n"
++        "answer['content'] = str(len(out))\n"
++        "answer['ready'] = True"
++    )
++    probe = _quiet_engine()
++    repl = SpeculativeLocalREPL(
++        context_payload="ctx", subcall_override=counting, auto_speculate=False,
++        spec_scout=True, spec_govern=GovernorConfig(tick_s=0.05, w_max=64),
++        spec_load_url=probe)
++    try:
++        assert repl.session.launcher.budget.max_inflight == 16
++        r, wall = _drive(repl, code)
++    finally:
++        repl.session.close()
++        probe.stop()
++    assert r.final_answer == "120"
++    assert 16 < inflight["peak"] <= 64
++    assert wall < 120 / 16 * 0.2  # faster than the constant allows: 1.5 s
++    moves = [e.data for e in repl.bus.history if e.kind == "govern"]
++    assert moves and moves[0]["was"] == 16 and moves[0]["why"] == "grow"
++    assert not any(e.kind in ("claim_miss", "evict") for e in repl.bus.history)
++
++
++def test_adapter_sends_a_large_batch_in_chunks():
++    from demo.rlm import SpeculativeLocalREPL
++
++    backend = BatchBackend()
++    code = (
++        "out = llm_query_batched(['label: ' + str(i) for i in range(40)])\n"
++        "answer['content'] = str(len(out))\n"
++        "answer['ready'] = True"
++    )
++    repl = SpeculativeLocalREPL(
++        context_payload="ctx", subcall_override=slow_mock_llm,
++        subcall_batched_override=backend, auto_speculate=False,
++        spec_scout=True, spec_batch_launch=True, spec_batch_chunk=8, spec_max_inflight=16)
++    r, wall = _drive(repl, code)
++    assert r.final_answer == "40"
++    assert sorted(len(b) for b in backend.batches) == [8] * 5
++    assert sum(e.kind == "claim_hit" for e in repl.bus.history) == 40
++    assert not any(e.kind in ("claim_miss", "evict") for e in repl.bus.history)
++    assert 3 * 0.3 * 0.9 < wall < 5 * 0.3  # two chunks at a time: three rounds, not five
++
++
++def test_follow_window_of_a_governed_repl_fits_the_handler_to_the_widest_window():
++    from demo.rlm import SpeculativeLocalREPL
++
++    class Sock:
++        def __init__(self):
++            self.backlogs = []
++
++        def listen(self, n):
++            self.backlogs.append(n)
++
++    class Handler:
++        batch_max_concurrent = 16
++
++        def __init__(self):
++            self._server = type("S", (), {"socket": Sock()})()
++
++    h = Handler()
++    repl = SpeculativeLocalREPL(context_payload="ctx", spec_govern=True,
++                                spec_batch_launch=True, spec_batch_chunk=32)
++    try:
++        repl.follow_window(h)
++        assert h._server.socket.backlogs == [512]  # twice the widest window, 256
++        # a request to the handler holds one chunk: the handler is as wide as a chunk
++        assert h.batch_max_concurrent == 32
++        assert repl.reg.get("llm_query_batched").batch_width == 32
++    finally:
++        repl.session.close()
+diff --git a/tests/test_scout_past.py b/tests/test_scout_past.py
+new file mode 100644
+index 0000000..17b7e3b
+--- /dev/null
++++ b/tests/test_scout_past.py
+@@ -0,0 +1,260 @@
++"""The scout goes on past a test that cannot leave its loop (scout="past").
++
++The scout places no bets: where an `if` needs a result that is not there yet it stops,
++and with it the loop the `if` is in. Recorded on OOLONG (2026-11-10): a loop of 160
++batches that counts each label with `if label == 'location':`. Neither spec-ptc as
++shipped nor the scout launched those batches ahead (80 s in one session), although every
++one of them is certain: no arm of the test can leave the loop.
++
++With scout="past" such a test is passed: neither arm runs in the scout, and the names
++an arm sets are unknown from there on. All mock: no network, no model."""
++
++import ast
++import re
++
++import pytest
++
++from spec_ptc.contracts.events import EventBus
++from spec_ptc.engine.shadow import scout_past_tests
++from spec_ptc.runtime.engines import MockLM, MockTiming
++from spec_ptc.runtime.harness import Harness
++
++TIMING = MockTiming(main_tok_per_s=2000, sub_base_s=0.25, sub_jitter_s=0.1, sub_tokens=3)
++CONTEXT = "\n".join(f"Q{i}: what is item number {i} ?" for i in range(24))
++
++
++def norm(s):
++    return re.sub(r"\[\w+#\d+\] ", "", s or "")
++
++
++def run_turn(code, mode="spec", scout="past", **kw):
++    eng = MockLM(TIMING)
++    bus = EventBus()
++    h = Harness(eng, mode, bus=bus, context=CONTEXT, scout=scout if mode == "spec" else False,
++                **kw)
++    out = h.run_turn(eng.stream_main(f"go\n```repl\n{code}\n```\ndone"))
++    h.launcher.shutdown()
++    return out, bus.history, h
++
++
++def kinds(history):
++    return [e.kind for e in history]
++
++
++def launched_before_first_answer(history) -> int:
++    n = 0
++    for e in history:
++        if e.kind == "ready":
++            break
++        n += e.kind == "dispatch"
++    return n
++
++
++def check_all_claimed(out, history, n, base):
++    k = kinds(history)
++    assert out.final_answer is not None and norm(out.final_answer) == norm(base.final_answer)
++    assert k.count("dispatch") == n and k.count("claim_hit") == n
++    assert k.count("claim_miss") == 0 and k.count("evict") == 0  # nothing missed or wasted
++
++
++# ------------------------------------------------------------------ the recorded shape
++COUNT_LABELS = (  # trec132k-17000237, turn 9, shortened
++    "lines = context.split('\\n')\n"
++    "batches = [lines[i:i+4] for i in range(0, len(lines), 4)]\n"
++    "count_a = 0\n"
++    "count_b = 0\n"
++    "for batch in batches:\n"
++    "    prompts = []\n"
++    "    for line in batch:\n"
++    "        prompts.append(f'Extract the label. Question: {line}')\n"
++    "    responses = llm_query_batched(prompts)\n"
++    "    for resp in responses:\n"
++    "        label = resp.strip()\n"
++    "        if label == 'location':\n"  # the test: neither client launched past it
++    "            count_a += 1\n"
++    "        elif label == 'abbreviation':\n"
++    "            count_b += 1\n"
++    "print(f'counts: {count_a}, {count_b}')\n"
++    "answer['content'] = str(count_a + count_b) + ' of ' + str(len(lines))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_loop_that_tests_each_result_launches_all_its_batches_at_once():
++    base, _, _ = run_turn(COUNT_LABELS, mode="baseline")
++    out, hist, _ = run_turn(COUNT_LABELS)
++    check_all_claimed(out, hist, 24, base)
++    assert launched_before_first_answer(hist) == 24
++    passed = [e.data.get("past") for e in hist if e.kind == "scout_exec" and e.data.get("past")]
++    assert passed == [24]  # the scout went past the test once per result, in one statement
++    # six batches of at least 0.25 s: one after another they need 1.5 s
++    assert out.metrics.t_turn < 1.0
++
++
++def test_as_built_before_the_scout_stops_at_the_test():
++    base, _, _ = run_turn(COUNT_LABELS, mode="baseline")
++    out, hist, _ = run_turn(COUNT_LABELS, scout=True)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert launched_before_first_answer(hist) == 4  # the first batch only
++    assert "needs a value" in [e.data.get("reason") for e in hist if e.kind == "scout_skip"]
++    assert out.metrics.t_turn > 1.5
++
++
++# ------------------------------------------------------------------ what it must not do
++SCAN_UNTIL_FOUND = (
++    "found = None\n"
++    "for q in context.split('\\n')[:6]:\n"
++    "    r = llm_query('Is this the one? ' + q)\n"
++    "    if 'item' in r:\n"
++    "        found = q\n"
++    "        break\n"  # this arm leaves the loop
++    "answer['content'] = str(found)\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_test_whose_arm_can_leave_the_loop_still_stops_the_scout():
++    """Whether the loop goes on depends on the answer. Launching the later iterations
++    would be a bet."""
++    base, _, _ = run_turn(SCAN_UNTIL_FOUND, mode="baseline")
++    out, hist, _ = run_turn(SCAN_UNTIL_FOUND)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    assert launched_before_first_answer(hist) == 1
++    assert kinds(hist).count("evict") == 0
++
++
++@pytest.mark.parametrize("leave", ["continue", "raise ValueError(r)", "assert False",
++                                   "return"])
++def test_every_way_out_of_an_arm_counts(leave):
++    body = ("for q in qs:\n    r = llm_query(q)\n    if r == 'x':\n        " + leave + "\n")
++    if leave == "return":
++        body = "def f(qs):\n" + "\n".join("    " + ln for ln in body.splitlines()) + "\n"
++    tree = scout_past_tests(ast.parse(body))
++    assert "__scout_stop__" not in ast.unparse(tree)  # left as it was
++
++
++CONDITIONAL_CALL = (
++    "out = []\n"
++    "for q in context.split('\\n')[:6]:\n"
++    "    a = llm_query('first: ' + q)\n"
++    "    if 'never' in a:\n"
++    "        a = llm_query('second: ' + q)\n"  # a call only one arm makes: a bet
++    "    out.append(a)\n"
++    "answer['content'] = str(len(out))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_call_inside_an_arm_is_not_launched():
++    base, _, _ = run_turn(CONDITIONAL_CALL, mode="baseline")
++    out, hist, _ = run_turn(CONDITIONAL_CALL)
++    check_all_claimed(out, hist, 6, base)  # the six first calls, no second one
++    assert launched_before_first_answer(hist) == 6
++    assert not any("second" in str(e.data.get("preview")) for e in hist if e.kind == "dispatch")
++
++
++NAME_SET_IN_AN_ARM = (
++    "style = 'short'\n"
++    "notes = []\n"
++    "for q in context.split('\\n')[:4]:\n"
++    "    r = llm_query('look at: ' + q)\n"
++    "    if 'item' in r:\n"
++    "        style = 'long'\n"
++    "    notes.append(llm_query('write a ' + style + ' note on: ' + q))\n"
++    "answer['content'] = str(len(notes))\n"
++    "answer['ready'] = True"
++)
++
++
++def test_a_call_built_from_a_name_an_arm_sets_is_not_launched_with_the_old_value():
++    """`style` may be changed by the arm the scout did not run. A call built from it is
++    left to the shadow, which knows; it is not sent with the value from before."""
++    base, _, _ = run_turn(NAME_SET_IN_AN_ARM, mode="baseline")
++    out, hist, _ = run_turn(NAME_SET_IN_AN_ARM)
++    assert norm(out.final_answer) == norm(base.final_answer)
++    k = kinds(hist)
++    assert k.count("evict") == 0 and k.count("claim_miss") == 0
++    previews = [str(e.data.get("preview")) for e in hist if e.kind == "dispatch"]
++    assert sum("look at" in p for p in previews) == 4
++    assert not any("short note" in p for p in previews)  # the mock's answers hold 'item'
++    scouted = [e for e in hist if e.kind == "dispatch" and e.data["source"] == "peek"]
++    assert len(scouted) == 4  # the four it could be sure of
++
++
++def test_a_test_the_scout_can_decide_runs_as_written():
++    code = (
++        "kept = []\n"
++        "for i, q in enumerate(context.split('\\n')[:6]):\n"
++        "    if i % 2 == 0:\n"  # known: no result in it
++        "        kept.append(llm_query('even: ' + q))\n"
++        "answer['content'] = str(len(kept))\n"
++        "answer['ready'] = True"
++    )
++    base, _, _ = run_turn(code, mode="baseline")
++    out, hist, _ = run_turn(code)
++    check_all_claimed(out, hist, 3, base)
++    assert launched_before_first_answer(hist) == 3
++    assert not [e for e in hist if e.kind == "scout_exec" and e.data.get("past")]
++
++
++def test_a_test_inside_a_function_is_left_alone():
++    """A name set inside a function is a local. Setting it from outside the `if` would
++    make the function's other reads of that name fail."""
++    src = (
++        "def tally(responses):\n"
++        "    n = 0\n"
++        "    for r in responses:\n"
++        "        if r == 'x':\n"
++        "            n += 1\n"
++        "    return n\n"
++    )
++    assert ast.unparse(scout_past_tests(ast.parse(src))) == ast.unparse(ast.parse(src))
++
++
++# ------------------------------------------------------------------ the rewrite itself
++def run_both(src: str, env: dict) -> tuple[dict, dict]:
++    a, b = dict(env), dict(env)
++    exec(compile(ast.parse(src), "<plain>", "exec"), a, a)
++    from spec_ptc.engine.speculation import ScoutStop, Unknown
++
++    b["__scout_stop__"], b["__scout_unknown__"] = ScoutStop, Unknown
++    exec(compile(scout_past_tests(ast.parse(src)), "<past>", "exec"), b, b)
++    keep = lambda d: {k: v for k, v in d.items() if not k.startswith("__")}  # noqa: E731
++    return keep(a), keep(b)
++
++
++@pytest.mark.parametrize("src", [
++    "n = 0\nfor x in xs:\n    if x > 2:\n        n += x\n    elif x == 1:\n        n -= 1\n"
++    "    else:\n        n += 100\n",
++    "out = []\nfor x in xs:\n    if x % 2:\n        if x > 3:\n            out.append(x)\n"
++    "        else:\n            out.append(-x)\n",
++    "seen = {}\nfor x in xs:\n    if x in seen:\n        seen[x] += 1\n    else:\n"
++    "        seen[x] = 1\n",
++    "n = 0\nwhile n < 3:\n    if n == 1:\n        n += 2\n    else:\n        n += 1\n",
++    "total = 0\nfor x in xs:\n    try:\n        if 10 // x > 2:\n            total += 1\n"
++    "    except ZeroDivisionError:\n        total -= 1\n",
++])
++def test_with_known_values_the_rewritten_statement_does_what_the_original_does(src):
++    plain, past = run_both(src, {"xs": [0, 1, 2, 3, 4, 5, 1]})
++    assert plain == past
++
++
++def test_with_an_unknown_value_neither_arm_runs_and_their_names_are_unknown():
++    from spec_ptc.engine.speculation import ScoutStop, Unknown
++
++    src = ("hits = 0\nlast = None\nseen = []\nfor r in rs:\n    if r == 'x':\n"
++           "        hits += 1\n        last = r\n    else:\n        seen.append(r)\n"
++           "    after = 1\n")
++    ns = {"rs": [Unknown(), Unknown()], "__scout_stop__": ScoutStop,
++          "__scout_unknown__": Unknown}
++    exec(compile(scout_past_tests(ast.parse(src)), "<past>", "exec"), ns, ns)
++    assert ns["after"] == 1  # the loop went on, twice
++    for name in ("hits", "last", "seen"):
++        assert isinstance(ns[name], Unknown), name
++
++
++def test_past_is_off_unless_asked_for():
++    out, hist, _ = run_turn(COUNT_LABELS, scout=True)
++    assert not [e for e in hist if e.data.get("past")]
++    out, hist, _ = run_turn(COUNT_LABELS, scout=False)
++    assert not [e for e in hist if e.kind.startswith("scout_")]

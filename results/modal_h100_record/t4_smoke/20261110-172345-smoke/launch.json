@@ -1,0 +1,22 @@
+{
+ "stock": {
+  "path": "spec-ptc",
+  "commit": "9b78b7d6ceeaf8afd1557c4e3a999ce653fc0e17",
+  "branch": "main",
+  "dirty": []
+ },
+ "cloud": {
+  "path": "sptc-sim-next",
+  "commit": "1242f6f7661900b624144eca6cfcdedaf87587e1",
+  "branch": "next",
+  "dirty": [
+   "M cloud/tests/fake_rlm_server.py",
+   "?? cloud/PREREG_RECORD.md",
+   "?? cloud/batch_fix.py",
+   "?? cloud/record_app.py",
+   "?? cloud/rlm_record.py",
+   "?? cloud/tests/test_batch_fix.py",
+   "?? cloud/tests/test_rlm_record.py"
+  ]
+ }
+}

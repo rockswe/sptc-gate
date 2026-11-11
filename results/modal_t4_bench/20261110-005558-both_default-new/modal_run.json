@@ -1,0 +1,23 @@
+{
+ "cmd": [
+  "/usr/local/bin/python",
+  "/opt/sim/kaggle/vllm_bench.py",
+  "sweep",
+  "--preset",
+  "both_default",
+  "--agents",
+  "4",
+  "--model",
+  "Qwen/Qwen3-1.7B",
+  "--spec-ptc",
+  "/opt/spec-ptc-new",
+  "--launch",
+  "--out",
+  "/vol/results/bench/20261110-005558-both_default-new"
+ ],
+ "client": "new",
+ "preset": "both_default",
+ "gpu": "Tesla T4, 610.57.04, 15360 MiB",
+ "nproc": 24,
+ "started_utc": "2026-11-10T00:55:58Z"
+}

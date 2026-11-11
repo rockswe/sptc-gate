@@ -1,0 +1,744 @@
+{
+ "arms": [
+  {
+   "arm": "nospec",
+   "units": 1,
+   "wall_s": 482.27,
+   "stream_s": 390.5739,
+   "after_s": 89.3291,
+   "unit_wall_s": 189.53190088272095,
+   "after_share": 0.185226325502312,
+   "exact_units": 1,
+   "wall_vs_stream": 1.1258258047949201,
+   "after_vs_stream": 1.203126031179501,
+   "session_ratio_vs_stream": {
+    "geo": 1.1266059870717637,
+    "ci": [
+     1.1160709027736884,
+     1.1356089218271217
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "stream",
+   "units": 1,
+   "wall_s": 428.37,
+   "stream_s": 352.2586,
+   "after_s": 74.2475,
+   "unit_wall_s": 169.827130317688,
+   "after_share": 0.1733256297126316,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.8882368797561533,
+   "after_vs_nospec": 0.8311681187877187,
+   "session_ratio_vs_nospec": {
+    "geo": 0.8876217697006619,
+    "ci": [
+     0.8805848393574297,
+     0.8960004221190375
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "scout",
+   "units": 1,
+   "wall_s": 436.62,
+   "stream_s": 370.1001,
+   "after_s": 64.50280000000001,
+   "unit_wall_s": 172.97000932693481,
+   "after_share": 0.14773212404379096,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.9053434797934767,
+   "after_vs_nospec": 0.7220804866499272,
+   "session_ratio_vs_nospec": {
+    "geo": 0.906113543709202,
+    "ci": [
+     0.8719252008032127,
+     0.9349276557463079
+    ],
+    "sessions": 3
+   },
+   "wall_vs_stream": 1.0192590517543245,
+   "after_vs_stream": 0.8687538300952895,
+   "session_ratio_vs_stream": {
+    "geo": 1.0208329433095993,
+    "ci": [
+     0.9901660371980331,
+     1.0548084242578024
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "wide",
+   "units": 1,
+   "wall_s": 438.7,
+   "stream_s": 376.4581,
+   "after_s": 60.1837,
+   "unit_wall_s": 174.6300983428955,
+   "after_share": 0.13718645999544107,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.9096564165301595,
+   "after_vs_nospec": 0.6737300610887158,
+   "session_ratio_vs_nospec": {
+    "geo": 0.910584324395189,
+    "ci": [
+     0.8532881526104417,
+     0.9603418547117476
+    ],
+    "sessions": 3
+   },
+   "wall_vs_stream": 1.02411466722693,
+   "after_vs_stream": 0.8105821744839894,
+   "session_ratio_vs_stream": {
+    "geo": 1.025869751597317,
+    "ci": [
+     0.9690016389938002,
+     1.08348134991119
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "wide-threads",
+   "units": 1,
+   "wall_s": 378.37,
+   "stream_s": 375.2182,
+   "after_s": 0.8835,
+   "unit_wall_s": 133.28126287460327,
+   "after_share": 0.0023350159896397705,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.7845605158935867,
+   "after_vs_nospec": 0.009890394059718501,
+   "session_ratio_vs_nospec": {
+    "geo": 0.7919049466875616,
+    "ci": [
+     0.7031975517095821,
+     0.8999175350476049
+    ],
+    "sessions": 3
+   },
+   "wall_vs_stream": 0.883278474216215,
+   "after_vs_stream": 0.011899390551870432,
+   "session_ratio_vs_stream": {
+    "geo": 0.8921648541299528,
+    "ci": [
+     0.7848183263647607,
+     1.0153091431954664
+    ],
+    "sessions": 3
+   }
+  },
+  {
+   "arm": "nospec-wide",
+   "units": 1,
+   "wall_s": 423.09000000000003,
+   "stream_s": 335.269,
+   "after_s": 85.4378,
+   "unit_wall_s": 174.56892037391663,
+   "after_share": 0.2019376491999338,
+   "exact_units": 1,
+   "wall_vs_nospec": 0.8772886557322662,
+   "after_vs_nospec": 0.9564386073519155,
+   "session_ratio_vs_nospec": {
+    "geo": 0.8721667987908739,
+    "ci": [
+     0.8458655071594573,
+     0.9210109750949768
+    ],
+    "sessions": 3
+   },
+   "wall_vs_stream": 0.9876742068772324,
+   "after_vs_stream": 1.150716185730159,
+   "session_ratio_vs_stream": {
+    "geo": 0.9825883372430129,
+    "ci": [
+     0.9543263131184978,
+     1.0279135504387258
+    ],
+    "sessions": 3
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "nospec_c3_r1",
+   "arm": "nospec",
+   "rep": 1,
+   "t0": 1794280377.477086,
+   "unit_wall_s": 189.53190088272095,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 482.27,
+   "stream_s": 390.5739,
+   "after_s": 89.3291,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 340.35,
+   "call_ms_p90": 558.6700000000001,
+   "call_ms_max": 4433.2,
+   "gap_p50": 38.79999999999984,
+   "gap_p99": 112.69999999999897,
+   "gap_max": 2055.100000000002,
+   "stall_s": 28.92420000000001,
+   "ttft_p50": 0.59975,
+   "ttft_p99": 13.71145,
+   "ttft_max": 13.7127,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 5.79155672823219,
+   "running_max": 27.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.12522457779374774,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "stream_c3_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794280574.5681212,
+   "unit_wall_s": 169.827130317688,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 428.37,
+   "stream_s": 352.2586,
+   "after_s": 74.2475,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 354.25,
+   "call_ms_p90": 558.58,
+   "call_ms_max": 1693.6,
+   "gap_p50": 39.70000000000073,
+   "gap_p99": 120.00699999999999,
+   "gap_max": 1092.0999999999985,
+   "stall_s": 16.93719999999998,
+   "ttft_p50": 0.5934,
+   "ttft_p99": 1.2175500000000001,
+   "ttft_max": 1.2258,
+   "spec": {
+    "shadow_exec": 91,
+    "claim_miss": 787,
+    "dispatch": 3182,
+    "ready": 3182,
+    "claim_hit": 3182,
+    "shadow_stop": 3,
+    "shadow_skip": 1
+   },
+   "dispatch_source": {
+    "shadow": 3182
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [],
+   "running_mean": 6.773529411764706,
+   "running_max": 27.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.1291771469637082,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "scout_c3_r1",
+   "arm": "scout",
+   "rep": 1,
+   "t0": 1794280751.5758708,
+   "unit_wall_s": 172.97000932693481,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 436.62,
+   "stream_s": 370.1001,
+   "after_s": 64.50280000000001,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 368.85,
+   "call_ms_p90": 578.47,
+   "call_ms_max": 1754.9,
+   "gap_p50": 40.0,
+   "gap_p99": 118.60000000000049,
+   "gap_max": 1133.1999999999998,
+   "stall_s": 18.637750000000004,
+   "ttft_p50": 0.60285,
+   "ttft_p99": 1.236825,
+   "ttft_max": 1.2638,
+   "spec": {
+    "scout_exec": 89,
+    "shadow_exec": 96,
+    "dispatch": 3982,
+    "adopt": 3982,
+    "ready": 3982,
+    "claim_hit": 3982,
+    "scout_skip": 10,
+    "shadow_stop": 3
+   },
+   "dispatch_source": {
+    "peek": 3982
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     4
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 6.997109826589595,
+   "running_max": 19.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.13582464965864172,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c3_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794280930.3479264,
+   "unit_wall_s": 174.6300983428955,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 438.7,
+   "stream_s": 376.4581,
+   "after_s": 60.1837,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3591,
+   "call_errors": 390,
+   "call_ms_p50": 1840.8,
+   "call_ms_p90": 5624.5,
+   "call_ms_max": 7185.7,
+   "gap_p50": 39.80000000000018,
+   "gap_p99": 180.5,
+   "gap_max": 4391.5999999999985,
+   "stall_s": 36.65595,
+   "ttft_p50": 0.59845,
+   "ttft_p99": 1.98745,
+   "ttft_max": 2.2413,
+   "spec": {
+    "scout_exec": 89,
+    "shadow_exec": 96,
+    "dispatch": 3982,
+    "adopt": 3982,
+    "ready": 3982,
+    "claim_hit": 3982,
+    "scout_skip": 10,
+    "shadow_stop": 3
+   },
+   "dispatch_source": {
+    "peek": 3982
+   },
+   "batch_dispatches": 3982,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     4
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 9.693409742120345,
+   "running_max": 126.0,
+   "waiting_max": 35.0,
+   "queue_share": 0.014326647564469915,
+   "kv_peak": 0.15900107797341,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide-threads_c3_r1",
+   "arm": "wide-threads",
+   "rep": 1,
+   "t0": 1794281110.7126656,
+   "unit_wall_s": 133.28126287460327,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 378.37,
+   "stream_s": 375.2182,
+   "after_s": 0.8835,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3592,
+   "call_errors": 390,
+   "call_ms_p50": 838.6,
+   "call_ms_p90": 1226.48,
+   "call_ms_max": 2316.3,
+   "gap_p50": 41.04999999999927,
+   "gap_p99": 239.51399999999987,
+   "gap_max": 1155.8999999999996,
+   "stall_s": 35.54599999999997,
+   "ttft_p50": 0.5988,
+   "ttft_p99": 1.4806249999999999,
+   "ttft_max": 1.579,
+   "spec": {
+    "scout_exec": 89,
+    "shadow_exec": 96,
+    "dispatch": 3982,
+    "ready": 3982,
+    "adopt": 3982,
+    "claim_hit": 3982,
+    "scout_skip": 10,
+    "shadow_stop": 3
+   },
+   "dispatch_source": {
+    "peek": 3982
+   },
+   "batch_dispatches": 0,
+   "shadow_stops": [
+    [
+     "RuntimeError: opaque value 're' touched in shadow",
+     3
+    ]
+   ],
+   "scout_skips": [
+    [
+     "needs a value",
+     4
+    ],
+    [
+     "RuntimeError",
+     3
+    ],
+    [
+     "TypeError",
+     3
+    ]
+   ],
+   "running_mean": 18.01123595505618,
+   "running_max": 111.0,
+   "waiting_max": 0.0,
+   "queue_share": 0.0,
+   "kv_peak": 0.17463169241825371,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "nospec-wide_c3_r1",
+   "arm": "nospec-wide",
+   "rep": 1,
+   "t0": 1794281249.9883134,
+   "unit_wall_s": 174.56892037391663,
+   "sessions": 3,
+   "ok": 3,
+   "exact": true,
+   "wall_s": 423.09000000000003,
+   "stream_s": 335.269,
+   "after_s": 85.4378,
+   "turns": 26,
+   "prompt_matches": 26,
+   "prompts": 26,
+   "answer_matches": 3,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 3591,
+   "call_errors": 390,
+   "call_ms_p50": 1690.4,
+   "call_ms_p90": 5529.6,
+   "call_ms_max": 7303.4,
+   "gap_p50": 38.900000000001455,
+   "gap_p99": 142.52099999999987,
+   "gap_max": 1080.7999999999993,
+   "stall_s": 21.99439999999998,
+   "ttft_p50": 0.5903,
+   "ttft_p99": 1.225125,
+   "ttft_max": 1.2454,
+   "spec": {},
+   "dispatch_source": {},
+   "batch_dispatches": 0,
+   "shadow_stops": [],
+   "scout_skips": [],
+   "running_mean": 9.197707736389685,
+   "running_max": 125.0,
+   "waiting_max": 43.0,
+   "queue_share": 0.017191977077363897,
+   "kv_peak": 0.14049586776859502,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-15",
+   "wall": {
+    "nospec": 159.36,
+    "stream": 140.33,
+    "scout": 138.95,
+    "wide": 135.98,
+    "wide-threads": 125.06,
+    "nospec-wide": 135.71
+   },
+   "after": {
+    "nospec": 20.4813,
+    "stream": 16.616799999999998,
+    "scout": 7.1425,
+    "wide": 3.7207,
+    "wide-threads": 0.13219999999999998,
+    "nospec-wide": 15.0166
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "wall": {
+    "nospec": 189.52,
+    "stream": 169.81,
+    "scout": 172.96,
+    "wide": 174.62,
+    "wide-threads": 133.27,
+    "nospec-wide": 174.55
+   },
+   "after": {
+    "nospec": 68.3887,
+    "stream": 57.206,
+    "scout": 57.336600000000004,
+    "wide": 56.4325,
+    "wide-threads": 0.543,
+    "nospec-wide": 70.01129999999999
+   }
+  },
+  {
+   "session": "trec132k-17000232.w8k-c1",
+   "wall": {
+    "nospec": 133.39,
+    "stream": 118.23,
+    "scout": 124.71,
+    "wide": 128.1,
+    "wide-threads": 120.04,
+    "nospec-wide": 112.83
+   },
+   "after": {
+    "nospec": 0.4591,
+    "stream": 0.4247,
+    "scout": 0.0237,
+    "wide": 0.0305,
+    "wide-threads": 0.2083,
+    "nospec-wide": 0.4099
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-15",
+   "iteration": 4,
+   "cause": "not speculated",
+   "causes": {
+    "not speculated": 1
+   },
+   "calls": 400,
+   "call_errors": 387,
+   "after": {
+    "nospec": 20.4773,
+    "stream": 16.604499999999998,
+    "scout": 7.1225000000000005,
+    "wide": 3.7048,
+    "wide-threads": 0.1152,
+    "nospec-wide": 15.0126
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 1002,
+   "call_errors": 0,
+   "after": {
+    "nospec": 29.6178,
+    "stream": 23.7377,
+    "scout": 23.931,
+    "wide": 19.4264,
+    "wide-threads": 0.1382,
+    "nospec-wide": 26.1082
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 1007,
+   "call_errors": 1,
+   "after": {
+    "nospec": 28.4099,
+    "stream": 25.5883,
+    "scout": 25.587600000000002,
+    "wide": 19.9863,
+    "wide-threads": 0.18780000000000002,
+    "nospec-wide": 23.3848
+   }
+  },
+  {
+   "session": "trec132k-17000222.w8k-c8",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 1008,
+   "call_errors": 1,
+   "after": {
+    "nospec": 8.7999,
+    "stream": 7.6867,
+    "scout": 7.6371,
+    "wide": 16.975299999999997,
+    "wide-threads": 0.14909999999999998,
+    "nospec-wide": 18.6617
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "not speculated",
+   "turns": 1,
+   "stream_s": 16.604499999999998,
+   "arms": {
+    "nospec": {
+     "after_s": 20.4773,
+     "recovered_s": -3.8728000000000016,
+     "recovered_share": -0.23323797765665946
+    },
+    "stream": {
+     "after_s": 16.604499999999998,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 7.1225000000000005,
+     "recovered_s": 9.481999999999998,
+     "recovered_share": 0.5710500165617753
+    },
+    "wide": {
+     "after_s": 3.7048,
+     "recovered_s": 12.899699999999998,
+     "recovered_share": 0.7768797615104338
+    },
+    "wide-threads": {
+     "after_s": 0.1152,
+     "recovered_s": 16.489299999999997,
+     "recovered_share": 0.9930621217139931
+    },
+    "nospec-wide": {
+     "after_s": 15.0126,
+     "recovered_s": 1.5918999999999972,
+     "recovered_share": 0.0958716010719984
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 3,
+   "stream_s": 57.0127,
+   "arms": {
+    "nospec": {
+     "after_s": 66.8276,
+     "recovered_s": -9.814900000000002,
+     "recovered_share": -0.17215287120238124
+    },
+    "stream": {
+     "after_s": 57.0127,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "scout": {
+     "after_s": 57.1557,
+     "recovered_s": -0.14300000000000068,
+     "recovered_share": -0.002508213082348331
+    },
+    "wide": {
+     "after_s": 56.388,
+     "recovered_s": 0.6247000000000043,
+     "recovered_share": 0.010957207780021017
+    },
+    "wide-threads": {
+     "after_s": 0.47509999999999997,
+     "recovered_s": 56.537600000000005,
+     "recovered_share": 0.9916667689830512
+    },
+    "nospec-wide": {
+     "after_s": 68.15469999999999,
+     "recovered_s": -11.141999999999989,
+     "recovered_share": -0.1954301410036709
+    }
+   }
+  }
+ ],
+ "noise": [],
+ "arm_names": [
+  "nospec",
+  "stream",
+  "scout",
+  "wide",
+  "wide-threads",
+  "nospec-wide"
+ ]
+}

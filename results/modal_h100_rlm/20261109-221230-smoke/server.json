@@ -1,0 +1,38 @@
+{
+ "cmd": [
+  "/usr/local/bin/python",
+  "-m",
+  "vllm.entrypoints.openai.api_server",
+  "--model",
+  "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "--port",
+  "8210",
+  "--gpu-memory-utilization",
+  "0.92",
+  "--max-model-len",
+  "8192",
+  "--tensor-parallel-size",
+  "1",
+  "--enforce-eager",
+  "--kernel-config",
+  "{\"enable_flashinfer_autotune\": false, \"enable_cutedsl_warmup\": false, \"enable_jit_warmup\": false}"
+ ],
+ "env": {
+  "VLLM_USE_FLASHINFER_SAMPLER": "0",
+  "VLLM_ATTENTION_BACKEND": "FLASH_ATTN"
+ },
+ "kernel_config": {
+  "enable_flashinfer_autotune": false,
+  "enable_cutedsl_warmup": false,
+  "enable_jit_warmup": false
+ },
+ "kernel_config_dropped": [],
+ "t_start": 1794262371.7530296,
+ "ready_s": 120.1,
+ "log_facts": [
+  "(EngineCore pid=69) INFO 11-09 22:13:44 [cuda.py:506] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].",
+  "(EngineCore pid=69) INFO 11-09 22:14:40 [model_runner.py:424] Model loading took 56.93 GiB memory and 58.506341 seconds",
+  "(EngineCore pid=69) INFO 11-09 22:14:43 [gpu_worker.py:759] Available KV cache memory: 14.18 GiB",
+  "(EngineCore pid=69) INFO 11-09 22:14:43 [kv_cache_utils.py:2327] GPU KV cache size: 154,816 tokens, Maximum concurrency for 8,192 tokens per request: 18.90x"
+ ]
+}

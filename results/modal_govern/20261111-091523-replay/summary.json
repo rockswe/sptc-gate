@@ -1,0 +1,2981 @@
+{
+ "arms": [
+  {
+   "arm": "stream",
+   "units": 1,
+   "wall_s": 2185.54,
+   "stream_s": 1272.0016,
+   "after_s": 906.5266,
+   "unit_wall_s": 638.4773306846619,
+   "after_share": 0.41478380629043626,
+   "exact_units": 1
+  },
+  {
+   "arm": "wide",
+   "units": 1,
+   "wall_s": 1967.65,
+   "stream_s": 1290.7359,
+   "after_s": 669.1373,
+   "unit_wall_s": 634.2570335865021,
+   "after_share": 0.34006927044952096,
+   "exact_units": 1,
+   "wall_vs_stream": 0.9003038150754505,
+   "after_vs_stream": 0.7381331115931954,
+   "session_ratio_vs_stream": {
+    "geo": 0.9143874306950814,
+    "ci": [
+     0.7884120444780032,
+     1.003881335635162
+    ],
+    "sessions": 11
+   }
+  },
+  {
+   "arm": "auto",
+   "units": 1,
+   "wall_s": 1775.24,
+   "stream_s": 1294.6285,
+   "after_s": 472.93699999999995,
+   "unit_wall_s": 461.4736416339874,
+   "after_share": 0.2664073590049796,
+   "exact_units": 1,
+   "wall_vs_stream": 0.8122660761184879,
+   "after_vs_stream": 0.5217022865076435,
+   "session_ratio_vs_stream": {
+    "geo": 0.8786072723114247,
+    "ci": [
+     0.7266808619895964,
+     0.999792761660375
+    ],
+    "sessions": 11
+   }
+  },
+  {
+   "arm": "auto-past",
+   "units": 1,
+   "wall_s": 1727.9299999999998,
+   "stream_s": 1290.9435,
+   "after_s": 428.47450000000003,
+   "unit_wall_s": 459.346186876297,
+   "after_share": 0.24796982516652877,
+   "exact_units": 1,
+   "wall_vs_stream": 0.7906192519926425,
+   "after_vs_stream": 0.47265518739328777,
+   "session_ratio_vs_stream": {
+    "geo": 0.8593506080603672,
+    "ci": [
+     0.709547697055555,
+     0.9854784413175222
+    ],
+    "sessions": 11
+   }
+  },
+  {
+   "arm": "wide-open",
+   "units": 1,
+   "wall_s": 1643.15,
+   "stream_s": 1309.2394,
+   "after_s": 326.6911,
+   "unit_wall_s": 292.8163733482361,
+   "after_share": 0.1988200103459818,
+   "exact_units": 1,
+   "wall_vs_stream": 0.751827923533772,
+   "after_vs_stream": 0.360376739083001,
+   "session_ratio_vs_stream": {
+    "geo": 0.860780598527244,
+    "ci": [
+     0.7051896080819969,
+     1.0046225938754971
+    ],
+    "sessions": 11
+   }
+  }
+ ],
+ "units": [
+  {
+   "unit": "stream_c8_r1",
+   "arm": "stream",
+   "rep": 1,
+   "t0": 1794388936.5547674,
+   "unit_wall_s": 638.4773306846619,
+   "sessions": 11,
+   "ok": 11,
+   "exact": true,
+   "wall_s": 2185.54,
+   "stream_s": 1272.0016,
+   "after_s": 906.5266,
+   "turns": 111,
+   "prompt_matches": 114,
+   "prompts": 114,
+   "answer_matches": 11,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12775,
+   "call_errors": 2,
+   "call_ms_p50": 247.9,
+   "call_ms_p90": 1082.5,
+   "call_ms_max": 190301.5,
+   "gap_p50": 44.0,
+   "gap_p99": 55.79999999999927,
+   "gap_max": 444.89999999999964,
+   "stall_s": 33.2305,
+   "ttft_p50": 0.1358,
+   "ttft_p90": 0.161,
+   "ttft_sum": 15.43,
+   "ttft_p99": 0.21341000000000002,
+   "ttft_max": 0.229,
+   "spec": {
+    "shadow_exec": 468,
+    "dispatch": 11752,
+    "ready": 11752,
+    "shadow_stop": 5,
+    "claim_hit": 11752,
+    "claim_done": 10,
+    "claim_miss": 1025
+   },
+   "dispatch_source": {
+    "shadow": 11752
+   },
+   "batch_dispatches": 0,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 1025,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ],
+    [
+     "NameError: name 're' is not defined",
+     1
+    ],
+    [
+     "ShadowAborted: ",
+     1
+    ]
+   ],
+   "scout_skips": [],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 10.351880877742946,
+   "running_max": 43.0,
+   "waiting_max": 16.0,
+   "queue_share": 0.007836990595611285,
+   "kv_peak": 0.45012919896640824,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide_c8_r1",
+   "arm": "wide",
+   "rep": 1,
+   "t0": 1794389582.9189944,
+   "unit_wall_s": 634.2570335865021,
+   "sessions": 11,
+   "ok": 11,
+   "exact": true,
+   "wall_s": 1967.65,
+   "stream_s": 1290.7359,
+   "after_s": 669.1373,
+   "turns": 111,
+   "prompt_matches": 114,
+   "prompts": 114,
+   "answer_matches": 11,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12775,
+   "call_errors": 2,
+   "call_ms_p50": 487.5,
+   "call_ms_p90": 1304.8200000000002,
+   "call_ms_max": 186706.7,
+   "gap_p50": 44.30000000000018,
+   "gap_p99": 79.75199999999911,
+   "gap_max": 488.6999999999998,
+   "stall_s": 32.15389999999999,
+   "ttft_p50": 0.1415,
+   "ttft_p90": 0.1859,
+   "ttft_sum": 17.418,
+   "ttft_p99": 0.23729000000000008,
+   "ttft_max": 1.2781,
+   "spec": {
+    "scout_exec": 459,
+    "shadow_exec": 469,
+    "dispatch": 12777,
+    "adopt": 9612,
+    "ready": 12777,
+    "scout_skip": 17,
+    "shadow_stop": 4,
+    "claim_hit": 12777,
+    "claim_done": 10
+   },
+   "dispatch_source": {
+    "peek": 9612,
+    "shadow": 3165
+   },
+   "batch_dispatches": 12767,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ],
+    [
+     "NameError: name 're' is not defined",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     7
+    ],
+    [
+     "TypeError",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "needs a value",
+     2
+    ],
+    [
+     "NameError",
+     1
+    ]
+   ],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 10.785939968404424,
+   "running_max": 141.0,
+   "waiting_max": 40.0,
+   "queue_share": 0.0071090047393364926,
+   "kv_peak": 0.4847545219638243,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "auto_c8_r1",
+   "arm": "auto",
+   "rep": 1,
+   "t0": 1794390224.6163476,
+   "unit_wall_s": 461.4736416339874,
+   "sessions": 11,
+   "ok": 11,
+   "exact": true,
+   "wall_s": 1775.24,
+   "stream_s": 1294.6285,
+   "after_s": 472.93699999999995,
+   "turns": 111,
+   "prompt_matches": 114,
+   "prompts": 114,
+   "answer_matches": 11,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12775,
+   "call_errors": 2,
+   "call_ms_p50": 805.3,
+   "call_ms_p90": 1716.18,
+   "call_ms_max": 187424.8,
+   "gap_p50": 44.19999999999891,
+   "gap_p99": 115.96300000000063,
+   "gap_max": 445.1000000000022,
+   "stall_s": 46.18979999999997,
+   "ttft_p50": 0.1378,
+   "ttft_p90": 0.2007,
+   "ttft_sum": 18.6382,
+   "ttft_p99": 0.3075400000000005,
+   "ttft_max": 2.7254,
+   "spec": {
+    "scout_exec": 459,
+    "shadow_exec": 469,
+    "dispatch": 12777,
+    "adopt": 9612,
+    "govern": 134,
+    "ready": 12777,
+    "scout_skip": 17,
+    "shadow_stop": 4,
+    "claim_hit": 12777,
+    "claim_done": 10
+   },
+   "dispatch_source": {
+    "peek": 9612,
+    "shadow": 3165
+   },
+   "batch_dispatches": 12767,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ],
+    [
+     "NameError: name 're' is not defined",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     7
+    ],
+    [
+     "TypeError",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "needs a value",
+     2
+    ],
+    [
+     "NameError",
+     1
+    ]
+   ],
+   "scout_past": 0,
+   "govern": {
+    "moves": 134,
+    "why": {
+     "grow": 50,
+     "idle": 80,
+     "queue": 4
+    },
+    "sessions_moved": 8,
+    "window_max": 256.0,
+    "window_min": 11.0,
+    "at_call_p50": 256.0,
+    "at_call_p90": 256.0,
+    "at_call_mean": 177.02324853228964,
+    "calls_above_16": 12610,
+    "calls_above_128": 8357,
+    "calls_below_16": 4,
+    "calls": 12775,
+    "share_above_16": 0.9870841487279843,
+    "share_above_128": 0.6541682974559687,
+    "share_below_16": 0.0003131115459882583,
+    "cuts": 4,
+    "pool_min": 99802.0,
+    "pool_max": 136238.0
+   },
+   "running_mean": 15.544468546637743,
+   "running_max": 236.0,
+   "waiting_max": 40.0,
+   "queue_share": 0.007592190889370932,
+   "kv_peak": 0.7369509043927649,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "auto-past_c8_r1",
+   "arm": "auto-past",
+   "rep": 1,
+   "t0": 1794390692.7646742,
+   "unit_wall_s": 459.346186876297,
+   "sessions": 11,
+   "ok": 11,
+   "exact": true,
+   "wall_s": 1727.9299999999998,
+   "stream_s": 1290.9435,
+   "after_s": 428.47450000000003,
+   "turns": 111,
+   "prompt_matches": 114,
+   "prompts": 114,
+   "answer_matches": 11,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12775,
+   "call_errors": 2,
+   "call_ms_p50": 873.7,
+   "call_ms_p90": 1946.5200000000007,
+   "call_ms_max": 184494.6,
+   "gap_p50": 44.0,
+   "gap_p99": 109.28200000000092,
+   "gap_max": 446.60000000000036,
+   "stall_s": 44.886699999999976,
+   "ttft_p50": 0.1374,
+   "ttft_p90": 0.1932,
+   "ttft_sum": 18.6023,
+   "ttft_p99": 0.22976,
+   "ttft_max": 2.801,
+   "spec": {
+    "scout_exec": 461,
+    "shadow_exec": 469,
+    "dispatch": 12777,
+    "govern": 149,
+    "adopt": 12777,
+    "ready": 12777,
+    "scout_skip": 15,
+    "shadow_stop": 4,
+    "claim_hit": 12777,
+    "claim_done": 10
+   },
+   "dispatch_source": {
+    "peek": 12777
+   },
+   "batch_dispatches": 12767,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ],
+    [
+     "NameError: name 're' is not defined",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     7
+    ],
+    [
+     "TypeError",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "NameError",
+     1
+    ]
+   ],
+   "scout_past": 3972,
+   "govern": {
+    "moves": 149,
+    "why": {
+     "grow": 56,
+     "idle": 91,
+     "queue": 2
+    },
+    "sessions_moved": 7,
+    "window_max": 256.0,
+    "window_min": 11.0,
+    "at_call_p50": 256.0,
+    "at_call_p90": 256.0,
+    "at_call_mean": 230.77737769080235,
+    "calls_above_16": 12610,
+    "calls_above_128": 11330,
+    "calls_below_16": 3,
+    "calls": 12775,
+    "share_above_16": 0.9870841487279843,
+    "share_above_128": 0.8868884540117417,
+    "share_below_16": 0.00023483365949119374,
+    "cuts": 2,
+    "pool_min": 111089.0,
+    "pool_max": 135059.0
+   },
+   "running_mean": 15.645583424209379,
+   "running_max": 220.0,
+   "waiting_max": 40.0,
+   "queue_share": 0.010905125408942203,
+   "kv_peak": 0.7348837209302326,
+   "preemptions": 0.0
+  },
+  {
+   "unit": "wide-open_c8_r1",
+   "arm": "wide-open",
+   "rep": 1,
+   "t0": 1794391159.0269115,
+   "unit_wall_s": 292.8163733482361,
+   "sessions": 11,
+   "ok": 11,
+   "exact": true,
+   "wall_s": 1643.15,
+   "stream_s": 1309.2394,
+   "after_s": 326.6911,
+   "turns": 111,
+   "prompt_matches": 114,
+   "prompts": 114,
+   "answer_matches": 11,
+   "unrecorded": 0,
+   "repeats": 0,
+   "released": 0,
+   "calls": 12775,
+   "call_errors": 2,
+   "call_ms_p50": 511.1,
+   "call_ms_p90": 1345.72,
+   "call_ms_max": 189057.9,
+   "gap_p50": 44.30000000000018,
+   "gap_p99": 120.76300000000015,
+   "gap_max": 455.7000000000007,
+   "stall_s": 47.296,
+   "ttft_p50": 0.1414,
+   "ttft_p90": 0.1805,
+   "ttft_sum": 20.3292,
+   "ttft_p99": 0.2838000000000003,
+   "ttft_max": 4.387,
+   "spec": {
+    "scout_exec": 459,
+    "shadow_exec": 469,
+    "dispatch": 12777,
+    "adopt": 9612,
+    "ready": 12777,
+    "scout_skip": 17,
+    "shadow_stop": 4,
+    "claim_hit": 12777,
+    "claim_done": 10
+   },
+   "dispatch_source": {
+    "peek": 9612,
+    "shadow": 3165
+   },
+   "batch_dispatches": 12767,
+   "stray": 0,
+   "evicted": 0,
+   "missed": 0,
+   "shadow_stops": [
+    [
+     "IndexError: list index out of range",
+     3
+    ],
+    [
+     "NameError: name 're' is not defined",
+     1
+    ]
+   ],
+   "scout_skips": [
+    [
+     "after an error",
+     7
+    ],
+    [
+     "TypeError",
+     4
+    ],
+    [
+     "IndexError",
+     3
+    ],
+    [
+     "needs a value",
+     2
+    ],
+    [
+     "NameError",
+     1
+    ]
+   ],
+   "scout_past": 0,
+   "govern": null,
+   "running_mean": 23.664957264957266,
+   "running_max": 128.0,
+   "waiting_max": 83.0,
+   "queue_share": 0.022222222222222223,
+   "kv_peak": 0.9575193798449613,
+   "preemptions": 0.0
+  }
+ ],
+ "sessions": [
+  {
+   "session": "pairs32k-1.fix1",
+   "wall": {
+    "stream": 75.17,
+    "wide": 76.41,
+    "auto": 76.17,
+    "auto-past": 75.88,
+    "wide-open": 76.04
+   },
+   "stream": {
+    "stream": 73.2837,
+    "wide": 75.65090000000001,
+    "auto": 75.5745,
+    "auto-past": 75.1801,
+    "wide-open": 75.4519
+   },
+   "after": {
+    "stream": 1.4049000000000003,
+    "wide": 0.10890000000000001,
+    "auto": 0.1127,
+    "auto-past": 0.1175,
+    "wide-open": 0.11440000000000002
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "wall": {
+    "stream": 80.7,
+    "wide": 74.66,
+    "auto": 76.26,
+    "auto-past": 75.76,
+    "wide-open": 72.51
+   },
+   "stream": {
+    "stream": 69.7614,
+    "wide": 69.0346,
+    "auto": 68.5027,
+    "auto-past": 67.9742,
+    "wide-open": 69.5816
+   },
+   "after": {
+    "stream": 10.571,
+    "wide": 5.112,
+    "auto": 7.3618,
+    "auto-past": 7.1797,
+    "wide-open": 2.5139000000000005
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "wall": {
+    "stream": 236.29,
+    "wide": 237.03,
+    "auto": 237.67,
+    "auto-past": 236.89,
+    "wide-open": 238.99
+   },
+   "stream": {
+    "stream": 235.5336,
+    "wide": 236.0734,
+    "auto": 236.95929999999998,
+    "auto-past": 235.9379,
+    "wide-open": 238.1848
+   },
+   "after": {
+    "stream": 0.0449,
+    "wide": 0.1431,
+    "auto": 0.0523,
+    "auto-past": 0.048799999999999996,
+    "wide-open": 0.0535
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "wall": {
+    "stream": 154.54,
+    "wide": 153.31,
+    "auto": 154.41,
+    "auto-past": 153.65,
+    "wide-open": 156.38
+   },
+   "stream": {
+    "stream": 146.7886,
+    "wide": 150.4429,
+    "auto": 151.051,
+    "auto-past": 150.5674,
+    "wide-open": 153.6813
+   },
+   "after": {
+    "stream": 7.371299999999999,
+    "wide": 2.1091,
+    "auto": 2.6788999999999996,
+    "auto-past": 2.5113,
+    "wide-open": 2.1578
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "wall": {
+    "stream": 107.56,
+    "wide": 93.83,
+    "auto": 96.14,
+    "auto-past": 95.52,
+    "wide-open": 94.4
+   },
+   "stream": {
+    "stream": 92.6853,
+    "wide": 90.3901,
+    "auto": 91.4815,
+    "auto-past": 90.878,
+    "wide-open": 90.2156
+   },
+   "after": {
+    "stream": 14.2065,
+    "wide": 3.0643000000000002,
+    "auto": 4.0875,
+    "auto-past": 4.0364,
+    "wide-open": 3.7732
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "wall": {
+    "stream": 638.46,
+    "wide": 634.24,
+    "auto": 461.46,
+    "auto-past": 459.34,
+    "wide-open": 292.8
+   },
+   "stream": {
+    "stream": 101.2265,
+    "wide": 105.9661,
+    "auto": 107.096,
+    "auto-past": 106.1148,
+    "wide-open": 108.2138
+   },
+   "after": {
+    "stream": 536.7441,
+    "wide": 527.8373999999999,
+    "auto": 353.94499999999994,
+    "auto-past": 352.71090000000004,
+    "wide-open": 184.0897
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "wall": {
+    "stream": 101.22,
+    "wide": 105.41,
+    "auto": 105.18,
+    "auto-past": 105.58,
+    "wide-open": 108.03
+   },
+   "stream": {
+    "stream": 100.9627,
+    "wide": 104.8553,
+    "auto": 104.63250000000001,
+    "auto-past": 104.9756,
+    "wide-open": 107.35
+   },
+   "after": {
+    "stream": 0.0202,
+    "wide": 0.0258,
+    "auto": 0.0233,
+    "auto-past": 0.0193,
+    "wide-open": 0.20850000000000002
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "wall": {
+    "stream": 338.74,
+    "wide": 155.8,
+    "auto": 128.82,
+    "auto-past": 130.51,
+    "wide-open": 160.91
+   },
+   "stream": {
+    "stream": 80.5791,
+    "wide": 82.0539,
+    "auto": 81.527,
+    "auto-past": 81.6803,
+    "wide-open": 82.9466
+   },
+   "after": {
+    "stream": 257.4131,
+    "wide": 72.71480000000001,
+    "auto": 46.3305,
+    "auto-past": 47.8935,
+    "wide-open": 77.09440000000001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "wall": {
+    "stream": 236.16,
+    "wide": 213.38,
+    "auto": 213.44,
+    "auto-past": 168.46,
+    "wide-open": 214.02
+   },
+   "stream": {
+    "stream": 156.4221,
+    "wide": 154.6777,
+    "auto": 154.2557,
+    "auto-past": 153.8665,
+    "wide-open": 156.5907
+   },
+   "after": {
+    "stream": 78.708,
+    "wide": 57.9554,
+    "auto": 58.29879999999999,
+    "auto-past": 13.911600000000002,
+    "wide-open": 56.6338
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "wall": {
+    "stream": 108.63,
+    "wide": 111.92,
+    "auto": 112.85,
+    "auto-past": 113.46,
+    "wide-open": 114.79
+   },
+   "stream": {
+    "stream": 107.585,
+    "wide": 111.0067,
+    "auto": 112.0173,
+    "auto-past": 112.1175,
+    "wide-open": 113.7267
+   },
+   "after": {
+    "stream": 0.0172,
+    "wide": 0.0323,
+    "auto": 0.0213,
+    "auto-past": 0.019700000000000002,
+    "wide-open": 0.024
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "wall": {
+    "stream": 108.07,
+    "wide": 111.66,
+    "auto": 112.84,
+    "auto-past": 112.88,
+    "wide-open": 114.28
+   },
+   "stream": {
+    "stream": 107.1736,
+    "wide": 110.5843,
+    "auto": 111.531,
+    "auto-past": 111.6512,
+    "wide-open": 113.2964
+   },
+   "after": {
+    "stream": 0.0254,
+    "wide": 0.0342,
+    "auto": 0.0249,
+    "auto-past": 0.0258,
+    "wide-open": 0.0279
+   }
+  }
+ ],
+ "waited": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 1.3130000000000002,
+    "wide": 0.0952,
+    "auto": 0.09709999999999999,
+    "auto-past": 0.1045,
+    "wide-open": 0.09780000000000001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 786,
+   "call_errors": 0,
+   "after": {
+    "stream": 10.5365,
+    "wide": 5.0807,
+    "auto": 7.3266,
+    "auto-past": 7.1451,
+    "wide-open": 2.4793000000000003
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 40,
+   "call_errors": 0,
+   "after": {
+    "stream": 7.337599999999999,
+    "wide": 2.0716,
+    "auto": 2.6500999999999997,
+    "auto-past": 2.4747,
+    "wide-open": 2.1258
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 7.064,
+    "wide": 2.3743000000000003,
+    "auto": 0.11649999999999999,
+    "auto-past": 0.108,
+    "wide-open": 3.656
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 787,
+   "call_errors": 0,
+   "after": {
+    "stream": 7.1318,
+    "wide": 0.6806000000000001,
+    "auto": 3.9578,
+    "auto-past": 3.9122000000000003,
+    "wide-open": 0.1056
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 7,
+   "cause": "still running at stream end",
+   "causes": {
+    "still running at stream end": 1
+   },
+   "calls": 4,
+   "call_errors": 0,
+   "after": {
+    "stream": 536.711,
+    "wide": 527.8041999999999,
+    "auto": 353.91209999999995,
+    "auto-past": 352.6777,
+    "wide-open": 184.0581
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 4,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 3181,
+   "call_errors": 0,
+   "after": {
+    "stream": 211.0679,
+    "wide": 54.4025,
+    "auto": 32.6572,
+    "auto-past": 33.7899,
+    "wide-open": 56.9423
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 6,
+   "cause": "burst over the cap",
+   "causes": {
+    "burst over the cap": 1
+   },
+   "calls": 3181,
+   "call_errors": 0,
+   "after": {
+    "stream": 46.3321,
+    "wide": 18.2922,
+    "auto": 13.655800000000001,
+    "auto-past": 14.0894,
+    "wide-open": 20.1341
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "cause": "partly speculated",
+   "causes": {
+    "partly speculated": 1
+   },
+   "calls": 3185,
+   "call_errors": 0,
+   "after": {
+    "stream": 78.6027,
+    "wide": 57.8626,
+    "auto": 58.207699999999996,
+    "auto-past": 13.810400000000001,
+    "wide-open": 56.5436
+   }
+  }
+ ],
+ "recovery": [
+  {
+   "cause": "partly speculated",
+   "turns": 1,
+   "stream_s": 78.6027,
+   "arms": {
+    "stream": {
+     "after_s": 78.6027,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "wide": {
+     "after_s": 57.8626,
+     "recovered_s": 20.740099999999998,
+     "recovered_share": 0.2638598928535534
+    },
+    "auto": {
+     "after_s": 58.207699999999996,
+     "recovered_s": 20.395000000000003,
+     "recovered_share": 0.25946945842827285
+    },
+    "auto-past": {
+     "after_s": 13.810400000000001,
+     "recovered_s": 64.7923,
+     "recovered_share": 0.8243012008493347
+    },
+    "wide-open": {
+     "after_s": 56.5436,
+     "recovered_s": 22.0591,
+     "recovered_share": 0.28064048690439386
+    }
+   }
+  },
+  {
+   "cause": "burst over the cap",
+   "turns": 7,
+   "stream_s": 290.7829,
+   "arms": {
+    "stream": {
+     "after_s": 290.7829,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "wide": {
+     "after_s": 82.9971,
+     "recovered_s": 207.7858,
+     "recovered_share": 0.7145736561537834
+    },
+    "auto": {
+     "after_s": 60.4611,
+     "recovered_s": 230.3218,
+     "recovered_share": 0.7920747746858567
+    },
+    "auto-past": {
+     "after_s": 61.6238,
+     "recovered_s": 229.15909999999997,
+     "recovered_share": 0.7880762589547047
+    },
+    "wide-open": {
+     "after_s": 85.54090000000001,
+     "recovered_s": 205.24199999999996,
+     "recovered_share": 0.7058255488888788
+    }
+   }
+  },
+  {
+   "cause": "still running at stream end",
+   "turns": 1,
+   "stream_s": 536.711,
+   "arms": {
+    "stream": {
+     "after_s": 536.711,
+     "recovered_s": 0.0,
+     "recovered_share": 0.0
+    },
+    "wide": {
+     "after_s": 527.8041999999999,
+     "recovered_s": 8.90680000000009,
+     "recovered_share": 0.01659515083536594
+    },
+    "auto": {
+     "after_s": 353.91209999999995,
+     "recovered_s": 182.79890000000006,
+     "recovered_share": 0.34059093255029255
+    },
+    "auto-past": {
+     "after_s": 352.6777,
+     "recovered_s": 184.0333,
+     "recovered_share": 0.3428908667793282
+    },
+    "wide-open": {
+     "after_s": 184.0581,
+     "recovered_s": 352.65290000000005,
+     "recovered_share": 0.6570629258576777
+    }
+   }
+  }
+ ],
+ "noise": [],
+ "arm_names": [
+  "stream",
+  "wide",
+  "auto",
+  "auto-past",
+  "wide-open"
+ ],
+ "all_turns": [
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.0015999999999999999,
+    "auto": 0.0014,
+    "auto-past": 0.0006000000000000001,
+    "wide-open": 0.0012
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0007999999999999999,
+    "auto": 0.0019,
+    "auto-past": 0.0011,
+    "wide-open": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014,
+    "wide": 0.0031000000000000003,
+    "auto": 0.0022,
+    "auto-past": 0.002,
+    "wide-open": 0.0027
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 4,
+   "calls": 787,
+   "after": {
+    "stream": 1.3130000000000002,
+    "wide": 0.0952,
+    "auto": 0.09709999999999999,
+    "auto-past": 0.1045,
+    "wide-open": 0.09780000000000001
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0008,
+    "wide": 0.0017000000000000001,
+    "auto": 0.0010999999999999998,
+    "auto-past": 0.001,
+    "wide-open": 0.0009
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.08560000000000001,
+    "wide": 0.0029000000000000002,
+    "auto": 0.0053,
+    "auto-past": 0.0055000000000000005,
+    "wide-open": 0.0063
+   }
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.002,
+    "wide": 0.0036,
+    "auto": 0.0037,
+    "auto-past": 0.0028,
+    "wide-open": 0.0038000000000000004
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007,
+    "wide": 0.0014,
+    "auto": 0.0013000000000000002,
+    "auto-past": 0.0007,
+    "wide-open": 0.0009
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0029000000000000002,
+    "wide": 0.0028,
+    "auto": 0.0046,
+    "auto-past": 0.0046,
+    "wide-open": 0.003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0088,
+    "wide": 0.0051,
+    "auto": 0.006,
+    "auto-past": 0.005,
+    "wide-open": 0.0065
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 4,
+   "calls": 786,
+   "after": {
+    "stream": 10.5365,
+    "wide": 5.0807,
+    "auto": 7.3266,
+    "auto-past": 7.1451,
+    "wide-open": 2.4793000000000003
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0015,
+    "wide": 0.0014,
+    "auto": 0.0019000000000000002,
+    "auto-past": 0.0014,
+    "wide-open": 0.0012
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0175,
+    "wide": 0.0171,
+    "auto": 0.0183,
+    "auto-past": 0.02,
+    "wide-open": 0.0208
+   }
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031,
+    "wide": 0.0035,
+    "auto": 0.0031,
+    "auto-past": 0.0029,
+    "wide-open": 0.0022
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0024000000000000002,
+    "auto": 0.0007,
+    "auto-past": 0.001,
+    "wide-open": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0026,
+    "wide": 0.0058,
+    "auto": 0.002,
+    "auto-past": 0.0029,
+    "wide-open": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0039,
+    "wide": 0.0040999999999999995,
+    "auto": 0.0042,
+    "auto-past": 0.0036999999999999997,
+    "wide-open": 0.0027
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0039,
+    "wide": 0.004,
+    "auto": 0.0033,
+    "auto-past": 0.003,
+    "wide-open": 0.0042
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.006,
+    "wide": 0.0085,
+    "auto": 0.0064,
+    "auto-past": 0.006699999999999999,
+    "wide-open": 0.0071
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0074,
+    "wide": 0.006999999999999999,
+    "auto": 0.0075,
+    "auto-past": 0.0078,
+    "wide-open": 0.0062
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.005,
+    "wide": 0.0955,
+    "auto": 0.011300000000000001,
+    "auto-past": 0.0047,
+    "wide-open": 0.0128
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0067,
+    "wide": 0.0064,
+    "auto": 0.0069,
+    "auto-past": 0.006699999999999999,
+    "wide-open": 0.0063
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0031000000000000003,
+    "wide": 0.0029,
+    "auto": 0.0031000000000000003,
+    "auto-past": 0.003,
+    "wide-open": 0.0029000000000000002
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0026,
+    "wide": 0.0028,
+    "auto": 0.0029,
+    "auto-past": 0.0055,
+    "wide-open": 0.004
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0007999999999999999,
+    "auto": 0.0009,
+    "auto-past": 0.0009,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "pairs32k-15.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0025,
+    "wide": 0.0029000000000000002,
+    "auto": 0.0031000000000000003,
+    "auto-past": 0.0029000000000000002,
+    "wide-open": 0.0028
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0012000000000000001,
+    "auto": 0.0007,
+    "auto-past": 0.0009000000000000001,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0036,
+    "wide": 0.004,
+    "auto": 0.0036000000000000003,
+    "auto-past": 0.0038,
+    "wide-open": 0.0042
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0036,
+    "wide": 0.0032,
+    "auto": 0.0038,
+    "auto-past": 0.0032,
+    "wide-open": 0.0023
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0043,
+    "wide": 0.0023,
+    "auto": 0.0023,
+    "auto-past": 0.0028,
+    "wide-open": 0.0032
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0052,
+    "wide": 0.009999999999999998,
+    "auto": 0.0049,
+    "auto-past": 0.0055000000000000005,
+    "wide-open": 0.0069
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024,
+    "wide": 0.0017000000000000001,
+    "auto": 0.0022,
+    "auto-past": 0.0013,
+    "wide-open": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0022,
+    "wide": 0.0015999999999999999,
+    "auto": 0.0013,
+    "auto-past": 0.0018,
+    "wide-open": 0.002
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 8,
+   "calls": 40,
+   "after": {
+    "stream": 7.337599999999999,
+    "wide": 2.0716,
+    "auto": 2.6500999999999997,
+    "auto-past": 2.4747,
+    "wide-open": 2.1258
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0037,
+    "wide": 0.0050999999999999995,
+    "auto": 0.0051,
+    "auto-past": 0.0127,
+    "wide-open": 0.0056
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0036,
+    "wide": 0.0038000000000000004,
+    "auto": 0.0017000000000000001,
+    "auto-past": 0.0013000000000000002,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0043,
+    "wide": 0.0035,
+    "auto": 0.0024,
+    "auto-past": 0.0026999999999999997,
+    "wide-open": 0.0034
+   }
+  },
+  {
+   "session": "pairs32k-16.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0011,
+    "auto": 0.0007999999999999999,
+    "auto-past": 0.0006,
+    "wide-open": 0.00030000000000000003
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0007,
+    "auto": 0.0005,
+    "auto-past": 0.0011,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.001,
+    "wide": 0.00030000000000000003,
+    "auto": 0.0015,
+    "auto-past": 0.0015,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0006000000000000001,
+    "wide": 0.0006000000000000001,
+    "auto": 0.0035,
+    "auto-past": 0.002,
+    "wide-open": 0.0023
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0021000000000000003,
+    "wide": 0.0026,
+    "auto": 0.0027,
+    "auto-past": 0.0057,
+    "wide-open": 0.0026
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 5,
+   "calls": 787,
+   "after": {
+    "stream": 7.064,
+    "wide": 2.3743000000000003,
+    "auto": 0.11649999999999999,
+    "auto-past": 0.108,
+    "wide-open": 3.656
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 6,
+   "calls": 787,
+   "after": {
+    "stream": 7.1318,
+    "wide": 0.6806000000000001,
+    "auto": 3.9578,
+    "auto-past": 3.9122000000000003,
+    "wide-open": 0.1056
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034000000000000002,
+    "wide": 0.0016,
+    "auto": 0.0016,
+    "auto-past": 0.0018,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.001,
+    "wide": 0.0009000000000000001,
+    "auto": 0.0012,
+    "auto-past": 0.0017000000000000001,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009000000000000001,
+    "wide": 0.0016,
+    "auto": 0.0011,
+    "auto-past": 0.0012,
+    "wide-open": 0.001
+   }
+  },
+  {
+   "session": "pairs32k-16.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0013,
+    "wide": 0.0011,
+    "auto": 0.0011,
+    "auto-past": 0.0012,
+    "wide-open": 0.0009
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0005,
+    "wide": 0.0006000000000000001,
+    "auto": 0.0014,
+    "auto-past": 0.001,
+    "wide-open": 0.0005
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0013,
+    "wide": 0.0021,
+    "auto": 0.0018999999999999998,
+    "auto-past": 0.0014,
+    "wide-open": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0015,
+    "auto": 0.0009,
+    "auto-past": 0.0013,
+    "wide-open": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.003,
+    "wide": 0.0011,
+    "auto": 0.0015999999999999999,
+    "auto-past": 0.0018,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.014499999999999999,
+    "wide": 0.014799999999999999,
+    "auto": 0.014700000000000001,
+    "auto-past": 0.0144,
+    "wide-open": 0.013900000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0073,
+    "wide": 0.0068,
+    "auto": 0.0062,
+    "auto-past": 0.007,
+    "wide-open": 0.007
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 7,
+   "calls": 4,
+   "after": {
+    "stream": 536.711,
+    "wide": 527.8041999999999,
+    "auto": 353.91209999999995,
+    "auto-past": 352.6777,
+    "wide-open": 184.0581
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009,
+    "wide": 0.0009,
+    "auto": 0.0009,
+    "auto-past": 0.0009,
+    "wide-open": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014,
+    "wide": 0.0015999999999999999,
+    "auto": 0.0014,
+    "auto-past": 0.0015999999999999999,
+    "wide-open": 0.0015999999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000222.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034000000000000002,
+    "wide": 0.0038,
+    "auto": 0.0039000000000000003,
+    "auto-past": 0.0038,
+    "wide-open": 0.0036999999999999997
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.001,
+    "auto": 0.0007,
+    "auto-past": 0.0009,
+    "wide-open": 0.0005
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011,
+    "wide": 0.0016,
+    "auto": 0.0026,
+    "auto-past": 0.0013000000000000002,
+    "wide-open": 0.0018999999999999998
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.0026999999999999997,
+    "auto": 0.0017000000000000001,
+    "auto-past": 0.0014,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0028,
+    "wide": 0.0021,
+    "auto": 0.0027,
+    "auto-past": 0.0022,
+    "wide-open": 0.0019
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0009,
+    "auto": 0.0017000000000000001,
+    "auto-past": 0.0018000000000000002,
+    "wide-open": 0.0004
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0038,
+    "wide": 0.0058,
+    "auto": 0.0052,
+    "auto-past": 0.0035,
+    "wide-open": 0.0037
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 7,
+   "calls": 13,
+   "after": {
+    "stream": 0.0106,
+    "wide": 0.008,
+    "auto": 0.0075,
+    "auto-past": 0.006500000000000001,
+    "wide-open": 0.19590000000000002
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0007999999999999999,
+    "wide": 0.0025,
+    "auto": 0.0007,
+    "auto-past": 0.00039999999999999996,
+    "wide-open": 0.0018
+   }
+  },
+  {
+   "session": "trec132k-17000232.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0012000000000000001,
+    "auto": 0.0005,
+    "auto-past": 0.0013000000000000002,
+    "wide-open": 0.0007999999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.0016,
+    "auto": 0.0015,
+    "auto-past": 0.0011,
+    "wide-open": 0.0032
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0010999999999999998,
+    "wide": 0.0009,
+    "auto": 0.0014,
+    "auto-past": 0.0009,
+    "wide-open": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0009,
+    "auto": 0.002,
+    "auto-past": 0.0005,
+    "wide-open": 0.0015999999999999999
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 4,
+   "calls": 3181,
+   "after": {
+    "stream": 211.0679,
+    "wide": 54.4025,
+    "auto": 32.6572,
+    "auto-past": 33.7899,
+    "wide-open": 56.9423
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0065,
+    "wide": 0.0076,
+    "auto": 0.0062,
+    "auto-past": 0.0066,
+    "wide-open": 0.0067
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 6,
+   "calls": 3181,
+   "after": {
+    "stream": 46.3321,
+    "wide": 18.2922,
+    "auto": 13.655800000000001,
+    "auto-past": 14.0894,
+    "wide-open": 20.1341
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0027,
+    "wide": 0.0068000000000000005,
+    "auto": 0.003,
+    "auto-past": 0.0031,
+    "wide-open": 0.0028
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0023,
+    "wide": 0.0023,
+    "auto": 0.0034000000000000002,
+    "auto-past": 0.002,
+    "wide-open": 0.0022
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.0002,
+    "wide": 0.0014,
+    "auto": 0.0011,
+    "auto-past": 0.0004,
+    "wide-open": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0015999999999999999,
+    "wide": 0.002,
+    "auto": 0.0012000000000000001,
+    "auto-past": 0.0013000000000000002,
+    "wide-open": 0.0013000000000000002
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0039,
+    "wide": 0.004399999999999999,
+    "auto": 0.0036,
+    "auto-past": 0.0042,
+    "wide-open": 0.0033
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0052,
+    "wide": 0.0073,
+    "auto": 0.007899999999999999,
+    "auto-past": 0.0074,
+    "wide-open": 0.0072
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0011,
+    "auto": 0.0004,
+    "auto-past": 0.0004,
+    "wide-open": 0.0007
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.006,
+    "wide": 0.0048000000000000004,
+    "auto": 0.0052,
+    "auto-past": 0.0056,
+    "wide-open": 0.0051
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0052,
+    "wide": 0.0049,
+    "auto": 0.0043,
+    "auto-past": 0.012700000000000001,
+    "wide-open": 0.004200000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 8,
+   "calls": 20,
+   "after": {
+    "stream": 0.0725,
+    "wide": 0.057,
+    "auto": 0.0577,
+    "auto-past": 0.0572,
+    "wide-open": 0.057
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 9,
+   "calls": 3185,
+   "after": {
+    "stream": 78.6027,
+    "wide": 57.8626,
+    "auto": 58.207699999999996,
+    "auto-past": 13.810400000000001,
+    "wide-open": 56.5436
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012,
+    "wide": 0.0015999999999999999,
+    "auto": 0.0018,
+    "auto-past": 0.002,
+    "wide-open": 0.0014999999999999998
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0074,
+    "wide": 0.007,
+    "auto": 0.0065,
+    "auto-past": 0.0086,
+    "wide-open": 0.0077
+   }
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0009000000000000001,
+    "wide": 0.0013000000000000002,
+    "auto": 0.0014,
+    "auto-past": 0.0014,
+    "wide-open": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.001,
+    "wide": 0.0009,
+    "auto": 0.0016,
+    "auto-past": 0.0011,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0014,
+    "wide": 0.0021,
+    "auto": 0.0014999999999999998,
+    "auto-past": 0.0015,
+    "wide-open": 0.0021999999999999997
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011,
+    "wide": 0.002,
+    "auto": 0.0025,
+    "auto-past": 0.0011,
+    "wide-open": 0.0023
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0004,
+    "wide": 0.0007999999999999999,
+    "auto": 0.0009,
+    "auto-past": 0.0007999999999999999,
+    "wide-open": 0.0004
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 5,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024000000000000002,
+    "wide": 0.0125,
+    "auto": 0.0023,
+    "auto-past": 0.0015,
+    "wide-open": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 6,
+   "calls": 0,
+   "after": {
+    "stream": 0.0034000000000000002,
+    "wide": 0.0024000000000000002,
+    "auto": 0.0021000000000000003,
+    "auto-past": 0.002,
+    "wide-open": 0.0016
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 7,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011,
+    "wide": 0.0024000000000000002,
+    "auto": 0.0021999999999999997,
+    "auto-past": 0.0024000000000000002,
+    "wide-open": 0.002
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 8,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0014,
+    "auto": 0.0013000000000000002,
+    "auto-past": 0.0015,
+    "wide-open": 0.0019
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0019000000000000002,
+    "auto": 0.0018,
+    "auto-past": 0.0017000000000000001,
+    "wide-open": 0.0014
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0011,
+    "wide": 0.0025,
+    "auto": 0.0017000000000000001,
+    "auto-past": 0.002,
+    "wide-open": 0.0026
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0014,
+    "auto": 0.0014,
+    "auto-past": 0.0021000000000000003,
+    "wide-open": 0.003
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix1",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017000000000000001,
+    "wide": 0.002,
+    "auto": 0.002,
+    "auto-past": 0.002,
+    "wide-open": 0.0024999999999999996
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 1,
+   "calls": 0,
+   "after": {
+    "stream": 0.00030000000000000003,
+    "wide": 0.0024000000000000002,
+    "auto": 0.001,
+    "auto-past": 0.0011,
+    "wide-open": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 2,
+   "calls": 0,
+   "after": {
+    "stream": 0.0017000000000000001,
+    "wide": 0.003,
+    "auto": 0.0012,
+    "auto-past": 0.0009,
+    "wide-open": 0.0017000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 3,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.0024,
+    "auto": 0.0012000000000000001,
+    "auto-past": 0.0023,
+    "wide-open": 0.0011
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 4,
+   "calls": 0,
+   "after": {
+    "stream": 0.0018,
+    "wide": 0.0031999999999999997,
+    "auto": 0.003,
+    "auto-past": 0.0021,
+    "wide-open": 0.0015
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 5,
+   "calls": 1,
+   "after": {
+    "stream": 0.0021999999999999997,
+    "wide": 0.0036,
+    "auto": 0.0028,
+    "auto-past": 0.0035,
+    "wide-open": 0.0036
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 6,
+   "calls": 1,
+   "after": {
+    "stream": 0.0021,
+    "wide": 0.0031000000000000003,
+    "auto": 0.0031,
+    "auto-past": 0.002,
+    "wide-open": 0.0027
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 7,
+   "calls": 1,
+   "after": {
+    "stream": 0.0049,
+    "wide": 0.0034000000000000002,
+    "auto": 0.0018999999999999998,
+    "auto-past": 0.0027,
+    "wide-open": 0.0029
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 8,
+   "calls": 1,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0025,
+    "auto": 0.0019,
+    "auto-past": 0.0023,
+    "wide-open": 0.0025
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 9,
+   "calls": 0,
+   "after": {
+    "stream": 0.0029000000000000002,
+    "wide": 0.0019,
+    "auto": 0.0004,
+    "auto-past": 0.0014,
+    "wide-open": 0.0006000000000000001
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 10,
+   "calls": 0,
+   "after": {
+    "stream": 0.0029000000000000002,
+    "wide": 0.0037,
+    "auto": 0.0033,
+    "auto-past": 0.0034000000000000002,
+    "wide-open": 0.0048
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 11,
+   "calls": 0,
+   "after": {
+    "stream": 0.0024,
+    "wide": 0.0042,
+    "auto": 0.004,
+    "auto-past": 0.0034,
+    "wide-open": 0.0041
+   }
+  },
+  {
+   "session": "trec132k-17000241.fix2",
+   "iteration": 12,
+   "calls": 0,
+   "after": {
+    "stream": 0.0012000000000000001,
+    "wide": 0.0007999999999999999,
+    "auto": 0.0011,
+    "auto-past": 0.0007,
+    "wide-open": 0.0013000000000000002
+   }
+  }
+ ],
+ "design": {
+  "kind": "checks",
+  "name": "govern-h100",
+  "prereg": [
+   "PREREG_GOVERN.md"
+  ],
+  "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+  "engine": "one H100, vLLM 0.32.0, Qwen/Qwen3-30B-A3B-Instruct-2507, the campaign's flags with --max-model-len 65536",
+  "sessions": [
+   "trec132k-17000222.fix2",
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1",
+   "trec132k-17000237.fix1",
+   "pairs32k-16.fix1",
+   "pairs32k-1.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000241.fix2",
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix2"
+  ],
+  "the_10": [
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1",
+   "trec132k-17000237.fix1",
+   "pairs32k-16.fix1",
+   "pairs32k-1.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000241.fix2",
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix2"
+  ],
+  "the_11th": "trec132k-17000222.fix2",
+  "warm": {
+   "arm": "auto-past",
+   "sessions": [
+    "trec132k-17000237.fix1",
+    "trec132k-17000241.fix2",
+    "pairs32k-15.fix1",
+    "pairs32k-16.fix2",
+    "pairs32k-1.fix1",
+    "trec132k-17000232.fix1"
+   ]
+  },
+  "units": [
+   "stream",
+   "wide",
+   "auto",
+   "auto-past",
+   "wide-open"
+  ],
+  "checks": [
+   {
+    "id": "H1",
+    "claim": "every unit is exact (units that are not: 0)",
+    "against": "any unit not exact: it does not count",
+    "unit": [
+     "*",
+     "exact"
+    ],
+    "max": 0,
+    "digits": 0,
+    "dry_run": 0.0
+   },
+   {
+    "id": "H2",
+    "claim": "no call is sent that the recorded run did not send, and none twice",
+    "against": "any: the scout launched a call the program does not make",
+    "unit": [
+     "*",
+     "stray"
+    ],
+    "max": 0,
+    "digits": 0,
+    "dry_run": 0
+   },
+   {
+    "id": "H3",
+    "claim": "no speculative call is evicted: past a test too, the scout places no bet",
+    "against": "any",
+    "unit": [
+     "*",
+     "evicted"
+    ],
+    "max": 0,
+    "digits": 0,
+    "dry_run": 0
+   },
+   {
+    "id": "F1",
+    "claim": "**the finish rule, 1:** over the 10, `auto`'s session time is at most 1.02 of `wide`'s",
+    "against": "above 1.02: a hand-set 128 is better than the governed window on this engine",
+    "ratio": [
+     "auto",
+     "wide",
+     "wall_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "max": 1.02,
+    "dry_run": 1.0023
+   },
+   {
+    "id": "F2",
+    "claim": "**the finish rule, 2:** over the 10, `auto`'s root stream seconds are at most 1.05 of `stream`'s",
+    "against": "above 1.05: the wider window is paid for by the root's own stream",
+    "ratio": [
+     "auto",
+     "stream",
+     "stream_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "max": 1.05,
+    "dry_run": 1.0378
+   },
+   {
+    "id": "H4",
+    "claim": "over the 10, `wide` is at 0.84 to 0.93 of `stream` in session time (measured on November 10: 0.874)",
+    "against": "outside: this launch does not repeat November's",
+    "ratio": [
+     "wide",
+     "stream",
+     "wall_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "min": 0.84,
+    "max": 0.93,
+    "dry_run": 0.8846
+   },
+   {
+    "id": "H5",
+    "claim": "over the 10, `auto` is at 0.78 to 0.93 of `stream` in session time",
+    "against": "outside",
+    "ratio": [
+     "auto",
+     "stream",
+     "wall_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "min": 0.78,
+    "max": 0.93,
+    "dry_run": 0.8866
+   },
+   {
+    "id": "H6",
+    "claim": "the largest loop (`trec132k-17000237.fix1` turn 4, 3,181 calls): `auto` spends at most 1.10 of `wide`'s seconds after the stream",
+    "against": "above 1.10: the window's way up from 16 costs more than its width gains",
+    "turn": [
+     "trec132k-17000237.fix1",
+     4,
+     "auto",
+     "wide"
+    ],
+    "max": 1.1,
+    "dry_run": 0.6951
+   },
+   {
+    "id": "H7",
+    "claim": "a window of `auto` gets wider than 128",
+    "against": "128 or less: the engine or the client stopped it below the best hand-set number",
+    "govern": [
+     "auto",
+     "window_max"
+    ],
+    "min": 129,
+    "digits": 0,
+    "dry_run": 256.0
+   },
+   {
+    "id": "H8",
+    "claim": "at least half of `auto`'s sub-calls are sent at a window above 16",
+    "against": "fewer: the window hardly opened",
+    "govern": [
+     "auto",
+     "share_above_16"
+    ],
+    "min": 0.5,
+    "digits": 2,
+    "dry_run": 0.9871
+   },
+   {
+    "id": "H9",
+    "claim": "the long turn (`trec132k-17000222.fix2` turn 7) as shipped: `stream` spends at least 450 s after its stream (November: about 530 s, worked out from recorded call times)",
+    "against": "less: the character budget does not hold the long calls back as I worked out",
+    "turn_s": [
+     "trec132k-17000222.fix2",
+     7,
+     "stream"
+    ],
+    "min": 450,
+    "digits": 1,
+    "dry_run": 563.6388
+   },
+   {
+    "id": "H10",
+    "claim": "the long turn: a wider window does nothing for it, `wide` at 0.90 to 1.10 of `stream`",
+    "against": "outside",
+    "turn": [
+     "trec132k-17000222.fix2",
+     7,
+     "wide",
+     "stream"
+    ],
+    "min": 0.9,
+    "max": 1.1,
+    "dry_run": 0.9933
+   },
+   {
+    "id": "H11",
+    "claim": "the long turn: `auto` spends at most 0.80 of `stream`'s seconds",
+    "against": "above 0.80: the KV pool admitted no more than the character budget does",
+    "turn": [
+     "trec132k-17000222.fix2",
+     7,
+     "auto",
+     "stream"
+    ],
+    "max": 0.8,
+    "dry_run": 0.6676
+   },
+   {
+    "id": "H12",
+    "claim": "in `auto` the engine's KV cache stays at or under 97%",
+    "against": "above: the pool admitted more than the cache holds",
+    "unit": [
+     "auto",
+     "kv_peak"
+    ],
+    "max": 0.97,
+    "digits": 2,
+    "dry_run": 0.8678
+   },
+   {
+    "id": "H13",
+    "claim": "in `auto` the engine preempts nothing",
+    "against": "any preemption",
+    "unit": [
+     "auto",
+     "preemptions"
+    ],
+    "max": 0,
+    "digits": 0,
+    "dry_run": 0.0
+   },
+   {
+    "id": "H14",
+    "claim": "control: with the character budget lifted and nothing following the load, the four long calls take the KV cache to at least 95% (`wide-open`)",
+    "against": "below 95%: on this engine and this load the four calls fit, as they did in November next to idle sessions",
+    "unit": [
+     "wide-open",
+     "kv_peak"
+    ],
+    "min": 0.95,
+    "digits": 2,
+    "dry_run": 0.9997
+   },
+   {
+    "id": "H15",
+    "claim": "control: and the 10 pay for it, their session time in `wide-open` at least 1.01 of `wide`'s",
+    "against": "below 1.01: lifting the budget cost the others nothing here, and the pool's caution bought nothing",
+    "ratio": [
+     "wide-open",
+     "wide",
+     "wall_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "min": 1.01,
+    "dry_run": 1.0294
+   },
+   {
+    "id": "H16",
+    "claim": "the loop that tests each result (`trec132k-17000237.fix2` turn 9): `auto-past` spends at most 0.60 of `auto`'s seconds after the stream",
+    "against": "above 0.60: going on past the test did not launch the loop ahead",
+    "turn": [
+     "trec132k-17000237.fix2",
+     9,
+     "auto-past",
+     "auto"
+    ],
+    "max": 0.6,
+    "dry_run": 0.245
+   },
+   {
+    "id": "H17",
+    "claim": "over the 10, `auto-past` is at most 1.00 of `auto` in session time",
+    "against": "above 1.00",
+    "ratio": [
+     "auto-past",
+     "auto",
+     "wall_s"
+    ],
+    "sessions": [
+     "trec132k-17000232.fix1",
+     "trec132k-17000241.fix1",
+     "trec132k-17000237.fix1",
+     "pairs32k-16.fix1",
+     "pairs32k-1.fix1",
+     "pairs32k-15.fix1",
+     "trec132k-17000241.fix2",
+     "trec132k-17000237.fix2",
+     "pairs32k-16.fix2",
+     "pairs32k-1.fix2"
+    ],
+    "max": 1.0,
+    "dry_run": 0.9684
+   },
+   {
+    "id": "H18",
+    "claim": "all 11 sessions: `auto` at most 0.90 of `stream` in session time",
+    "against": "above 0.90",
+    "ratio": [
+     "auto",
+     "stream",
+     "wall_s"
+    ],
+    "max": 0.9,
+    "dry_run": 0.8407
+   },
+   {
+    "id": "H19",
+    "claim": "all 11 sessions: `auto-past` at most 0.88 of `stream` in session time",
+    "against": "above 0.88",
+    "ratio": [
+     "auto-past",
+     "stream",
+     "wall_s"
+    ],
+    "max": 0.88,
+    "dry_run": 0.821
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "H1",
+   "claim": "every unit is exact (units that are not: 0)",
+   "measured": "0",
+   "held": true,
+   "value": 0.0
+  },
+  {
+   "id": "H2",
+   "claim": "no call is sent that the recorded run did not send, and none twice",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "H3",
+   "claim": "no speculative call is evicted: past a test too, the scout places no bet",
+   "measured": "0",
+   "held": true,
+   "value": 0
+  },
+  {
+   "id": "F1",
+   "claim": "**the finish rule, 1:** over the 10, `auto`'s session time is at most 1.02 of `wide`'s",
+   "measured": "0.985",
+   "held": true,
+   "value": 0.9852783464950765
+  },
+  {
+   "id": "F2",
+   "claim": "**the finish rule, 2:** over the 10, `auto`'s root stream seconds are at most 1.05 of `stream`'s",
+   "measured": "1.014",
+   "held": true,
+   "value": 1.0143130819915798
+  },
+  {
+   "id": "H4",
+   "claim": "over the 10, `wide` is at 0.84 to 0.93 of `stream` in session time (measured on November 10: 0.874)",
+   "measured": "0.862",
+   "held": true,
+   "value": 0.8618882022907672
+  },
+  {
+   "id": "H5",
+   "claim": "over the 10, `auto` is at 0.78 to 0.93 of `stream` in session time",
+   "measured": "0.849",
+   "held": true,
+   "value": 0.8491997828166611
+  },
+  {
+   "id": "H6",
+   "claim": "the largest loop (`trec132k-17000237.fix1` turn 4, 3,181 calls): `auto` spends at most 1.10 of `wide`'s seconds after the stream",
+   "measured": "0.600",
+   "held": true,
+   "value": 0.6002885896787832
+  },
+  {
+   "id": "H7",
+   "claim": "a window of `auto` gets wider than 128",
+   "measured": "256",
+   "held": true,
+   "value": 256.0
+  },
+  {
+   "id": "H8",
+   "claim": "at least half of `auto`'s sub-calls are sent at a window above 16",
+   "measured": "0.99",
+   "held": true,
+   "value": 0.9870841487279843
+  },
+  {
+   "id": "H9",
+   "claim": "the long turn (`trec132k-17000222.fix2` turn 7) as shipped: `stream` spends at least 450 s after its stream (November: about 530 s, worked out from recorded call times)",
+   "measured": "536.7",
+   "held": true,
+   "value": 536.711
+  },
+  {
+   "id": "H10",
+   "claim": "the long turn: a wider window does nothing for it, `wide` at 0.90 to 1.10 of `stream`",
+   "measured": "0.983",
+   "held": true,
+   "value": 0.9834048491646341
+  },
+  {
+   "id": "H11",
+   "claim": "the long turn: `auto` spends at most 0.80 of `stream`'s seconds",
+   "measured": "0.659",
+   "held": true,
+   "value": 0.6594090674497075
+  },
+  {
+   "id": "H12",
+   "claim": "in `auto` the engine's KV cache stays at or under 97%",
+   "measured": "0.74",
+   "held": true,
+   "value": 0.7369509043927649
+  },
+  {
+   "id": "H13",
+   "claim": "in `auto` the engine preempts nothing",
+   "measured": "0",
+   "held": true,
+   "value": 0.0
+  },
+  {
+   "id": "H14",
+   "claim": "control: with the character budget lifted and nothing following the load, the four long calls take the KV cache to at least 95% (`wide-open`)",
+   "measured": "0.96",
+   "held": true,
+   "value": 0.9575193798449613
+  },
+  {
+   "id": "H15",
+   "claim": "control: and the 10 pay for it, their session time in `wide-open` at least 1.01 of `wide`'s",
+   "measured": "1.013",
+   "held": true,
+   "value": 1.0127042695045034
+  },
+  {
+   "id": "H16",
+   "claim": "the loop that tests each result (`trec132k-17000237.fix2` turn 9): `auto-past` spends at most 0.60 of `auto`'s seconds after the stream",
+   "measured": "0.237",
+   "held": true,
+   "value": 0.23726070605778965
+  },
+  {
+   "id": "H17",
+   "claim": "over the 10, `auto-past` is at most 1.00 of `auto` in session time",
+   "measured": "0.966",
+   "held": true,
+   "value": 0.9656030690069874
+  },
+  {
+   "id": "H18",
+   "claim": "all 11 sessions: `auto` at most 0.90 of `stream` in session time",
+   "measured": "0.812",
+   "held": true,
+   "value": 0.8122660761184879
+  },
+  {
+   "id": "H19",
+   "claim": "all 11 sessions: `auto-past` at most 0.88 of `stream` in session time",
+   "measured": "0.791",
+   "held": true,
+   "value": 0.7906192519926425
+  }
+ ]
+}

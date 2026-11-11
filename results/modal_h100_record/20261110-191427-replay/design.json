@@ -1,0 +1,199 @@
+{
+ "name": "fix",
+ "run": "20261110-173155-record",
+ "sessions": [
+  "trec132k-17000232.fix1",
+  "trec132k-17000241.fix1",
+  "trec132k-17000237.fix1",
+  "pairs32k-16.fix1",
+  "pairs32k-1.fix1",
+  "pairs32k-15.fix1",
+  "trec132k-17000241.fix2",
+  "trec132k-17000237.fix2",
+  "pairs32k-16.fix2",
+  "pairs32k-1.fix2"
+ ],
+ "left_out": {},
+ "dropped": {},
+ "single_loops": [],
+ "batch_loops": [
+  {
+   "session": "trec132k-17000237.fix1",
+   "turn": 4,
+   "batches": 159,
+   "prompts": 3180
+  },
+  {
+   "session": "trec132k-17000237.fix1",
+   "turn": 6,
+   "batches": 159,
+   "prompts": 3180
+  },
+  {
+   "session": "pairs32k-1.fix1",
+   "turn": 4,
+   "batches": 40,
+   "prompts": 787
+  },
+  {
+   "session": "trec132k-17000237.fix2",
+   "turn": 9,
+   "batches": 160,
+   "prompts": 3185
+  },
+  {
+   "session": "pairs32k-1.fix2",
+   "turn": 4,
+   "batches": 40,
+   "prompts": 786
+  }
+ ],
+ "checks": [
+  {
+   "id": "D1",
+   "claim": "session time: `stream` at 0.83 to 0.95 of `nospec` (dry run: 0.888)",
+   "ratio": [
+    "stream",
+    "nospec",
+    "wall_s"
+   ],
+   "min": 0.83,
+   "max": 0.95
+  },
+  {
+   "id": "D2",
+   "claim": "the number reported first, `scout` over `stream`, is 0.97 to 1.03 (dry run: 1.000)",
+   "first": "all",
+   "min": 0.97,
+   "max": 1.03
+  },
+  {
+   "id": "D3",
+   "claim": "session time: `wide` at 0.84 to 0.96 of `stream` (dry run: 0.892)",
+   "ratio": [
+    "wide",
+    "stream",
+    "wall_s"
+   ],
+   "min": 0.84,
+   "max": 0.96
+  },
+  {
+   "id": "D4",
+   "claim": "root stream seconds: `scout` within 5% of `stream` (dry run: 1.000)",
+   "ratio": [
+    "scout",
+    "stream",
+    "stream_s"
+   ],
+   "min": 0.95,
+   "max": 1.05
+  },
+  {
+   "id": "D5",
+   "claim": "root stream seconds: `wide` within 10% of `stream` (dry run: 1.033)",
+   "ratio": [
+    "wide",
+    "stream",
+    "stream_s"
+   ],
+   "min": 0.9,
+   "max": 1.1
+  },
+  {
+   "id": "D6",
+   "claim": "the largest loop of batches (`trec132k-17000237.fix1` turn 4, 159 batches of 20): `stream` at most 0.80 of `nospec` (dry run: 0.605)",
+   "turn": [
+    "trec132k-17000237.fix1",
+    4,
+    "stream",
+    "nospec"
+   ],
+   "max": 0.8
+  },
+  {
+   "id": "D7",
+   "claim": "the same turn: `wide` at most 0.50 of `stream` (dry run: 0.260)",
+   "turn": [
+    "trec132k-17000237.fix1",
+    4,
+    "wide",
+    "stream"
+   ],
+   "max": 0.5
+  },
+  {
+   "id": "D8",
+   "claim": "the loop of batches that tests each result (`trec132k-17000237.fix2` turn 9): `stream` at least 0.85 of `nospec` (dry run: 0.999)",
+   "turn": [
+    "trec132k-17000237.fix2",
+    9,
+    "stream",
+    "nospec"
+   ],
+   "min": 0.85
+  },
+  {
+   "id": "D9",
+   "claim": "the same turn: `scout` at least 0.85 of `stream` (dry run: 1.000)",
+   "turn": [
+    "trec132k-17000237.fix2",
+    9,
+    "scout",
+    "stream"
+   ],
+   "min": 0.85
+  },
+  {
+   "id": "D10",
+   "claim": "control, session time: `nospec-wide` at 0.86 to 0.98 of `nospec` (dry run: 0.929)",
+   "ratio": [
+    "nospec-wide",
+    "nospec",
+    "wall_s"
+   ],
+   "min": 0.86,
+   "max": 0.98
+  },
+  {
+   "id": "D11",
+   "claim": "control: `wide` at most 0.93 of `nospec-wide` in session time (dry run: 0.853)",
+   "ratio": [
+    "wide",
+    "nospec-wide",
+    "wall_s"
+   ],
+   "max": 0.93
+  }
+ ],
+ "prereg": [
+  "PREREG_RECORD.md",
+  "PREREG_RECORD_ADDENDUM.md"
+ ],
+ "corpus_manifest_sha256": "07fecba5231d93b752bbcbdab68b8f3044965a61c559566450c8201f84b63c94",
+ "batch_loops_that_test_results": [
+  {
+   "session": "trec132k-17000237.fix2",
+   "turn": 9
+  }
+ ],
+ "extra": {
+  "sessions": [
+   "trec132k-17000232.fix1",
+   "trec132k-17000241.fix1",
+   "trec132k-17000237.fix1",
+   "pairs32k-16.fix1",
+   "pairs32k-1.fix1",
+   "pairs32k-15.fix1",
+   "trec132k-17000241.fix2",
+   "trec132k-17000237.fix2",
+   "pairs32k-16.fix2",
+   "pairs32k-1.fix2",
+   "trec132k-17000222.fix2"
+  ],
+  "units": [
+   "stream-open"
+  ],
+  "why": "outside the registered comparison: the session the recording's deadline stopped, replayed up to turn 10, with spec-ptc's character budget lifted"
+ }
+}

@@ -1,0 +1,245 @@
+{
+ "react": [
+  {
+   "arm": "fcfs",
+   "mode": "none",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 199.89206014000047,
+   "lat_p50": 62.1629364620012,
+   "lat_p99": 74.38684362099957,
+   "lat_mean": 63.69997076633346,
+   "root_tpot_p50_ms": 78.45864220848178,
+   "root_tpot_p99_ms": 107.42246878571822,
+   "bets": 0,
+   "hits": 0,
+   "used": 0,
+   "stalled": 0,
+   "rejected": 0,
+   "dropped": 0,
+   "wasted_token_frac": 0.0,
+   "finishes": [
+    "length"
+   ],
+   "host_cpu_util": 0.044161262755743225,
+   "host_cpu_peak": 0.16834170854271358,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 40,
+    "sm_mhz_min": 585.0,
+    "sm_mhz_max": 1590.0,
+    "sm_mhz_mean": 1349.625,
+    "temp_c_first": 71.0,
+    "temp_c_max": 82.0,
+    "power_w_max": 71.44,
+    "reasons": [
+     "0x0000000000000000",
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  },
+  {
+   "arm": "fcfs",
+   "mode": "next3",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 307.08599157000026,
+   "lat_p50": 95.30960773100014,
+   "lat_p99": 119.72581219499989,
+   "lat_mean": 97.99517724437503,
+   "root_tpot_p50_ms": 125.22171209762362,
+   "root_tpot_p99_ms": 166.9158237719354,
+   "bets": 360,
+   "hits": 51,
+   "used": 16,
+   "stalled": 35,
+   "rejected": 0,
+   "dropped": 0,
+   "wasted_token_frac": 0.16085524596162895,
+   "finishes": [
+    "client_abort",
+    "length"
+   ],
+   "host_cpu_util": 0.04056121405489426,
+   "host_cpu_peak": 0.07674418604651163,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 61,
+    "sm_mhz_min": 1245.0,
+    "sm_mhz_max": 1500.0,
+    "sm_mhz_mean": 1382.2131147540983,
+    "temp_c_first": 76.0,
+    "temp_c_max": 78.0,
+    "power_w_max": 78.66,
+    "reasons": [
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  },
+  {
+   "arm": "priority",
+   "mode": "none",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 199.97182387300018,
+   "lat_p50": 61.52490136800043,
+   "lat_p99": 74.32977872099946,
+   "lat_mean": 63.481241568124915,
+   "root_tpot_p50_ms": 77.91588876211632,
+   "root_tpot_p99_ms": 106.8184577063423,
+   "bets": 0,
+   "hits": 0,
+   "used": 0,
+   "stalled": 0,
+   "rejected": 0,
+   "dropped": 0,
+   "wasted_token_frac": 0.0,
+   "finishes": [
+    "length"
+   ],
+   "host_cpu_util": 0.043802680668785406,
+   "host_cpu_peak": 0.15577889447236182,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 40,
+    "sm_mhz_min": 585.0,
+    "sm_mhz_max": 1590.0,
+    "sm_mhz_mean": 1340.25,
+    "temp_c_first": 72.0,
+    "temp_c_max": 82.0,
+    "power_w_max": 70.51,
+    "reasons": [
+     "0x0000000000000000",
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  },
+  {
+   "arm": "priority",
+   "mode": "next3",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 309.5903881159993,
+   "lat_p50": 96.59733876349947,
+   "lat_p99": 128.4954199870008,
+   "lat_mean": 99.09242227337518,
+   "root_tpot_p50_ms": 123.11894074999272,
+   "root_tpot_p99_ms": 205.33955057577592,
+   "bets": 360,
+   "hits": 51,
+   "used": 13,
+   "stalled": 38,
+   "rejected": 0,
+   "dropped": 0,
+   "wasted_token_frac": 0.16686562516219441,
+   "finishes": [
+    "client_abort",
+    "length"
+   ],
+   "host_cpu_util": 0.04034083992696287,
+   "host_cpu_peak": 0.08177570093457943,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 61,
+    "sm_mhz_min": 1110.0,
+    "sm_mhz_max": 1515.0,
+    "sm_mhz_mean": 1381.2295081967213,
+    "temp_c_first": 76.0,
+    "temp_c_max": 78.0,
+    "power_w_max": 78.91,
+    "reasons": [
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  },
+  {
+   "arm": "plugin",
+   "mode": "none",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 200.07835720399999,
+   "lat_p50": 62.03089067850033,
+   "lat_p99": 74.32996341800026,
+   "lat_mean": 63.506736161333265,
+   "root_tpot_p50_ms": 77.0451089087416,
+   "root_tpot_p99_ms": 107.27623192855793,
+   "bets": 0,
+   "hits": 0,
+   "used": 0,
+   "stalled": 0,
+   "rejected": 0,
+   "dropped": 0,
+   "wasted_token_frac": 0.0,
+   "finishes": [
+    "length"
+   ],
+   "host_cpu_util": 0.04355466298481235,
+   "host_cpu_peak": 0.16009280742459397,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 40,
+    "sm_mhz_min": 585.0,
+    "sm_mhz_max": 1590.0,
+    "sm_mhz_mean": 1359.375,
+    "temp_c_first": 71.0,
+    "temp_c_max": 82.0,
+    "power_w_max": 70.22,
+    "reasons": [
+     "0x0000000000000000",
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  },
+  {
+   "arm": "plugin",
+   "mode": "next3",
+   "agents": 8,
+   "sessions": 24,
+   "batch_workers": 0,
+   "wall_s": 233.48911069899987,
+   "lat_p50": 73.12785128450105,
+   "lat_p99": 85.30124287299986,
+   "lat_mean": 73.60404346129151,
+   "root_tpot_p50_ms": 96.72857373208011,
+   "root_tpot_p99_ms": 141.10580613829913,
+   "bets": 360,
+   "hits": 51,
+   "used": 34,
+   "stalled": 1,
+   "rejected": 222,
+   "dropped": 0,
+   "wasted_token_frac": 0.06320396848555589,
+   "finishes": [
+    "None",
+    "client_abort",
+    "length"
+   ],
+   "host_cpu_util": 0.045873237921015816,
+   "host_cpu_peak": 0.09237875288683603,
+   "host_cpu_sat_frac": 0.0,
+   "gpu": {
+    "samples": 46,
+    "sm_mhz_min": 1050.0,
+    "sm_mhz_max": 1470.0,
+    "sm_mhz_mean": 1377.391304347826,
+    "temp_c_first": 76.0,
+    "temp_c_max": 78.0,
+    "power_w_max": 71.68,
+    "reasons": [
+     "0x0000000000000004"
+    ]
+   },
+   "cpu_ok": true
+  }
+ ]
+}

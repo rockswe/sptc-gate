@@ -1,0 +1,4371 @@
+{
+ "stamp_utc": "2026-10-29T15:14:56Z",
+ "label": "PREDICTED by the simulator before any GPU run of the pressure preset, on the chosen T4 config",
+ "version": "v4",
+ "code": {
+  "commit": "9b0e51d65b6c5d4168669777ea6199a2773b74d9",
+  "dirty_files": [],
+  "script": "experiments/prereg_v4.py"
+ },
+ "primary": "P1",
+ "config": {
+  "kv_frac": 0.75,
+  "kv_blocks": 256,
+  "max_num_seqs": 256,
+  "num_gpu_blocks_override": 257,
+  "max_model_len": 512,
+  "flags": "--num-gpu-blocks-override 257 --max-num-seqs 256 --max-model-len 512",
+  "role": "chosen"
+ },
+ "other_config": {
+  "kv_frac": 0.3754,
+  "kv_blocks": 128,
+  "max_num_seqs": 256,
+  "num_gpu_blocks_override": 129,
+  "max_model_len": 512,
+  "flags": "--num-gpu-blocks-override 129 --max-num-seqs 256 --max-model-len 512"
+ },
+ "choice": {
+  "kv_peak_blocks": 341,
+  "checked_against": "results/pressure/choice.json",
+  "rule": "experiments/pressure.choose_config, stock FCFS arms only"
+ },
+ "probe": "Before the main sweep: one launch of the fcfs_p server on the chosen config, then fcfs-p/spec and fcfs-p/spec+bad at 4 agents, once each. If fcfs-p/spec+bad shows neither a preemption (vllm:num_preemptions) nor a queue (vllm:num_requests_waiting > 0 in any 1-second sample), the sweep runs on the fallback config and is scored against results/prereg_v4_fallback; otherwise on the chosen config, scored against results/prereg_v4. The predicted probe values are each set's `pressure` rows.",
+ "decision_rule": "The rule: the plugin wins if its session p50 is at least 5% below the cap's at 4 agents, in either workload (plugin-p/spec+bad vs cap-p/spec+bad, or plugin-p/both vs cap-p/both), with the pressure check passed. Decided on the measured values, not on these claims' verdicts. Each set's `d1` is the simulated answer.",
+ "based_on": {
+  "prereg_v3_commit": "2e39a4d",
+  "prereg_v3_files": {
+   "predictions.json": "match",
+   "predictions.md": "match",
+   "general_predictions.json": "match"
+  },
+  "prereg_v3_stamp": "2026-10-20T05:40:28Z"
+ },
+ "calibration": {
+  "inputs": {
+   "results/kaggle_t4/sptc_out/calib.json": "39f63c8f847bfe13",
+   "results/kaggle_t4/sptc_out/concur.json": "8b60689c1e32fa68",
+   "results/kaggle_t4/sptc_out/suite.json": "fd901aeba5f8002f",
+   "results/kaggle_t4/sptc_out/load.json": "9da1efb1a4a1b992",
+   "results/kaggle_t4/sptc_out/load_tagged.json": "dea38b28c8413118",
+   "results/kaggle_t4/sptc_out/vllm.log": "35f2870d53266671"
+  },
+  "cost_from": "calib.json (solo decode, solo prefill at 3 lengths) and concur.json M3 (decode step vs concurrent decoders): experiments/t4_validate.fit_cost",
+  "tokens_from": "suite.json no-speculation runs, per call by identity (sweep_predict.TableBackend); decoys forced to max_tokens",
+  "server_facts": "KV 85,904 tokens (vllm.log), max_num_batched_tokens 2048, max_num_seqs 256",
+  "t_fixed_ms": 1.9038412684643633,
+  "t_per_seq_ms": 0.43648139818580123,
+  "mfu": 0.32217926657759216,
+  "attn_mfu": 0.012579656030642445,
+  "client_s": 0.03,
+  "seq_cap": {
+   "P1": 24,
+   "P1-alt": 32,
+   "fit": [
+    {
+     "seq_cap": 8,
+     "tpot_mean_abs_log_err": 0.09186233814028648
+    },
+    {
+     "seq_cap": 12,
+     "tpot_mean_abs_log_err": 0.06897888007174863
+    },
+    {
+     "seq_cap": 16,
+     "tpot_mean_abs_log_err": 0.05436244381373913
+    },
+    {
+     "seq_cap": 24,
+     "tpot_mean_abs_log_err": 0.04651173111830965
+    },
+    {
+     "seq_cap": 32,
+     "tpot_mean_abs_log_err": 0.04663662146662916
+    },
+    {
+     "seq_cap": 48,
+     "tpot_mean_abs_log_err": 0.05823041508867387
+    },
+    {
+     "seq_cap": 64,
+     "tpot_mean_abs_log_err": 0.06292491680853922
+    },
+    {
+     "seq_cap": 96,
+     "tpot_mean_abs_log_err": 0.06794124257922489
+    },
+    {
+     "seq_cap": Infinity,
+     "tpot_mean_abs_log_err": 0.06838056677063921
+    }
+   ]
+  }
+ },
+ "arms": {
+  "fcfs-p/nospec": {
+   "server": "fcfs_p",
+   "mode": "baseline",
+   "decoys": 0,
+   "tags": "none",
+   "gate": null,
+   "workload": "-",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "fcfs-p/spec": {
+   "server": "fcfs_p",
+   "mode": "spec",
+   "decoys": 0,
+   "tags": "none",
+   "gate": null,
+   "workload": "-",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "fcfs-p/spec+bad": {
+   "server": "fcfs_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "none",
+   "gate": null,
+   "workload": "decoys",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "prio-p/spec+bad": {
+   "server": "priority_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "priority_bets",
+   "gate": null,
+   "workload": "decoys",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256,
+     "policy": "vllm-priority"
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "cap-p/spec+bad": {
+   "server": "fcfs_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "none",
+   "gate": "window:8",
+   "workload": "decoys",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true,
+    "proxy": "window:8",
+    "proxy_bets": "decoys"
+   }
+  },
+  "plugin-p/spec+bad": {
+   "server": "plugin_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "sptc_bets",
+   "gate": null,
+   "workload": "decoys",
+   "setting": {
+    "cfg": {
+     "policy": "agent",
+     "reject_bets": true,
+     "spec_max_wait": "inf",
+     "free_window": 8,
+     "spec_kv_reserve": 0.1,
+     "spec_prefill_budget": 512,
+     "spec_prefill_mode": "fixed",
+     "plugin_semantics": true,
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "guesses",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "prio-p/both": {
+   "server": "priority_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "priority_bets",
+   "gate": null,
+   "workload": "both",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256,
+     "policy": "vllm-priority"
+    },
+    "mark_spec": "all",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  },
+  "cap-p/both": {
+   "server": "fcfs_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "none",
+   "gate": "window:8",
+   "workload": "both",
+   "setting": {
+    "cfg": {
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "all",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true,
+    "proxy": "window:8",
+    "proxy_bets": "spec"
+   }
+  },
+  "plugin-p/both": {
+   "server": "plugin_p",
+   "mode": "spec",
+   "decoys": 1,
+   "tags": "sptc_bets",
+   "gate": null,
+   "workload": "both",
+   "setting": {
+    "cfg": {
+     "policy": "agent",
+     "reject_bets": true,
+     "spec_max_wait": "inf",
+     "free_window": 8,
+     "spec_kv_reserve": 0.1,
+     "spec_prefill_budget": 512,
+     "spec_prefill_mode": "fixed",
+     "plugin_semantics": true,
+     "kv_blocks": 256,
+     "max_num_seqs": 256
+    },
+    "mark_spec": "all",
+    "promote_early": false,
+    "tag_early": false,
+    "rejected_force": "abort",
+    "decoy_at_call": true
+   }
+  }
+ },
+ "sets": {
+  "P1": {
+   "seq_cap": 24,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-p/both",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.22265625,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "cap-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6377057826568007,
+      "session_p99": 4.045245912038689,
+      "root_tpot_p50": 22.24061148858501,
+      "root_tpot_p99": 23.597652703597653,
+      "root_itl_p99": 74.51087706857263,
+      "sessions_per_min": 76.64160649824149,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 170,
+       "completed": 6,
+       "cancelled": 4
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.578125,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/nospec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.13671875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.9175493645548487,
+      "root_tpot_p50": 21.374717422687443,
+      "root_tpot_p99": 22.776001825922126,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.49390061229687,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.8798434730165505,
+      "session_p99": 5.4126108116555995,
+      "root_tpot_p50": 29.23589712699202,
+      "root_tpot_p99": 36.921499614913245,
+      "root_itl_p99": 151.9199785200289,
+      "sessions_per_min": 55.53319076693302,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 101,
+       "completed": 79
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 57.0,
+      "max_waiting": 20.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/both",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.234375,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/spec+bad",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.5941863603813937,
+      "session_p99": 3.9980426634422175,
+      "root_tpot_p50": 21.90989005606726,
+      "root_tpot_p99": 23.129618833900434,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.38579036433161,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/both",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.775894984356166,
+      "session_p99": 5.372292470397975,
+      "root_tpot_p50": 28.96309231711326,
+      "root_tpot_p99": 31.042025862675946,
+      "root_itl_p99": 155.07219405364393,
+      "sessions_per_min": 57.207721719275554,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 111,
+       "completed": 69
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 44.0,
+      "max_waiting": 23.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/spec+bad",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 4.792288626153612,
+      "session_p99": 5.353479116905199,
+      "root_tpot_p50": 29.0731111751424,
+      "root_tpot_p99": 31.336482967767346,
+      "root_itl_p99": 150.3514448284826,
+      "sessions_per_min": 57.7033596315728,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 53.0,
+      "max_waiting": 21.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "growth": {
+      "cap-p/both": {
+       "4": 1.0
+      },
+      "cap-p/spec+bad": {
+       "4": 1.0
+      },
+      "fcfs-p/nospec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-p/both": {
+       "4": 1.0
+      },
+      "plugin-p/spec+bad": {
+       "4": 1.0
+      },
+      "prio-p/both": {
+       "4": 1.0
+      },
+      "prio-p/spec+bad": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_wall": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_tpot": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "thr_peak": {
+      "cap-p/both": 4,
+      "cap-p/spec+bad": 4,
+      "fcfs-p/nospec": 4,
+      "fcfs-p/spec": 4,
+      "fcfs-p/spec+bad": 4,
+      "plugin-p/both": 4,
+      "plugin-p/spec+bad": 4,
+      "prio-p/both": 4,
+      "prio-p/spec+bad": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {}
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "PR-1",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4637879036021781,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-2",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5859147402607118,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-3",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7146118413323358,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-4",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7311120753312972,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-5",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9820578575220538,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-6",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9944319836965315,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-7",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7454554234724453,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-8",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7607295713204362,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-9",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7365372230186703,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-10",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7494174015217399,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-11",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9786983969393332,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-12",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9906688408194292,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-13",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4134460808326774,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-14",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6224277420670015,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-15",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4134460808326774,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-16",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.626071194157701,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-1",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9880365744577555,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-2",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9851298408459904,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-3",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-4",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-1",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.749993717149328,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-2",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "prio-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.4442100704904832,
+     "tol": 0.05
+    },
+    {
+     "id": "PF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9444444444444444,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9611111111111111,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-3",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-4",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9444444444444444
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-p/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.13671875,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "preemptions": 57.0,
+     "bets_dropped": 0,
+     "max_waiting": 20.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.1976223862192159,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "preemptions": 53.0,
+     "bets_dropped": 0,
+     "max_waiting": 21.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.20035113419217876,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 37.0,
+     "max_kv": 0.578125,
+     "max_kv_blocks": 148,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9444444444444444,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9611111111111111,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "preemptions": 44.0,
+     "bets_dropped": 0,
+     "max_waiting": 23.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.2043035801313959,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.22265625,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.234375,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ],
+   "d1": {
+    "by_workload": {
+     "decoys": {
+      "plugin_vs_cap": 0.9880365744577555,
+      "plugin_vs_prio": 0.749993717149328
+     },
+     "both": {
+      "plugin_vs_cap": 1.0,
+      "plugin_vs_prio": 1.4442100704904832
+     }
+    },
+    "plugin_wins": false,
+    "won_in": []
+   }
+  },
+  "P0": {
+   "seq_cap": Infinity,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-p/both",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.22265625,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "cap-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6377057826568007,
+      "session_p99": 4.052229614409662,
+      "root_tpot_p50": 22.279409835090412,
+      "root_tpot_p99": 23.616751081091113,
+      "root_itl_p99": 74.51087706857263,
+      "sessions_per_min": 76.3224580763237,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 170,
+       "completed": 6,
+       "cancelled": 4
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.578125,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/nospec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.13671875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659376,
+      "session_p99": 3.92453306692582,
+      "root_tpot_p50": 21.503637172006325,
+      "root_tpot_p99": 22.89641048749059,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.20191318034625,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.563009106682397,
+      "session_p99": 6.186725548645148,
+      "root_tpot_p50": 32.341265745009515,
+      "root_tpot_p99": 41.86149275649622,
+      "root_itl_p99": 162.8320635153866,
+      "sessions_per_min": 49.41115700767381,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 100,
+       "completed": 80
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 59.0,
+      "max_waiting": 20.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/both",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.234375,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/spec+bad",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6011700627523675,
+      "session_p99": 4.005026365813191,
+      "root_tpot_p50": 22.019712532641744,
+      "root_tpot_p99": 23.129618833900434,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.10905714597577,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/both",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.525501918482636,
+      "session_p99": 6.191135956996757,
+      "root_tpot_p50": 32.4975474241324,
+      "root_tpot_p99": 36.88416311851931,
+      "root_itl_p99": 165.82534055086117,
+      "sessions_per_min": 50.54298893884294,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 111,
+       "completed": 69
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 51.0,
+      "max_waiting": 23.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/spec+bad",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.522256066087139,
+      "session_p99": 6.146516238433591,
+      "root_tpot_p50": 32.45434642361211,
+      "root_tpot_p99": 37.060155338298436,
+      "root_itl_p99": 158.38178318579565,
+      "sessions_per_min": 51.084646866824336,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 51.0,
+      "max_waiting": 21.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "growth": {
+      "cap-p/both": {
+       "4": 1.0
+      },
+      "cap-p/spec+bad": {
+       "4": 1.0
+      },
+      "fcfs-p/nospec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-p/both": {
+       "4": 1.0
+      },
+      "plugin-p/spec+bad": {
+       "4": 1.0
+      },
+      "prio-p/both": {
+       "4": 1.0
+      },
+      "prio-p/spec+bad": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_wall": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_tpot": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "thr_peak": {
+      "cap-p/both": 4,
+      "cap-p/spec+bad": 4,
+      "fcfs-p/nospec": 4,
+      "fcfs-p/spec": 4,
+      "fcfs-p/spec+bad": 4,
+      "plugin-p/both": 4,
+      "plugin-p/spec+bad": 4,
+      "prio-p/both": 4,
+      "prio-p/spec+bad": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {}
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "PR-1",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.2840273510775468,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-2",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5296559264720075,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-3",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6268538955791122,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-4",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6648978225388252,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-5",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9926742811644322,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-6",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0034964827751072,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-7",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.653909729949411,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-8",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.688884906693186,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-9",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6473421117406711,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-10",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.6808550013550271,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-11",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9932577517885587,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-12",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0048322684818543,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-13",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.239867758570964,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-14",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5626629946870505,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-15",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.239867758570964,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-16",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.565956606982582,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-1",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9899563840268167,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-2",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9883436184184897,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-3",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-4",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-1",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6521193547810288,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-2",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "prio-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.2482839991314791,
+     "tol": 0.05
+    },
+    {
+     "id": "PF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9444444444444444,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9611111111111111,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-3",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-4",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9444444444444444
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-p/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.13671875,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "preemptions": 59.0,
+     "bets_dropped": 0,
+     "max_waiting": 20.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.22207553058148935,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "preemptions": 51.0,
+     "bets_dropped": 0,
+     "max_waiting": 21.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.21979488565867508,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 37.0,
+     "max_kv": 0.578125,
+     "max_kv_blocks": 148,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9444444444444444,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9611111111111111,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "preemptions": 51.0,
+     "bets_dropped": 0,
+     "max_waiting": 23.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.2109599031131768,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.22265625,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.234375,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ],
+   "d1": {
+    "by_workload": {
+     "decoys": {
+      "plugin_vs_cap": 0.9899563840268167,
+      "plugin_vs_prio": 0.6521193547810288
+     },
+     "both": {
+      "plugin_vs_cap": 1.0,
+      "plugin_vs_prio": 1.2482839991314791
+     }
+    },
+    "plugin_wins": false,
+    "won_in": []
+   }
+  },
+  "P1-alt": {
+   "seq_cap": 32,
+   "summary": {
+    "slo": {
+     "ref_arm": "fcfs/nospec",
+     "k_session": 2.0,
+     "k_tpot": 2.0,
+     "refs": {}
+    },
+    "rows": [
+     {
+      "arm": "cap-p/both",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.646504460675828,
+      "root_tpot_p50": 18.197233436056777,
+      "root_tpot_p99": 18.481409694638604,
+      "root_itl_p99": 20.21575620941718,
+      "sessions_per_min": 34.245690337257415,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 108,
+       "completed": 28
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.22265625,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "cap-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6377057826568,
+      "session_p99": 4.052229614409662,
+      "root_tpot_p50": 22.279409835090412,
+      "root_tpot_p99": 23.597652703597642,
+      "root_itl_p99": 74.51087706857263,
+      "sessions_per_min": 76.41261328552876,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 170,
+       "completed": 6,
+       "cancelled": 4
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.578125,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/nospec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 7.1430558472736685,
+      "session_p99": 10.98584996149949,
+      "root_tpot_p50": 17.129743071450417,
+      "root_tpot_p99": 17.193830861207573,
+      "root_itl_p99": 17.283430861207094,
+      "sessions_per_min": 35.078127455314615,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.13671875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.4871939296659384,
+      "session_p99": 3.9245330669258207,
+      "root_tpot_p50": 21.46486958424873,
+      "root_tpot_p99": 22.89641048749061,
+      "root_itl_p99": 64.06510435614709,
+      "sessions_per_min": 79.25328440907467,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {},
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "fcfs-p/spec+bad",
+      "server": "fcfs_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.236723772996481,
+      "session_p99": 5.812855608724062,
+      "root_tpot_p50": 30.981022661554512,
+      "root_tpot_p99": 40.18329703588546,
+      "root_itl_p99": 157.07930569859218,
+      "sessions_per_min": 52.06156499056713,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 101,
+       "completed": 79
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 60.0,
+      "max_waiting": 20.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/both",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 6.897395632012165,
+      "session_p99": 11.678289856777685,
+      "root_tpot_p50": 18.30375302656759,
+      "root_tpot_p99": 18.737870693123387,
+      "root_itl_p99": 20.845019529314612,
+      "sessions_per_min": 34.24136301293565,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 109,
+       "completed": 33
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.234375,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "plugin-p/spec+bad",
+      "server": "plugin_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 3.6011700627523684,
+      "session_p99": 4.005026365813192,
+      "root_tpot_p50": 22.019712532641755,
+      "root_tpot_p99": 23.129618833900444,
+      "root_itl_p99": 65.3188621337395,
+      "sessions_per_min": 77.15774851113098,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "rejected": 173,
+       "completed": 5,
+       "cancelled": 2
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 0.0,
+      "max_waiting": 0.0,
+      "max_kv": 0.546875,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/both",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.133863280590277,
+      "session_p99": 5.792339173995323,
+      "root_tpot_p50": 30.975158105335467,
+      "root_tpot_p99": 33.7905479311404,
+      "root_itl_p99": 162.18304822589147,
+      "sessions_per_min": 53.45659693528758,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 111,
+       "completed": 69
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 45.0,
+      "max_waiting": 23.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     },
+     {
+      "arm": "prio-p/spec+bad",
+      "server": "priority_p",
+      "agents": 4,
+      "reps_ok": 1,
+      "reps_other": {},
+      "sessions": 16,
+      "session_p50": 5.138759864420536,
+      "session_p99": 5.74733962850284,
+      "root_tpot_p50": 30.938647243710957,
+      "root_tpot_p99": 33.93179410422186,
+      "root_itl_p99": 155.04850825766513,
+      "sessions_per_min": 53.99414929375137,
+      "p99_is_max": true,
+      "goodput": null,
+      "goodput_wall": null,
+      "goodput_tpot": null,
+      "goodput_curve": {
+       "1.0": null,
+       "1.25": null,
+       "1.5": null,
+       "1.75": null,
+       "2.0": null,
+       "2.5": null,
+       "3.0": null,
+       "4.0": null,
+       "5.0": null
+      },
+      "decoy_outcomes": {
+       "cancelled": 112,
+       "completed": 68
+      },
+      "spec_call_outcomes": {},
+      "refused_calls": 0,
+      "preemptions": 52.0,
+      "max_waiting": 21.0,
+      "max_kv": 1.0,
+      "client_cpu_util": null,
+      "host_cpu_util": null,
+      "host_cpu_sat_frac": null,
+      "sub_tokens_per_session": 0,
+      "proxy_peak_in_flight": null,
+      "prefix_hit_frac": null,
+      "gpu_sm_mhz_min": null,
+      "gpu_sm_mhz_mean": null,
+      "gpu_temp_c_max": null,
+      "gpu_reasons": [],
+      "cpu_ok": null
+     }
+    ],
+    "derived": {
+     "knee": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "growth": {
+      "cap-p/both": {
+       "4": 1.0
+      },
+      "cap-p/spec+bad": {
+       "4": 1.0
+      },
+      "fcfs-p/nospec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec": {
+       "4": 1.0
+      },
+      "fcfs-p/spec+bad": {
+       "4": 1.0
+      },
+      "plugin-p/both": {
+       "4": 1.0
+      },
+      "plugin-p/spec+bad": {
+       "4": 1.0
+      },
+      "prio-p/both": {
+       "4": 1.0
+      },
+      "prio-p/spec+bad": {
+       "4": 1.0
+      }
+     },
+     "knee_ref": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_wall": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "good50_tpot": {
+      "cap-p/both": null,
+      "cap-p/spec+bad": null,
+      "fcfs-p/nospec": null,
+      "fcfs-p/spec": null,
+      "fcfs-p/spec+bad": null,
+      "plugin-p/both": null,
+      "plugin-p/spec+bad": null,
+      "prio-p/both": null,
+      "prio-p/spec+bad": null
+     },
+     "thr_peak": {
+      "cap-p/both": 4,
+      "cap-p/spec+bad": 4,
+      "fcfs-p/nospec": 4,
+      "fcfs-p/spec": 4,
+      "fcfs-p/spec+bad": 4,
+      "plugin-p/both": 4,
+      "plugin-p/spec+bad": 4,
+      "prio-p/both": 4,
+      "prio-p/spec+bad": 4
+     },
+     "net_loss": {
+      "fcfs": null,
+      "prio": null,
+      "plugin": null
+     },
+     "prio_vs_fcfs": {},
+     "plugin_vs_fcfs": {},
+     "vs_stock": {},
+     "baselines_vs_fcfs": {},
+     "baselines_vs_nobets": {}
+    },
+    "by_launch": []
+   },
+   "claims": [
+    {
+     "id": "PR-1",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.364031435858297,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-2",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/nospec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.552910833789465,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-3",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6659113752854197,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-4",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "fcfs-p/spec",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.692839284833721,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-5",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9812929012828399,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-6",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9986322137165555,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-7",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6946529815864787,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-8",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7191308717751835,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-9",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.6876761538047977,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-10",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.7107484079267281,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-11",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9803578540963702,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-12",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "prio-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9998107048859196,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-13",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3171203849970188,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-14",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "cap-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5873671000098519,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-15",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.3171203849970188,
+     "tol": 0.05
+    },
+    {
+     "id": "PR-16",
+     "section": "each arm vs fcfs-p/spec+bad",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "fcfs-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.5908053206158811,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-1",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.9899563840268172,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-2",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "cap-p/spec+bad",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 0.9883436184184902,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-3",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.0,
+     "tol": 0.05
+    },
+    {
+     "id": "PC-4",
+     "section": "plugin vs the client-side cap (the decision rule's ratio)",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "cap-p/both",
+      4
+     ],
+     "metric": "root_tpot_p50",
+     "predicted": 1.0058536145554824,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-1",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/spec+bad",
+      4
+     ],
+     "denominator": [
+      "prio-p/spec+bad",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 0.7007858233823986,
+     "tol": 0.05
+    },
+    {
+     "id": "PP-2",
+     "section": "plugin vs vLLM priority",
+     "kind": "ratio",
+     "numerator": [
+      "plugin-p/both",
+      4
+     ],
+     "denominator": [
+      "prio-p/both",
+      4
+     ],
+     "metric": "session_p50",
+     "predicted": 1.343509800521825,
+     "tol": 0.05
+    },
+    {
+     "id": "PF-1",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9444444444444444,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-2",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.9611111111111111,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-3",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "cap-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7941176470588235,
+     "tol": 0.1
+    },
+    {
+     "id": "PF-4",
+     "section": "decoys rejected",
+     "kind": "fraction",
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "outcome": "rejected",
+     "predicted": 0.7676056338028169,
+     "tol": 0.1
+    }
+   ],
+   "decoy_rejected": [
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "frac": 0.7941176470588235
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9444444444444444
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "frac": 0.7676056338028169
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "frac": 0.9611111111111111
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "frac": 0.0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "frac": 0.0
+    }
+   ],
+   "pressure": [
+    {
+     "arm": "fcfs-p/nospec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 4.0,
+     "max_kv": 0.13671875,
+     "max_kv_blocks": 35,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": null,
+     "decoys_dropped": null,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "fcfs-p/spec+bad",
+     "agents": 4,
+     "preemptions": 60.0,
+     "bets_dropped": 0,
+     "max_waiting": 20.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.2095571069425254,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/spec+bad",
+     "agents": 4,
+     "preemptions": 52.0,
+     "bets_dropped": 0,
+     "max_waiting": 21.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.2073466085617305,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 37.0,
+     "max_kv": 0.578125,
+     "max_kv_blocks": 148,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9444444444444444,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "plugin-p/spec+bad",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 35.0,
+     "max_kv": 0.546875,
+     "max_kv_blocks": 140,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.9611111111111111,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": null,
+     "real_bets_dropped": null,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "prio-p/both",
+     "agents": 4,
+     "preemptions": 45.0,
+     "bets_dropped": 0,
+     "max_waiting": 23.0,
+     "max_running": 66.0,
+     "max_kv": 1.0,
+     "max_kv_blocks": 256,
+     "queue_frac": 0.21415468088325867,
+     "decoys_refused": 0.0,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.0,
+     "real_bets_dropped": 0.0,
+     "reissued": 0,
+     "shadow_stops": 0
+    },
+    {
+     "arm": "cap-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 8.0,
+     "max_kv": 0.22265625,
+     "max_kv_blocks": 57,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7941176470588235,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8529411764705882,
+     "real_bets_dropped": 0.0,
+     "reissued": 116,
+     "shadow_stops": 16
+    },
+    {
+     "arm": "plugin-p/both",
+     "agents": 4,
+     "preemptions": 0.0,
+     "bets_dropped": 0,
+     "max_waiting": 0.0,
+     "max_running": 10.0,
+     "max_kv": 0.234375,
+     "max_kv_blocks": 60,
+     "queue_frac": 0.0,
+     "decoys_refused": 0.7676056338028169,
+     "decoys_dropped": 0.0,
+     "real_bets_refused": 0.8098591549295775,
+     "real_bets_dropped": 0.0,
+     "reissued": 115,
+     "shadow_stops": 16
+    }
+   ],
+   "d1": {
+    "by_workload": {
+     "decoys": {
+      "plugin_vs_cap": 0.9899563840268172,
+      "plugin_vs_prio": 0.7007858233823986
+     },
+     "both": {
+      "plugin_vs_cap": 1.0,
+      "plugin_vs_prio": 1.343509800521825
+     }
+    },
+    "plugin_wins": false,
+    "won_in": []
+   }
+  }
+ },
+ "summary": {
+  "slo": {
+   "ref_arm": "fcfs/nospec",
+   "k_session": 2.0,
+   "k_tpot": 2.0,
+   "refs": {}
+  },
+  "rows": [
+   {
+    "arm": "cap-p/both",
+    "server": "fcfs_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 6.897395632012165,
+    "session_p99": 11.646504460675828,
+    "root_tpot_p50": 18.197233436056777,
+    "root_tpot_p99": 18.481409694638604,
+    "root_itl_p99": 20.21575620941718,
+    "sessions_per_min": 34.245690337257415,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 108,
+     "completed": 28
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.22265625,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "cap-p/spec+bad",
+    "server": "fcfs_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.6377057826568007,
+    "session_p99": 4.045245912038689,
+    "root_tpot_p50": 22.24061148858501,
+    "root_tpot_p99": 23.597652703597653,
+    "root_itl_p99": 74.51087706857263,
+    "sessions_per_min": 76.64160649824149,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 170,
+     "completed": 6,
+     "cancelled": 4
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.578125,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-p/nospec",
+    "server": "fcfs_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 7.1430558472736685,
+    "session_p99": 10.98584996149949,
+    "root_tpot_p50": 17.129743071450417,
+    "root_tpot_p99": 17.193830861207573,
+    "root_itl_p99": 17.283430861207094,
+    "sessions_per_min": 35.078127455314615,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.13671875,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-p/spec",
+    "server": "fcfs_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.4871939296659376,
+    "session_p99": 3.9175493645548487,
+    "root_tpot_p50": 21.374717422687443,
+    "root_tpot_p99": 22.776001825922126,
+    "root_itl_p99": 64.06510435614709,
+    "sessions_per_min": 79.49390061229687,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {},
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.546875,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "fcfs-p/spec+bad",
+    "server": "fcfs_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.8798434730165505,
+    "session_p99": 5.4126108116555995,
+    "root_tpot_p50": 29.23589712699202,
+    "root_tpot_p99": 36.921499614913245,
+    "root_itl_p99": 151.9199785200289,
+    "sessions_per_min": 55.53319076693302,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "cancelled": 101,
+     "completed": 79
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 57.0,
+    "max_waiting": 20.0,
+    "max_kv": 1.0,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "plugin-p/both",
+    "server": "plugin_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 6.897395632012165,
+    "session_p99": 11.678289856777685,
+    "root_tpot_p50": 18.30375302656759,
+    "root_tpot_p99": 18.737870693123387,
+    "root_itl_p99": 20.845019529314612,
+    "sessions_per_min": 34.24136301293565,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 109,
+     "completed": 33
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.234375,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "plugin-p/spec+bad",
+    "server": "plugin_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 3.5941863603813937,
+    "session_p99": 3.9980426634422175,
+    "root_tpot_p50": 21.90989005606726,
+    "root_tpot_p99": 23.129618833900434,
+    "root_itl_p99": 65.3188621337395,
+    "sessions_per_min": 77.38579036433161,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "rejected": 173,
+     "completed": 5,
+     "cancelled": 2
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 0.0,
+    "max_waiting": 0.0,
+    "max_kv": 0.546875,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "prio-p/both",
+    "server": "priority_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.775894984356166,
+    "session_p99": 5.372292470397975,
+    "root_tpot_p50": 28.96309231711326,
+    "root_tpot_p99": 31.042025862675946,
+    "root_itl_p99": 155.07219405364393,
+    "sessions_per_min": 57.207721719275554,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "cancelled": 111,
+     "completed": 69
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 44.0,
+    "max_waiting": 23.0,
+    "max_kv": 1.0,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   },
+   {
+    "arm": "prio-p/spec+bad",
+    "server": "priority_p",
+    "agents": 4,
+    "reps_ok": 1,
+    "reps_other": {},
+    "sessions": 16,
+    "session_p50": 4.792288626153612,
+    "session_p99": 5.353479116905199,
+    "root_tpot_p50": 29.0731111751424,
+    "root_tpot_p99": 31.336482967767346,
+    "root_itl_p99": 150.3514448284826,
+    "sessions_per_min": 57.7033596315728,
+    "p99_is_max": true,
+    "goodput": null,
+    "goodput_wall": null,
+    "goodput_tpot": null,
+    "goodput_curve": {
+     "1.0": null,
+     "1.25": null,
+     "1.5": null,
+     "1.75": null,
+     "2.0": null,
+     "2.5": null,
+     "3.0": null,
+     "4.0": null,
+     "5.0": null
+    },
+    "decoy_outcomes": {
+     "cancelled": 112,
+     "completed": 68
+    },
+    "spec_call_outcomes": {},
+    "refused_calls": 0,
+    "preemptions": 53.0,
+    "max_waiting": 21.0,
+    "max_kv": 1.0,
+    "client_cpu_util": null,
+    "host_cpu_util": null,
+    "host_cpu_sat_frac": null,
+    "sub_tokens_per_session": 0,
+    "proxy_peak_in_flight": null,
+    "prefix_hit_frac": null,
+    "gpu_sm_mhz_min": null,
+    "gpu_sm_mhz_mean": null,
+    "gpu_temp_c_max": null,
+    "gpu_reasons": [],
+    "cpu_ok": null
+   }
+  ],
+  "derived": {
+   "knee": {
+    "cap-p/both": null,
+    "cap-p/spec+bad": null,
+    "fcfs-p/nospec": null,
+    "fcfs-p/spec": null,
+    "fcfs-p/spec+bad": null,
+    "plugin-p/both": null,
+    "plugin-p/spec+bad": null,
+    "prio-p/both": null,
+    "prio-p/spec+bad": null
+   },
+   "growth": {
+    "cap-p/both": {
+     "4": 1.0
+    },
+    "cap-p/spec+bad": {
+     "4": 1.0
+    },
+    "fcfs-p/nospec": {
+     "4": 1.0
+    },
+    "fcfs-p/spec": {
+     "4": 1.0
+    },
+    "fcfs-p/spec+bad": {
+     "4": 1.0
+    },
+    "plugin-p/both": {
+     "4": 1.0
+    },
+    "plugin-p/spec+bad": {
+     "4": 1.0
+    },
+    "prio-p/both": {
+     "4": 1.0
+    },
+    "prio-p/spec+bad": {
+     "4": 1.0
+    }
+   },
+   "knee_ref": {
+    "cap-p/both": null,
+    "cap-p/spec+bad": null,
+    "fcfs-p/nospec": null,
+    "fcfs-p/spec": null,
+    "fcfs-p/spec+bad": null,
+    "plugin-p/both": null,
+    "plugin-p/spec+bad": null,
+    "prio-p/both": null,
+    "prio-p/spec+bad": null
+   },
+   "good50": {
+    "cap-p/both": null,
+    "cap-p/spec+bad": null,
+    "fcfs-p/nospec": null,
+    "fcfs-p/spec": null,
+    "fcfs-p/spec+bad": null,
+    "plugin-p/both": null,
+    "plugin-p/spec+bad": null,
+    "prio-p/both": null,
+    "prio-p/spec+bad": null
+   },
+   "good50_wall": {
+    "cap-p/both": null,
+    "cap-p/spec+bad": null,
+    "fcfs-p/nospec": null,
+    "fcfs-p/spec": null,
+    "fcfs-p/spec+bad": null,
+    "plugin-p/both": null,
+    "plugin-p/spec+bad": null,
+    "prio-p/both": null,
+    "prio-p/spec+bad": null
+   },
+   "good50_tpot": {
+    "cap-p/both": null,
+    "cap-p/spec+bad": null,
+    "fcfs-p/nospec": null,
+    "fcfs-p/spec": null,
+    "fcfs-p/spec+bad": null,
+    "plugin-p/both": null,
+    "plugin-p/spec+bad": null,
+    "prio-p/both": null,
+    "prio-p/spec+bad": null
+   },
+   "thr_peak": {
+    "cap-p/both": 4,
+    "cap-p/spec+bad": 4,
+    "fcfs-p/nospec": 4,
+    "fcfs-p/spec": 4,
+    "fcfs-p/spec+bad": 4,
+    "plugin-p/both": 4,
+    "plugin-p/spec+bad": 4,
+    "prio-p/both": 4,
+    "prio-p/spec+bad": 4
+   },
+   "net_loss": {
+    "fcfs": null,
+    "prio": null,
+    "plugin": null
+   },
+   "prio_vs_fcfs": {},
+   "plugin_vs_fcfs": {},
+   "vs_stock": {},
+   "baselines_vs_fcfs": {},
+   "baselines_vs_nobets": {}
+  },
+  "by_launch": []
+ },
+ "overhead": [],
+ "general": {
+  "claims": [],
+  "quick_claims": []
+ },
+ "rules": {
+  "validity": "A measured point counts only if every run has status ok and its row's cpu_ok is true (whole-host CPU < 0.85 mean, < 10% of seconds >= 95% busy). Otherwise every claim using it is 'invalid'.",
+  "ratio": "measured ratio m of two measured points vs predicted p: supported if |m - p| <= tol; refuted if |m - p| > tol and the numerator's 95% CI does not overlap p x the denominator's 95% CI (both from vllm_bench.summarize's bootstrap); otherwise unresolved. Eager ratios use eager points only.",
+  "fraction": "measured share of decoys logged 'rejected' vs predicted: supported if within tol (absolute), otherwise refuted.",
+  "points": "for every measured (arm, load), |log(predicted / measured)| of session p50 and root TPOT p50 for P1, P0 and P1-alt: median and max, P1's in-sample points (1/4/8 agents of fcfs/* and plugin/*) apart from the rest. Not pass/fail.",
+  "pressure": "Claims PR, PC, PP use v3's ratio rule and PF v3's fraction rule (decoys logged rejected, which includes a bet dropped before its first token). The denominators are fcfs-p/spec+bad (PR), cap (PC) and priority (PP), all at 4 agents on the same config. No point here is in-sample for P1: its seq_cap was fit on the October 19 rows, none of them a pressure arm."
+ },
+ "reading_rules": [
+  "**Pooled p50s sit on pattern clusters.** The 16 sessions of a run are 4 of each mix4 pattern, and patterns differ by up to 3x in session time. The pooled p50 is the lowest session of the third-fastest pattern, so a small change in one pattern can move it a lot. Read every session_p50 claim with `prereg_compare.py`'s per-pattern ratios (geometric mean over patterns).",
+  "**Why cap and plugin lose in `both`.** In mix4 the shadow forces nearly every speculation, and spec-ptc's shadow stops for the rest of the turn when it forces a refused bet (shadow.py _abort('force-failed')). The window of 8 refuses most real bets at 4 agents, so these arms run close to no speculation: the claims predict cap-p/both and plugin-p/both well above fcfs-p/spec+bad (PR) and the plugin well above priority (PP-2). Simulated with the shadow re-running a refused call instead, the loss would be far smaller (results/pressure README, sensitivity 'reissue').",
+  "**What the claims cannot show.** PC-1..4 test the decision rule's ratios, but the rule is applied to the measured values. A claim refuted in the plugin's favour can still leave the rule unmet, and the reverse.",
+  "**The sim's KV model under heavy preemption is unchecked** (a known risk): the probe values (preemptions, queue, KV peak) are predictions too, not inputs."
+ ],
+ "gpu_minutes": {
+  "runs": 27,
+  "launches": 6,
+  "est_minutes": 54,
+  "servers": {
+   "fcfs_p": [
+    "fcfs-p/nospec",
+    "fcfs-p/spec",
+    "fcfs-p/spec+bad",
+    "cap-p/spec+bad",
+    "cap-p/both"
+   ],
+   "priority_p": [
+    "prio-p/spec+bad",
+    "prio-p/both"
+   ],
+   "plugin_p": [
+    "plugin-p/spec+bad",
+    "plugin-p/both"
+   ]
+  }
+ },
+ "wall_s": 12.831988096237183
+}
