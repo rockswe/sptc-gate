@@ -18,8 +18,6 @@ stream. This repository contains:
   speculative programmatic tool calling, measured with it on an NVIDIA H100;
 - the discrete-event simulator that picked the policy before any GPU time was spent.
 
-Status: finished in November 2026. No further work is planned.
-
 ## Findings
 
 1. Wasted speculation is expensive on a shared server, and admission control removes the
