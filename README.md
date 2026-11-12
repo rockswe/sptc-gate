@@ -46,7 +46,7 @@ added, so the comparison is between engines. 2 server launches per arm, 3–5 re
 
 With 8 agents:
 
-| | stock vLLM | vLLM priority scheduling | plugin |
+| | stock vLLM | vLLM priority scheduling | sptc-gate |
 |---|---|---|---|
 | session latency, p50 | 7.49 s | 7.41 s (no change) | **5.20 s (−31%)** |
 | time per output token, p50 | 39.4 ms | 39.5 ms | **28.6 ms (−27%)** |
