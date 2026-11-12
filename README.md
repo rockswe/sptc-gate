@@ -1,6 +1,6 @@
 # sptc-gate
 
-Admission control for speculative LLM calls on a shared vLLM server.
+Admission control for speculative LLM calls on a shared vLLM/SGLang/Tensor-RT LLM server.
 
 Agents increasingly fire LLM sub-calls before they know they need them: speculative tool
 calls, guessed next steps, prefetches. On a shared vLLM server that work is
@@ -280,6 +280,8 @@ benchmark have 89 more tests, with their own environment:
   ([T4 check](results/modal_t4_bench/RESULTS.md)).
 - The SGLang port is tested against SGLang's own scheduling code, not yet on a live
   SGLang server.
+- sptc-gate was only measured on the vLLM engine, although both SGLang and Tensor-RT LLM
+  ports have been tested against their own scheduling code and is working.
 - Novelty is narrow. Best-effort / scavenger classes are a known idea (Echo, HyGen, vLLM
   RFC #24256). What is new is applying one to speculative LLM sub-calls inside the
   per-step scheduler, with near-certain speculation exempted
