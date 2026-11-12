@@ -38,7 +38,7 @@ stream. This repository contains:
 
 ## Benchmarks
 
-### Scheduler plugin vs. stock vLLM (NVIDIA Tesla T4)
+### sptc-gate scheduler plugin vs. stock vLLM (NVIDIA Tesla T4)
 
 NVIDIA Tesla T4, Qwen3-1.7B fp16, vLLM 0.32. Agents share one server, and each wastes one
 speculative call per real one. Every arm runs the same spec-ptc client, with request tags
