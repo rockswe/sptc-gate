@@ -1,0 +1,78 @@
+# HELP trtllm_prompt_cached_tokens_total Process-lifetime total prompt tokens served from KV cache. Resets only when the serving process restarts, not when the KV cache is flushed or evicted.
+# TYPE trtllm_prompt_cached_tokens_total counter
+trtllm_prompt_cached_tokens_total{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"} 0.0
+# HELP trtllm_model_config_info Model configuration info
+# TYPE trtllm_model_config_info gauge
+trtllm_model_config_info{dtype="auto",engine_type="pytorch",gpu_type="NVIDIA L4",model="/vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6",quantization="none",served_model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"} 1.0
+# HELP trtllm_parallel_config_info Parallelism configuration info
+# TYPE trtllm_parallel_config_info gauge
+trtllm_parallel_config_info{context_parallel_size="1",engine_type="pytorch",gpu_count="1",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6",pipeline_parallel_size="1",tensor_parallel_size="1"} 1.0
+# HELP trtllm_kv_cache_config_info KV cache configuration info
+# TYPE trtllm_kv_cache_config_info gauge
+trtllm_kv_cache_config_info{cache_dtype="auto",enable_block_reuse="True",enable_partial_reuse="True",engine_type="pytorch",free_gpu_memory_fraction="0.9",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 1.0
+# HELP trtllm_num_requests_running Number of active requests
+# TYPE trtllm_num_requests_running gauge
+trtllm_num_requests_running{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_num_requests_waiting Number of queued requests
+# TYPE trtllm_num_requests_waiting gauge
+trtllm_num_requests_waiting{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_max_num_active_requests Maximum number of active requests
+# TYPE trtllm_max_num_active_requests gauge
+trtllm_max_num_active_requests{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_iteration_latency_seconds Iteration latency in seconds
+# TYPE trtllm_iteration_latency_seconds gauge
+trtllm_iteration_latency_seconds{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_gpu_memory_usage_bytes GPU memory usage in bytes
+# TYPE trtllm_gpu_memory_usage_bytes gauge
+trtllm_gpu_memory_usage_bytes{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_cpu_memory_usage_bytes CPU memory usage in bytes
+# TYPE trtllm_cpu_memory_usage_bytes gauge
+trtllm_cpu_memory_usage_bytes{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_pinned_memory_usage_bytes Pinned memory usage in bytes
+# TYPE trtllm_pinned_memory_usage_bytes gauge
+trtllm_pinned_memory_usage_bytes{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_max_batch_size_static Static maximum batch size
+# TYPE trtllm_max_batch_size_static gauge
+trtllm_max_batch_size_static{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_max_batch_size_runtime Runtime maximum batch size
+# TYPE trtllm_max_batch_size_runtime gauge
+trtllm_max_batch_size_runtime{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_max_num_tokens_runtime Runtime maximum number of tokens
+# TYPE trtllm_max_num_tokens_runtime gauge
+trtllm_max_num_tokens_runtime{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_avg_decoded_tokens_per_iter Average number of decoded tokens per iteration
+# TYPE trtllm_avg_decoded_tokens_per_iter gauge
+trtllm_avg_decoded_tokens_per_iter{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_kv_cache_hit_rate KV cache hit rate
+# TYPE trtllm_kv_cache_hit_rate gauge
+trtllm_kv_cache_hit_rate{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_kv_cache_utilization KV cache utilization
+# TYPE trtllm_kv_cache_utilization gauge
+trtllm_kv_cache_utilization{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_kv_cache_max_blocks Maximum number of KV cache blocks
+# TYPE trtllm_kv_cache_max_blocks gauge
+trtllm_kv_cache_max_blocks{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 4635.0
+# HELP trtllm_kv_cache_free_blocks Number of free KV cache blocks
+# TYPE trtllm_kv_cache_free_blocks gauge
+trtllm_kv_cache_free_blocks{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 4635.0
+# HELP trtllm_kv_cache_used_blocks Number of used KV cache blocks
+# TYPE trtllm_kv_cache_used_blocks gauge
+trtllm_kv_cache_used_blocks{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_kv_cache_tokens_per_block Number of tokens per KV cache block
+# TYPE trtllm_kv_cache_tokens_per_block gauge
+trtllm_kv_cache_tokens_per_block{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 32.0
+# HELP trtllm_num_context_requests Number of context (prefill) requests
+# TYPE trtllm_num_context_requests gauge
+trtllm_num_context_requests{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_num_generation_requests Number of generation (decode) requests
+# TYPE trtllm_num_generation_requests gauge
+trtllm_num_generation_requests{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_num_paused_requests Number of paused requests
+# TYPE trtllm_num_paused_requests gauge
+trtllm_num_paused_requests{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_num_scheduled_requests Number of scheduled requests
+# TYPE trtllm_num_scheduled_requests gauge
+trtllm_num_scheduled_requests{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0
+# HELP trtllm_total_context_tokens Total number of context tokens
+# TYPE trtllm_total_context_tokens gauge
+trtllm_total_context_tokens{dp_rank="0",engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 0.0

@@ -1,0 +1,119 @@
+{
+ "trtllm": "1.4.0rc3",
+ "model": "Qwen/Qwen3-1.7B",
+ "gpu": "NVIDIA L4, 23034 MiB",
+ "ready_s": 146.2,
+ "before_any_request": {
+  "t": 148.040996273,
+  "refused": "this TensorRT-LLM server exports no gauges of its engine (1.2.1 does not; 1.4.0rc3 does, with enable_iter_perf_stats)"
+ },
+ "quiet": {
+  "samples": 77,
+  "read": 77,
+  "refused": 77,
+  "seconds": 4.26,
+  "steps_seen": 0,
+  "steps_seen_per_s": 0.0,
+  "held_max": null,
+  "held_nonzero_share": null,
+  "running_max": 0.0,
+  "scheduled_max": 0.0,
+  "queue_max": 0.0,
+  "paused_max": 0.0,
+  "kv_min": null,
+  "kv_max": null,
+  "kv_last": null,
+  "step_ms_median": null,
+  "calls": 4,
+  "tokens": 1024,
+  "tokens_per_s": 236.8,
+  "first_sample_with_a_request_s": null
+ },
+ "idle_after_quiet": {
+  "samples": 5,
+  "read": 5,
+  "refused": 5,
+  "seconds": 1.02,
+  "steps_seen": 0,
+  "steps_seen_per_s": 0.0,
+  "held_max": null,
+  "held_nonzero_share": null,
+  "running_max": 0.0,
+  "scheduled_max": 0.0,
+  "queue_max": 0.0,
+  "paused_max": 0.0,
+  "kv_min": null,
+  "kv_max": null,
+  "kv_last": null,
+  "step_ms_median": null,
+  "last": {
+   "generation_tokens_total": 1032.0
+  }
+ },
+ "burst_at_16": {
+  "calls": 300,
+  "launched": 300,
+  "seconds": 11.71,
+  "calls_per_s": 25.6,
+  "failed": 0,
+  "errors": [],
+  "peak_in_flight": 16,
+  "window_end": 16,
+  "window_max": 16,
+  "moves": 0,
+  "why": [],
+  "first_moves": [],
+  "last_moves": [],
+  "warnings": [],
+  "probe": null
+ },
+ "burst_governed": {
+  "calls": 300,
+  "launched": 300,
+  "seconds": 11.86,
+  "calls_per_s": 25.3,
+  "failed": 0,
+  "errors": [],
+  "peak_in_flight": 16,
+  "window_end": 16,
+  "window_max": 16,
+  "moves": 0,
+  "why": [],
+  "first_moves": [],
+  "last_moves": [],
+  "warnings": [
+   "no load is read from http://127.0.0.1:8000/prometheus/metrics: this TensorRT-LLM server exports no gauges of its engine (1.2.1 does not; 1.4.0rc3 does, with enable_iter_perf_stats)"
+  ],
+  "probe": {
+   "samples": 0,
+   "errors": 48
+  }
+ },
+ "idle_after_bursts": {
+  "samples": 5,
+  "read": 5,
+  "refused": 5,
+  "seconds": 1.02,
+  "steps_seen": 0,
+  "steps_seen_per_s": 0.0,
+  "held_max": null,
+  "held_nonzero_share": null,
+  "running_max": 0.0,
+  "scheduled_max": 0.0,
+  "queue_max": 0.0,
+  "paused_max": 0.0,
+  "kv_min": null,
+  "kv_max": null,
+  "kv_last": null,
+  "step_ms_median": null,
+  "last": {
+   "generation_tokens_total": 20232.0
+  }
+ },
+ "verdicts": {
+  "quiet_engine_holds_nothing": false,
+  "idle_kv_cache_reads_low": true,
+  "window_grew": false,
+  "governed_faster_than_16": false
+ }
+}

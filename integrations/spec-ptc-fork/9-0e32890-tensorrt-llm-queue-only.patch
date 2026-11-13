@@ -1,0 +1,164 @@
+diff --git a/src/engine/load.py b/src/engine/load.py
+index e37f511..5797ba4 100644
+--- a/src/engine/load.py
++++ b/src/engine/load.py
+@@ -91,27 +91,36 @@ _TRTLLM_STEP = (
+ def _trtllm_metrics(v: dict[str, list[float]]) -> dict:
+     """What the governor reads, from a TensorRT-LLM server's metrics (`v`: every label
+     set's value of a metric, by its name without the prefix). Read from the sources of
+-    1.4.0rc3. 1.2.1 writes none of the gauges below, only times of finished requests:
+-    its text is refused, as a JSON body is (parse_metrics).
+-
+-    The same five signals as from vLLM, where the engine means the same by them:
+-
+-    - waiting. num_requests_waiting counts the requests that are not in the engine's
+-      active set yet, and that set is as large as its batch. A request the scheduler
+-      holds back for KV cache is in the set and not in a step: it is one of
+-      num_requests_running and not one of num_scheduled_requests. Both are "requests the
+-      engine could not schedule in its last step", so both are counted, and running is
+-      what was scheduled. The default scheduler (GUARANTEED_NO_EVICT) never preempts,
+-      so a full KV cache shows here and nowhere else.
+-    - kv: blocks used over blocks there are, summed over the ranks.
++    1.4.0rc3 and run on that version (one L4, 2026-11-13). 1.2.1 writes none of the
++    gauges below, only times of finished requests: its text is refused, as a JSON body
++    is (parse_metrics). So is the text of a server that has its engine in its own
++    process (TLLM_WORKER_USE_SINGLE_PROCESS=1): the engine's records do not reach it.
++
++    The server writes the gauges from the engine's records when a request ends, not at
++    every step, so a sample is of a step in which a request ended.
++
++    - waiting: num_requests_waiting, the engine's queue, and nothing else. That queue
++      is of requests not yet in the engine's active set, which is as large as its
++      batch. The default scheduler (GUARANTEED_NO_EVICT) never preempts: with the KV
++      cache spoken for it leaves a request in the set and out of the step, and such a
++      request is one of num_requests_running and not one of num_scheduled_requests. The
++      difference does not count them, though. A request that ended in the step before
++      is still in the set and is not scheduled either, and the samples are of just
++      those steps. Counted as waiting, the difference read 8 of 19 on an engine with
++      an empty queue, cut a window from 16 to 1 in six seconds, and made a burst of
++      300 short calls a fifth slower than at 16 (run 20261113-143508). So a KV cache
++      that is spoken for does not show as waiting: it shows in kv, and in the queue
++      once the active set is full.
++    - kv: blocks used over blocks there are, summed over the ranks. Blocks kept for
++      reuse are not counted as used: an idle engine reads 0.
+     - paused: requests the scheduler paused in the last step (MAX_UTILIZATION only). It
+       is a gauge of one step, not a running total: the probe adds them up.
+     - step_ms: how long the last step took. Every stream gets a token a step, so it is
+       the time between two tokens now. time_per_output_token_seconds is a mean over a
+       request's whole life, written when the request ends, and is not read.
+-    - step_sig: see _TRTLLM_STEP. An engine with nothing to do runs no step and keeps
+-      the numbers of its last one, so it reads as an engine that is not stepping until
+-      its next step: a burst's first sample or two do not widen the window."""
++    - step_sig: see _TRTLLM_STEP. The gauges keep the numbers of the last step that
++      was written, so an engine reads as one that is not stepping until a request ends:
++      a burst does not widen the window before its first call is back."""
+ 
+     def total(name: str) -> float | None:
+         return sum(v[name]) if name in v else None
+@@ -120,16 +129,10 @@ def _trtllm_metrics(v: dict[str, list[float]]) -> dict:
+         return sum(v[name]) / len(v[name]) if name in v else None
+ 
+     out: dict = {}
+-    active, queued = total("num_requests_running"), total("num_requests_waiting")
+-    scheduled = total("num_scheduled_requests")
+-    held = None  # in the active set and not in the last step
+-    if active is not None and scheduled is not None:
+-        held = max(0.0, active - scheduled)
+-    running = scheduled if held is not None else active
+-    if running is not None:
+-        out["running"] = running
+-    if queued is not None or held is not None:
+-        out["waiting"] = (queued or 0.0) + (held or 0.0)
++    if "num_requests_running" in v:
++        out["running"] = total("num_requests_running")
++    if "num_requests_waiting" in v:
++        out["waiting"] = total("num_requests_waiting")
+     used, blocks = total("kv_cache_used_blocks"), total("kv_cache_max_blocks")
+     if used is not None and blocks:
+         out["kv"] = used / blocks
+@@ -145,7 +148,8 @@ def _trtllm_metrics(v: dict[str, list[float]]) -> dict:
+     if not out.keys() & {"running", "waiting", "kv"}:
+         raise ValueError(
+             "this TensorRT-LLM server exports no gauges of its engine (1.2.1 does not; "
+-            "1.4.0rc3 does, with enable_iter_perf_stats)")
++            "1.4.0rc3 does, with return_perf_metrics and enable_iter_perf_stats, and "
++            "its engine in a process of its own)")
+     sig = tuple((name, tuple(v[name])) for name in _TRTLLM_STEP if name in v)
+     if sig:
+         out["step_sig"] = sig
+diff --git a/tests/test_load.py b/tests/test_load.py
+index 15a4871..5f72d2d 100644
+--- a/tests/test_load.py
++++ b/tests/test_load.py
+@@ -1212,22 +1212,21 @@ class TrtEngine:
+ 
+ def test_the_probe_reads_what_tensorrt_llm_exports():
+     m = parse_metrics(TRTLLM_TEXT)
+-    assert m["running"] == 37 and m["kv"] == 0.375 and m["kv_tokens"] == 4800 * 32
+-    assert m["waiting"] == 3 + (40 - 37)  # in its queue, and in its set but not in the step
++    assert m["running"] == 40 and m["kv"] == 0.375 and m["kv_tokens"] == 4800 * 32
++    assert m["waiting"] == 3  # its queue: not the 3 in its set that are not in the step
+     assert m["paused"] == 0 and m["step_ms"] == pytest.approx(45.0)
+     # a mean over a finished request's life is not the time between two tokens now, and
+     # tokens are counted when a request ends, not as they are written
+     assert not m.keys() & {"itl_sum", "itl_count", "gen_tokens", "preemptions"}
+ 
+ 
+-def test_a_request_tensorrt_llm_holds_back_inside_its_set_is_waiting():
+-    """The default scheduler never preempts: with the KV cache spoken for it leaves a
+-    request in the active set and out of the step. Its queue is empty all the while."""
+-    m = parse_metrics(trtllm(active=20, scheduled=12, queued=0))
+-    assert m["running"] == 12 and m["waiting"] == 8
+-    m = parse_metrics(trtllm(active=20, queued=0))
+-    assert m["running"] == 20 and m["waiting"] == 0
+-    # without the count of what was scheduled, its own two numbers are all there is
++def test_a_request_in_tensorrt_llms_set_and_not_in_its_step_is_not_waiting():
++    """Measured on an L4 on November 13 (run 20261113-143508). The gauges are written
++    when a request ends, and a request that ended in the step before is still in the
++    active set and not scheduled. Counted as waiting, that difference read 8 of 19 on an
++    engine with an empty queue, and a window of 16 was cut to 1."""
++    m = parse_metrics(trtllm(active=19, scheduled=11, queued=0))
++    assert m["running"] == 19 and m["waiting"] == 0
+     m = parse_metrics('trtllm_num_requests_running 20\ntrtllm_num_requests_waiting 5\n')
+     assert m["running"] == 20 and m["waiting"] == 5
+ 
+@@ -1335,20 +1334,19 @@ def test_on_tensorrt_llm_the_window_grows_as_on_vllm():
+     assert r.tick(8, active=40) == 256
+ 
+ 
+-def test_requests_held_inside_tensorrt_llm_stop_growth_and_a_standing_number_cuts():
++def test_requests_that_ended_in_tensorrt_llms_last_step_do_not_cut_the_window():
++    """What the L4 run showed, sample for sample: 19 in the set, 11 in the step, an
++    empty queue. The window has to go on growing."""
+     r = Rig(engine=TrtEngine)
+-    r.tick(3, active=12)  # 54
+-    assert r.tick(active=13, scheduled=12) == 54  # one held: its places are full
+-    assert r.tick(2, active=20, scheduled=12) == 54  # 8 held, of 12 in the step
+-    assert r.tick(active=20, scheduled=12) == 37 and r.why[-1] == "queue"
+-    assert r.tick(active=12) == 41  # by an eighth: the cut is one sample old
++    assert r.tick(6, active=19, scheduled=11) == 181 and r.why == ["grow"] * 6
+ 
+ 
+-def test_tensorrt_llms_queue_counts_with_what_it_holds_inside():
++def test_tensorrt_llms_own_queue_stops_growth_and_a_standing_one_cuts():
+     r = Rig(engine=TrtEngine)
+     r.tick(3, active=12)  # 54
+-    assert r.tick(2, active=12, queued=3) == 54  # 3 in its queue, 12 in the step
++    assert r.tick(2, active=12, queued=3) == 54  # 3 in its queue, 12 running
+     assert r.tick(active=12, queued=3) == 37 and r.why[-1] == "queue"
++    assert r.tick(active=12, queued=0) == 41  # by an eighth: the cut is one sample old
+ 
+ 
+ def test_a_request_tensorrt_llm_paused_halves_the_window_once():
+@@ -1361,8 +1359,9 @@ def test_a_request_tensorrt_llm_paused_halves_the_window_once():
+ 
+ 
+ def test_an_idle_tensorrt_llm_keeps_its_last_numbers_and_the_window_waits_for_a_step():
+-    """It runs no step with nothing to do, so its gauges stay at the last step's: one or
+-    more requests "running". That reads as an engine that is not stepping."""
++    """Its gauges are written when a request ends and stay at that step's numbers: one
++    or more requests "running", also on an engine with nothing to do (17 after the
++    bursts of the L4 run). That reads as an engine that is not stepping."""
+     r = Rig(engine=TrtEngine)
+     assert r.tick(2, active=4) == 36
+     assert r.tick(8, step=False) == 36  # the burst's calls are sent, no step seen yet

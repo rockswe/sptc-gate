@@ -1,0 +1,506 @@
+diff --git a/demo/rlm.py b/demo/rlm.py
+index 8e0a295..e251593 100644
+--- a/demo/rlm.py
++++ b/demo/rlm.py
+@@ -62,7 +62,8 @@ class SpeculativeLocalREPL(LocalREPL):
+         spec_govern: the window and the character budget follow the load
+         (spec_ptc.engine.load): True, or a GovernorConfig. The window then starts at 16
+         and moves between the config's w_min and w_max. spec_load_url: the engine's
+-        /metrics (spec_ptc.engine.load.metrics_url(base_url) for a vLLM server). Without
++        /metrics (spec_ptc.engine.load.metrics_url(base_url) for a vLLM server;
++        metrics_url(base_url, engine="trtllm") for a TensorRT-LLM one). Without
+         it the limits follow this process's own signals only.
+ 
+         spec_scout="past": the scout also goes on past a test on a result when no arm of
+diff --git a/src/engine/load.py b/src/engine/load.py
+index ab21646..e37f511 100644
+--- a/src/engine/load.py
++++ b/src/engine/load.py
+@@ -6,7 +6,8 @@ H100, both were far below what the engine took. On a small or a busy engine they
+ too high. This module sets both from what the engine and the client report:
+ 
+ - EngineProbe reads a vLLM server's /metrics: requests running and waiting, the KV
+-  cache's size and how full it is, preemptions, and the time between two tokens.
++  cache's size and how full it is, preemptions, and the time between two tokens. A
++  TensorRT-LLM server's /prometheus/metrics gives the same signals (_trtllm_metrics).
+ - KvPool, one per engine and process, admits speculative calls against the KV cache the
+   engine has free, in place of a count of characters per session.
+ - Governor, one per session, moves the session's window (Budget.max_inflight) between
+@@ -31,6 +32,7 @@ import statistics
+ import threading
+ import time
+ import urllib.request
++import warnings
+ import weakref
+ from collections import deque
+ from collections.abc import Callable
+@@ -73,17 +75,112 @@ _COUNTERS = {
+ }
+ 
+ 
++# TensorRT-LLM (trtllm-serve, /prometheus/metrics): its names carry this prefix.
++TRTLLM_PREFIX = "trtllm_"
++# What only changes when the engine has run a step. Its gauges are written from one
++# record per step and keep their last value while it does not step, so two samples that
++# agree in all of these are one step seen twice.
++_TRTLLM_STEP = (
++    "iteration_latency_seconds", "kv_cache_used_blocks", "num_scheduled_requests",
++    "num_generation_requests", "num_context_requests", "total_context_tokens",
++    "num_requests_running", "num_requests_waiting", "num_requests_completed_total",
++    "generation_tokens_total",
++)
++
++
++def _trtllm_metrics(v: dict[str, list[float]]) -> dict:
++    """What the governor reads, from a TensorRT-LLM server's metrics (`v`: every label
++    set's value of a metric, by its name without the prefix). Read from the sources of
++    1.4.0rc3. 1.2.1 writes none of the gauges below, only times of finished requests:
++    its text is refused, as a JSON body is (parse_metrics).
++
++    The same five signals as from vLLM, where the engine means the same by them:
++
++    - waiting. num_requests_waiting counts the requests that are not in the engine's
++      active set yet, and that set is as large as its batch. A request the scheduler
++      holds back for KV cache is in the set and not in a step: it is one of
++      num_requests_running and not one of num_scheduled_requests. Both are "requests the
++      engine could not schedule in its last step", so both are counted, and running is
++      what was scheduled. The default scheduler (GUARANTEED_NO_EVICT) never preempts,
++      so a full KV cache shows here and nowhere else.
++    - kv: blocks used over blocks there are, summed over the ranks.
++    - paused: requests the scheduler paused in the last step (MAX_UTILIZATION only). It
++      is a gauge of one step, not a running total: the probe adds them up.
++    - step_ms: how long the last step took. Every stream gets a token a step, so it is
++      the time between two tokens now. time_per_output_token_seconds is a mean over a
++      request's whole life, written when the request ends, and is not read.
++    - step_sig: see _TRTLLM_STEP. An engine with nothing to do runs no step and keeps
++      the numbers of its last one, so it reads as an engine that is not stepping until
++      its next step: a burst's first sample or two do not widen the window."""
++
++    def total(name: str) -> float | None:
++        return sum(v[name]) if name in v else None
++
++    def mean(name: str) -> float | None:
++        return sum(v[name]) / len(v[name]) if name in v else None
++
++    out: dict = {}
++    active, queued = total("num_requests_running"), total("num_requests_waiting")
++    scheduled = total("num_scheduled_requests")
++    held = None  # in the active set and not in the last step
++    if active is not None and scheduled is not None:
++        held = max(0.0, active - scheduled)
++    running = scheduled if held is not None else active
++    if running is not None:
++        out["running"] = running
++    if queued is not None or held is not None:
++        out["waiting"] = (queued or 0.0) + (held or 0.0)
++    used, blocks = total("kv_cache_used_blocks"), total("kv_cache_max_blocks")
++    if used is not None and blocks:
++        out["kv"] = used / blocks
++    elif "kv_cache_utilization" in v:
++        out["kv"] = mean("kv_cache_utilization")
++    per_block = mean("kv_cache_tokens_per_block")
++    if blocks and per_block:
++        out["kv_tokens"] = int(blocks * per_block)
++    if "num_paused_requests" in v:
++        out["paused"] = total("num_paused_requests")
++    if "iteration_latency_seconds" in v:
++        out["step_ms"] = 1000.0 * mean("iteration_latency_seconds")
++    if not out.keys() & {"running", "waiting", "kv"}:
++        raise ValueError(
++            "this TensorRT-LLM server exports no gauges of its engine (1.2.1 does not; "
++            "1.4.0rc3 does, with enable_iter_perf_stats)")
++    sig = tuple((name, tuple(v[name])) for name in _TRTLLM_STEP if name in v)
++    if sig:
++        out["step_sig"] = sig
++    return out
++
++
+ def parse_metrics(text: str) -> dict:
+-    """What the governor reads, from a vLLM server's Prometheus text. A metric is summed
+-    over its label sets (several engines behind one server); for a metric with two names
+-    (older and newer vLLM) the first that is there wins."""
++    """What the governor reads, from an engine's Prometheus text: a vLLM server's
++    /metrics, or a TensorRT-LLM server's /prometheus/metrics (_trtllm_metrics). A metric
++    is summed over its label sets (several engines behind one server); for a metric with
++    two names (older and newer vLLM) the first that is there wins.
++
++    A JSON body is refused. TensorRT-LLM answers /metrics, vLLM's path, with a list of
++    its steps as JSON. Read as Prometheus text that is a sample with no numbers in it,
++    and a window that follows no numbers only grows. A refused read is no sample, and
++    without a sample the window stays where it is."""
++    if text.lstrip()[:1] in ("[", "{"):
++        raise ValueError(
++            "the engine's metrics are JSON, not Prometheus text: for TensorRT-LLM read "
++            "/prometheus/metrics (metrics_url(base_url, engine='trtllm'))")
+     sums: dict[str, float] = {}
++    trtllm: dict[str, list[float]] = {}
+     out: dict = {}
+     for line in text.splitlines():
+         if not line or line[0] == "#":
+             continue
+         head, _, value = line.rpartition(" ")
+-        name = head.split("{", 1)[0].split(":", 1)[-1]
++        name = head.split("{", 1)[0]
++        if name.startswith(TRTLLM_PREFIX):
++            try:
++                trtllm.setdefault(name[len(TRTLLM_PREFIX):], []).append(float(value))
++            except ValueError:
++                pass
++            continue
++        name = name.split(":", 1)[-1]
+         if name == "cache_config_info":
+             labels = dict(_LABEL.findall(head))
+             try:
+@@ -97,6 +194,8 @@ def parse_metrics(text: str) -> dict:
+             sums[name] = sums.get(name, 0.0) + float(value)
+         except ValueError:
+             pass
++    if trtllm:
++        return _trtllm_metrics(trtllm)
+     for key, names in {**_GAUGES, **_COUNTERS}.items():
+         for name in names:
+             if name in sums:
+@@ -105,12 +204,19 @@ def parse_metrics(text: str) -> dict:
+     return out
+ 
+ 
+-def metrics_url(base_url: str) -> str:
+-    """The /metrics of the server behind an OpenAI base URL (http://host:port/v1)."""
++METRICS_PATHS = {"vllm": "/metrics", "trtllm": "/prometheus/metrics"}
++
++
++def metrics_url(base_url: str, engine: str = "vllm") -> str:
++    """The Prometheus metrics of the server behind an OpenAI base URL
++    (http://host:port/v1): /metrics for vLLM, /prometheus/metrics for TensorRT-LLM
++    (engine="trtllm"), whose /metrics is JSON."""
++    if engine not in METRICS_PATHS:
++        raise ValueError(f"engine must be one of {sorted(METRICS_PATHS)}, got {engine!r}")
+     root = base_url.rstrip("/")
+     if root.endswith("/v1"):
+         root = root[:-3]
+-    return root.rstrip("/") + "/metrics"
++    return root.rstrip("/") + METRICS_PATHS[engine]
+ 
+ 
+ class TaxMeter:
+@@ -161,6 +267,9 @@ class EngineProbe:
+         self._latest: EngineLoad | None = None
+         self._itl_prev: tuple[float, float] | None = None
+         self._tokens_prev: float | None = None
++        self._sig_prev: tuple | None = None  # TensorRT-LLM: the last sample's step_sig
++        self._paused_total = 0.0  # TensorRT-LLM: requests paused, in the steps seen
++        self._warned = False
+         self._meter = TaxMeter()
+         self._listeners: list[Callable[[EngineLoad], None]] = []
+         self._stop = threading.Event()
+@@ -177,6 +286,16 @@ class EngineProbe:
+         """Read the engine once. Returns the sample, or None if the read failed."""
+         try:
+             m = parse_metrics(self._fetch())
++        except ValueError as e:
++            # Not an engine's metrics (parse_metrics), or no URL at all: no later read
++            # will be another. Said once, since a window that only stays looks like one
++            # with nothing to do.
++            self.errors += 1
++            if not self._warned:
++                self._warned = True
++                warnings.warn(f"no load is read from {self.url or 'the engine'}: {e}",
++                              RuntimeWarning, stacklevel=2)
++            return None
+         except Exception:  # noqa: BLE001 - an engine that is down, a timeout: no sample
+             self.errors += 1
+             return None
+@@ -188,13 +307,27 @@ class EngineProbe:
+                 self._meter.add(itl)
+         tokens = m.get("gen_tokens", m.get("itl_count"))
+         stepped = None
+-        if tokens is not None:
++        if "step_sig" in m:  # TensorRT-LLM: no count of tokens as they are written
++            if self._sig_prev is not None:
++                stepped = m["step_sig"] != self._sig_prev
++            self._sig_prev = m["step_sig"]
++        elif tokens is not None:
+             if self._tokens_prev is not None:
+                 stepped = tokens > self._tokens_prev
+             self._tokens_prev = tokens
++        preemptions = m.get("preemptions")
++        if "paused" in m:
++            # A gauge of the last step. Counted once per step that is seen: a step seen
++            # twice paused nothing new, and steps between two samples are not seen.
++            if stepped and m["paused"] > 0:
++                self._paused_total += m["paused"]
++            preemptions = self._paused_total
++        if "step_ms" in m and stepped:
++            itl = m["step_ms"]
++            self._meter.add(itl)
+         load = EngineLoad(
+             t=self._clock(), running=m.get("running"), waiting=m.get("waiting"),
+-            kv=m.get("kv"), kv_tokens=m.get("kv_tokens"), preemptions=m.get("preemptions"),
++            kv=m.get("kv"), kv_tokens=m.get("kv_tokens"), preemptions=preemptions,
+             itl_ms=itl, tax=self._meter.tax() if itl is not None else None, stepped=stepped)
+         with self._lock:
+             self._latest = load
+diff --git a/tests/test_load.py b/tests/test_load.py
+index 6e6ef55..15a4871 100644
+--- a/tests/test_load.py
++++ b/tests/test_load.py
+@@ -8,6 +8,7 @@ free. All mock: no network, no model; the "engine" is a text of metrics the test
+ 
+ import threading
+ import time
++import warnings
+ 
+ import pytest
+ 
+@@ -432,9 +433,9 @@ def test_the_launcher_runs_long_calls_together_when_the_engine_has_room():
+ class Rig:
+     """A governor on a budget, with an engine and a clock the test moves."""
+ 
+-    def __init__(self, **cfg) -> None:
++    def __init__(self, engine=None, **cfg) -> None:
+         self.clock = Clock()
+-        self.eng = FakeEngine(clock=self.clock)
++        self.eng = (engine or FakeEngine)(clock=self.clock)
+         self.cpu = 0.0
+         self.cfg = GovernorConfig(**cfg)
+         self.budget = Budget(max_inflight=self.cfg.w_init, max_window=self.cfg.w_max)
+@@ -1131,3 +1132,239 @@ def test_everything_is_off_unless_asked_for():
+     assert g.launcher.budget.max_inflight == 16  # it starts where spec-ptc ships
+     g.close()
+     assert g.governor.closed
++
++
++# --------------------------------------------------------------------------- TensorRT-LLM
++# what trtllm-serve 1.4.0rc3 writes at /prometheus/metrics (shortened; the names and the
++# dp_rank label are those of tensorrt_llm/metrics/collector.py)
++TRTLLM_TEXT = """\
++# HELP trtllm_num_requests_running Number of active requests
++# TYPE trtllm_num_requests_running gauge
++trtllm_num_requests_running{model_name="m"} 40.0
++trtllm_num_requests_waiting{model_name="m"} 3.0
++trtllm_num_scheduled_requests{dp_rank="0",model_name="m"} 37.0
++trtllm_num_generation_requests{dp_rank="0",model_name="m"} 30.0
++trtllm_num_context_requests{dp_rank="0",model_name="m"} 7.0
++trtllm_num_paused_requests{dp_rank="0",model_name="m"} 0.0
++trtllm_iteration_latency_seconds{model_name="m"} 0.045
++trtllm_kv_cache_utilization{dp_rank="0",model_name="m"} 0.375
++trtllm_kv_cache_max_blocks{dp_rank="0",model_name="m"} 4800.0
++trtllm_kv_cache_used_blocks{dp_rank="0",model_name="m"} 1800.0
++trtllm_kv_cache_tokens_per_block{dp_rank="0",model_name="m"} 32.0
++trtllm_generation_tokens_total{model_name="m"} 5000.0
++trtllm_time_per_output_token_seconds_sum{model_name="m"} 45.0
++trtllm_time_per_output_token_seconds_count{model_name="m"} 1000.0
++python_gc_objects_collected_total{generation="0"} 1234.0
++"""
++
++# all that trtllm-serve 1.2.1 writes there: times of finished requests, no gauge
++TRTLLM_121_TEXT = """\
++trtllm_request_success_total{finished_reason="stop",model_name="m"} 12.0
++trtllm_time_to_first_token_seconds_sum{model_name="m"} 3.5
++trtllm_time_to_first_token_seconds_count{model_name="m"} 12.0
++trtllm_time_per_output_token_seconds_sum{model_name="m"} 0.4
++trtllm_time_per_output_token_seconds_count{model_name="m"} 12.0
++trtllm_request_queue_time_seconds_sum{model_name="m"} 0.1
++trtllm_request_queue_time_seconds_count{model_name="m"} 12.0
++"""
++
++
++def trtllm(active=0, queued=0, scheduled=None, kv=0.0, paused=0, step_ms=25.0,
++           blocks=4800, steps=0) -> str:
++    """`active` requests in the engine's set, `scheduled` of them in its last step (all,
++    unless given). `steps` stands for whatever a step changes: a real engine's step
++    times differ from one step to the next, a test's do not."""
++    scheduled = active if scheduled is None else scheduled
++    cache = (f'trtllm_kv_cache_max_blocks{{dp_rank="0",model_name="m"}} {blocks}\n'
++             f'trtllm_kv_cache_used_blocks{{dp_rank="0",model_name="m"}} {kv * blocks}\n'
++             f'trtllm_kv_cache_tokens_per_block{{dp_rank="0",model_name="m"}} 32\n'
++             if blocks else "")
++    return (f'trtllm_num_requests_running{{model_name="m"}} {active}\n'
++            f'trtllm_num_requests_waiting{{model_name="m"}} {queued}\n'
++            f'trtllm_num_scheduled_requests{{dp_rank="0",model_name="m"}} {scheduled}\n'
++            f'trtllm_num_paused_requests{{dp_rank="0",model_name="m"}} {paused}\n'
++            f'trtllm_iteration_latency_seconds{{model_name="m"}} {step_ms / 1000.0}\n'
++            f'trtllm_num_requests_completed_total{{model_name="m"}} {steps}\n'
++            + cache)
++
++
++class TrtEngine:
++    """A TensorRT-LLM server's metrics text that a test sets. Each sample is of a new
++    step, unless step=False: then the engine has not stepped and writes what it wrote."""
++
++    def __init__(self, clock=None, **kw) -> None:
++        self.kw = dict(kw)
++        self.steps = 0
++        self.body = None  # set to answer with something else than the text
++        self.clock = clock or Clock()
++        self.probe = EngineProbe(fetch=self.read, clock=self.clock)
++
++    def read(self) -> str:
++        return self.body if self.body is not None else trtllm(steps=self.steps, **self.kw)
++
++    def sample(self, dt: float = 0.25, step: bool = True, **kw) -> EngineLoad:
++        if step:
++            self.kw.update(kw)
++            self.steps += 1
++        self.clock.t += dt
++        return self.probe.poll()
++
++
++def test_the_probe_reads_what_tensorrt_llm_exports():
++    m = parse_metrics(TRTLLM_TEXT)
++    assert m["running"] == 37 and m["kv"] == 0.375 and m["kv_tokens"] == 4800 * 32
++    assert m["waiting"] == 3 + (40 - 37)  # in its queue, and in its set but not in the step
++    assert m["paused"] == 0 and m["step_ms"] == pytest.approx(45.0)
++    # a mean over a finished request's life is not the time between two tokens now, and
++    # tokens are counted when a request ends, not as they are written
++    assert not m.keys() & {"itl_sum", "itl_count", "gen_tokens", "preemptions"}
++
++
++def test_a_request_tensorrt_llm_holds_back_inside_its_set_is_waiting():
++    """The default scheduler never preempts: with the KV cache spoken for it leaves a
++    request in the active set and out of the step. Its queue is empty all the while."""
++    m = parse_metrics(trtllm(active=20, scheduled=12, queued=0))
++    assert m["running"] == 12 and m["waiting"] == 8
++    m = parse_metrics(trtllm(active=20, queued=0))
++    assert m["running"] == 20 and m["waiting"] == 0
++    # without the count of what was scheduled, its own two numbers are all there is
++    m = parse_metrics('trtllm_num_requests_running 20\ntrtllm_num_requests_waiting 5\n')
++    assert m["running"] == 20 and m["waiting"] == 5
++
++
++def test_tensorrt_llms_ranks_are_summed_as_blocks_not_as_shares():
++    m = parse_metrics(
++        'trtllm_kv_cache_max_blocks{dp_rank="0"} 400\n'
++        'trtllm_kv_cache_max_blocks{dp_rank="1"} 400\n'
++        'trtllm_kv_cache_used_blocks{dp_rank="0"} 100\n'
++        'trtllm_kv_cache_used_blocks{dp_rank="1"} 300\n'
++        'trtllm_kv_cache_utilization{dp_rank="0"} 0.25\n'
++        'trtllm_kv_cache_utilization{dp_rank="1"} 0.75\n'
++        'trtllm_kv_cache_tokens_per_block{dp_rank="0"} 32\n'
++        'trtllm_kv_cache_tokens_per_block{dp_rank="1"} 32\n')
++    assert m["kv"] == 0.5 and m["kv_tokens"] == 800 * 32
++    # the share alone, where the blocks are not exported
++    m = parse_metrics('trtllm_kv_cache_utilization{dp_rank="0"} 0.25\n'
++                      'trtllm_kv_cache_utilization{dp_rank="1"} 0.75\n')
++    assert m["kv"] == 0.5 and "kv_tokens" not in m
++
++
++def test_metrics_url_of_a_tensorrt_llm_server():
++    assert (metrics_url("http://localhost:8000/v1", engine="trtllm")
++            == "http://localhost:8000/prometheus/metrics")
++    assert metrics_url("http://h:1/v1", engine="vllm") == "http://h:1/metrics"
++    with pytest.raises(ValueError):
++        metrics_url("http://h:1/v1", engine="sglang")
++
++
++def test_what_gives_no_numbers_of_the_engine_is_refused_not_read_as_an_empty_sample():
++    """TensorRT-LLM answers /metrics, where vLLM has its metrics, with JSON, and 1.2.1
++    writes no gauge of its engine at /prometheus/metrics. Either read as a sample would
++    be one in which nothing says stop."""
++    with pytest.raises(ValueError):
++        parse_metrics('[{"iter": 7, "numActiveRequests": 3, "numQueuedRequests": 0}]')
++    with pytest.raises(ValueError):
++        parse_metrics("[]")
++    with pytest.raises(ValueError):
++        parse_metrics(TRTLLM_121_TEXT)
++    probe = EngineProbe("http://h:8000/prometheus/metrics", fetch=lambda: TRTLLM_121_TEXT)
++    with pytest.warns(RuntimeWarning, match="h:8000/prometheus/metrics.*no gauges"):
++        assert probe.poll() is None
++    assert probe.errors == 1 and probe.latest() is None
++
++
++def test_an_unreadable_engine_is_said_once_and_an_engine_that_is_down_is_not_said():
++    probe = EngineProbe("http://h:8000/metrics", fetch=lambda: "[]")
++    with pytest.warns(RuntimeWarning, match="JSON.*/prometheus/metrics"):
++        probe.poll()
++    with warnings.catch_warnings():
++        warnings.simplefilter("error")  # a second warning would raise here
++        assert probe.poll() is None and probe.errors == 2
++
++        def down():
++            raise OSError("connection refused")
++
++        assert EngineProbe(fetch=down).poll() is None
++
++
++def test_a_window_on_tensorrt_llms_json_metrics_stays_where_it_is():
++    r = Rig(engine=TrtEngine)
++    r.tick(2, active=4)  # 36
++    r.eng.body = '[{"iter": 7, "numActiveRequests": 4, "numQueuedRequests": 0}]'
++    with pytest.warns(RuntimeWarning):
++        assert r.tick(12) == 36 and r.why == ["grow", "grow"]
++    r.eng.body = None
++    assert r.tick(active=4) == 54
++
++
++def test_a_step_seen_twice_is_an_engine_that_has_not_stepped():
++    eng = TrtEngine(active=4)
++    assert eng.sample().stepped is None  # nothing to compare with yet
++    assert eng.sample().stepped is True
++    assert eng.sample(step=False).stepped is False
++    assert eng.sample(step=False).stepped is False
++    assert eng.sample().stepped is True
++
++
++def test_requests_tensorrt_llm_paused_are_counted_once_for_each_step_seen():
++    eng = TrtEngine(active=4)
++    assert eng.sample().preemptions == 0
++    assert eng.sample(paused=2).preemptions == 2
++    assert eng.sample(step=False).preemptions == 2  # the same step: nothing new
++    assert eng.sample(paused=1).preemptions == 3
++    assert eng.sample(paused=0).preemptions == 3
++
++
++def test_the_time_of_tensorrt_llms_last_step_is_the_time_between_tokens():
++    eng = TrtEngine(active=4, step_ms=40.0)
++    assert eng.sample().itl_ms is None  # not known to be a new step yet
++    assert eng.sample().itl_ms == pytest.approx(40.0)
++    load = eng.sample(step=False)
++    assert load.itl_ms is None and load.tax is None  # an old step says nothing of now
++    for _ in range(6):
++        load = eng.sample(step_ms=40.0)
++    assert load.tax == pytest.approx(0.0, abs=0.02)
++    for _ in range(6):
++        load = eng.sample(step_ms=100.0)
++    assert load.tax == pytest.approx(1.5, abs=0.1)
++
++
++def test_on_tensorrt_llm_the_window_grows_as_on_vllm():
++    r = Rig(engine=TrtEngine)
++    assert r.tick(4, active=4) == 81 and r.why == ["grow"] * 4
++    assert r.tick(8, active=40) == 256
++
++
++def test_requests_held_inside_tensorrt_llm_stop_growth_and_a_standing_number_cuts():
++    r = Rig(engine=TrtEngine)
++    r.tick(3, active=12)  # 54
++    assert r.tick(active=13, scheduled=12) == 54  # one held: its places are full
++    assert r.tick(2, active=20, scheduled=12) == 54  # 8 held, of 12 in the step
++    assert r.tick(active=20, scheduled=12) == 37 and r.why[-1] == "queue"
++    assert r.tick(active=12) == 41  # by an eighth: the cut is one sample old
++
++
++def test_tensorrt_llms_queue_counts_with_what_it_holds_inside():
++    r = Rig(engine=TrtEngine)
++    r.tick(3, active=12)  # 54
++    assert r.tick(2, active=12, queued=3) == 54  # 3 in its queue, 12 in the step
++    assert r.tick(active=12, queued=3) == 37 and r.why[-1] == "queue"
++
++
++def test_a_request_tensorrt_llm_paused_halves_the_window_once():
++    r = Rig(engine=TrtEngine)
++    r.tick(4, active=4)  # 81
++    assert r.tick(active=4, paused=1) == 40 and r.why[-1] == "preempted"
++    assert r.tick(3, step=False) == 40  # the same step seen again: no second cut
++    assert r.tick(active=4, paused=1) == 20  # it paused again in a new step
++    assert r.tick(active=4, paused=0) == 22
++
++
++def test_an_idle_tensorrt_llm_keeps_its_last_numbers_and_the_window_waits_for_a_step():
++    """It runs no step with nothing to do, so its gauges stay at the last step's: one or
++    more requests "running". That reads as an engine that is not stepping."""
++    r = Rig(engine=TrtEngine)
++    assert r.tick(2, active=4) == 36
++    assert r.tick(8, step=False) == 36  # the burst's calls are sent, no step seen yet
++    assert r.tick(active=16) == 54
++

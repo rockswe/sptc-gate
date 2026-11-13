@@ -1,0 +1,12 @@
+# HELP trtllm_prompt_cached_tokens_total Process-lifetime total prompt tokens served from KV cache. Resets only when the serving process restarts, not when the KV cache is flushed or evicted.
+# TYPE trtllm_prompt_cached_tokens_total counter
+trtllm_prompt_cached_tokens_total{engine_type="pytorch",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"} 0.0
+# HELP trtllm_model_config_info Model configuration info
+# TYPE trtllm_model_config_info gauge
+trtllm_model_config_info{dtype="auto",engine_type="pytorch",gpu_type="NVIDIA L4",model="/vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6",quantization="none",served_model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"} 1.0
+# HELP trtllm_parallel_config_info Parallelism configuration info
+# TYPE trtllm_parallel_config_info gauge
+trtllm_parallel_config_info{context_parallel_size="1",engine_type="pytorch",gpu_count="1",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6",pipeline_parallel_size="1",tensor_parallel_size="1"} 1.0
+# HELP trtllm_kv_cache_config_info KV cache configuration info
+# TYPE trtllm_kv_cache_config_info gauge
+trtllm_kv_cache_config_info{cache_dtype="auto",enable_block_reuse="True",enable_partial_reuse="True",engine_type="pytorch",free_gpu_memory_fraction="0.9",model_name="70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",pid="6"} 1.0

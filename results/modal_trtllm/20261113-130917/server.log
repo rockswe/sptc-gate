@@ -1,0 +1,93 @@
+[1794575361.786283] [modal:6    :0]       tcp_iface.c:997  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+Skipping import of cpp extensions due to incompatible torch version 2.14.0a0+b2c75dd062.nv26.09 for torchao version 0.15.0             Please see https://github.com/pytorch/ao/issues/2919 for more info
+[TensorRT-LLM] TensorRT LLM version: 1.4.0rc3
+/usr/local/lib/python3.12/dist-packages/tensorrt_llm/serve/openai_protocol.py:304: UserWarning: Field name "schema" in "ResponseFormat" shadows an attribute in parent "OpenAIBaseModel"
+  class ResponseFormat(OpenAIBaseModel):
+[11/13/2026-13:09:55] [TRT-LLM] [W] [commands] num_serve_frontends > 1: stateful Responses API storage (store/previous_response_id) is disabled; the per-frontend in-memory store cannot be shared across frontends. Pass --num_serve_frontends 1 to keep it.
+[11/13/2026-13:09:55] [TRT-LLM] [I] [llmapi] Using LLM with PyTorch backend
+[11/13/2026-13:09:55] [TRT-LLM] [I] [llmapi] neither checkpoint_format nor checkpoint_loader were provided, checkpoint_format will be set to HF.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[11/13/2026-13:10:00] [TRT-LLM] [W] [executor] Orchestrator is creating IPC executor
+[11/13/2026-13:10:00] [TRT-LLM] [I] [executor] [startup][pid=6] executor_proxy: start
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] mpi_session_setup: start
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] mpi_session_setup: done, total=0.000s, unattributed=0.000s | 
+[33;20mrank 0 using MpiPoolSession to spawn MPI processes
+[0m[11/13/2026-13:10:00] [TRT-LLM] [I] [executor] Generating a new HMAC key for server worker_init_status_queue
+[11/13/2026-13:10:00] [TRT-LLM] [I] [executor] [startup][pid=6] executor_proxy/pre_worker_setup: done in 0.005s (includes mpi_session_setup)
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] worker_submit_to_ready: start
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] worker_submit_to_ready/worker_submit: start
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] worker_submit_to_ready/worker_submit: done in 0.001s
+[11/13/2026-13:10:00] [TRT-LLM] [I] [_startup] [startup][pid=6] worker_submit_to_ready/worker_initialization_wait: start
+[1794575401.591952] [modal:74   :0]       tcp_iface.c:997  UCX  ERROR scandir(/sys/class/net) failed: No such file or directory
+[1794575402.399862] [modal:6    :1]          select.c:722  UCX  ERROR   no active messages transport to <no debug data>: Unsupported operation
+[modal:00006] pml_ucx.c:437  Error: ucp_ep_create(proc=0) failed: Destination is unreachable
+Error in MPI_Isend(0, 0, 0x2b3ae7bdba40, 0, -34, 47541127253232) (-1)
+[1794575402.400416] [modal:6    :1]          select.c:722  UCX  ERROR   no active messages transport to <no debug data>: Unsupported operation
+[modal:00006] pml_ucx.c:437  Error: ucp_ep_create(proc=0) failed: Destination is unreachable
+Exception in thread Thread-1 (_manager_spawn):
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 464, in barrier
+    request = comm.Ibarrier()
+              ^^^^^^^^^^^^^^^
+  File "mpi4py/MPI/Comm.pyx", line 921, in mpi4py.MPI.Comm.Ibarrier
+mpi4py.MPI.Exception: MPI_ERR_OTHER: known error not in list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 328, in _manager_spawn
+    _manager_comm(pool, options, comm)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 268, in _manager_comm
+[1794575402.404800] [modal:74   :0]          select.c:722  UCX  ERROR   no active messages transport to <no debug data>: Unsupported operation
+[modal:00074] pml_ucx.c:437  Error: ucp_ep_create(proc=0) failed: Destination is unreachable
+Error in MPI_Isend(0, 0, 0x2acfe2e36a40, 0, -34, 16523248) (-1)
+    serialized(client_sync)(comm, options, full)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 511, in client_sync
+[1794575402.405086] [modal:74   :0]          select.c:722  UCX  ERROR   no active messages transport to <no debug data>: Unsupported operation
+[modal:00074] pml_ucx.c:437  Error: ucp_ep_create(proc=0) failed: Destination is unreachable
+    barrier(comm)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 474, in barrier
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 464, in barrier
+    sendreqs.append(comm.Issend(buf, pid, tag))
+                    ^^^^^^^^^^^^^^^^    request = comm.Ibarrier()
+^^^^^^^^^^
+  File "mpi4py/MPI/Comm.pyx", line 589, in mpi4py.MPI.Comm.Issend
+              ^^^^^^^^^^^^^^^
+  File "mpi4py/MPI/Comm.pyx", line 921, in mpi4py.MPI.Comm.Ibarrier
+mpi4py.MPI.Exception: MPI_ERR_OTHER: known error not in list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/server.py", line 10, in main
+mpi4py.MPI.Exception: MPI_ERR_OTHER: known error not in list
+    _lib.server_main()
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 1103, in server_main
+    server_main_spawn()
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 1076, in server_main_spawn
+    server_main_comm(comm)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 1063, in server_main_comm
+    options = server_sync(comm, full)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 623, in server_sync
+    barrier(comm)
+  File "/usr/local/lib/python3.12/dist-packages/mpi4py/futures/_lib.py", line 474, in barrier
+    sendreqs.append(comm.Issend(buf, pid, tag))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "mpi4py/MPI/Comm.pyx", line 589, in mpi4py.MPI.Comm.Issend
+mpi4py.MPI.Exception: MPI_ERR_OTHER: known error not in list
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+  Proc: [[55605,1],0]
+  Errorcode: 1
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
