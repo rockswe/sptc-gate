@@ -20,6 +20,7 @@ The work came in stages. Each has its own record:
 | 4 | a replay of the recorded runs | `../results/modal_h100_replay/RESULTS.md` |
 | 5 | a recording with rlms' batch path fixed, and its replay, in place of a live run with the patched client | `PREREG_RECORD.md`; `../results/modal_h100_record/RESULTS.md` |
 | 6 | a window and a KV admission that follow the engine's load, and a scout that goes on past a test that cannot leave its loop. Bets across turns were not started | `PREREG_GOVERN.md`; `../results/modal_govern/RESULTS.md` |
+| 7 | the window that follows the load, on a TensorRT-LLM server in place of vLLM. A check of what the client reads there, with no rule fixed before it | client patches 8 and 9; `../results/modal_trtllm/RESULTS.md` |
 
 The client patches are in `../integrations/spec-ptc-fork/`. "The fork" below is spec-ptc
 `9b78b7d` with all of them applied.
@@ -59,6 +60,8 @@ Files:
   notebooks. `bench` runs a sweep preset with the old or the new spec-ptc client; `suite`
   runs fixed programs with and without the scout. First runs:
   `../results/modal_t4_bench/RESULTS.md` (a 6-arm sweep took 23 minutes).
+- `trtllm_probe_app.py`: the governed client against TensorRT-LLM 1.4.0rc3 on a Modal L4
+  (`check`, `mpi`, `probe`). Below, under "On a TensorRT-LLM server".
 - `both_compare.py`: two `both_default` sweeps, per pattern.
 - `repl_fix.py`: makes rlms' `LocalREPL` safe as concurrent threads. Below.
 - `app.py`: the Modal app (`probe`, `prepare`, `campaign`, `compact`).
@@ -376,6 +379,55 @@ python replay_campaign.py run --out /tmp/replay-sim \
   prefill of long prompts in front of a root's turn, and a queue behind one long prompt,
   which it reads as a standing queue. `GovernorConfig.cpu_hold` (no growth while the
   client's process uses that share of a core) exists and is off; it has not run on a GPU.
+
+## On a TensorRT-LLM server
+
+`trtllm_probe_app.py` runs the governed client (client patches 8 and 9) against
+TensorRT-LLM 1.4.0rc3 on one L4. It checks what the governor reads from that engine. It is
+not a benchmark: one unit per arm, no repeats, and nothing was registered before it.
+Results: `../results/modal_trtllm/RESULTS.md`.
+
+```bash
+modal run trtllm_probe_app.py::check   # CPU: the server's CLI, the model in the volume
+modal run trtllm_probe_app.py::mpi     # CPU: with which MPI settings a spawned process answers
+modal run trtllm_probe_app.py::probe --client <commit of the patched client>   # one L4
+modal volume get sptc-results trtllm_probe/<run> ../results/modal_trtllm/
+```
+
+- The image is the engine's own container (`nvcr.io/nvidia/tensorrt-llm/release:1.4.0rc3`,
+  17 GB), with nothing installed into it. Modal's Python is added next to the
+  container's and runs the app only. The server is started as a process of the
+  container's Python, without Modal's `PYTHONPATH`.
+- The model is `Qwen/Qwen3-1.7B` from the `sptc-hf` volume, where the T4 runs put it.
+  The GPU container downloads nothing.
+- `probe` has a hard timeout of 12 minutes. The server was ready after 146 to 245 s,
+  and the phases take under a minute:
+  - four calls of 256 tokens, with the engine's metrics read 20 times a second;
+  - a burst of 300 calls of 32 tokens through the client's launcher at the window of
+    16, and the same burst with the window governed;
+  - the metrics of the idle engine, after each.
+
+  It writes `summary.json`, every sample (`samples.json`), the metrics text before and
+  after, and the server's log.
+- What the server needs before it writes a gauge of its engine:
+  - `return_perf_metrics: true` and `enable_iter_perf_stats: true` in its config. The
+    first mounts `/prometheus/metrics`, and the second makes the engine keep a record of
+    each step.
+  - Its engine in a process of its own, which is the default. With
+    `TLLM_WORKER_USE_SINGLE_PROCESS=1` the server runs and the page has no gauge.
+- What Modal needs, and another host may not:
+  - MPI over shared memory and TCP: `OMPI_MCA_pml=ob1`, `OMPI_MCA_btl=self,sm,tcp`. The
+    server spawns its engine with MPI. Open MPI's default, UCX, finds no transport
+    between the two in the sandbox, which has no `/sys/class/net`: the spawned side
+    aborts and the server waits for it for good. `mpi` tries the settings on a CPU
+    container, where the default fails the same way.
+  - `--num_serve_frontends 1`, in place of the default of 8.
+- `check` cannot start the server: a CPU container has no `libcuda`, and the server's
+  CLI does not import without it. It shows where the CLI is, in which Python, and that
+  the model and the client's sources are there.
+- The first three launches did not get to the gauges, and each cost the time until the
+  server was known not to come up. The first waited the whole start timeout, seven
+  minutes: `wait_ready` now ends when the server's log says it will not start.
 
 ## Local tests
 

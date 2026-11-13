@@ -1,11 +1,13 @@
 """The published client patches are the code the replays measured.
 
-integrations/spec-ptc-sptc-hints.patch and integrations/spec-ptc-fork/[2-7]-*.patch,
+integrations/spec-ptc-sptc-hints.patch and integrations/spec-ptc-fork/[2-9]-*.patch,
 applied in order to spec-ptc 9b78b7d, have to give the trees whose hashes the replay runs
 recorded before their first unit (campaign.jsonl in results/modal_h100_replay/ and
 results/modal_govern/: for patch 5 the launch of PREREG_GOVERN.md that was stopped, for
-patch 6 its two runs). Patch 7 came after the last run: no run measured it, and its tree
-is the one hashed here when it was written."""
+patch 6 its two runs). Patch 7 came after the last replay: no run measured it, and its tree
+is the one hashed here when it was written. Patches 8 and 9 are the clients of the two
+launches on a TensorRT-LLM server (results/modal_trtllm/), which recorded the commit of
+the client and not the hash of its tree: their trees are hashed here as written."""
 
 from __future__ import annotations
 
@@ -34,6 +36,12 @@ GOVERN_STOPPED = GOVERN / "stopped" / "20261111-083951-small"
 GOVERN_RUNS = [GOVERN / "20261111-090725-small", GOVERN / "20261111-091523-replay"]
 # patch 7 (one ceiling for the windows of a process): written after the runs, measured by none
 PATCH_7_TREE = "9a5b714a2d78d0222398b923abb12c637ddee5f819dc714b36590db59b746f14"
+# patch 8 (a TensorRT-LLM server's metrics for the governor), written from that engine's
+# sources: the client of results/modal_trtllm/20261113-143508
+PATCH_8_TREE = "95119c64e6a4969f53b39f70c8d0b92c66fc9d652111a338b2d897fad34ad661"
+# patch 9 (only the engine's queue is waiting), after that run: the client of
+# results/modal_trtllm/20261113-144800
+PATCH_9_TREE = "a2c7c6239436fbc8def7a724ee47385867f89e66038f34b84233bdb94ad778a0"
 
 
 def recorded(run: str | Path) -> dict:
@@ -61,10 +69,12 @@ def apply(tree: Path, patch: Path) -> None:
     assert done.returncode == 0, (patch.name, done.stderr)
 
 
-def test_the_series_is_the_seven_patches_in_order():
-    assert [p.name.split("-")[0] for p in SERIES[1:]] == ["2", "3", "4", "5", "6", "7"]
+def test_the_series_is_the_nine_patches_in_order():
+    assert [p.name.split("-")[0] for p in SERIES[1:]] == ["2", "3", "4", "5", "6", "7", "8",
+                                                         "9"]
     assert [p.name.split("-")[1] for p in SERIES[1:]] == ["dbee0c2", "2555dd1", "ac5d733",
-                                                         "e09ff01", "11b6d39", "47f0b98"]
+                                                         "e09ff01", "11b6d39", "47f0b98",
+                                                         "22c545f", "0e32890"]
 
 
 def test_the_patches_give_the_trees_the_replays_hashed(tmp_path):
@@ -85,7 +95,9 @@ def test_the_patches_give_the_trees_the_replays_hashed(tmp_path):
     assert after["6"] == small["fork"] == h100["fork"]
     assert registered["stock"] == stopped["stock"] == small["stock"] == h100["stock"]
     assert after["7"] == PATCH_7_TREE
-    assert len({registered["stock"], *after.values()}) == 8  # every patch changes the sources
+    assert after["8"] == PATCH_8_TREE
+    assert after["9"] == PATCH_9_TREE
+    assert len({registered["stock"], *after.values()}) == 10  # every patch changes the sources
 
 
 def test_a_patch_carries_no_author_and_no_local_path():

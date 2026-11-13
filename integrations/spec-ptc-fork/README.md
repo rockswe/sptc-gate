@@ -13,6 +13,8 @@ repository measures. The changes made to it here are a series of diffs against i
 | 5 | `5-e09ff01-limits-follow-the-load.patch` | limits that follow the load: a governor for the window, a KV pool for long prompts, batches in chunks; the scout goes on past a test that cannot leave its loop | a first launch that was stopped before a governed unit was measured, `results/modal_govern/stopped/20261111-083951-small` (`cloud/PREREG_GOVERN_ADDENDUM.md`) |
 | 6 | `6-11b6d39-engine-not-stepping.patch` | the governor does not widen a window while the engine is not stepping | a T4 with 16 places, `results/modal_govern/20261111-090725-small`; the H100, `results/modal_govern/20261111-091523-replay` |
 | 7 | `7-47f0b98-one-ceiling-per-process.patch` | the governed windows of one process on one engine share one ceiling | no run. It answers what the H100 run found (two windows at 256 at once), and has local tests only |
+| 8 | `8-22c545f-tensorrt-llm-metrics.patch` | the governor reads a TensorRT-LLM server's metrics as it reads a vLLM server's | `results/modal_trtllm/20261113-143508`, which found it cutting a window on an engine with room |
+| 9 | `9-0e32890-tensorrt-llm-queue-only.patch` | on a TensorRT-LLM server only the engine's queue is waiting | `results/modal_trtllm/20261113-144800` |
 
 The names carry the commit of the local `sptc-hints` branch each patch ends at.
 
@@ -29,7 +31,7 @@ statement's computing.
 | `spec_batch_launch` | off | a batch goes to rlms' handler as one request for the prompts nobody has launched yet. Each prompt keeps its own speculation |
 | `spec_batch_chunk` | 0 | with `spec_batch_launch`: a batch goes out in requests of at most this many prompts, and never more than the window is wide, each sent as soon as its speculations exist. 0: the whole batch as one request |
 | `spec_govern` | off | the window and the admission of long prompts follow the load (below). `True`, or a `GovernorConfig` |
-| `spec_load_url` | none | the engine's `/metrics` (`spec_ptc.engine.load.metrics_url(base_url)` for a vLLM server). Without it a governed window reads the root's own token pace only |
+| `spec_load_url` | none | the engine's Prometheus metrics: `spec_ptc.engine.load.metrics_url(base_url)` for a vLLM server, `metrics_url(base_url, engine="trtllm")` for a TensorRT-LLM one (patch 8, below). Without it a governed window reads the root's own token pace only |
 | `spec_scout="past"` | off | the scout pass, and it goes on past a test on a result when no arm of the test can leave the loop it is in |
 
 **Limits that follow the load** (`src/engine/load.py`, patch 5). spec-ptc holds speculation
@@ -74,6 +76,61 @@ in flight per session. With `spec_govern` both are set from what the engine repo
   past what it can admit.
 - Without `spec_load_url` none of the engine's numbers are known: the character
   budget stays as shipped, and the window follows the root's token pace alone.
+
+**On a TensorRT-LLM server** (patches 8 and 9; `../../results/modal_trtllm/RESULTS.md`).
+Patch 8 was written from the sources of TensorRT-LLM 1.4.0rc3. Both patches were then run
+on that version on one L4, with a 1.7B model and bursts of 300 short calls: two launches,
+one unit per arm, no repeats.
+
+- Which version, and how the server has to run. 1.2.1, the last release, has no gauge
+  of its engine: its `/prometheus/metrics` has times of finished requests only, and its
+  `/metrics` is JSON that keeps each read for 2 s. 1.4.0rc3 writes the gauges at
+  `/prometheus/metrics`, with `return_perf_metrics: true` and
+  `enable_iter_perf_stats: true` in the server's config, and with its engine in a
+  process of its own, which is its default. With
+  `TLLM_WORKER_USE_SINGLE_PROCESS=1` the engine's records do not reach the server and
+  the page has no gauge.
+- When the gauges are written. From the engine's records, when a request ends, not at
+  every step: 2 changes in 4.8 s while four calls of 256 tokens ran, and 3 to 4 a
+  second in a burst of short calls. A sample is of a step in which a request ended.
+- What patch 8 got wrong. It counted as waiting the requests that are in the engine's
+  active set and not in its step (`num_requests_running` less
+  `num_scheduled_requests`), to see a KV cache that is spoken for: the default
+  scheduler (`GUARANTEED_NO_EVICT`) never preempts and leaves such requests there. But
+  a request that ended in the step before is in the set and not in the step too, and
+  the samples are of just those steps. On an engine with an empty queue the difference
+  read 8 of 19. A window of 16 was cut to 1 in six seconds, and the burst took 13.9 s
+  where the window of 16 took 11.4 s.
+- Patch 9: only the engine's queue (`num_requests_waiting`) is waiting. The same burst
+  took 11.6 s, and 12.9 s at 16 in that launch. The window went to 49. That is one
+  unit per arm, and the window of 16 itself took 11.4 s in one launch and 12.9 s in
+  the other: it shows a window that does no harm, not one that is faster.
+- What still holds the window back. The engine's queue reads above 0 on an engine with
+  room: in 103 of 115 samples at the window of 16, up to 12, with a batch of 64. A call
+  that arrives during a step waits in the queue for the next one, and the samples are
+  of the moment the calls of a burst come back and their successors arrive. One
+  such reading stops growth, and three in a row cut: once in the governed burst, from
+  16 to 11.
+- The other signals. Preemptions are the requests paused in a step
+  (`num_paused_requests`, with `MAX_UTILIZATION` only): a gauge of one step, so the
+  client adds them up, one time for each step it sees. None was paused in these runs.
+  The time between two tokens is the time of the last step
+  (`iteration_latency_seconds`): 28 ms with four calls, 55 to 69 ms in the bursts.
+  The KV cache is blocks used over blocks there are, and an idle engine reads 0:
+  blocks kept for reuse are not counted as used.
+- Stale numbers. Two samples that agree in everything a step changes are one step seen
+  twice: no growth on the second. An idle engine keeps its last numbers (7 requests
+  "running" after the bursts), so a burst does not widen the window before its first
+  call is back.
+- What gives no numbers of the engine is refused, with one warning: the JSON of
+  `/metrics`, which is where vLLM has its metrics, the text of 1.2.1, and the text of
+  a server with its engine in its own process. A refused read is no sample, and the
+  window stays where it is. Measured on such a server: one warning, a window of 16
+  throughout, 11.9 s against 11.7 s at 16.
+- Not run: calls longer than a few dozen tokens, a KV cache near full, `MAX_UTILIZATION`,
+  more than one client, the KV pool for long prompts. The pool counts a prompt and a
+  tenth of it for the answer, and this scheduler sets aside a request's whole
+  `max_tokens`.
 
 **What they gained, measured** (`../../README.md`). With rlms losing batch prompts, the
 scout took session time to 0.72 of the shipped client's on 8 recorded sessions. With rlms
@@ -120,7 +177,7 @@ most 120,000 characters of speculative prompts in flight per session). The repla
 ```bash
 git clone https://github.com/alexzhang13/spec-ptc && cd spec-ptc && git checkout 9b78b7d
 git apply ../sptc-gate/integrations/spec-ptc-sptc-hints.patch
-for p in ../sptc-gate/integrations/spec-ptc-fork/[2-7]-*.patch; do git apply "$p"; done
+for p in ../sptc-gate/integrations/spec-ptc-fork/[2-9]-*.patch; do git apply "$p"; done
 ```
 
 `cloud/replay_campaign.py` and `cloud/bench_app.py` expect the patched tree next to this
@@ -140,13 +197,16 @@ unit (`campaign.jsonl`, `trees`). The series reproduces them:
 | patch 5 | `545d9505…` | the stopped launch `results/modal_govern/stopped/20261111-083951-small`, as `fork` |
 | patch 6 | `a61ef323…` | `results/modal_govern/20261111-090725-small` and `20261111-091523-replay`, as `fork` |
 | patch 7 | `9a5b714a…` | no run: `cloud/tests/test_fork_patches.py` holds the hash |
+| patch 8 | `95119c64…` | `cloud/tests/test_fork_patches.py`: the launch on TensorRT-LLM recorded no hash |
+| patch 9 | `a2c7c623…` | `cloud/tests/test_fork_patches.py`: its launch recorded the client's commit, `0e32890` |
 
 `cloud/tests/test_fork_patches.py` applies the series to a clean `9b78b7d` and compares
 with the hashes in `results/modal_h100_replay/` and `results/modal_govern/`.
 
 ## Tests of the patched client
 
-256 tests at patch 7 (243 at patch 6, 242 at patch 5, 170 at patch 4, 166 at patch 3),
+271 tests at patches 8 and 9 (256 at patch 7, 243 at patch 6, 242 at patch 5, 170 at patch 4,
+166 at patch 3),
 with rlms 0.1.3 installed. From
 the patched tree,
 with `spec_ptc` pointing at its `src/`:
