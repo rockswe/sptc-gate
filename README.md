@@ -18,6 +18,11 @@ stream. This repository contains:
   speculative programmatic tool calling, measured with it on an NVIDIA H100;
 - the discrete-event simulator that picked the policy before any GPU time was spent.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/how-it-works-dark.png">
+  <img src="docs/img/how-it-works.png" width="850" alt="An untagged request is scheduled exactly as stock vLLM. A request tagged bet is admitted only if no normal request is waiting, fewer than 8 sequences are running and KV cache usage is at most 90%. Otherwise it is refused in the same step with no tokens generated, and re-sent as normal work only if it is needed.">
+</picture>
+
 ## Findings
 
 1. Wasted speculation is expensive on a shared server, and admission control removes the
